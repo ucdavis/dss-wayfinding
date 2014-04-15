@@ -44,7 +44,9 @@
 				array('index/people')
 			),
 		),
-		'mainButton'=>CHtml::image(Yii::App()->baseUrl . '/images/touch.svg')
+		'mainButton'=>CHtml::image(Yii::App()->baseUrl . '/images/touch.svg'),
+		'radius'=>90,
+		'totalDegrees'=>180
 	)); ?>
 </div><!-- page -->
 

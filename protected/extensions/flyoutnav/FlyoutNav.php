@@ -6,13 +6,43 @@ class FlyoutNav extends CWidget
     public $list;
     public $mainButton;
 
+    //flyout plugin options
+    public $radius;
+    public $totalDegrees;
+    public $offsetx;
+    public $offsety;
+    public $angleOffset;
+    public $duration;
+    public $delay;
+    public $startRotation;
+    public $endRotation;
+    public $flyoutSizePercent;
+    public $reverseOut;
+    public $reverseIn;
+    public $modalBGColor;
+    public $hardcoreMode;
+
     public function init() {
         $this->publishAssets();
         $this->registerClientScripts();
 
         $this->render('flyout', array(
             'list'=>$this->list,
-            'mainButton'=>$this->mainButton
+            'mainButton'=>$this->mainButton,
+            'radius' => $this->radius,
+            'totalDegrees' => $this->totalDegrees,
+            'offsetx' => $this->offsetx,
+            'offsety' => $this->offsety,
+            'angleOffset' => $this->angleOffset,
+            'duration' => $this->duration,
+            'delay' => $this->delay,
+            'startRotation' => $this->startRotation,
+            'endRotation' => $this->endRotation,
+            'flyoutSizePercent' => $this->flyoutSizePercent,
+            'reverseOut' => $this->reverseOut,
+            'reverseIn' => $this->reverseIn,
+            'modalBGColor' => $this->modalBGColor,
+            'hardcoreMode' => $this->hardcoreMode
         ));
     }
 

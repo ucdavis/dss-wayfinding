@@ -18,10 +18,10 @@
 			modalBGColor: 'rgba(255,255,255,0.5)', //What color/opacity the modal BG should be when the buttons are out. Default: rgba(255, 255, 255, 0.5)
 			hardcoreMode: 'false' //Use the cool flyout modal background or not. Default is false
 		};
-		
+
 
 		var options = $.extend(defaults, opts);
-		
+
 		
 		return this.each(function(){
 			$this = $(this);
@@ -41,16 +41,16 @@
 			mainButton.width(parentWidth);
 			mainButton.height(parentHeight);
 			mainButton.children().css({'width':'100%'});
-			
+
 			//Position the Main Button - Should already be centered because it's now the same size as the container.
 			mainButton.css({'position':'absolute', 'top':'0', 'left':'0'});
-			
+
 			//Size the flyout buttons based on the parameter above and the size of the main button
 			btns.width(mainButton.width()*options.flyoutSizePercent/100);
 			btns.height(mainButton.height()*options.flyoutSizePercent/100);
 			btns.children("img").css({'width':'100%'});
-			
-			
+
+
 			function findFlyoutCenter(){
 				var flyoutWidth, flyoutHeight, flyoutLeft, flyoutTop;
 				flyoutWidth = $this.outerWidth();
@@ -62,7 +62,7 @@
 				center = {'left':centerX, 'top': centerY};
 				return center;
 			}
-			
+
 			//Center and position: absolute the flyout buttons behind the main button:
 			btnCSS = {
 				'position':'absolute',
@@ -78,19 +78,19 @@
 				}
 			};
 			btns.css(btnCSS);
-			
+
 			btns.on('load', 'img', function(){
 				btns.css(btnCSS);
 			});
-			
-			
+
+
 			//Set up our new stylesheet
 			$("style[title='flyout']").remove();
 			$("head").append("<style type='text/css' title='flyout'></style>");
 			$flyoutStyle = $("style[title='flyout']");
-			
-			
-			
+
+
+
 			//Here's where some math happens. First, figure out the angle between buttons based on how many buttons there will be:
 			if(options.totalDegrees > 270){
 				count = btns.length;
@@ -98,12 +98,12 @@
 			else{
 				count = btns.length -1;
 			}
-			
+
 			var angleDeg = options.totalDegrees / count ;
 			//Convert to radians
 			var angleRad = angleDeg * (Math.PI/180);
-			
-			
+
+
 			//See if the radius is in percent. If it is, calculate the radius based on the size of the parent container (width or height, whichever is smallest).
 			if(options.radius.indexOf("%")>-1){
 				if($this.parent().height() < $this.parent().width()){
@@ -117,11 +117,11 @@
 			else{
 				radius = parseFloat(options.radius);
 			}
-			
-			
+
+
 			//Our first point will go at the very top. That is, at 0,radius.
 			var currentx = 0, currenty = -radius;
-			
+
 			//Or, it'll get rotated from that position, if we've got an angleOffset set:
 			var angleOffsetRad = options.angleOffset * (Math.PI/180);
 			var newx = Math.cos(angleOffsetRad) * currentx + -Math.sin(angleOffsetRad) * currenty;
@@ -131,7 +131,7 @@
 
 			var buttonCSS = ".flyoutButton {-moz-transition: all "+options.duration+"ms; -webkit-transition: all "+options.duration+"ms; -moz-transform:rotate("+options.startRotation+"deg); -webkit-transform:rotate("+options.startRotation+"deg); top: 0; left: 0;}\r\n";
 			$flyoutStyle.append(buttonCSS);
-			
+
 			/*
 			//Iterate through the children of the offset container and get them ready for action
 			btns.each(function(i){
@@ -145,21 +145,21 @@
 				else{
 					itemID = "flyout"+i;
 					$this.attr("id",itemID);
-				}	
+				}
 			});
 			*/
-			
+
 			/*Add modal overlay. Disabled for now.
 			if(options.hardcoreMode === 'true'){
 				// Circular modal flyout - animated
 				//add the modal BG
 				$('body').append('<div id="modalCoverContainer"><div id="modalCover"></div></div>');
-			
+
 				btns.children('img').load(function(){
 					modalCenter = findFlyoutCenter();
 					$('#modalCoverContainer').css(modalCenter);
 				});
-			
+
 				// Set it up
 				modalAnimateTime = parseFloat(options.delay) * btns.length + parseFloat(options.duration);
 				// position: fixed fixed the safari bug on ipad, but now the animation goes crazy
@@ -167,7 +167,7 @@
 				modalCSS += "#modalCover{width: 100%; height:100%;margin-left: -50%; margin-top: -50%;background-color:"+options.modalBGColor+";-webkit-border-radius: 2000px;border-radius: 2000px;}\r\n";
 				modalCSS += "#modalCoverContainer.open{width: 4000px; height: 4000px;}\r\n";
 				$flyoutStyle.append(modalCSS);
-		
+
 				$(window).resize(function(){
 					modalCenter = findFlyoutCenter();
 					$('#modalCoverContainer').css(modalCenter);
@@ -181,7 +181,7 @@
 				$flyoutStyle.append(modalCSS);
 			}
 			*/
-			
+
 			btns.each(function(i){
 				var $this = $(this), buttonTop = currenty - parseFloat(options.offsety), buttonLeft = currentx + parseFloat(options.offsetx);
 				$this.addClass("flyoutButton");
@@ -200,8 +200,8 @@
 				currentx = newx;
 				currenty = newy;
 			});
-			
-			
+
+
 			function openFlyout(clickedEl){
 				if(options.reverseOut.toLowerCase() === "true"){var toggleButtons = $(".flyoutButton").reverse();}
 				else{var toggleButtons = $(".flyoutButton");}
