@@ -10,7 +10,9 @@ return array(
 	'name'=>'Social Sciences and Humanities',
 
 	'defaultController' => 'index',
-
+	'controllerMap'=>array(
+	     'YiiFeedWidget' => 'ext.yii-feed-widget.YiiFeedWidgetController'
+	),
 	// preloading 'log' component
 	'preload'=>array('log'),
 
