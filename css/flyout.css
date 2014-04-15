@@ -1,0 +1,30 @@
+#flyout-nav{
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.buttonContainer{
+    margin: 0 auto;
+}
+
+#flyout-nav li{
+    background: #CCD4E0; /* Old browsers */
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+    text-align: center;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    list-style: none;
+}
+
+#flyout-nav li:hover{
+    background: #4D688C;
+    box-shadow: 0px 0px 15px #99A9BF;
+}
+
+#flyout-nav li a img {
+    max-width: 84%;
+    max-height: 84%;
+    padding: 8%;
+}
