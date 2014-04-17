@@ -54,7 +54,7 @@
 	position: absolute;
 	top: 50%;
 	left: 65%;
-	transition: top .5s ease-in,left .5s ease-in;
+	transition: top .3s ease-in,left .3s ease-in;
 }
 
 #navigation.offscreen {
@@ -69,7 +69,7 @@
 	background: white;
 	height: 90%;
 	overflow: auto;
-	transition: right .5s ease-in;
+	transition: right .3s ease-in;
 	z-index: 5;
 }
 
@@ -89,7 +89,7 @@
 	height: 90%;
 	overflow: auto;
 	background: white;
-	transition: left .5s ease-in;
+	transition: left .3s ease-in;
 	z-index: 5;
 }
 
