@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends CController
+class PeopleController extends CController
 {
     /**
      * Declares class-based actions.
@@ -19,7 +19,7 @@ class IndexController extends CController
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+        $this->renderPartial('people');
     }
 
     /**
@@ -36,8 +36,8 @@ class IndexController extends CController
         }
     }
 
-    public function actionAbout()
+    public function actionPeople()
     {
-        $this->renderPartial('about');
+        $this->renderPartial('people');
     }
 }

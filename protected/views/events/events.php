@@ -3,6 +3,9 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
+<?php
+	echo CHtml::image(Yii::App()->request->baseUrl . '/images/loading.gif');
+?>
 
 <h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 

@@ -33,20 +33,14 @@
 <div id="navigation">
 	<?php $this->widget('application.extensions.flyoutnav.FlyoutNav', array(
 		'list'=>array(
-			CHtml::hiddenField('people', CHtml::normalizeUrl(array('index/people'))) . 
+			CHtml::hiddenField('people', CHtml::normalizeUrl(array('people/index'))) .
 			CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
-			CHtml::link(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
-				array('index/people')
-			),
-			CHtml::link(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
-				array('index/people')
-			),
-			CHtml::link(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
-				array('index/people')
-			),
+			CHtml::hiddenField('map', CHtml::normalizeUrl(array('map/index'))) .
+			CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
+			CHtml::hiddenField('about', CHtml::normalizeUrl(array('events/index'))) .
+			CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
+			CHtml::hiddenField('about', CHtml::normalizeUrl(array('index/about'))) .
+			CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
 		),
 		'mainButton'=>CHtml::image(Yii::App()->baseUrl . '/images/touch.svg'),
 		'radius'=>90,
