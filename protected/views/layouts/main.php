@@ -12,14 +12,13 @@
 </head>
 
 <body>
-
 <div id="header">
-	Hello, world!
+<?php echo CHtml::image(Yii::App()->request->baseUrl . '/images/lslogo.png', 'L&S Logo', array('id'=>'logo')); ?>
 </div>
 <div id="image">
 <img src="http://psychology.ucdavis.edu/Labs/PWT/Image/Yonelinas/Soc_Sci_Humanities_80.jpg" />
 </div>
-<div id="content">
+<div id="rss">
 	<?php echo $content; ?>
 </div>
 <div id="navigation">
@@ -47,6 +46,9 @@
 		'totalDegrees'=>180,
 		'reverseIn'=>'true'
 	)); ?>
+</div>
+<div id="content">
+
 </div><!-- page -->
 
 </body>

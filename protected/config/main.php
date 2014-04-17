@@ -11,7 +11,7 @@ return array(
 
 	'defaultController' => 'index',
 	'controllerMap'=>array(
-	     'YiiFeedWidget' => 'ext.yii-feed-widget.YiiFeedWidgetController'
+	     'YiiFeedWidget' => 'application.extensions.yii-feed-widget.YiiFeedWidgetController'
 	),
 	// preloading 'log' component
 	'preload'=>array('log'),
