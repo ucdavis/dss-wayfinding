@@ -11,7 +11,7 @@ return array(
 
 	'defaultController' => 'index',
 	'controllerMap'=>array(
-	     'YiiFeedWidget' => 'application.extensions.yii-feed-widget.YiiFeedWidgetController'
+	    'YiiFeedWidget' => 'application.extensions.yii-feed-widget.YiiFeedWidgetController'
 	),
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -20,7 +20,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'application.extensions.flyoutnav.*'
+		'application.extensions.flyoutnav.*',
+		'application.extensions.wayfinding.*'
 	),
 
 	'modules'=>array(
@@ -75,11 +76,13 @@ return array(
 					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
+		        array(
+		            'class' => 'CWebLogRoute',
+		            'enabled' => YII_DEBUG,
+		            'levels' => 'error, warning, trace, notice',
+		            'categories' => 'application',
+		            'showInFireBug' => false,
+		        ),
 			),
 		),
 	),
