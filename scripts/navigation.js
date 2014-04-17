@@ -1,7 +1,10 @@
 $(document).ready(function() {
     $('.flyoutButton').click(function() {
-        $('#rss, #image, #navigation').addClass('offscreen');
-        $('#mainButton').click();
+        $.get($('input', this)[0].value, function(data) {
+            $('#content').html(data);
+            $('#rss, #image, #navigation').addClass('offscreen');
+            $('#mainButton').click();
+        })
     });
 
     $('#homeButton img').click(function() {

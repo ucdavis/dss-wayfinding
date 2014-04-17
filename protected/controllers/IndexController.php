@@ -43,7 +43,7 @@ class IndexController extends CController
 
     public function actionPeople()
     {
-        $this->render('people');
+        $this->renderPartial('people');
     }
 
     /**

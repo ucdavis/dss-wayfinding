@@ -42,7 +42,9 @@
 #content {
 	position: absolute;
 	top: 10%;
-	width: 100%;
+	left: 5%;
+	padding-top: 10px;
+	width: 90%;
 	height: 90%;
 	overflow: auto;
 	z-index: 0;

@@ -33,10 +33,8 @@
 <div id="navigation">
 	<?php $this->widget('application.extensions.flyoutnav.FlyoutNav', array(
 		'list'=>array(
-			// CHtml::link(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
-				// array('index/people')
-			// ),
+			CHtml::hiddenField('people', CHtml::normalizeUrl(array('index/people'))) . 
+			CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
 			CHtml::link(
 				CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
 				array('index/people')
