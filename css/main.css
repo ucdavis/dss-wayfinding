@@ -42,9 +42,9 @@
 #content {
 	position: absolute;
 	top: 10%;
-	left: 5%;
+	left: 7.5%;
 	padding-top: 10px;
-	width: 90%;
+	width: 85%;
 	height: 90%;
 	overflow: auto;
 	z-index: 0;
@@ -99,19 +99,20 @@
 
 #rss a, #rss h1, #rss p {
 	text-decoration: none;
+	cursor: default;
 	font-weight: normal;
-	font: georgia;
+	font: Lucida;
 	position: relative;
 	margin: 5%;
 	padding-left: 5%;
 	padding-right: 5%;
 }
 
-#rss a, #rss h1 {
+#rss h2 a, #rss h1 {
 	text-decoration: none;
 	display: block;
 	color: white;
-	font: georgia;
+	font: "Lucida Sans Unicode";
 	background: #002855;
 	border-bottom: solid #DAAA00;
 }
