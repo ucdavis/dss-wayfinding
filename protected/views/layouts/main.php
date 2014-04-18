@@ -31,34 +31,66 @@
 	?>
 </div>
 <div id="navigation">
-	<?php $this->widget('application.extensions.flyoutnav.FlyoutNav', array(
-		'list'=>array(
-			CHtml::ajaxLink(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
-				array('people/index'),
-				array('update' => '#content')
-			),
-			CHtml::ajaxLink(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
-				array('map/index'),
-				array('update' => '#content')
-			),
-			CHtml::ajaxLink(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
-				array('events/index'),
-				array('update' => '#content')
-			),
-			CHtml::ajaxLink(
-				CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
-				array('index/about'),
-				array('update' => '#content')
-			),
-		),
-		'mainButton'=>CHtml::image(Yii::App()->baseUrl . '/images/touch.svg'),
-		'radius'=>90,
-		'totalDegrees'=>180,
-		'reverseIn'=>'true'
-	)); ?>
+	<?php
+		echo "<div>";
+		echo CHtml::ajaxLink(
+			CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
+			array('people/index'),
+			array('update' => '#content')
+		);
+		echo "</div>";
+		echo "<div>";
+		echo CHtml::ajaxLink(
+			CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
+			array('map/index'),
+			array('update' => '#content')
+		);
+		echo "</div>";
+		echo "<div>";
+		echo CHtml::ajaxLink(
+			CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
+			array('events/index'),
+			array('update' => '#content')
+		);
+		echo "</div>";
+		echo "<div>";
+		echo CHtml::ajaxLink(
+			CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
+			array('index/about'),
+			array('update' => '#content')
+		);
+		echo "</div>";
+
+
+		//$this->widget('application.extensions.flyoutnav.FlyoutNav', array(
+		// 'list'=>array(
+		// 	CHtml::ajaxLink(
+		// 		CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
+		// 		array('people/index'),
+		// 		array('update' => '#content')
+		// 	),
+		// 	CHtml::ajaxLink(
+		// 		CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
+		// 		array('map/index'),
+		// 		array('update' => '#content')
+		// 	),
+		// 	CHtml::ajaxLink(
+		// 		CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
+		// 		array('events/index'),
+		// 		array('update' => '#content')
+		// 	),
+		// 	CHtml::ajaxLink(
+		// 		CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
+		// 		array('index/about'),
+		// 		array('update' => '#content')
+		// 	),
+		// ),
+		// 'mainButton'=>CHtml::image(Yii::App()->baseUrl . '/images/touch.svg'),
+		// 'radius'=>90,
+		// 'totalDegrees'=>180,
+		// 'reverseIn'=>'true'
+	//));
+	?>
 </div>
 <div id="content">
 	<?php echo $content; ?>

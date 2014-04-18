@@ -16,6 +16,7 @@
 }
 
 #homeButton {
+	display:none;
 	position: absolute;
 	bottom: 25px;
 	left: 25px;
@@ -33,6 +34,7 @@
 }
 
 #homeButton img {
+/*	display: none;*/
 	position: relative;
 	height: 80%;
 	width:80%;
@@ -52,16 +54,40 @@
 
 #navigation {
 	position: absolute;
-	top: 50%;
-	left: 65%;
-	transition: top .3s ease-in,left .3s ease-in;
+	width: 70%;
+	left: 15%;
+	top: 40%;
+	height: 150px;
 }
 
-#navigation.offscreen {
-	left: -50px;
+#navigation div {
+	display: flex;
+	width: 25%;
+	height: 100%;
+	z-index: 1000000;
+	float: left;
+}
+
+#navigation a {
+	background: #CCD4E0; /* Old browsers */
+	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+	height: 150px;
+	width: 150px;
+	border-radius: 50%;
+	z-index: 10000;
+	margin: auto;
+}
+
+#navigation img {
+	height: 80%;
+	width: 80%;
+	padding: 10%;
+	z-index: 10000;
+	margin: auto;
 }
 
 #image {
+	display: none;
 	position: absolute;
 	top: 10%;
 	right: 35%;
@@ -82,6 +108,7 @@
 }
 
 #rss {
+	display: none;
 	position: absolute;
 	top: 10%;
 	left: 65%;
@@ -118,6 +145,7 @@
 }
 
 html, body {
+	background: #E1BB33;
 	height: 100%;
 	width: 100%;
 	margin: 0;
