@@ -40,7 +40,12 @@ return array(
 			'images/maps/ssh_floor_4.svg',
 			'images/maps/ssh_floor_5.svg'
 		),
-		'startpoint' => 'R1291'),
+		'path' => array(
+			
+		),
+		'zoomToRoute' => true,
+		'zoomPadding' => 50,
+		'defaultMap' => 'floor1'),
 	),
 
 	// application components

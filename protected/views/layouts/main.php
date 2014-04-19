@@ -30,7 +30,7 @@
 		echo "<div>";
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
-			array('wayfinding/default'),
+			array('wayfinding/map', 'startpoint'=> 'R1291'),
 			array('update' => '#content')
 		);
 		echo "</div>";

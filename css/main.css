@@ -104,8 +104,11 @@
 	margin: auto;
 }
 
-#myMaps svg{
-	object-fit: contain;
+#myMaps svg {
+	position: absolute;
+	margin: auto;
+	height: 100%;
+	width: 100%;
 }
 
 html, body {

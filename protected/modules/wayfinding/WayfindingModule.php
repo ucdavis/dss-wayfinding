@@ -3,7 +3,11 @@
 class WayfindingModule extends CWebModule
 {
 	public $maps;
-	public $startpoint;
+	public $path;
+	public $zoomToRoute;
+	public $zoomPadding;
+	public $defaultMap;
+	public $showLocation;
 
 	public function init()
 	{
