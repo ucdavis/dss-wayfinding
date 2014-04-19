@@ -1,12 +1,19 @@
 <?php
 
-class Wayfinding extends CWidget
+class Wayfinding extends CWebModule
 {
     public $maps;
     public $startpoint;
     public $options;
 
     protected $baseUrl;
+
+    public function actions()
+    {
+        return array(
+            'loadScripts'=>'ext.wayfinding.Wayfinding.actions.LoadScriptsAction',
+        );
+    }
 
     public function init() {
         $this->publishAssets();

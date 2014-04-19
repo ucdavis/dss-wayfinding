@@ -15,56 +15,36 @@
 	top: 10%;
 }
 
-#homeButton {
-	display:none;
-	position: absolute;
-	bottom: 25px;
-	left: 25px;
-	height: 100px;
-	width: 100px;
-	background: #CCD4E0;
-	border-radius: 50%;
-	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
-	z-index: 0;
-}
-
-#homeButton:hover {
-	background: #4D688C;
-	box-shadow: 0px 0px 15px #99A9BF;
-}
-
-#homeButton img {
-/*	display: none;*/
-	position: relative;
-	height: 80%;
-	width:80%;
-	margin: 10px;
-}
-
 #content {
 	position: absolute;
-	top: 10%;
-	left: 7.5%;
+	top: 0%;
+	left: 0%;
 	padding-top: 10px;
-	width: 85%;
-	height: 90%;
+	width: 100%;
+	bottom: 130px;
 	overflow: auto;
 	z-index: 0;
+	background: #E9CC66;
+	transition: all .2s;
+}
+
+#content.displayed {
+	background: white;
 }
 
 #navigation {
 	position: absolute;
-	width: 70%;
-	left: 15%;
-	top: 40%;
+	width: 80%;
+	left: 10%;
+	bottom: 50%;
 	height: 150px;
+	transition: all .2s;
 }
 
 #navigation div {
 	display: flex;
 	width: 25%;
 	height: 100%;
-	z-index: 1000000;
 	float: left;
 }
 
@@ -74,7 +54,8 @@
 	height: 150px;
 	width: 150px;
 	border-radius: 50%;
-	z-index: 10000;
+	border: thick solid #008EAA;
+	z-index: 10;
 	margin: auto;
 }
 
@@ -82,70 +63,53 @@
 	height: 80%;
 	width: 80%;
 	padding: 10%;
+	margin: auto;
+}
+
+#navigation.docked {
+	position: absolute;
+	width: 70%;
+	left: 15%;
+	bottom: 15px;
+	height: 100px;
+}
+
+#navigation.docked div {
+	display: flex;
+	width: 25%;
+	height: 100%;
+	z-index: 1000000;
+	float: left;
+}
+
+#navigation.docked a {
+	background: #CCD4E0; /* Old browsers */
+	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
 	z-index: 10000;
 	margin: auto;
 }
 
-#image {
-	display: none;
-	position: absolute;
-	top: 10%;
-	right: 35%;
-	width: 65%;
-	background: white;
-	height: 90%;
-	overflow: auto;
-	transition: right .3s ease-in;
-	z-index: 5;
+#navigation a.selected {
+	border: thick solid #BA0C2F;
 }
 
-#image.offscreen {
-	right: 100%;
+#navigation.docked img {
+	height: 80%;
+	width: 80%;
+	padding: 10%;
+	z-index: 10000;
+	margin: auto;
 }
 
-#image img {
-	height: 100%;
-}
-
-#rss {
-	display: none;
-	position: absolute;
-	top: 10%;
-	left: 65%;
-	width: 35%;
-	height: 90%;
-	overflow: auto;
-	background: white;
-	transition: left .3s ease-in;
-	z-index: 5;
-}
-
-#rss.offscreen {
-	left: 100%;
-}
-
-#rss a, #rss h1, #rss p {
-	text-decoration: none;
-	cursor: default;
-	font-weight: normal;
-	font: Lucida;
-	position: relative;
-	margin: 5%;
-	padding-left: 7.5%;
-	padding-right: 7.5%;
-}
-
-#rss h2 a, #rss h1 {
-	text-decoration: none;
-	display: block;
-	color: white;
-	font: "Lucida Sans Unicode";
-	background: #002855;
-	border-bottom: solid #DAAA00;
+#myMaps svg{
+	object-fit: contain;
 }
 
 html, body {
-	background: #E1BB33;
+	background: #E9CC66;
 	height: 100%;
 	width: 100%;
 	margin: 0;
