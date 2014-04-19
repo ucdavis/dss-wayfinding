@@ -104,13 +104,6 @@
 	margin: auto;
 }
 
-#myMaps svg {
-	position: absolute;
-	margin: auto;
-	height: 100%;
-	width: 100%;
-}
-
 html, body {
 	background: #E9CC66;
 	height: 100%;

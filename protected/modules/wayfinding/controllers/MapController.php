@@ -2,7 +2,8 @@
 
 class MapController extends Controller
 {
-	protected $baseUrl;
+	protected $jsUrl;
+	protected $cssUrl;
 
 	public function actionIndex($startpoint, $endpoint=null, $accessibleRoute = 'false')
 	{
@@ -32,9 +33,13 @@ class MapController extends Controller
 	}
 
 	public function publishAssets() {
-		if(empty($this->baseUrl)){
-			$assetsDir = Yii::getPathOfAlias('wayfinding') . DIRECTORY_SEPARATOR . 'js';
-			$this->baseUrl = Yii::app()->getAssetManager()->publish($assetsDir, false, -1, false);
+		if(empty($this->jsUrl)){
+			$jsDir = Yii::getPathOfAlias('wayfinding') . DIRECTORY_SEPARATOR . 'js';
+			$this->jsUrl = Yii::app()->getAssetManager()->publish($jsDir, false, -1, false);
+		}
+		if(empty($this->cssUrl)){
+			$cssDir = Yii::getPathOfAlias('wayfinding') . DIRECTORY_SEPARATOR . 'css';
+			$this->cssUrl = Yii::app()->getAssetManager()->publish($cssDir, false, -1, false);
 		}
 		return $this;
 	}
@@ -42,6 +47,7 @@ class MapController extends Controller
 	protected function registerClientScripts() {
 		$clientScript = Yii::app()->clientScript;
 		$clientScript->registerCoreScript('jquery');
-		$clientScript->registerScriptFile($this->baseUrl . DIRECTORY_SEPARATOR . 'jquery.wayfinding.js');
+		$clientScript->registerScriptFile($this->jsUrl . DIRECTORY_SEPARATOR . 'jquery.wayfinding.js');
+		$clientScript->registerCssFile($this->cssUrl . DIRECTORY_SEPARATOR . 'map.css');
 	}
 }

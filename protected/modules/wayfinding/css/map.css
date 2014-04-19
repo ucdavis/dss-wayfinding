@@ -1,0 +1,13 @@
+#myMaps {
+    position: absolute;
+    right: 0%;
+    width: 85%;
+    height: 100%;
+}
+
+#myMaps svg {
+    position: absolute;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+}
