@@ -11,3 +11,34 @@
     height: 100%;
     width: 100%;
 }
+
+#floorPicker {
+    position: absolute;
+    height: 100%;
+    left: 0%;
+    width: 15%;
+    overflow: auto;
+}
+
+#floorPicker ul {
+    list-style: none;
+    list-style-type: none;
+    margin: auto;
+    padding: 0;
+}
+
+#floorPicker li {
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: solid #B2B2B2;
+    font-family: Lucida Sans Unicode;
+}
+
+#floorPicker li:hover {
+    background: #002855;
+    color: #ffffff;
+}

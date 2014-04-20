@@ -8,6 +8,7 @@ class WayfindingModule extends CWebModule
 	public $zoomPadding;
 	public $defaultMap;
 	public $showLocation;
+	public $locationIndicator;
 
 	public function init()
 	{

@@ -20,9 +20,9 @@ class MapController extends Controller
 			'zoomPadding' => Yii::App()->controller->module->zoomPadding,
 			'defaultMap' => Yii::App()->controller->module->defaultMap,
 			'endpoint' => $endpoint,
-			'accessibleRoute' => (string)$accessibleRoute
-			// 'startpoint' => Yii::App()->controller->module->startpoint,
-			// 'startpoint' => Yii::App()->controller->module->startpoint,
+			'accessibleRoute' => (string)$accessibleRoute,
+			'showLocation' => Yii::App()->controller->module->showLocation,
+			'locationIndicator' => Yii::App()->controller->module->locationIndicator,
 			// 'startpoint' => Yii::App()->controller->module->startpoint,
 			// 'startpoint' => Yii::App()->controller->module->startpoint,
 			// 'startpoint' => Yii::App()->controller->module->startpoint,

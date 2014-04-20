@@ -6,14 +6,28 @@
 		echo CHtml::image(Yii::App()->request->baseUrl . '/images/loading.gif');
 	?>
 </div>
+<div id="floorPicker">
+	<ul>
+		<?php
+			$i = 0;
+
+			foreach($maps as $index => $_) {
+				echo "<li id='$index'>" .
+					"Floor $i" .
+					"</li>";
+				$i++;
+			}
+		?>
+	</ul>
+</div>
 <div id="myMaps"></div>
 <script type="text/javascript" id="loadMaps">
 	$('#myMaps').wayfinding({
 		<?php
-			// ob_start();
+			ob_start();
 			echo "'maps': [\n";
 			foreach($maps as $index => $map) {
-				echo "{'path': '$map', 'id': 'floor$index'},\n";
+				echo "{'path': '$map', 'id': '$index'},\n";
 			}
 			echo "],\n";
 			if (isset($path)) {
@@ -43,6 +57,16 @@
 			// if (isset($zoomPadding)) echo "'zoomPadding': $zoomPadding,";
 			// if (isset($zoomPadding)) echo "'zoomPadding': $zoomPadding,";
 			echo "'accessibleRoute': $accessibleRoute";
+			$cont = ob_get_contents();
+			ob_end_flush();
 		?>
 	});
+
+	$(document).ready(
+		$('#floorPicker').on('click', 'li', function(obj) {
+			// alert($(this));
+			$('#myMaps').wayfinding('currentMap', $(this).attr('id'));
+		})
+	);
 </script>
+<?php //echo $cont; ?>

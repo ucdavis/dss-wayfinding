@@ -33,19 +33,27 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
 		'wayfinding' => array('maps' => array(
-			'images/maps/ssh_floor_0.svg',
-			'images/maps/ssh_floor_1.svg',
-			'images/maps/ssh_floor_2.svg',
-			'images/maps/ssh_floor_3.svg',
-			'images/maps/ssh_floor_4.svg',
-			'images/maps/ssh_floor_5.svg'
+			'floor0' => 'images/maps/ssh_floor_0.svg',
+			'floor1' => 'images/maps/ssh_floor_1.svg',
+			'floor2' => 'images/maps/ssh_floor_2.svg',
+			'floor3' => 'images/maps/ssh_floor_3.svg',
+			'floor4' => 'images/maps/ssh_floor_4.svg',
+			'floor5' => 'images/maps/ssh_floor_5.svg'
 		),
 		'path' => array(
-			
+			'color' => 'red', // the color of the solution path that will be drawn
+			'radius' => 10, // the radius in pixels to apply to the solution path
+			'speed' => 12, // the speed at which the solution path with be drawn
+			'width' => 3 // the width of the solution path in pixels
 		),
 		'zoomToRoute' => true,
 		'zoomPadding' => 50,
-		'defaultMap' => 'floor1'),
+		'defaultMap' => 'floor1',
+		'showLocation' => true,
+		'locationIndicator' => array(
+			'fill' => 'blue',
+			'height' => 25
+		)),
 	),
 
 	// application components
