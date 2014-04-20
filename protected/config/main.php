@@ -33,12 +33,30 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
 		'wayfinding' => array('maps' => array(
-			'floor0' => 'images/maps/ssh_floor_0.svg',
-			'floor1' => 'images/maps/ssh_floor_1.svg',
-			'floor2' => 'images/maps/ssh_floor_2.svg',
-			'floor3' => 'images/maps/ssh_floor_3.svg',
-			'floor4' => 'images/maps/ssh_floor_4.svg',
-			'floor5' => 'images/maps/ssh_floor_5.svg'
+			'floor0' => array(
+				'path' => 'images/maps/ssh_floor_0.svg',
+				'name' => 'Basement'
+			),
+			'floor1' => array(
+				'path' => 'images/maps/ssh_floor_1.svg',
+				'name' => 'Floor 1'
+			),
+			'floor2' => array(
+				'path' => 'images/maps/ssh_floor_2.svg',
+				'name' => 'Floor 2'
+			),
+			'floor3' => array(
+				'path' => 'images/maps/ssh_floor_3.svg',
+				'name' => 'Floor 3'
+			),
+			'floor4' => array(
+				'path' => 'images/maps/ssh_floor_4.svg',
+				'name' => 'Floor 4'
+			),
+			'floor5' => array(
+				'path' => 'images/maps/ssh_floor_5.svg',
+				'name' => 'Floor 5'
+			)
 		),
 		'path' => array(
 			'color' => 'red', // the color of the solution path that will be drawn

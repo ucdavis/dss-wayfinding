@@ -9,13 +9,8 @@
 <div id="floorPicker">
 	<ul>
 		<?php
-			$i = 0;
-
-			foreach($maps as $index => $_) {
-				echo "<li id='$index'>" .
-					"Floor $i" .
-					"</li>";
-				$i++;
+			foreach($maps as $id => $map) {
+				echo "<li id='$id'>" . $map['name'] . "</li>";
 			}
 		?>
 	</ul>
@@ -27,7 +22,7 @@
 			ob_start();
 			echo "'maps': [\n";
 			foreach($maps as $index => $map) {
-				echo "{'path': '$map', 'id': '$index'},\n";
+				echo "{'path': '" . $map['path'] . "', 'id': '$index'},\n";
 			}
 			echo "],\n";
 			if (isset($path)) {
