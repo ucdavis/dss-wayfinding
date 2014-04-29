@@ -71,7 +71,8 @@ return array(
 		'locationIndicator' => array(
 			'fill' => 'blue',
 			'height' => 25
-		)),
+		),
+		'cacheDir' => Yii::getPathOfAlias('webroot') . '/datastores/')
 	),
 
 	// application components

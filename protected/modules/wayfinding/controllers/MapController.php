@@ -40,13 +40,17 @@ class MapController extends Controller
 			return;
 		}
 
-		$speculativePath = $cacheDir . '/datastore' . $startpoint . '.json';
+		$speculativePath = '/datastore' . $startpoint . '.json';
 
-		if (file_exists($speculativePath)) {
-			$this->dataStoreCache = $speculativePath;
+		if (file_exists($cacheDir . $speculativePath)) {
+			$this->dataStoreCache = Yii::App()->baseUrl .
+				rtrim(Yii::App()->controller->module->cacheDir, '/') .
+				$speculativePath;
 			$this->wayFound = true;
 		} else {
-			$this->dataStoreCache = $cacheDir . '/datastore.json';
+			$this->dataStoreCache = Yii::App()->baseUrl .
+				rtrim(Yii::App()->controller->module->cacheDir, '/') .
+				'/datastore.json';
 		}
 
 		return $this->dataStoreCache;
