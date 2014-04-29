@@ -9,6 +9,7 @@ class WayfindingModule extends CWebModule
 	public $defaultMap;
 	public $showLocation;
 	public $locationIndicator;
+	public $cacheDir;
 
 	public function init()
 	{

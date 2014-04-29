@@ -8,3 +8,4 @@ themes/classic/views/
 \#*#
 .DS_Store
 protected/extensions/yii-feed-widget/cache/
+datastores/*
