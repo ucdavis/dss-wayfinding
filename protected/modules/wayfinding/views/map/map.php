@@ -19,6 +19,14 @@
 		?>
 	</ul>
 </div>
+<div id="wfAccessibility">
+	<a style='display: none'>
+	<?php
+		echo CHtml::image(Yii::App()->request->baseUrl . '/images/accessibility.svg',
+			'Accessible Route', array('style' => 'display: none'));
+	?>
+	</a>
+</div>
 <div id="myMaps"></div>
 <script type="text/javascript" id="loadMaps">
 	$('#myMaps').wayfinding({
@@ -82,8 +90,17 @@
 		})
 	);
 
+	$(document).ready(
+		$('#wfAccessibility').on('click', 'a', function() {
+			$('#wfAccessibility a').toggleClass('selected');
+			//toggle accessibleRoute
+			$('#myMaps').wayfinding('accessibleRoute',
+				!$('#myMaps').wayfinding('accessibleRoute'));
+		})
+	);
+
 	$('#myMaps').on('wfMapsVisible', function() {
 		$('#floorPicker').show();
-		$('#navigation #accessibility').show();
+		$('#wfAccessibility img, #wfAccessibility a').show();
 	});
 </script>

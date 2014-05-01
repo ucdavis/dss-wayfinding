@@ -48,8 +48,6 @@
 			array('update' => '#content')
 		);
 		echo "</div>";
-		echo CHtml::image(Yii::App()->request->baseUrl . '/images/accessibility.svg',
-			'Accessible Route', array('id' => 'accessibility', 'style' => 'display: none'));
 	?>
 </div>
 <div id="content">

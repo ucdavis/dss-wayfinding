@@ -48,6 +48,31 @@
     border: thick solid #BA0C2F;
 }
 
+#wfAccessibility img {
+    position: absolute;
+    height: 80%;
+    width: 80%;
+    padding: 10%;
+}
+
+#wfAccessibility a {
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    height: 60px;
+    width: 60px;
+    background: #CCD4E0; /* Old browsers */
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+    border-radius: 50%;
+    border: thick solid #008EAA;
+    z-index: 10;
+    margin: auto;
+}
+
+#wfAccessibility a.selected {
+    border: thick solid #BA0C2F;
+}
+
 #mapLoading{
     position: absolute;
     right: 0%;
