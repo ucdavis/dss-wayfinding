@@ -57,7 +57,7 @@
 
 #wfAccessibility a {
     position: fixed;
-    left: 30px;
+    right: 30px;
     bottom: 30px;
     height: 60px;
     width: 60px;

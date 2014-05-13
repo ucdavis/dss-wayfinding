@@ -9,7 +9,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Social Sciences and Humanities',
 
-	'defaultController' => 'index',
+	'defaultController' => 'events',
 	'controllerMap'=>array(
 	    'YiiFeedWidget' => 'application.extensions.yii-feed-widget.YiiFeedWidgetController'
 	),
