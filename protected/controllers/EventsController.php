@@ -39,9 +39,4 @@ class EventsController extends CController
                 $this->renderPartial('error', $error);
         }
     }
-
-    public function actionPeople()
-    {
-        $this->renderPartial('people');
-    }
 }

@@ -8,8 +8,8 @@ $this->pageTitle=Yii::app()->name;
         <?php
         $this->widget(
         'ext.yii-feed-widget.YiiFeedWidget',
-        array('url'=>'http://www.npr.org/rss/rss.php?id=1001',//http://economics.ucdavis.edu/seminars/seminars/RSS', 
-		'limit'=>0)
+        array('url'=>'http://economics.ucdavis.edu/seminars/seminars/RSS',
+		'limit'=>3)
         );
         ?>
 </div>

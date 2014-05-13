@@ -19,8 +19,6 @@
 	position: absolute;
 	top: 10%;
 	left: 15%;
-	padding-top: 10px;
-	padding-left: 10px;
 	width: 85%;
 	bottom: 0%;
 	overflow: auto;
@@ -28,8 +26,37 @@
 	transition: all .2s;
 }
 
-#content.displayed {
-	background: white;
+#content h1 {
+	background: #002855;
+	border-bottom: solid #DAAA00;
+	font-family: futura;
+	font-weight: normal;
+	font-size: 2em;
+	padding: 0.2em 10px;
+	float: center;
+	color: white;
+	margin: 2.5%;
+	padding: auto;
+	text-align: center;
+}
+
+#content h2 {
+	background: #002855;
+	border-bottom: solid #DAAA00;
+	font-family: futura;
+	font-weight: normal;
+	font-size: 1em;
+	padding: 0.2em 10px;
+	float: center;
+	color: white;
+	margin: 2.5%;
+	padding: auto;
+	text-align: center;
+}
+
+#content a {
+	text-decoration: none;
+	color: inherit;
 }
 
 #navigation {

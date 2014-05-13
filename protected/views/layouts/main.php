@@ -38,7 +38,8 @@
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
 			array('events/index'),
-			array('update' => '#content')
+			array('update' => '#content'),
+			array('class' => 'selected')
 		);
 		echo "</div>";
 		echo "<div>";

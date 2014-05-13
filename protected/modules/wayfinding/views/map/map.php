@@ -7,17 +7,17 @@
 	?>
 </div>
 <div id="floorPicker" style="display: none">
-	<ul>
+	<select>
 		<?php
 			foreach($maps as $id => $map) {
 				if (isset($defaultMap) && $id==$defaultMap) {
-					echo "<li id='$id' class='selected'>" . $map['name'] . "</li>";
+					echo "<option id='$id' class='selected' selected='true'>" . $map['name'] . "</option>";
 				} else {
-					echo "<li id='$id'>" . $map['name'] . "</li>";
+					echo "<option id='$id'>" . $map['name'] . "</option>";
 				}
 			}
 		?>
-	</ul>
+	</select>
 </div>
 <div id="wfAccessibility">
 	<a style='display: none'>
