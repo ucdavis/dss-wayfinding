@@ -6,7 +6,7 @@
 	width: 100%;
 	background: white;
 	border-bottom: solid #DAAA00;
-	z-index: 1000;
+	z-index: 9;
 }
 
 #header #logo {
@@ -15,14 +15,73 @@
 	top: 10%;
 }
 
+.secondaryNav {
+	position: fixed;
+	top: 1%;
+	height: 8%;
+	z-index: 10;
+	left: 0%;
+	width: 100%;
+}
+
+.secondaryNav #box {
+	border: 5px solid #008EAA;
+	border-radius: 5px;
+	display: inline-block;
+	position: absolute;
+	height: 80%;
+	width: 20%;
+	left: 40%;
+	background: #EEE;
+	z-index: 10;
+}
+
+.secondaryNav select {
+	position: absolute;
+	width: 100%;
+	border: none;
+	left: 0%;
+	text-align: center;
+	font-family: futura;
+	font-size: 2em;
+	height: 100%;
+	padding-left: 10px;
+	background: transparent;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	z-index: 10;
+}
+
+.secondaryNav #dropdown-button {
+	position: absolute;
+	background: transparent; /* Old browsers */
+	border-left: thin solid #111;
+	right: 0%;
+	top: 1%;
+	height: 100%;
+	z-index: 9;
+}
+
+#content .secondaryNav h1 {
+	background: transparent;
+	border-bottom: none;
+	font-family: futura;
+	font-weight: normal;
+	color: #000;
+	line-height: 8%;
+	padding: 0px;
+	text-align: center;
+}
+
 #content {
 	position: absolute;
 	top: 10%;
-	left: 15%;
-	width: 85%;
+	left: 12.5%;
+	width: 87.5%;
 	bottom: 0%;
 	overflow: auto;
-	z-index: 0;
+	z-index: 10;
 	transition: all .2s;
 }
 
@@ -50,8 +109,12 @@
 	float: center;
 	color: white;
 	margin: 2.5%;
-	padding: auto;
 	text-align: center;
+}
+
+#content p {
+	margin: 2.5%;
+	font-family: "Lucida Grande", "Lucida Sans", "Verdana", sans-serif;
 }
 
 #content a {
@@ -61,8 +124,7 @@
 
 #navigation {
 	position: absolute;
-	background: #002855;
-	width: 15%;
+	width: 12.5%;
 	left: 0%;
 	bottom: 0%;
 	top: 10%;
@@ -76,7 +138,7 @@
 }
 
 #navigation a {
-	background: #CCD4E0; /* Old browsers */
+	background: #EEE; /* Old browsers */
 	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
 	width: 75%;
 	border-radius: 50%;

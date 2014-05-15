@@ -6,18 +6,28 @@
 		echo CHtml::image(Yii::App()->request->baseUrl . '/images/loading.gif');
 	?>
 </div>
-<div id="floorPicker" style="display: none">
+<div id="floorPicker" style="display: none" class="secondaryNav">
+	<div id="box">
 	<select>
 		<?php
 			foreach($maps as $id => $map) {
 				if (isset($defaultMap) && $id==$defaultMap) {
-					echo "<option id='$id' class='selected' selected='true'>" . $map['name'] . "</option>";
+					echo "<option value='$id' selected>" . $map['name'] . "</option>";
 				} else {
-					echo "<option id='$id'>" . $map['name'] . "</option>";
+					echo "<option value='$id'>" . $map['name'] . "</option>";
 				}
 			}
 		?>
 	</select>
+	<?php
+		echo CHtml::image(Yii::App()->request->baseUrl . '/images/DownTriangle.svg',
+			'Expand Dropdown',
+			array(
+				'id' => 'dropdown-button'
+			)
+		);
+	?>
+	</div>
 </div>
 <div id="wfAccessibility">
 	<a style='display: none'>
@@ -78,15 +88,16 @@
 	});
 
 	$(document).ready(
-		$('#floorPicker').on('click', 'li', function(obj) {
-			$('#myMaps').wayfinding('currentMap', $(this).attr('id'));
+		$('#floorPicker').on('change', 'select', function(obj) {
+			$('#myMaps').wayfinding('currentMap', $(this).val());
 		})
 	);
 
 	$(document).ready(
 		$('#myMaps').on('wfFloorChange', function() {
-			$('#floorPicker li').removeClass('selected');
-			$('#floorPicker #' + $('div:visible', this).attr('id')).addClass('selected');
+			var visible_map = $('div:visible', this).attr('id');
+			console.log(visible_map);
+			$('#floorPicker select').val(visible_map);
 		})
 	);
 

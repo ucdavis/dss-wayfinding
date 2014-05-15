@@ -3,8 +3,10 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
+<div class="secondaryNav">
+    <h1>Events</h1>
+</div>
 <div id="rss">
-        <h1>Seminars</h1>
         <?php
         $this->widget(
         'ext.yii-feed-widget.YiiFeedWidget',

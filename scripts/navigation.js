@@ -6,4 +6,8 @@ $(document).ready(function() {
         $(this).addClass('selected');
         $('#content').addClass('displayed')
     });
+
+    $('.secondaryNav').on('click', '#dropdown-button', function() {
+        $('.secondaryNav select').click();
+    });
 });
