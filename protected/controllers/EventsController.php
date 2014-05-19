@@ -20,7 +20,7 @@ class EventsController extends CController
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::App()->request->isAjaxRequest){
-            $this->renderPartial('events');
+            $this->renderPartial('events', array(), false, true);
         } else {
             $this->render('events');
         }

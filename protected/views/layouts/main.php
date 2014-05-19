@@ -26,6 +26,7 @@
 			array('people/index'),
 			array('update' => '#content')
 		);
+		echo "<span><div class='navText'>People</div></span>";
 		echo "</div>";
 		echo "<div>";
 		echo CHtml::ajaxLink(
@@ -33,14 +34,15 @@
 			array('wayfinding/map', 'startpoint'=> 'R1291'),
 			array('update' => '#content')
 		);
+		echo "<span><div class='navText'>Building Map</div></span>";
 		echo "</div>";
-		echo "<div>";
+		echo "<div class='selected'>";
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
 			array('events/index'),
-			array('update' => '#content'),
-			array('class' => 'selected')
+			array('update' => '#content')
 		);
+		echo "<span><div class='navText'>Events</div></span>";
 		echo "</div>";
 		echo "<div>";
 		echo CHtml::ajaxLink(
@@ -48,6 +50,7 @@
 			array('index/about'),
 			array('update' => '#content')
 		);
+		echo "<span><div class='navText'>About Building</div></span>";
 		echo "</div>";
 	?>
 </div>

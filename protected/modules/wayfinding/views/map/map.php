@@ -87,28 +87,24 @@
 		?>
 	});
 
-	$(document).ready(
+	$(document).ready(function() {
 		$('#floorPicker').on('change', 'select', function(obj) {
 			$('#myMaps').wayfinding('currentMap', $(this).val());
-		})
-	);
+		});
 
-	$(document).ready(
 		$('#myMaps').on('wfFloorChange', function() {
 			var visible_map = $('div:visible', this).attr('id');
 			console.log(visible_map);
 			$('#floorPicker select').val(visible_map);
-		})
-	);
+		});
 
-	$(document).ready(
 		$('#wfAccessibility').on('click', 'a', function() {
 			$('#wfAccessibility a').toggleClass('selected');
 			//toggle accessibleRoute
 			$('#myMaps').wayfinding('accessibleRoute',
 				!$('#myMaps').wayfinding('accessibleRoute'));
-		})
-	);
+		});
+	});
 
 	$('#myMaps').on('wfMapsVisible', function() {
 		$('#floorPicker').show();

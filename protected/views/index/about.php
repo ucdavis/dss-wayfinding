@@ -6,6 +6,9 @@ $this->pageTitle=Yii::app()->name . ' - About';
 <div class="secondaryNav">
 	<h1>About This Building</h1>
 </div>
+<?php
+	echo CHtml::image(Yii::App()->request->baseUrl . '/images/death_star_labyrinth.jpg');
+?>
 <p>The Social Sciences and Humanities Building at the University of California, Davis, is the culmination of an intensive effort to blend the issues of programmatic requirements, large urban patterns, and the spirit of the site.</p>
 
 <p>

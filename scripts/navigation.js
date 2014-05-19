@@ -3,11 +3,7 @@ $(document).ready(function() {
     $('#navigation a').click(function() {
         $('#navigation').find('*').addBack()
         .removeClass('selected');
-        $(this).addClass('selected');
+        $(this).parent().addClass('selected');
         $('#content').addClass('displayed')
-    });
-
-    $('.secondaryNav').on('click', '#dropdown-button', function() {
-        $('.secondaryNav select').click();
     });
 });
