@@ -9,17 +9,28 @@
 	z-index: 9;
 }
 
-#header #logo {
+#header > #logo {
 	position: absolute;
 	height: 80%;
 	top: 10%;
+}
+
+#header > #search-box {
+	position: absolute;
+	right: 2.5%;
+	width: 22.5%;
+	height: 100%;
+}
+
+#header > #search-box > input {
+	width: 100%;
+	vertical-align: center;
 }
 
 .secondaryNav {
 	position: fixed;
 	top: 1%;
 	height: 8%;
-	z-index: 10;
 	left: 0%;
 	width: 100%;
 }
@@ -33,7 +44,6 @@
 	width: 20%;
 	left: 40%;
 	background: #EEE;
-	z-index: 10;
 }
 
 .secondaryNav select {

@@ -8,6 +8,7 @@
 	<meta name="language" content="en" />
 
 	<?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+	<?php Yii::app()->clientScript->registerCoreScript('jquery.ui'); ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/flyout.css" />
 
@@ -17,6 +18,9 @@
 <body>
 <div id="header">
 <?php echo CHtml::image(Yii::App()->request->baseUrl . '/images/lslogo.png', 'L&S Logo', array('id'=>'logo')); ?>
+	<div id="search-box">
+		<input type="text">
+	</div>
 </div>
 <div id="navigation">
 	<?php
