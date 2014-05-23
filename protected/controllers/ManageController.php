@@ -26,13 +26,46 @@ class ManageController extends CController
     {
         $success = true;
         $err = null;
+        $data = array();
 
         if (isset($_FILES['roomList']) && $_FILES['roomList']['tmp_name'] != '') {
             $success = true;
             $csv_file = fopen($_FILES['roomList']['tmp_name'], 'r');
+
+            $header = fgetcsv($csv_file);
+            foreach ($header as $col) {
+                $data[$col] = array();
+            }
+
+            while ($values = fgetcsv($csv_file)) {
+                foreach ($header as $i => $col) {
+                    $data[$col][] = $values[$i];
+                }
+            }
+
+            $rooms = $data['Room'];
+            $roomsWithOccupants = array(
+                'First Name' => array(),
+                'Last Name' => array(),
+                'Room' => array()
+            );
+
+            foreach ($data['Name'] as $i => $name) {
+                $name = explode(',', $name);
+                /* Filters out entries in the "Name" field which do not have a ","
+                 * This is intended to remove entries such as
+                 * "General Graduate Student" which are mostly unhelpful noise,
+                 * since real people have their name in the form Lastname, Firstname
+                 */
+                if (count($name) == 2) {
+                    $roomsWithOccupants['First Name'][] = $name[1];
+                    $roomsWithOccupants['Last Name'][] = $name[0];
+                    $roomsWithOccupants['Room'][] = $data['Room'][$i];
+                }
+            }
         } else {
             $success = false;
-            $err = "Error: No file uploaded.";
+            $err = 'Error: No file uploaded.';
         }
 
         $this->renderPartial('manage', array(

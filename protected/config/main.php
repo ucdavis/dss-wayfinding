@@ -93,7 +93,7 @@ return array(
 		),
 		*/
 		'db'=>array(
-			'connectionString' => 'sqlite:protected/data/testdrive.db',
+			'connectionString' => 'sqlite:protected/data/wayfinding.db',
 		),
 		// uncomment the following to use a MySQL database
 		/*
