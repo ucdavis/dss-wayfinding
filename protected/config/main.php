@@ -18,7 +18,11 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
-		'application.models.*',
+		'application.models.Person',
+		'application.models.Room',
+		'application.models.RoomGroup',
+		'application.models.PersonDept',
+		'application.models.PersonRoom',
 		'application.components.*',
 		'application.extensions.flyoutnav.*',
 		'application.extensions.wayfinding.*'
