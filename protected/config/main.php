@@ -21,6 +21,7 @@ return array(
 		'application.models.Person',
 		'application.models.Room',
 		'application.models.RoomGroup',
+		'application.models.RoomAlias',
 		'application.models.PersonDept',
 		'application.models.PersonRoom',
 		'application.components.*',

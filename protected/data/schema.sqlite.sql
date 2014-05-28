@@ -3,7 +3,6 @@ CREATE TABLE tbl_person_rooms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     person_id INTEGER REFERENCES tbl_persons(person_id) ON DELETE CASCADE ON UPDATE CASCADE,
     room_id INTEGER NOT NULL REFERENCES tbl_rooms(room_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    delete_on_update INTEGER NOT NULL DEFAULT 0 CHECK(delete_on_update <= 1 and delete_on_update >= 0),
     UNIQUE (person_id, room_id) ON CONFLICT IGNORE
 );
 
@@ -28,10 +27,17 @@ CREATE TABLE tbl_person_depts (
 DROP TABLE IF EXISTS tbl_rooms;
 CREATE TABLE tbl_rooms (
     room_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    wf_id VARCHAR(64) NOT NULL,
-    room_name VARCHAR(128) NOT NULL,
+    wf_id VARCHAR(64) NOT NULL UNIQUE,
     delete_on_update INTEGER NOT NULL DEFAULT 0 CHECK(delete_on_update <= 1 and delete_on_update >= 0),
-    UNIQUE (wf_id, room_name) ON CONFLICT IGNORE
+    UNIQUE (wf_id) ON CONFLICT IGNORE
+);
+
+DROP TABLE IF EXISTS tbl_room_alias;
+CREATE TABLE tbl_room_alias (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    room_id INTEGER REFERENCES tbl_rooms(room_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    alias VARCHAR(128) NOT NULL,
+    UNIQUE (room_id, alias) ON CONFLICT IGNORE
 );
 
 DROP TABLE IF EXISTS tbl_room_group;
