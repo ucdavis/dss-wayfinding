@@ -35,7 +35,7 @@ CREATE TABLE tbl_rooms (
 DROP TABLE IF EXISTS tbl_room_alias;
 CREATE TABLE tbl_room_alias (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    room_id INTEGER REFERENCES tbl_rooms(room_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    room_id INTEGER REFERENCES tbl_rooms(room_id) ON UPDATE CASCADE,
     alias VARCHAR(128) NOT NULL,
     UNIQUE (room_id, alias) ON CONFLICT IGNORE
 );

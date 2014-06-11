@@ -17,9 +17,129 @@ class ManageController extends CController
      */
     public function actionIndex()
     {
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
-        $this->renderPartial('manage');
+        $this->layout = 'manage';
+        $this->render('manage');
+    }
+
+    public function actionPerson()
+    {
+        $this->layout = 'manage';
+        $this->render('person',
+            array(
+                'people' => Person::model()->findAll('')
+            )
+        );
+    }
+
+    public function actionUpdateDept()
+    {
+        $id = Yii::App()->request->getPost('id');
+        $dept = Yii::App()->request->getPost('dept');
+        $personId = Yii::App()->request->getPost('personId');
+        $action = Yii::App()->request->getPost('action');
+
+        if($action == 'delete') {
+            PersonDept::model()->deleteByPk($id);
+        } else if ($action == 'add') {
+            $pd = new PersonDept();
+            $pd->person_id = $personId;
+            $pd->dept = $dept;
+            $pd->save();
+            $id = $pd->id;
+        }
+        echo CJavaScript::jsonEncode(array('id' => $id));
+        Yii::app()->end();
+    }
+
+    public function actionUpdateRoom()
+    {
+        $id = Yii::App()->request->getPost('id');
+        $roomId = Yii::App()->request->getPost('roomId');
+        $personId = Yii::App()->request->getPost('personId');
+        $action = Yii::App()->request->getPost('action');
+
+        if($action == 'delete') {
+            PersonRoom::model()->deleteByPk($id);
+        } else if ($action == 'add') {
+            $pr = new PersonRoom();
+            $pr->person_id = $personId;
+            $pr->room_id = $roomId;
+            $pr->save();
+            $id = $pr->id;
+        }
+        echo CJavaScript::jsonEncode(array('id' => $id));
+        Yii::app()->end();
+    }
+
+    public function actionUpdatePerson()
+    {
+        $personId = Yii::App()->request->getPost('personId');
+        $email = Yii::App()->request->getPost('email');
+        $firstName = Yii::App()->request->getPost('firstName');
+        $lastName = Yii::App()->request->getPost('lastName');
+        $action = Yii::App()->request->getPost('action');
+
+        if ($action == 'delete') {
+            Yii::App()->db->createCommand('PRAGMA foreign_keys = ON;')->execute();
+            Person::model()->deleteByPk($personId);
+        } else if ($action == 'edit') {
+            $p = Person::model()->findByPk($personId);
+            if ($p == NULL) {
+                $p = new Person();
+            }
+            $p->email = $email;
+            $p->firstname = $firstName;
+            $p->lastname = $lastName;
+            $p->save();
+            $personId = $p->person_id;
+        }
+        echo CJavaScript::jsonEncode(array('id' => $personId));
+        Yii::app()->end();
+    }
+
+    public function actionPersonForm($person = NULL)
+    {
+        $depts = array();
+        $rooms = array();
+        $roomList = array();
+
+        if ($person === NULL) {
+            $email = '';
+            $firstName = '';
+            $lastName = '';
+        } else {
+            $p = Person::model()->findByPk($person);
+            $email = $p->email;
+            $firstName = $p->firstname;
+            $lastName = $p->lastname;
+            $p = PersonDept::model()->findAllByAttributes(array('person_id' => $person));
+            foreach ($p as $dept) {
+                $depts[$dept->id] = $dept->dept;
+            }
+            $p = PersonRoom::model()->findAllByAttributes(array('person_id' => $person));
+            foreach ($p as $room) {
+                $rooms[$room->id] = Room::model()->findByPk($room->room_id)->wf_id;
+            }
+        }
+
+        $allRooms = Room::model()->findAll();
+        foreach ($allRooms as $room) {
+            $roomList[$room->room_id] = $room->wf_id;
+        }
+
+
+        $this->layout = 'manage';
+        $this->render('personform',
+            array(
+                'personId' => $person,
+                'email' => $email,
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'depts' => $depts,
+                'rooms' => $rooms,
+                'allRooms' => $roomList
+            )
+        );
     }
 
     public function actionUpdaterooms()
@@ -69,7 +189,8 @@ class ManageController extends CController
             $err = 'Error: No file uploaded.';
         }
 
-        $this->renderPartial('manage', array(
+        $this->layout = 'manage';
+        $this->render('manage', array(
             'success' => $success,
             'error' => $err
         ));

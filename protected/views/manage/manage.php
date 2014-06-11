@@ -3,6 +3,7 @@
 	$this->pageTitle=Yii::app()->name;
 ?>
 <h1>LCD Screen Management</h1>
+<h2>Batch Update</h2>
 <?php if (isset($success) && $success) { ?>
 <span>Success! Wayfinding Updated</span>
 <br /><br />
