@@ -1,4 +1,15 @@
 <?php
+//roles hostname
+define('ROLES_MANAGEMENT_API', 'roles management hostname');
+
+//roles management app name for this web app
+define('ROLES_MANAGEMENT_APPNAME', 'roles management app name');
+
+//roles secret key
+define('ROLES_MANAGEMENT_SECRET', 'roles management secret');
+
+//Group id of the group authorized to manage the website
+define('MANAGEMENT_GROUP', 'group id authorized to manage');
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
