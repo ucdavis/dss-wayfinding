@@ -15,7 +15,7 @@ class AuthFilter extends CFilter
 		phpCAS::setDebug();
 
 		// Initialize phpCAS
-		phpCAS::client(CAS_VERSION_2_0, 'cas.ucdavis.edu', 443, 'cas');
+		phpCAS::client(CAS_VERSION_2_0, CAS_HOST, CAS_PORT, CAS_CONTEXT);
 
 		// For production use set the CA certificate that is the issuer of the cert
 		// on the CAS server and uncomment the line below

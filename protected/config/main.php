@@ -1,4 +1,9 @@
 <?php
+//cas server details
+define('CAS_HOST', 'cas.ucdavis.edu');
+define('CAS_CONTEXT', 'cas');
+define('CAS_PORT', 443);
+
 //roles hostname
 define('ROLES_MANAGEMENT_API', 'roles management hostname');
 
