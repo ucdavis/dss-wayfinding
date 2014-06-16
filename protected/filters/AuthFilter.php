@@ -11,9 +11,6 @@ class AuthFilter extends CFilter
 		require_once('CAS.php');
 		spl_autoload_register(array('YiiBase','autoload'));
 
-		// Enable debugging
-		phpCAS::setDebug();
-
 		// Initialize phpCAS
 		phpCAS::client(CAS_VERSION_2_0, CAS_HOST, CAS_PORT, CAS_CONTEXT);
 
@@ -29,6 +26,8 @@ class AuthFilter extends CFilter
 		// force CAS authentication
 		phpCAS::forceAuthentication();
 
+		//Roles Management code checks if user is in appropriate group
+		//Specified in protected/config/main.php
 		$url = "https://" . ROLES_MANAGEMENT_API . "/people/" . phpCAS::getUser() . ".json";
 
 		$httpauth = ROLES_MANAGEMENT_APPNAME . ":" . ROLES_MANAGEMENT_SECRET;
@@ -54,9 +53,10 @@ class AuthFilter extends CFilter
 		}
 
 		if (!$authorized) {
-			echo "<h1>Not Authorized to Manage</h1>";
+			echo "<h1>Not Authorized to Manage LCD Screens</h1>";
 		}
 
+		//When false, no further code will execute.
 		return $authorized;
 	}
 }

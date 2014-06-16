@@ -14,7 +14,7 @@
 <?php } ?>
 Upload CSV file with a list of room numbers under the heading "Room", and
 names in the form of Lastname, Firstname under the heading "Name".
-<form method="post" action="index.php?r=manage/updaterooms" enctype="multipart/form-data">
+<form method="post" action="index.php?r=manage/updatewayfinding" enctype="multipart/form-data">
 <label for="roomList">CSV File: </label>
 <input type="file" name="roomList" id="roomList"><br />
 <br /><input type="submit" value="Feed the beast!">

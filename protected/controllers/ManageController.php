@@ -14,13 +14,14 @@ class ManageController extends CController
     public function filters()
     {
         return array (
+            //Only cas-authenticated people in the group specified in the config
+            //can do any of this. AuthFilter enforces that.
             array('application.filters.AuthFilter')
         );
     }
 
     /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
+     * Action for batch update.
      */
     public function actionIndex()
     {
@@ -38,6 +39,19 @@ class ManageController extends CController
         );
     }
 
+    public function actionRoom()
+    {
+        $this->layout = 'manage';
+        $this->render('room',
+            array(
+                'rooms' => Room::model()->findAll('')
+            )
+        );
+    }
+
+    /**
+     * posts to this add or remove a department from the specified person.
+     */
     public function actionUpdateDept()
     {
         $id = Yii::App()->request->getPost('id');
@@ -58,6 +72,9 @@ class ManageController extends CController
         Yii::app()->end();
     }
 
+    /**
+     * Posts to this associate or disassociate a person with a room.
+     */
     public function actionUpdateRoom()
     {
         $id = Yii::App()->request->getPost('id');
@@ -78,6 +95,9 @@ class ManageController extends CController
         Yii::app()->end();
     }
 
+    /**
+     * Posts to this change a person's information.
+     */
     public function actionUpdatePerson()
     {
         $personId = Yii::App()->request->getPost('personId');
@@ -92,6 +112,7 @@ class ManageController extends CController
         } else if ($action == 'edit') {
             $p = Person::model()->findByPk($personId);
             if ($p == NULL) {
+                //Person does not exist. Create this new person.
                 $p = new Person();
             }
             $p->email = $email;
@@ -104,6 +125,10 @@ class ManageController extends CController
         Yii::app()->end();
     }
 
+    /**
+     * Brings up the edit person form. If a person is specified, the data is filled
+     * in, else, it is blank and the person is added to the database.
+     */
     public function actionPersonForm($person = NULL)
     {
         $depts = array();
@@ -149,7 +174,12 @@ class ManageController extends CController
         );
     }
 
-    public function actionUpdaterooms()
+    /**
+     * Takes the uploaded file and processes it.
+     * Stores room data, which is prerequisite for call to batchUpdate().
+     * Does some basic data cleanup.
+     */
+    public function actionUpdatewayfinding()
     {
         $success = true;
         $err = null;
@@ -170,7 +200,7 @@ class ManageController extends CController
                 }
             }
 
-            $rooms = $data['Room'];
+            // $rooms = $data['Room'];
             $data['First Name'] = array();
             $data['Last Name'] = array();
 
@@ -203,6 +233,11 @@ class ManageController extends CController
         ));
     }
 
+    /**
+     * Updates the database. Semi-destructive operation: anything with
+     * delete_on_update set to 1 is deleted. Anything that should not be
+     * deleted should be set to 0 (the default) because of this.
+     */
     public function batchUpdate($data) {
         Yii::App()->db->createCommand('PRAGMA foreign_keys = ON;')->execute();
         $transaction = Yii::App()->db->beginTransaction();
@@ -210,10 +245,8 @@ class ManageController extends CController
             //delete all previous batch-loaded db values
             //before batch-loading new values. Removed so that old values
             //don't pile up.
-            $p = new Person();
-            $r = new Room();
-            $p->deleteAll('delete_on_update=1');
-            $r->deleteAll('delete_on_update=1');
+            Person::model()->deleteAll('delete_on_update=1');
+            Room::model()->deleteAll('delete_on_update=1');
 
             //populate db tables with batch-loaded values
             //dupes are collapsed by db in most cases.

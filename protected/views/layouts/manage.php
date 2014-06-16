@@ -18,7 +18,7 @@
 <div id="header">
 <?php
 	echo CHtml::link('Batch Update', array('manage/index'), array('style' => 'margin: 10px;'));
-	echo CHtml::link('Room Management', array('manage/index'), array('style' => 'margin: 10px;'));
+	echo CHtml::link('Room Management', array('manage/room'), array('style' => 'margin: 10px;'));
 	echo CHtml::link('Person Management', array('manage/person'), array('style' => 'margin: 10px;'));
 ?>
 </div>

@@ -17,6 +17,12 @@ class Person extends CActiveRecord
 		return 'person_id';
 	}
 
+
+	/**
+	 * If $i is specified it assumes $data is a 2D matrix, with all data in a column
+	 * specifying what it is, and the ith row in each column being associated
+	 * the person being built.
+	 */
 	public function buildPerson($data, $i = NULL)
 	{
 		if ($i === NULL) {
