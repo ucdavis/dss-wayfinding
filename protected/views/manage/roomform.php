@@ -14,28 +14,28 @@
 <?php } ?>
 <form>
 <?php
-	echo CHtml::hiddenField('personId', $roomId, array('id' => 'personId'));
+	echo CHtml::hiddenField('roomId', $roomId, array('id' => 'roomId'));
 	echo CHtml::label('Wayfinding ID: ', 'wf_id');
 	echo CHtml::textField('wf_id', $wf_id, array('id' => 'wf_id', 'class' => 'blockInput', 'required' => 'required'));
 	if ($roomId !== NULL) {
 		echo CHtml::button('Update Room', array('id' => 'updateRoom'));
 		echo CHtml::button('Delete Room', array('id' => 'deleteRoom')) . '<br />';
-		echo CHtml::label('Departments: ', 'depts');
+		echo CHtml::label('Room Names (aliases as viewed by users): ', 'depts');
 		echo '<ol id="aliases"><br />';
-		foreach ($aliases as $i => $dept) {
-			echo '<li id="' . $i . '">' . $dept;
-			echo CHtml::button('remove', array('class' => 'removeDept')) . '</li>';
+		foreach ($aliases as $i => $alias) {
+			echo '<li id="alias' . $i . '">' . $alias;
+			echo CHtml::button('remove', array('class' => 'removeAlias')) . '</li>';
 		}
 		echo '<li>';
-			echo CHtml::textField('newDept', '', array('id' => 'newDept'));
-			echo CHtml::button('add', array('class' => 'addDept'));
+			echo CHtml::textField('newAlias', '', array('id' => 'newAlias'));
+			echo CHtml::button('add', array('class' => 'addAlias'));
 		echo '</li>';
 		echo '</ol>';
-		echo CHtml::label('Rooms Occupied (Wayfinding ID): ', 'rooms');
+		echo CHtml::label('Room Groups: ', 'groups');
 		echo '<ol id="groups"><br />';
 		foreach ($groups as $i => $room) {
 			echo '<li id="' . $i . '">' . $room;
-			echo CHtml::button('remove', array('class' => 'removeRoom')) . '</li>';
+			echo CHtml::button('remove', array('class' => 'removeGroup')) . '</li>';
 		}
 		echo '<li>';
 			echo CHtml::dropDownList('newGroup', '', $allGroups, array('id' => 'newGroup'));
@@ -49,43 +49,42 @@
 </form>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('ol').on('click', '.removeDept', function() {
+		$('ol').on('click', '.removeAlias', function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateDept")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoomAlias")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
+					id: $(this).parent().attr('id').replace('alias', ''),
 					action: 'delete'
 				},
 				success: function(data) {
 					data = $.parseJSON(data);
 
-					$('#' + data.id).remove();
+					$('#alias' + data.id).remove();
 				}
 			});
 		});
 
-		$('.addDept').click(function() {
+		$('.addAlias').click(function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateDept")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoomAlias")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
 					action: 'add',
-					personId: $('#personId').val(),
-					dept: $('#newDept').val()
+					roomId: $('#roomId').val(),
+					alias: $('#newAlias').val()
 				},
 				success: function(data) {
-					var id, dept;
+					var id, alias;
 					data = $.parseJSON(data);
-
+					alert('here');
 					id = data.id;
-					dept = $('#newDept').val();
-					$('#newDept').parent().before(
-						'<li id=' + id + '>' + dept
-						+ '<input type="button" class="removeDept" value="remove"></li>'
+					alias = $('#newAlias').val();
+					$('#newAlias').parent().before(
+						'<li id="alias' + id + '">' + alias
+						+ '<input type="button" class="removeAlias" value="remove"></li>'
 					);
-					$('#newDept').val('');
+					$('#newAlias').val('');
 				}
 			});
 		});
@@ -114,7 +113,7 @@
 					id: $(this).parent().attr('id'),
 					action: 'add',
 					personId: $('#personId').val(),
-					roomId: $('#newRoom').val()
+					roomId: $('#roomId').val()
 				},
 				success: function(data) {
 					var id, room;
@@ -130,13 +129,13 @@
 			});
 		});
 
-		$('#deletePerson').click(function() {
+		$('#deleteRoom').click(function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePerson")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
 				type: 'post',
 				data: {
 					action: 'delete',
-					personId: $('#personId').val()
+					roomId: $('#roomId').val()
 				},
 				success: function(data) {
 					alert("success!");
@@ -144,19 +143,17 @@
 			});
 		});
 
-		$('#updatePerson').click(function() {
+		$('#updateRoom').click(function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePerson")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
 				type: 'post',
 				data: {
 					action: 'edit',
-					personId: $('#personId').val(),
-					email: $('#email').val(),
-					firstName: $('#firstName').val(),
-					lastName: $('#lastName').val()
+					roomId: $('#roomId').val(),
+					wf_id: $('#wf_id').val(),
 				},
 				success: function(data) {
-					alert("success!");
+					alert(data);
 				}
 			});
 		});

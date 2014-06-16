@@ -73,9 +73,32 @@ class ManageController extends CController
     }
 
     /**
+     * posts to this add or remove an alias to/from a room.
+     */
+    public function actionUpdateRoomAlias()
+    {
+        $id = Yii::App()->request->getPost('id');
+        $alias = Yii::App()->request->getPost('alias');
+        $roomId = Yii::App()->request->getPost('roomId');
+        $action = Yii::App()->request->getPost('action');
+
+        if($action == 'delete') {
+            RoomAlias::model()->deleteByPk($id);
+        } else if ($action == 'add') {
+            $ra = new RoomAlias();
+            $ra->room_id = $roomId;
+            $ra->alias = $alias;
+            $ra->save();
+            $id = $ra->id;
+        }
+        echo CJavaScript::jsonEncode(array('id' => $id));
+        Yii::app()->end();
+    }
+
+    /**
      * Posts to this associate or disassociate a person with a room.
      */
-    public function actionUpdateRoom()
+    public function actionUpdatePersonRoom()
     {
         $id = Yii::App()->request->getPost('id');
         $roomId = Yii::App()->request->getPost('roomId');
@@ -122,6 +145,32 @@ class ManageController extends CController
             $personId = $p->person_id;
         }
         echo CJavaScript::jsonEncode(array('id' => $personId));
+        Yii::app()->end();
+    }
+
+    /**
+     * Posts to this change a room's information.
+     */
+    public function actionUpdateRoom()
+    {
+        $roomId = Yii::App()->request->getPost('roomId');
+        $wf_id = Yii::App()->request->getPost('wf_id');
+        $action = Yii::App()->request->getPost('action');
+
+        if ($action == 'delete') {
+            Yii::App()->db->createCommand('PRAGMA foreign_keys = ON;')->execute();
+            Room::model()->deleteByPk($roomId);
+        } else if ($action == 'edit') {
+            $r = Room::model()->findByPk($roomId);
+            if ($r == NULL) {
+                //Room does not exist. Create this new person.
+                $r = new Room();
+            }
+            $r->wf_id = $wf_id;
+            $r->save();
+            $roomId = $r->room_id;
+        }
+        echo CJavaScript::jsonEncode(array('id' => $roomId));
         Yii::app()->end();
     }
 
@@ -187,19 +236,15 @@ class ManageController extends CController
             $wf_id = $r->wf_id;
             $rg = RoomGroup::model()->findAllByAttributes(array('room_id' => $room));
             foreach ($rg as $group) {
-                $groups[] = $group->group_name;
+                $groups[$rg->id] = $group->group_name;
             }
             $ra = RoomAlias::model()->findAllByAttributes(array('room_id' => $room));
             foreach ($ra as $alias) {
-                $aliases[] = $alias->alias;
+                $aliases[$alias->id] = $alias->alias;
             }
         }
 
-        $allGroups = RoomGroup::model()->findAll();
-        foreach ($allGroups as $group) {
-            $groupList[$room->room_id] = $room->wf_id;
-        }
-
+        $groupList = RoomGroup::model()->allGroups();
 
         $this->layout = 'manage';
         $this->render('roomform',
@@ -305,7 +350,7 @@ class ManageController extends CController
                 }
                 if ($r !== NULL) {
                     $ra->room_id = $r->room_id;
-                    $ra->alias = $data['Room'][$i];
+                    $ra->alias = ltrim($data['Room'][$i], '0');
                     $ra->save();
                 }
                 if ($p !==NULL) {

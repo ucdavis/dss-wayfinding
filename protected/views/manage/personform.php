@@ -27,7 +27,7 @@
 		echo CHtml::label('Departments: ', 'depts');
 		echo '<ol id="depts"><br />';
 		foreach ($depts as $i => $dept) {
-			echo '<li id="' . $i . '">' . $dept;
+			echo '<li id="dept' . $i . '">' . $dept;
 			echo CHtml::button('remove', array('class' => 'removeDept')) . '</li>';
 		}
 		echo '<li>';
@@ -64,7 +64,7 @@
 				success: function(data) {
 					data = $.parseJSON(data);
 
-					$('#' + data.id).remove();
+					$('#dept' + data.id).remove();
 				}
 			});
 		});
@@ -74,7 +74,7 @@
 				url: '<?php echo CHtml::normalizeUrl(array("manage/updateDept")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
+					id: $(this).parent().attr('id').replace('dept', ''),
 					action: 'add',
 					personId: $('#personId').val(),
 					dept: $('#newDept').val()
@@ -86,7 +86,7 @@
 					id = data.id;
 					dept = $('#newDept').val();
 					$('#newDept').parent().before(
-						'<li id=' + id + '>' + dept
+						'<li id="dept' + id + '">' + dept
 						+ '<input type="button" class="removeDept" value="remove"></li>'
 					);
 					$('#newDept').val('');
@@ -96,7 +96,7 @@
 
 		$('ol').on('click', '.removeRoom', function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePersonRoom")); ?>',
 				type: 'post',
 				data: {
 					id: $(this).parent().attr('id'),
@@ -112,7 +112,7 @@
 
 		$('.addRoom').click(function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePersonRoom")); ?>',
 				type: 'post',
 				data: {
 					id: $(this).parent().attr('id'),
