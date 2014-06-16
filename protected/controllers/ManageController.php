@@ -174,6 +174,45 @@ class ManageController extends CController
         );
     }
 
+    public function actionRoomForm($room = NULL)
+    {
+        $aliases = array();
+        $groups = array();
+        $groupList = array();
+
+        if ($room === NULL) {
+            $wf_id ='';
+        } else {
+            $r = Room::model()->findByPk($room);
+            $wf_id = $r->wf_id;
+            $rg = RoomGroup::model()->findAllByAttributes(array('room_id' => $room));
+            foreach ($rg as $group) {
+                $groups[] = $group->group_name;
+            }
+            $ra = RoomAlias::model()->findAllByAttributes(array('room_id' => $room));
+            foreach ($ra as $alias) {
+                $aliases[] = $alias->alias;
+            }
+        }
+
+        $allGroups = RoomGroup::model()->findAll();
+        foreach ($allGroups as $group) {
+            $groupList[$room->room_id] = $room->wf_id;
+        }
+
+
+        $this->layout = 'manage';
+        $this->render('roomform',
+            array(
+                'roomId' => $room,
+                'wf_id' => $wf_id,
+                'groups' => $groups,
+                'aliases' => $aliases,
+                'allGroups' => $groupList
+            )
+        );
+    }
+
     /**
      * Takes the uploaded file and processes it.
      * Stores room data, which is prerequisite for call to batchUpdate().
