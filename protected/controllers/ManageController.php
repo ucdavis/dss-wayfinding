@@ -83,13 +83,44 @@ class ManageController extends CController
         $action = Yii::App()->request->getPost('action');
 
         if($action == 'delete') {
-            RoomAlias::model()->deleteByPk($id);
+            $ra = RoomAlias::model()->findByPk($id);
+            $roomId = $ra->room_id;
+            $ra->delete();
         } else if ($action == 'add') {
             $ra = new RoomAlias();
             $ra->room_id = $roomId;
             $ra->alias = $alias;
             $ra->save();
             $id = $ra->id;
+        }
+
+        //if r has custom alias info, don't delete r when it is updated.
+        $r = Room::model()->findByPk($roomId);
+        $r->delete_on_update = 0;
+        $r->save();
+
+        echo CJavaScript::jsonEncode(array('id' => $id));
+        Yii::app()->end();
+    }
+
+    /**
+     * posts to this add or remove a room to/from a room group.
+     */
+    public function actionUpdateRoomGroup()
+    {
+        $id = Yii::App()->request->getPost('id');
+        $group = Yii::App()->request->getPost('group');
+        $roomId = Yii::App()->request->getPost('roomId');
+        $action = Yii::App()->request->getPost('action');
+
+        if($action == 'delete') {
+            RoomGroup::model()->deleteByPk($id);
+        } else if ($action == 'add') {
+            $rg = new RoomGroup();
+            $rg->room_id = $roomId;
+            $rg->group_name = $group;
+            $rg->save();
+            $id = $rg->id;
         }
         echo CJavaScript::jsonEncode(array('id' => $id));
         Yii::app()->end();
@@ -236,7 +267,7 @@ class ManageController extends CController
             $wf_id = $r->wf_id;
             $rg = RoomGroup::model()->findAllByAttributes(array('room_id' => $room));
             foreach ($rg as $group) {
-                $groups[$rg->id] = $group->group_name;
+                $groups[$group->id] = $group->group_name;
             }
             $ra = RoomAlias::model()->findAllByAttributes(array('room_id' => $room));
             foreach ($ra as $alias) {

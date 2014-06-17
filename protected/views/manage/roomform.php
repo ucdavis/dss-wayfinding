@@ -33,13 +33,16 @@
 		echo '</ol>';
 		echo CHtml::label('Room Groups: ', 'groups');
 		echo '<ol id="groups"><br />';
-		foreach ($groups as $i => $room) {
-			echo '<li id="' . $i . '">' . $room;
+		foreach ($groups as $i => $group) {
+			echo '<li id="group' . $i . '">' . $group;
 			echo CHtml::button('remove', array('class' => 'removeGroup')) . '</li>';
 		}
 		echo '<li>';
 			echo CHtml::dropDownList('newGroup', '', $allGroups, array('id' => 'newGroup'));
-			echo CHtml::button('add', array('class' => 'addRoom'));
+			echo CHtml::button('add', array('class' => 'addGroup'));
+			echo "<br />";
+			echo CHtml::textField('createGroup', '', array('id' => 'createGroup'));
+			echo CHtml::button('create and add', array('class' => 'createGroup'));
 		echo '</li>';
 		echo '</ol>';
 	} else {
@@ -77,7 +80,7 @@
 				success: function(data) {
 					var id, alias;
 					data = $.parseJSON(data);
-					alert('here');
+
 					id = data.id;
 					alias = $('#newAlias').val();
 					$('#newAlias').parent().before(
@@ -89,42 +92,67 @@
 			});
 		});
 
-		$('ol').on('click', '.removeRoom', function() {
+		$('ol').on('click', '.removeGroup', function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoomGroup")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
+					id: $(this).parent().attr('id').replace('group', ''),
 					action: 'delete'
 				},
 				success: function(data) {
 					data = $.parseJSON(data);
 
-					$('#' + data.id).remove();
+					$('#group' + data.id).remove();
 				}
 			});
 		});
 
-		$('.addRoom').click(function() {
+		$('.addGroup').click(function() {
 			$.ajax({
-				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoom")); ?>',
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoomGroup")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
 					action: 'add',
-					personId: $('#personId').val(),
-					roomId: $('#roomId').val()
+					roomId: $('#roomId').val(),
+					group: $('#newGroup option:selected').text()
 				},
 				success: function(data) {
-					var id, room;
+					var id, group;
 					data = $.parseJSON(data);
 
 					id = data.id;
-					room = $('#newRoom option:selected').text();
-					$('#newRoom').parent().before(
-						'<li id=' + id + '>' + room
-						+ '<input type="button" class="removeRoom" value="remove"></li>'
+					group = $('#newGroup option:selected').text();
+
+					$('#newGroup').parent().before(
+						'<li id="group' + id + '">' + group
+						+ '<input type="button" class="removeGroup" value="remove"></li>'
 					);
+				}
+			});
+		});
+
+		$('.createGroup').click(function() {
+			$.ajax({
+				url: '<?php echo CHtml::normalizeUrl(array("manage/updateRoomGroup")); ?>',
+				type: 'post',
+				data: {
+					action: 'add',
+					roomId: $('#roomId').val(),
+					group: $('#createGroup').val()
+				},
+				success: function(data) {
+					var id, group;
+					data = $.parseJSON(data);
+
+					id = data.id;
+					group = $('#createGroup').val();
+
+					$('#createGroup').parent().before(
+						'<li id="group' + id + '">' + group
+						+ '<input type="button" class="removeGroup" value="remove"></li>'
+					);
+					$('#createGroup').val('');
 				}
 			});
 		});
@@ -153,7 +181,7 @@
 					wf_id: $('#wf_id').val(),
 				},
 				success: function(data) {
-					alert(data);
+					alert("success!");
 				}
 			});
 		});

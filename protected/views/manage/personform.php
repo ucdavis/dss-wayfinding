@@ -38,7 +38,7 @@
 		echo CHtml::label('Rooms Occupied (Wayfinding ID): ', 'rooms');
 		echo '<ol id="rooms"><br />';
 		foreach ($rooms as $i => $room) {
-			echo '<li id="' . $i . '">' . $room;
+			echo '<li id="room' . $i . '">' . $room;
 			echo CHtml::button('remove', array('class' => 'removeRoom')) . '</li>';
 		}
 		echo '<li>';
@@ -58,7 +58,7 @@
 				url: '<?php echo CHtml::normalizeUrl(array("manage/updateDept")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
+					id: $(this).parent().attr('id').replace('dept', ''),
 					action: 'delete'
 				},
 				success: function(data) {
@@ -74,7 +74,6 @@
 				url: '<?php echo CHtml::normalizeUrl(array("manage/updateDept")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id').replace('dept', ''),
 					action: 'add',
 					personId: $('#personId').val(),
 					dept: $('#newDept').val()
@@ -99,13 +98,13 @@
 				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePersonRoom")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
+					id: $(this).parent().attr('id').replace('room', ''),
 					action: 'delete'
 				},
 				success: function(data) {
 					data = $.parseJSON(data);
 
-					$('#' + data.id).remove();
+					$('#room' + data.id).remove();
 				}
 			});
 		});
@@ -115,7 +114,6 @@
 				url: '<?php echo CHtml::normalizeUrl(array("manage/updatePersonRoom")); ?>',
 				type: 'post',
 				data: {
-					id: $(this).parent().attr('id'),
 					action: 'add',
 					personId: $('#personId').val(),
 					roomId: $('#newRoom').val()
@@ -127,7 +125,7 @@
 					id = data.id;
 					room = $('#newRoom option:selected').text();
 					$('#newRoom').parent().before(
-						'<li id=' + id + '>' + room
+						'<li id="room' + id + '">' + room
 						+ '<input type="button" class="removeRoom" value="remove"></li>'
 					);
 				}
