@@ -6,6 +6,4 @@ $(document).ready(function() {
         $(this).parent().addClass('selected');
         $('#content').addClass('displayed')
     });
-
-    // $('#header #search-box input').autocomplete();
 });

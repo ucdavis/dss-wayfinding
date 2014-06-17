@@ -19,7 +19,7 @@ class PeopleController extends CController
     {
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
-        $this->renderPartial('people');
+        $this->actionPeople();
     }
 
     /**
@@ -38,6 +38,8 @@ class PeopleController extends CController
 
     public function actionPeople()
     {
-        $this->renderPartial('people');
+        $this->renderPartial('people', array(
+            'depts' => PersonDept::model()->getDeptList()
+        ));
     }
 }

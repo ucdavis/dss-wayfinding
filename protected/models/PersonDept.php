@@ -16,6 +16,16 @@ class PersonDept extends CActiveRecord
 	{
 		return 'id';
 	}
+
+	public function getDeptList()
+	{
+		$groups = Yii::app()->db->createCommand()
+			->selectDistinct('dept')
+			->from($this->tableName())
+			->queryColumn();
+
+		return $groups;
+	}
 }
 
 ?>

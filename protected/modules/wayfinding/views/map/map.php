@@ -51,7 +51,7 @@
 			// startpoint for routing purposes.
 			echo "'startpoint': '$startpoint', \n";
 			// endpoint for routing. If specified, the map will route on page load.
-			if (isset($endpoint)) echo "'endpoint': $endpoint, ";
+			if (isset($endpoint)) echo "'endpoint': '$endpoint', ";
 			// dataStoreCache: path to dataStoreCache
 			if (isset($dataStoreCache)) echo "'dataStoreCache': '$dataStoreCache', ";
 			//wayFound: cache has correct route data embedded.

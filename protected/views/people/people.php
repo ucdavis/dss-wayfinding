@@ -6,11 +6,11 @@ $this->pageTitle=Yii::app()->name;
 <div class="secondaryNav">
 	<div id="box">
 		<select>
-			<option>Economics</option>
-			<option>History</option>
-			<option>Philosophy</option>
-			<option>Staff</option>
-			<option selected>All People</option>
+			<?php
+			foreach($depts as $dept) {
+				echo "<option value='$dept'>$dept</option>";
+			}
+			?>
 		</select>
 		<?php
 			echo CHtml::image(Yii::App()->request->baseUrl . '/images/DownTriangle.svg',

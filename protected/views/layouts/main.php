@@ -21,6 +21,7 @@
 	<div id="search-box">
 		<input type="text">
 	</div>
+	<input type="hidden" id="startpoint" value="<?php echo $this->startpoint; ?>">
 </div>
 <div id="navigation">
 	<?php
@@ -35,7 +36,7 @@
 		echo "<div>";
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
-			array('wayfinding/map', 'startpoint'=> 'R1291'),
+			array('wayfinding/map', 'startpoint'=> $this->startpoint),
 			array('update' => '#content')
 		);
 		echo "<span><div class='navText'>Building Map</div></span>";
@@ -64,4 +65,50 @@
 <!-- page -->
 </body>
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/scripts/navigation.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#header > #search-box > input').autocomplete({
+		autoFocus: true,
+		source: [
+		<?php foreach ($this->searchterms as $term) {
+			echo '{ label: "' . $term['label']
+				. '", value: "' . $term['action'] . ':' . $term['value'] . '"},';
+		}
+		?>],
+		delay: 500,
+		select: function(event, term) {
+			event.preventDefault();
+
+			var action = term.item.value.split(':')[0],
+				value = term.item.value.split(':')[1];
+			$('#header > #search-box > input').val(term.item.label);
+
+			switch (action) {
+			case 'person':
+				break;
+			case 'route':
+				$.get(
+					'<?php echo Yii::App()->baseUrl; ?>',
+					{
+						r: 'wayfinding/map',
+						startpoint: $('#startpoint').val(),
+						endpoint: value
+					},
+					function(data) {
+						$('#content').html(data);
+					}
+				)
+				break;
+			}
+		},
+		focus: function(event, room) {
+			event.preventDefault();
+		},
+		messages: {
+			results: '',
+			noResults: 'No matches.'
+		}
+	});
+});
+</script>
 </html>
