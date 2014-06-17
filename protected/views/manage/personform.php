@@ -38,8 +38,14 @@
 		echo CHtml::label('Rooms Occupied (Wayfinding ID): ', 'rooms');
 		echo '<ol id="rooms"><br />';
 		foreach ($rooms as $i => $room) {
-			echo '<li id="room' . $i . '">' . $room;
-			echo CHtml::button('remove', array('class' => 'removeRoom')) . '</li>';
+			echo '<li id="room' . $i . '">' . $room['wf_id'];
+			echo CHtml::button('remove', array('class' => 'removeRoom'));
+			if ($room['PersonRoom']->default_room) {
+				echo "<span class='default'>Default</span>";
+			} else {
+				echo CHtml::button('Make Default', array('class' => 'makeDefault'));
+			}
+			echo '</li>';
 		}
 		echo '<li>';
 			echo CHtml::dropDownList('newRoom', '', $allRooms, array('id' => 'newRoom'));
@@ -159,6 +165,28 @@
 				},
 				success: function(data) {
 					alert("success!");
+				}
+			});
+		});
+
+		$('ol').on('click', '.makeDefault', function() {
+			$.ajax({
+				url: '<?php echo CHtml::normalizeUrl(array("manage/setDefault")); ?>',
+				type: 'post',
+				data: {
+					id: $(this).parent().attr('id').replace('room', ''),
+					personId: $('#personId').val()
+				},
+				success: function(data) {
+					data = $.parseJSON(data);
+
+					$('span.default').replaceWith(
+						'<?php echo CHtml::button(
+							'Make Default',
+							array('class' => 'makeDefault')
+						); ?>'
+					);
+					$('#room' + data.id + ' .makeDefault').replaceWith("<span class='default'>Default</span>");
 				}
 			});
 		});

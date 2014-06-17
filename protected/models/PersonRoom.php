@@ -16,6 +16,22 @@ class PersonRoom extends CActiveRecord
 	{
 		return 'id';
 	}
+
+	public function getRoutingRoom($personId)
+	{
+		$room = $this->findByAttributes(array(
+			'person_id' => $personId,
+			'default_room' => 1
+		));
+
+		if ($room !== NULL) {
+			return $room;
+		} else {
+			return $this->findByAttributes(array(
+				'person_id' => $personId
+			));
+		}
+	}
 }
 
 ?>

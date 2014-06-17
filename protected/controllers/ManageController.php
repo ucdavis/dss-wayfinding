@@ -73,6 +73,35 @@ class ManageController extends CController
     }
 
     /**
+     * posts to this set a room to be the default room that is routed to for a person.
+     */
+    public function actionSetDefault()
+    {
+        $id = Yii::App()->request->getPost('id');
+        $personId = Yii::App()->request->getPost('personId');
+
+        $prs = PersonRoom::model()->findAllByAttributes(array('person_id' => $personId));
+        try {
+            $transaction = Yii::App()->db->beginTransaction();
+            foreach($prs as $pr) {
+                if ($pr->id == $id) {
+                    $pr->default_room = 1;
+                } else {
+                    $pr->default_room = 0;
+                }
+                $pr->save();
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            var_dump($e);
+            $transaction->rollback();
+        }
+
+        echo CJavaScript::jsonEncode(array('id' => $id));
+        Yii::app()->end();
+    }
+
+    /**
      * posts to this add or remove an alias to/from a room.
      */
     public function actionUpdateRoomAlias()
@@ -228,9 +257,10 @@ class ManageController extends CController
             foreach ($p as $dept) {
                 $depts[$dept->id] = $dept->dept;
             }
-            $p = PersonRoom::model()->findAllByAttributes(array('person_id' => $person));
-            foreach ($p as $room) {
-                $rooms[$room->id] = Room::model()->findByPk($room->room_id)->wf_id;
+            $pr = PersonRoom::model()->findAllByAttributes(array('person_id' => $person));
+            foreach ($pr as $room) {
+                $rooms[$room->id]['wf_id'] = Room::model()->findByPk($room->room_id)->wf_id;
+                $rooms[$room->id]['PersonRoom'] = $room;
             }
         }
 

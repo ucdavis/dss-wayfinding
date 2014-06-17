@@ -50,3 +50,15 @@ li input[type=button] {
 	left: 30%;
 	position: absolute;
 }
+
+li input.makeDefault {
+	display:inline-block;
+	left: 40%;
+	position: absolute;
+}
+
+li span.default {
+	display:inline-block;
+	left: 40%;
+	position: absolute;
+}
