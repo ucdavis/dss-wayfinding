@@ -75,7 +75,7 @@ $(document).ready(function () {
 				. '", value: "' . $term['action'] . ':' . $term['value'] . '"},';
 		}
 		?>],
-		delay: 500,
+		delay: 10,
 		select: function(event, term) {
 			event.preventDefault();
 
@@ -99,6 +99,19 @@ $(document).ready(function () {
 					}
 				)
 				break;
+			case 'routeGroup':
+				$.get(
+					'<?php echo Yii::App()->baseUrl; ?>',
+					{
+						r: 'wayfinding/map',
+						startpoint: $('#startpoint').val(),
+						routeGroup: value
+					},
+					function(data) {
+						$('#content').html(data);
+					}
+				)
+				break;
 			}
 		},
 		focus: function(event, room) {
@@ -106,7 +119,7 @@ $(document).ready(function () {
 		},
 		messages: {
 			results: '',
-			noResults: 'No matches.'
+			noResults: ''
 		}
 	});
 });

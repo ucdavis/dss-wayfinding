@@ -23,6 +23,7 @@ class EventsController extends CController
     {
         $r = RoomAlias::model()->findAll();
         $p = Person::model()->findAll();
+        $rg = RoomGroup::model()->allGroups();
         foreach($r as $room) {
             $this->searchterms[] = array(
                 'label' => $room->alias,
@@ -39,6 +40,13 @@ class EventsController extends CController
                 'label' => $person->lastname . ', ' . $person->firstname,
                 'action' => 'person',
                 'value' => $person->person_id
+            );
+        }
+        foreach ($rg as $group) {
+            $this->searchterms[] = array(
+                'label' => $group,
+                'action' => 'routeGroup',
+                'value' => $group
             );
         }
 

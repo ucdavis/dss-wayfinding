@@ -7,12 +7,23 @@ class MapController extends Controller
 	private $dataStoreCache;
 	private $wayFound = false;
 
-	public function actionIndex($startpoint, $endpoint=null, $accessibleRoute = false)
+	public function actionIndex($startpoint, $endpoint=null, $routeGroup=null, $accessibleRoute = false)
 	{
 		$this->publishAssets();
 		$this->registerClientScripts();
 
 		$maps_base = Yii::App()->request->baseUrl . '/images/maps/';
+
+		if (isset($routeGroup)) {
+			$rg = RoomGroup::model()->findAllByAttributes(array(
+				'group_name' => $routeGroup
+			));
+
+			$routeGroup = array();
+			foreach($rg as $room) {
+				$routeGroup[] = Room::model()->findByPk($room->room_id)['wf_id'];
+			}
+		}
 
 		$this->renderPartial('map', array(
 			'maps' => Yii::App()->controller->module->maps,
@@ -27,6 +38,7 @@ class MapController extends Controller
 			'locationIndicator' => Yii::App()->controller->module->locationIndicator,
 			'dataStoreCache' => $this->getDataStorePath($startpoint),
 			'wayFound' => $this->wayFound,
+			'routeGroup' => $routeGroup
 		),
 		false,
 		true

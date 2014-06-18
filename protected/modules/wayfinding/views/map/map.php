@@ -110,4 +110,31 @@
 		$('#floorPicker').show();
 		$('#wfAccessibility img, #wfAccessibility a').show();
 	});
+
+	<?php if (isset($routeGroup)) { ?>
+		$('#myMaps').on('wfMapsVisible', function () {
+			var endpoints = [<?php
+			foreach ($routeGroup as $endpoint) {
+				echo "'$endpoint',";
+			}
+			?>];
+			var min_dist, end, i, routes = $('#myMaps').wayfinding(
+				'getRoutes',
+				endpoints
+			);
+
+			min_dist = Infinity;
+			end = null;
+			for (i = 0; i < routes.length; i++) {
+				if (routes[i].distance < min_dist) {
+					min_dist = routes[i].distance;
+					end = routes[i].endpoint;
+				}
+			}
+
+			setTimeout(function() {
+				$('#myMaps').wayfinding('routeTo', end)
+			}, 1000);
+		});
+	<?php } ?>
 </script>
