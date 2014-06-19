@@ -7,7 +7,11 @@ class MapController extends Controller
 	private $dataStoreCache;
 	private $wayFound = false;
 
-	public function actionIndex($startpoint, $endpoint=null, $routeGroup=null, $accessibleRoute = false)
+	public function actionIndex($startpoint,
+	$endpoint=null,
+	$routeGroup=null,
+	$mobile = false,
+	$accessibleRoute = false)
 	{
 		$this->publishAssets();
 		$this->registerClientScripts();
@@ -38,7 +42,8 @@ class MapController extends Controller
 			'locationIndicator' => Yii::App()->controller->module->locationIndicator,
 			'dataStoreCache' => $this->getDataStorePath($startpoint),
 			'wayFound' => $this->wayFound,
-			'routeGroup' => $routeGroup
+			'routeGroup' => $routeGroup,
+			'mobile' => $mobile
 		),
 		false,
 		true

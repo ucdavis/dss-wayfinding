@@ -7,7 +7,8 @@ $(document).ready(function () {
 		'<?php echo Yii::App()->baseUrl?>',
 		{
 			r: 'wayfinding/map',
-			startpoint: $('#startpoint').val()
+			startpoint: $('#startpoint').val(),
+			mobile: true
 		},
 		function(data) {
 			$('#maps').html(data);

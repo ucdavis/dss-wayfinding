@@ -17,7 +17,7 @@
 <body>
 <div id="header">
 	<div id="search-box">
-		<input type="text">
+		<input type="text" placeholder="Search People and Places...">
 	</div>
 	<input type="hidden" id="startpoint" value="<?php echo $this->startpoint; ?>">
 </div>
@@ -45,36 +45,8 @@ $(document).ready(function () {
 			$('#header > #search-box > input').val(term.item.label);
 
 			switch (action) {
-			case 'person':
-				$.get(
-					'<?php echo Yii::App()->baseUrl; ?>',
-					{
-						r: 'people/person',
-						personId: value
-					},
-					function(data) {
-						$('#navigation').find('*').addBack()
-						.removeClass('selected');
-						$('#people').parent().addClass('selected');
-						$('#content').html(data);
-					}
-				);
-				break;
 			case 'route':
-				$.get(
-					'<?php echo Yii::App()->baseUrl; ?>',
-					{
-						r: 'wayfinding/map',
-						startpoint: $('#startpoint').val(),
-						endpoint: value
-					},
-					function(data) {
-						$('#navigation').find('*').addBack()
-						.removeClass('selected');
-						$('#map').parent().addClass('selected');
-						$('#content').html(data);
-					}
-				);
+				$('#myMaps').wayfinding('routeTo', value);
 				break;
 			case 'routeGroup':
 				$.get(
@@ -85,9 +57,6 @@ $(document).ready(function () {
 						routeGroup: value
 					},
 					function(data) {
-						$('#navigation').find('*').addBack()
-						.removeClass('selected');
-						$('#map').parent().addClass('selected');
 						$('#content').html(data);
 					}
 				);

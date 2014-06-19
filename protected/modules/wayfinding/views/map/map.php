@@ -30,7 +30,7 @@
 	</div>
 </div>
 <div id="wfAccessibility">
-	<a style='display: none'>
+	<a style='display: none' <?php if ($mobile) { echo "class='mobile'"; }?>>
 	<?php
 		echo CHtml::image(Yii::App()->request->baseUrl . '/images/accessibility.svg',
 			'Accessible Route', array('style' => 'display: none'));
@@ -82,8 +82,6 @@
 			echo "'accessibleRoute': " . ($accessibleRoute ? 'true' : 'false') . ", ";
 			// Always true. Used by scripts to update control highlighting.
 			echo "'mapEvents': true";
-			// $cont = ob_get_contents();
-			// ob_end_clean();
 		?>
 	});
 
