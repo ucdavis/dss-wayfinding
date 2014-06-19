@@ -388,8 +388,10 @@ class ManageController extends CController
         foreach ($dirIterator as $file) {
             if (preg_match('/.sql$/', $file->getFileName())) {
                 $sql = file_get_contents($file->getPath() . '/' . $file->getFileName());
-                $pdo = Yii::App()->db->getPdoInstance();
-                $pdo->exec($sql);
+                if ($sql != '') {
+                    $pdo = Yii::App()->db->getPdoInstance();
+                    $pdo->exec($sql);
+                }
             }
         }
     }
