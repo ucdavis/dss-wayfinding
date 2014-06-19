@@ -140,6 +140,19 @@
 	color: inherit;
 }
 
+#content input[type='button'] {
+	background: #EEE; /* Old browsers */
+	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+	border-radius: 10px;
+	border: 5px solid #008EAA;
+	padding: 10px;
+	font-size: large;
+}
+
+#content input[type='button']:active {
+	border: 5px solid #BA0C2F;
+}
+
 #navigation {
 	position: absolute;
 	width: 12.5%;
@@ -240,4 +253,21 @@ html, body {
 
 .ui-helper-hidden-accessible {
 	display: none;
+}
+
+#content > div.card {
+	cursor: pointer;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 10px;
+	width: 45%;
+	height: 35px;
+	float: left;
+	display: block;
+	border: solid thin #777;
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
 }

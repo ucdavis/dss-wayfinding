@@ -29,7 +29,8 @@
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/people.svg'),
 			array('people/index'),
-			array('update' => '#content')
+			array('update' => '#content'),
+			array('id'=>'people')
 		);
 		echo "<span><div class='navText'>People</div></span>";
 		echo "</div>";
@@ -37,7 +38,8 @@
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/map.svg'),
 			array('wayfinding/map', 'startpoint'=> $this->startpoint),
-			array('update' => '#content')
+			array('update' => '#content'),
+			array('id'=>'map')
 		);
 		echo "<span><div class='navText'>Building Map</div></span>";
 		echo "</div>";
@@ -45,7 +47,8 @@
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/calendar.svg'),
 			array('events/index'),
-			array('update' => '#content')
+			array('update' => '#content'),
+			array('id'=>'events')
 		);
 		echo "<span><div class='navText'>Events</div></span>";
 		echo "</div>";
@@ -53,7 +56,8 @@
 		echo CHtml::ajaxLink(
 			CHtml::image(Yii::App()->request->baseUrl . '/images/info.svg'),
 			array('index/about'),
-			array('update' => '#content')
+			array('update' => '#content'),
+			array('id'=>'about')
 		);
 		echo "<span><div class='navText'>About Building</div></span>";
 		echo "</div>";
@@ -85,6 +89,19 @@ $(document).ready(function () {
 
 			switch (action) {
 			case 'person':
+				$.get(
+					'<?php echo Yii::App()->baseUrl; ?>',
+					{
+						r: 'people/person',
+						personId: value
+					},
+					function(data) {
+						$('#navigation').find('*').addBack()
+						.removeClass('selected');
+						$('#people').parent().addClass('selected');
+						$('#content').html(data);
+					}
+				);
 				break;
 			case 'route':
 				$.get(
@@ -95,9 +112,12 @@ $(document).ready(function () {
 						endpoint: value
 					},
 					function(data) {
+						$('#navigation').find('*').addBack()
+						.removeClass('selected');
+						$('#map').parent().addClass('selected');
 						$('#content').html(data);
 					}
-				)
+				);
 				break;
 			case 'routeGroup':
 				$.get(
@@ -108,9 +128,12 @@ $(document).ready(function () {
 						routeGroup: value
 					},
 					function(data) {
+						$('#navigation').find('*').addBack()
+						.removeClass('selected');
+						$('#map').parent().addClass('selected');
 						$('#content').html(data);
 					}
-				)
+				);
 				break;
 			}
 		},
