@@ -379,12 +379,30 @@ class ManageController extends CController
     }
 
     /**
+     * Function takes a directory path and executes all .sql files in that
+     * directory.
+     */
+    public function executeSqlInDir($directory)
+    {
+        $dirIterator = new DirectoryIterator($directory);
+        foreach ($dirIterator as $file) {
+            if (preg_match('/.sql$/', $file->getFileName())) {
+                $sql = file_get_contents($file->getPath() . '/' . $file->getFileName());
+                $pdo = Yii::App()->db->getPdoInstance();
+                $pdo->exec($sql);
+            }
+        }
+    }
+
+    /**
      * Updates the database. Semi-destructive operation: anything with
      * delete_on_update set to 1 is deleted. Anything that should not be
      * deleted should be set to 0 (the default) because of this.
      */
     public function batchUpdate($data) {
         Yii::App()->db->createCommand('PRAGMA foreign_keys = ON;')->execute();
+        $this->executeSqlInDir(YiiBase::getPathOfAlias('application') .
+            '/models/preUpdate');
         $transaction = Yii::App()->db->beginTransaction();
         try {
             //delete all previous batch-loaded db values
@@ -420,8 +438,9 @@ class ManageController extends CController
                     $pd->save();
                 }
             }
-
             $transaction->commit();
+            $this->executeSqlInDir(YiiBase::getPathOfAlias('application') .
+                '/models/postUpdate');
         } catch (Exception $e) {
             var_dump($e);
             $transaction->rollback();
