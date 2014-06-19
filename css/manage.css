@@ -1,0 +1,64 @@
+#personSearch {
+	width: 20%;
+}
+
+.ui-autocomplete {
+	list-style: none;
+	width: 20%;
+	margin: 0px;
+	padding: 0px;
+	border: solid thin #AAA;
+	background: white;
+}
+
+.ui-menu-item {
+	text-align: center;
+}
+
+.ui-menu-item > a {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: block;
+}
+
+.ui-state-focus {
+	background: blue;
+	color: white;
+	width: 100%;
+	height: 100%;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
+}
+
+form label {
+	width: 30%;
+	float: left;
+}
+
+.blockInput {
+	display: block;
+}
+
+li {
+	left: 0%;
+}
+
+li input[type=button] {
+	display:inline-block;
+	left: 30%;
+	position: absolute;
+}
+
+li input.makeDefault {
+	display:inline-block;
+	left: 40%;
+	position: absolute;
+}
+
+li span.default {
+	display:inline-block;
+	left: 40%;
+	position: absolute;
+}

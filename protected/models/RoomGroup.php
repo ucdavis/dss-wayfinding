@@ -16,6 +16,16 @@ class RoomGroup extends CActiveRecord
 	{
 		return 'id';
 	}
+
+	public function allGroups()
+	{
+		$groups = Yii::app()->db->createCommand()
+			->selectDistinct('group_name')
+			->from($this->tableName())
+			->queryColumn();
+
+		return $groups;
+	}
 }
 
 ?>

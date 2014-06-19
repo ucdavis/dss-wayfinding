@@ -1,78 +1,52 @@
 #header {
 	position: absolute;
-	height: 10%;
+	height: 5%;
 	top: 0;
 	left: 0;
 	width: 100%;
 	background: white;
-	border-bottom: solid #DAAA00;
 	z-index: 9;
-}
-
-#header > #logo {
-	position: absolute;
-	height: 80%;
-	top: 10%;
 }
 
 #header > #search-box {
 	position: absolute;
-	right: 2.5%;
-	width: 22.5%;
-	height: 100%;
+	left: 2.5%;
+	width: 95%;
+	top: 10%;
+	height: 80%;
 }
 
 #header > #search-box > input {
 	width: 100%;
+	top: 10%;
 	vertical-align: center;
 }
 
 .secondaryNav {
 	position: fixed;
-	top: 1%;
-	height: 8%;
-	left: 30%;
-	width: 40%;
+	bottom: 1%;
+	height: 5%;
+	left: 2.5%;
+	width: 95%;
 }
 
 .secondaryNav #box {
-	border: 5px solid #008EAA;
-	border-radius: 5px;
 	display: inline-block;
 	position: absolute;
-	height: 80%;
 	width: 90%;
 	left: 5%;
-	background: #EEE;
 }
 
 .secondaryNav select {
 	position: absolute;
 	width: 100%;
-	border: none;
 	left: 0%;
-	text-align: center;
-	font-family: futura;
-	font-size: 2em;
 	height: 100%;
-	padding-left: 10px;
-	background: transparent;
-	-webkit-appearance: none;
-	-moz-appearance: window;
-	-ms-appearance: none;
-	-o-appearance: none;
-	appearance: none;
 	z-index: 10;
 }
 
 .secondaryNav #dropdown-button {
-	position: absolute;
-	background: transparent; /* Old browsers */
-	border-left: thin solid #111;
-	right: 0%;
-	top: 1%;
-	height: 100%;
-	z-index: 9;
+	display: none;
 }
 
 #content .secondaryNav h1 {
@@ -88,18 +62,13 @@
 
 #content {
 	position: absolute;
-	top: 11%;
-	left: 12.5%;
-	width: 87.5%;
-	bottom: 0%;
+	top: 6%;
+	left: 0%;
+	width: 100%;
+	bottom: 6%;
 	overflow: auto;
 	z-index: 10;
 	transition: all .2s;
-}
-
-#content > * {
-	margin-left: 2.5%;
-	margin-right: 2.5%;
 }
 
 #content h1 {

@@ -1,6 +1,6 @@
 <?php
 
-class EventsController extends CController
+class MobileController extends CController
 {
     //variable is used in the layout to initialize the autocomplete search.
     public $searchterms = array();
@@ -36,10 +36,12 @@ class EventsController extends CController
             );
         }
         foreach ($p as $person) {
+            $routingRoom = PersonRoom::model()->getRoutingRoom($person->person_id);
+            $routingRoom = Room::model()->findByPk($routingRoom->room_id);
             $this->searchterms[] = array(
                 'label' => $person->lastname . ', ' . $person->firstname,
-                'action' => 'person',
-                'value' => $person->person_id
+                'action' => 'route',
+                'value' => $routingRoom->wf_id
             );
         }
         foreach ($rg as $group) {
@@ -55,11 +57,8 @@ class EventsController extends CController
             $this->startpoint = DEFAULT_STARTPOINT;
         }
 
-        if (Yii::App()->request->isAjaxRequest){
-            $this->renderPartial('events', array(), false, true);
-        } else {
-            $this->render('events');
-        }
+        $this->layout = 'mobile';
+        $this->render('map');
     }
 
     /**

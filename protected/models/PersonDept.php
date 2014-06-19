@@ -16,6 +16,29 @@ class PersonDept extends CActiveRecord
 	{
 		return 'id';
 	}
+
+	//returns all depts that have members.
+	public function getDeptList()
+	{
+		$depts = Yii::app()->db->createCommand()
+			->selectDistinct('dept')
+			->from($this->tableName())
+			->queryColumn();
+
+		return $depts;
+	}
+
+	//gets depts that a specific person is a member of.
+	public function getDepts($personId)
+	{
+		$depts = Yii::app()->db->createCommand()
+			->selectDistinct('dept')
+			->from($this->tableName())
+			->where('person_id=:pid', array(':pid' => $personId))
+			->queryColumn();
+
+		return $depts;
+	}
 }
 
 ?>

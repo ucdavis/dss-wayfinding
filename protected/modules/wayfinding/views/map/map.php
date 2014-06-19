@@ -30,7 +30,7 @@
 	</div>
 </div>
 <div id="wfAccessibility">
-	<a style='display: none'>
+	<a style='display: none' <?php if ($mobile) { echo "class='mobile'"; }?>>
 	<?php
 		echo CHtml::image(Yii::App()->request->baseUrl . '/images/accessibility.svg',
 			'Accessible Route', array('style' => 'display: none'));
@@ -51,7 +51,7 @@
 			// startpoint for routing purposes.
 			echo "'startpoint': '$startpoint', \n";
 			// endpoint for routing. If specified, the map will route on page load.
-			if (isset($endpoint)) echo "'endpoint': $endpoint, ";
+			if (isset($endpoint)) echo "'endpoint': '$endpoint', ";
 			// dataStoreCache: path to dataStoreCache
 			if (isset($dataStoreCache)) echo "'dataStoreCache': '$dataStoreCache', ";
 			//wayFound: cache has correct route data embedded.
@@ -82,8 +82,6 @@
 			echo "'accessibleRoute': " . ($accessibleRoute ? 'true' : 'false') . ", ";
 			// Always true. Used by scripts to update control highlighting.
 			echo "'mapEvents': true";
-			// $cont = ob_get_contents();
-			// ob_end_clean();
 		?>
 	});
 
@@ -110,4 +108,31 @@
 		$('#floorPicker').show();
 		$('#wfAccessibility img, #wfAccessibility a').show();
 	});
+
+	<?php if (isset($routeGroup)) { ?>
+		$('#myMaps').on('wfMapsVisible', function () {
+			var endpoints = [<?php
+			foreach ($routeGroup as $endpoint) {
+				echo "'$endpoint',";
+			}
+			?>];
+			var min_dist, end, i, routes = $('#myMaps').wayfinding(
+				'getRoutes',
+				endpoints
+			);
+
+			min_dist = Infinity;
+			end = null;
+			for (i = 0; i < routes.length; i++) {
+				if (routes[i].distance < min_dist) {
+					min_dist = routes[i].distance;
+					end = routes[i].endpoint;
+				}
+			}
+
+			setTimeout(function() {
+				$('#myMaps').wayfinding('routeTo', end)
+			}, 1000);
+		});
+	<?php } ?>
 </script>
