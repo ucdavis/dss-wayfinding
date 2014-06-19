@@ -16,6 +16,9 @@ define('ROLES_MANAGEMENT_SECRET', 'roles management secret');
 //Group id of the group authorized to manage the website
 define('MANAGEMENT_GROUP', 'group id authorized to manage');
 
+//Default Startpoint if one is not set in the GET parameters
+define('DEFAULT_STARTPOINT', 'R1291');
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
