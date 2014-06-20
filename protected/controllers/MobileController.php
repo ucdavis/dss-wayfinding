@@ -37,12 +37,14 @@ class MobileController extends CController
         }
         foreach ($p as $person) {
             $routingRoom = PersonRoom::model()->getRoutingRoom($person->person_id);
-            $routingRoom = Room::model()->findByPk($routingRoom->room_id);
-            $this->searchterms[] = array(
-                'label' => $person->lastname . ', ' . $person->firstname,
-                'action' => 'route',
-                'value' => $routingRoom->wf_id
-            );
+            if ($routingRoom != null) {
+                $routingRoom = Room::model()->findByPk($routingRoom->room_id);
+                $this->searchterms[] = array(
+                    'label' => $person->lastname . ', ' . $person->firstname,
+                    'action' => 'route',
+                    'value' => $routingRoom->wf_id
+                );
+            }
         }
         foreach ($rg as $group) {
             $this->searchterms[] = array(
