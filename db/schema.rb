@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626204200) do
+ActiveRecord::Schema.define(version: 20140627202642) do
 
   create_table "directory_objects", force: true do |t|
     t.datetime "created_at"
@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(version: 20140626204200) do
     t.string   "last"
     t.string   "email"
     t.string   "phone"
+    t.string   "name"
+    t.string   "room_number"
+    t.boolean  "is_bathroom", default: false
   end
 
   create_table "floors", force: true do |t|
@@ -32,13 +35,9 @@ ActiveRecord::Schema.define(version: 20140626204200) do
     t.datetime "updated_at"
   end
 
-  create_table "rooms", force: true do |t|
-    t.string   "name"
-    t.string   "room_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "department_id"
-    t.boolean  "is_bathroom",   default: false
+  create_table "person_room_join_requirements", force: true do |t|
+    t.integer "person_id"
+    t.integer "room_id"
   end
 
   create_table "users", force: true do |t|

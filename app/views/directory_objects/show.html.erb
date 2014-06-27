@@ -1,0 +1,46 @@
+<% content_for :javascript do %>
+  <%= javascript_include_tag "jquery.wayfinding" %>
+<% end %>
+
+<script type="text/javascript">
+  console.log("DirectoryObject#show content_for firing.");
+
+  ready = function() {
+    console.log("DirectoryObject#show content_for page:load firing.");
+
+    $(document).on("wayfinding:ready", function() {
+      console.log("wayfinding is now ready");
+      $('#map').wayfinding('routeTo', 'R1182'); // R1131 can come from ID
+    });
+
+    $('#map').wayfinding({
+      'maps': [
+        {'path': '<%= asset_path "ssh_floor_0.svg" %>', 'id': 'floor0'},
+        {'path': '<%= asset_path "ssh_floor_1.svg" %>', 'id': 'floor1'},
+        {'path': '<%= asset_path "ssh_floor_2.svg" %>', 'id': 'floor2'},
+        {'path': '<%= asset_path "ssh_floor_3.svg" %>', 'id': 'floor3'},
+        {'path': '<%= asset_path "ssh_floor_4.svg" %>', 'id': 'floor4'},
+        {'path': '<%= asset_path "ssh_floor_5.svg" %>', 'id': 'floor5'}
+      ],
+      'dataStoreCache': '<%= asset_path "datastore.json" %>',
+      'path': {
+        width: 3,
+        color: 'cyan',
+        radius: 8,
+        speed: 8
+      },
+      'startpoint': function () {
+        return 'R1152';
+      },
+      'defaultMap': 'floor1'
+    });
+  };
+
+  $(document).ready(ready);
+
+  $(document).on("page:load", ready);
+
+</script>
+
+<div id="mapLoading">Loading</div>
+<div id="map"></div>

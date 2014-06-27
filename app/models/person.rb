@@ -3,4 +3,6 @@ class Person < DirectoryObject
   validates :last, uniqueness: false, presence: true
   validates :email, uniqueness: true, presence: true
   validates :phone, uniqueness: true, presence: false
+
+  has_and_belongs_to_many :rooms
 end

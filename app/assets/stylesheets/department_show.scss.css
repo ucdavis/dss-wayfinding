@@ -1,0 +1,19 @@
+div#map {
+	height: 480px;
+	padding-left: 175px;
+	width: 785px;
+}
+
+div#map div {
+	display: inline-block;
+	height: 480px;
+	width: 600px;
+}
+
+div#mapLoading {
+	font-size: 10em;
+	left: 50px;
+	position: absolute;
+	top: 60px;
+	z-index: -1;
+}
