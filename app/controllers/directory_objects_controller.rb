@@ -19,11 +19,11 @@ class DirectoryObjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_directory_object
-    @directory_object = DirectoryObject.find(params[:id])
+#    @directory_object = DirectoryObject.find(directory_object_params)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  #def directory_object_params
-  #  params.require(:directory_object).permit(:title, :entry)
-  #end
+  def directory_object_params
+#    params.require(:directory_object).permit(:title, :entry)
+  end
 end

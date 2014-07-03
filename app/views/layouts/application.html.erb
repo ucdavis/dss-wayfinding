@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
     <div id="site-container" class="row">
-      <div id="left-nav"class="col-xs-1">
+      <div id="left-nav"class="col-xs-2">
         <div class="left-nav-link">
         <button type="button" class="btn btn-home btn-xl">Home</button>
         </div>
@@ -27,15 +27,11 @@
         <button type="button" class="btn btn-rooms btn-xl">Rooms</button>
         </div>
         <div class="left-nav-link">
-        <button type="button" class="btn btn-search btn-xl">Search</button>
-
-        </div>
-        <div class="left-nav-link">
         <button type="button" class="btn btn-map btn-xl">Map</button>
 
         </div>
       </div>
-      <div id="main-view" class="col-xs-11">
+      <div id="main-view" class="col-xs-10">
       <%= yield %>
       <%= yield :javascript %>
       </div>

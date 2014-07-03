@@ -54,7 +54,8 @@ div#destination-view span {
   height: 100%;
 }
 .left-nav-link {
-  height: 14%;
+  height: 16%;
+  width: 90%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.1;
   text-align: center;
@@ -135,8 +136,9 @@ h1#directory-title {
 
 div.people-card {
   border: solid #E6A65D 4px;
-  color: #333;
-  background-color: #FFF8DC;
+  color: #FFF;
+  background-color: #E6A65D;
+  text-shadow: 0 0 2px #000;
 }
 
 div.people-card h1.panel-heading
@@ -145,6 +147,7 @@ div.people-card h1.panel-heading
   font-style: bold;
   font-size: 4rem;
   background-color: white;
+  text-shadow: none;
 }
 
 table#landing-buttons {
