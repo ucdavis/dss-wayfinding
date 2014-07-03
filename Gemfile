@@ -16,6 +16,10 @@ gem 'coffee-rails', '~> 4.0.0'
 
 gem 'turbolinks'
 
+# RSS feed parser
+gem 'feedjira'
+
+gem 'whenever'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
