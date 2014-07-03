@@ -32,7 +32,6 @@ div#destination-view {
   line-height: 1.1;
   height: 100%;
   text-align: center;
-
 }
 div#destination-view h1 {
   font-size: 4.5rem;
@@ -51,7 +50,6 @@ div#destination-view span {
   font-weight: bold;
 }
 
-
 #left-nav {
   height: 100%;
 }
@@ -62,13 +60,7 @@ div#destination-view span {
   text-align: center;
 }
 
-
-
-body, html, div {
-  height: 100%;
-}
-
-#main-view {
+body, html, div, #main-view {
   height: 100%;
 }
 
@@ -101,3 +93,39 @@ body, html, div {
 .btn-map {
   background-color: #00573F;
 }
+
+h1#directory-title {
+  text-align: center;
+  font-size: 5rem;
+  color: gray;
+}
+
+.directory-card {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.1;
+  height: 26%;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+.directory-card table {
+  height: 50%;
+  width: 100%;
+  text-align: left;
+}
+
+div.people-card {
+  border-color: #E6A65D;
+  border: solid #E6A65D 4px;
+  color: #333;
+  background-color: #FFF8DC;
+}
+
+div.people-card h1.panel-heading
+{
+  color: #333;
+  font-style: bold;
+  font-size: 4rem;
+  background-color: white;
+}
+\
