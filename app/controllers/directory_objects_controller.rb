@@ -11,6 +11,9 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects/1.json
   def show
   end
+  
+  def landing
+  end
 
   private
 
