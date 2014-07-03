@@ -1,9 +1,9 @@
 div#map {
 	height: 480px;
-	padding-left: 175px;
 	width: 785px;
 }
 
+/* may be unnecessary now */
 div#map div {
 	display: inline-block;
 	height: 480px;
@@ -16,4 +16,88 @@ div#mapLoading {
 	position: absolute;
 	top: 60px;
 	z-index: -1;
+}
+
+div#map svg {
+  position: absolute;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
+/* map target information pane */
+div#destination-view {
+  margin-right: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.1;
+  height: 100%;
+  text-align: center;
+
+}
+div#destination-view h1 {
+  font-size: 4.5rem;
+  color: gray;
+}
+
+
+div#destination-view h2 {
+  font-size: 3rem;
+  color: gray;
+}
+
+div#destination-view span {
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+
+#left-nav {
+  height: 100%;
+}
+.left-nav-link {
+  height: 14%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.1;
+  text-align: center;
+}
+
+
+
+body, html, div {
+  height: 100%;
+}
+
+#main-view {
+  height: 100%;
+}
+
+.btn-xl{
+  height: 95%;
+  width: 95%;
+  font-size: 3rem;
+  border-radius: 8px;
+  color: white;
+}
+
+.btn-home {
+  background-color: #C26E60;
+}
+.btn-people {
+  background-color: #E6A65D;
+}
+.btn-events {
+  background-color: #ACA39A;
+}
+.btn-rooms {
+  background-color: #5B7F95;
+}
+.btn-departments {
+  background-color: #B1B3B3;
+}
+.btn-search {
+  background-color: #9CAF88;
+}
+.btn-map {
+  background-color: #00573F;
 }

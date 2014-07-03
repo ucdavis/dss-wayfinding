@@ -8,9 +8,39 @@
 </head>
 <body>
 
-<%= yield %>
+<div class="container-fluid">
+    <div id="site-container" class="row">
+      <div id="left-nav"class="col-xs-1">
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-home btn-xl">Home</button>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-people btn-xl">People</button>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-departments btn-xl">Dept.</button>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-events btn-xl">Events</button>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-rooms btn-xl">Rooms</button>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-search btn-xl">Search</button>
 
-<%= yield :javascript %>
+        </div>
+        <div class="left-nav-link">
+        <button type="button" class="btn btn-map btn-xl">Map</button>
+
+        </div>
+      </div>
+      <div id="main-view" class="col-xs-11">
+      <%= yield %>
+      <%= yield :javascript %>
+      </div>
+    </div> <!-- row -->
+</div> <!-- container-fluid -->
 
 </body>
 </html>
