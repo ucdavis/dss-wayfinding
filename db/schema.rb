@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707170015) do
+ActiveRecord::Schema.define(version: 20140708065531) do
 
   create_table "directory_objects", force: true do |t|
     t.datetime "created_at"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140707170015) do
     t.boolean  "is_bathroom", default: false
     t.string   "rss_feed"
     t.string   "type"
+    t.integer  "room_id"
   end
 
   create_table "floors", force: true do |t|
