@@ -68,16 +68,19 @@ body, html, div, #main-view {
 .btn-xl{
   height: 95%;
   width: 95%;
-  font-size: 3rem;
-  border-radius: 8px;
+  font-size: 4rem;
+  border-radius: 32px;
   color: white;
 }
 
 .btn-landing {
-    height: 30%;
-    width: 21%;
-    margin-top: 20%;
-    margin-right: 2%;
+  height: 30%;
+  width: 19%;
+  font-size: 4.5rem;
+  margin-top: 20%;
+  margin-right: 2%;
+  border-radius: 64px;
+  color: white;
 }
 
 .btn-home {
@@ -190,41 +193,22 @@ body {
   background: #fdf6e3;
 }
 
-/* experiment with hover search */
-* {
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-
-body {
-  background: #fdf6e3;
-}
-
-.main-view {
-  display: block;
-  width: 25em;
-  margin: 100px auto;
-}
+/* Search interface styling below */
 
 .search-container {
   overflow: hidden;
   float: right;
-  height: 4em;
-  width: 4em;
-  border-radius: 2em;
-  box-shadow: 0 0 5px #6a5d4f;
+  height: 7em;
+  width: 7em;
   -moz-transition: all 0.35s;
   -webkit-transition: all 0.35s;
 }
 .search-container:hover {
-  width: 25em;
-  border-radius: 5px 2em 2em 5px;
+  width: 40em;
 }
 .search-container:hover input {
   display: inline-block;
-  width: 19em;
-  padding: 10px;
+  width: 29em;
 }
 
 .search-container input {
@@ -255,8 +239,8 @@ body {
 
 .search-container button {
   float: right;
-  width: 1.75em;
-  height: 1.75em;
+  width: 2.75em;
+  height: 2.75em;
   margin: 0.125em;
   background: #6a5d4f;
   text-align: center;
@@ -268,8 +252,4 @@ body {
 }
 .search-container button i {
   margin-top: 0.3em;
-}
-.search-container button:active {
-  border: 0 !important;
-  text-shadow: 0 0 0;
 }
