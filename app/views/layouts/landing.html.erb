@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DssWayfinding</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div id="site-container" class="row">
+      <div id="left-nav"class="col-xs-2">
+        <div class="left-nav-link">
+        </div>
+      </div>
+      <div id="main-view" class="col-xs-10">
+        <button type="button" class="btn-search">Search</button>
+        <%= yield %>
+        <%= yield :javascript %>
+      </div>
+    </div> <!-- row -->
+</div> <!-- container-fluid -->
+
+</body>
+</html>

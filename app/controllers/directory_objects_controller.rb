@@ -4,12 +4,13 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects
   # GET /directory_objects.json
   def index
-    @directory_objects = DirectoryObject.people.all
+    @directory_objects = DirectoryObject.all
   end
 
   # GET /directory_objects/1
   # GET /directory_objects/1.json
   def show
+    @directory_object = DirectoryObject.find()
   end
   
   def landing
@@ -34,11 +35,11 @@ class DirectoryObjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_directory_object
-#    @directory_object = DirectoryObject.find(directory_object_params)
+    @directory_object = DirectoryObject.find(params[:id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def directory_object_params
-#    params.require(:directory_object).permit(:title, :entry)
+    params.require(:directory_object).permit(:title, :time, :link, :first, :last, :email, :phone, :name, :room_number, :is_bathroom, :rss_feed, :type, :room_id)
   end
 end

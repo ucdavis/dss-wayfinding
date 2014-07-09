@@ -73,23 +73,11 @@ body, html, div, #main-view {
   color: white;
 }
 
-.btn-circle {
-  width: 350px;
-  height: 350px;
-  text-align: center;
-  font-size: 4rem;
-  padding: 120px 0;
-  line-height: 1.42;
-  border-radius: 175px;
-  color: white;
-  background-color: red;
-}
-
-.btn-circle-people {
-  border: solid #E6A65D 4px;
-  color: gray;
-  background-color: #FFF8DC;
-
+.btn-landing {
+    height: 30%;
+    width: 21%;
+    margin-top: 20%;
+    margin-right: 2%;
 }
 
 .btn-home {
@@ -107,23 +95,47 @@ body, html, div, #main-view {
 .btn-departments {
   background-color: #B1B3B3;
 }
+
 .btn-search {
-  background-color: #9CAF88;
+  background-color: #0099FF;
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  height: 10%;
+  width: 10%;
+  font-size: 3rem;
+  border-radius: 8px;
+  color: white;
 }
+
 .btn-map {
   background-color: #00573F;
 }
 
+#directory-banner {
+  height: 7%;
+}
+
 h1#directory-title {
   text-align: center;
+  position: relative;
   font-size: 5rem;
   color: gray;
+  top: 40px;
+}
+
+.directory-list {
+  padding-top: 4%;
+  width: 100%;
+  height: 90%;
 }
 
 .directory-card {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.1;
   height: 26%;
+  display: inline-block;
+  width: 31%;
   text-align: center;
   font-size: 2.5rem;
 }
@@ -141,6 +153,18 @@ div.people-card {
   text-shadow: 0 0 2px #000;
 }
 
+.card-content {
+  text-align: center;
+  line-height: 27px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-left: 7px;
+}
+
 div.people-card h1.panel-heading
 {
   color: #333;
@@ -154,3 +178,7 @@ table#landing-buttons {
   margin-left: 10%;
   margin-top: 10%;
   }
+#site-container {
+  width: 100%;
+  height: 100%;
+}
