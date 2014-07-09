@@ -96,13 +96,16 @@ body, html, div, #main-view {
   background-color: #B1B3B3;
 }
 
-.btn-search {
-  background-color: #0099FF;
+.search-container {
   position: absolute;
   right: 2%;
   top: 2%;
   height: 10%;
   width: 10%;
+}
+
+.btn-search {
+  background-color: #0099FF;
   font-size: 3rem;
   border-radius: 8px;
   color: white;
@@ -181,4 +184,93 @@ table#landing-buttons {
 #site-container {
   width: 100%;
   height: 100%;
+}
+
+body {
+  background: #fdf6e3;
+}
+
+/* experiment with hover search */
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-family: "Cabin";
+}
+
+body {
+  background: #fdf6e3;
+}
+
+.main-view {
+  display: block;
+  width: 25em;
+  margin: 100px auto;
+}
+
+.search-container {
+  overflow: hidden;
+  float: right;
+  height: 4em;
+  width: 4em;
+  border-radius: 2em;
+  box-shadow: 0 0 5px #6a5d4f;
+  -moz-transition: all 0.35s;
+  -webkit-transition: all 0.35s;
+}
+.search-container:hover {
+  width: 25em;
+  border-radius: 5px 2em 2em 5px;
+}
+.search-container:hover input {
+  display: inline-block;
+  width: 19em;
+  padding: 10px;
+}
+
+.search-container input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  float: left;
+  width: 0em;
+  height: 2em;
+  margin: 1em;
+  margin-right: -4.5em;
+  background: white;
+  color: #6a5d4f;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 0px;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) inset;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+}
+.search-container input:focus {
+  outline: none;
+  box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+.search-container button {
+  float: right;
+  width: 1.75em;
+  height: 1.75em;
+  margin: 0.125em;
+  background: #6a5d4f;
+  text-align: center;
+  font-size: 2em;
+  color: #fdf6e3;
+  border-radius: 50%;
+  box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 -2px 1px rgba(0, 0, 0, 0.3);
+}
+.search-container button i {
+  margin-top: 0.3em;
+}
+.search-container button:active {
+  border: 0 !important;
+  text-shadow: 0 0 0;
 }

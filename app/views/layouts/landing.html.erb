@@ -16,7 +16,10 @@
         </div>
       </div>
       <div id="main-view" class="col-xs-10">
-        <button type="button" class="btn-search">Search</button>
+        <div class="search-container">
+            <input type="text" class="form-control" placeholder="Search">
+            <button type="button">S</button>
+        </div>
         <%= yield %>
         <%= yield :javascript %>
       </div>
