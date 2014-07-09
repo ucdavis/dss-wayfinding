@@ -4,4 +4,5 @@ class Room < DirectoryObject
   validates :is_bathroom, uniqueness: false, presence: false
 
   has_and_belongs_to_many :people
+  has_many :events
 end

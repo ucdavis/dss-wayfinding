@@ -4,7 +4,7 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects
   # GET /directory_objects.json
   def index
-    @directory_objects = DirectoryObject.all
+    @directory_objects = DirectoryObject.people.all
   end
 
   # GET /directory_objects/1
@@ -13,7 +13,22 @@ class DirectoryObjectsController < ApplicationController
   end
   
   def landing
+    render :layout => "landing"
   end
+  
+  def about
+  end
+  
+  def new
+  end
+  
+  def create
+  end
+  
+  def delete
+  end
+  
+  
 
   private
 
