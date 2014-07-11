@@ -32,11 +32,10 @@
       </div>
       <div id="main-view" class="col-xs-10">
         <div class="search-container">
-            <input type="text" class="form-control" placeholder="Search">
+          <form accept-charset="UTF-8" action="/directory" method="get">
+            <input name="search" type="text" class="form-control search" placeholder="Search">
             <button type="button">S</button>
-        </div>
-        <%= yield %>
-        <%= yield :javascript %>
+          </form>
       </div>
     </div> <!-- row -->
 </div> <!-- container-fluid -->
