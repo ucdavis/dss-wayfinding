@@ -15,16 +15,16 @@
         <button type="button" class="btn btn-home btn-xl">Home</button>
         </div>
         <div class="left-nav-link">
-        <button type="button" class="btn btn-people btn-xl">People</button>
+        <a href="/people" ><button type="button" class="btn btn-people btn-xl">People</button></a>
         </div>
         <div class="left-nav-link">
-        <button type="button" class="btn btn-departments btn-xl">Department</button>
+        <a href="/departments" ><button type="button" class="btn btn-departments btn-xl">Departments</button></a>
         </div>
         <div class="left-nav-link">
-        <button type="button" class="btn btn-events btn-xl">Events</button>
+        <a href="/events" ><button type="button" class="btn btn-events btn-xl">Events</button></a>
         </div>
         <div class="left-nav-link">
-        <button type="button" class="btn btn-rooms btn-xl">Rooms</button>
+        <a href="/rooms" ><button type="button" class="btn btn-rooms btn-xl">Rooms</button></a>
         </div>
         <div class="left-nav-link">
         <button type="button" class="btn btn-map btn-xl">Map</button>
@@ -32,10 +32,10 @@
       </div>
       <div id="main-view" class="col-xs-10">
         <div class="search-container">
-          <form accept-charset="UTF-8" action="/directory" method="get">
+            <%= form_tag("/directory", method: "get") do %>
             <input name="search" type="text" class="form-control search" placeholder="Search">
             <button type="button">S</button>
-          </form>
+            <% end %>
       </div>
         <%= yield %>
         <%= yield :javascript %>

@@ -4,7 +4,7 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects
   # GET /directory_objects.json
   def index
-    if params[:search]
+    if params[:search] && params[:search].length > 0
       # Put search query logic here, should search first, last, title, email, name, room_number, type
       results = DirectoryObject.where("first LIKE ?", "%#{params[:search]}%")
       results = results + DirectoryObject.where("last LIKE ?", "%#{params[:search]}%")
@@ -14,6 +14,14 @@ class DirectoryObjectsController < ApplicationController
       results = results + DirectoryObject.where("room_number LIKE ?", "%#{params[:search]}%")
       results = results + DirectoryObject.where("type LIKE ?", "%#{params[:search]}%")
       @directory_objects = results
+    elsif params[:type] == "Person"
+      @directory_objects = DirectoryObject.people.all
+    elsif params[:type] == "Department"
+      @directory_objects = DirectoryObject.departments.all
+    elsif params[:type] == "Event"
+      @directory_objects = DirectoryObject.events.all
+    elsif params[:type] == "Room"
+      @directory_objects = DirectoryObject.rooms.all
     else
       @directory_objects = DirectoryObject.all
     end
