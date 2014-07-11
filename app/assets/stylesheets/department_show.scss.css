@@ -144,6 +144,7 @@ h1#directory-title {
   width: 31%;
   text-align: center;
   font-size: 2.5rem;
+  overflow: hidden;
 }
 
 .directory-card table {
@@ -152,12 +153,31 @@ h1#directory-title {
   text-align: left;
 }
 
-div.people-card {
-  border: solid #E6A65D 4px;
+div.directory-card {
   color: #FFF;
-  background-color: #E6A65D;
   text-shadow: 0 0 2px #000;
 }
+
+div.people-card {
+  border: solid #E6A65D 4px;
+  background-color: #E6A65D;
+}
+
+div.event-card {
+  border: solid #ACA39A 4px;
+  background-color: #ACA39A;
+}
+
+div.department-card {
+  border: solid #B1B3B3 4px;
+  background-color: #B1B3B3;
+}
+
+div.room-card {
+  border: solid #5B7F95 4px;
+  background-color: #5B7F95;
+}
+
 
 .card-content {
   text-align: center;
@@ -171,13 +191,15 @@ div.people-card {
   margin-left: 7px;
 }
 
-div.people-card h1.panel-heading
+div.directory-card h1.panel-heading
 {
   color: #333;
   font-style: bold;
   font-size: 4rem;
   background-color: white;
   text-shadow: none;
+  overflow: hidden;
+  max-height: 6rem;
 }
 
 table#landing-buttons {

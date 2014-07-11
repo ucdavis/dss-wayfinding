@@ -2,122 +2,74 @@
     <h1 id="directory-title">People Directory</h1>
 </div>
 <div class="directory-list">
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
-    </div>
-    <div class="panel panel-default directory-card people-card">
-        <h1 class="panel-heading">John Smith</h1>
-        <table class="card-content">
-            <tr>
-                <td>Room 102H</td>
-                <td>Psychology</td>
-            </tr>
-            <tr>
-                <td>johnsmith@gmail.com</td>
-                <td>(707)777-7777</td>
-            </tr>
-         </table>
+<!-- People -->
+    <% @directory_objects.each do |directory_object| %>
+        <% if directory_object.type == "Person" %>
+            <div class="panel panel-default directory-card people-card">
+                <h1 class="panel-heading"><%= directory_object.first + " " + directory_object.last %></h1>
+                <table class="card-content">
+                    <tr>
+                        <td><%= directory_object.department.title %></td>
+                        <% if directory_object.rooms.length > 0 %>
+                        <td><%= directory_object.rooms.first.room_number %></td>
+                        <% end %>
+                    </tr>
+                    <tr>
+                        <td><%= directory_object.email %></td>
+                        <td><%= directory_object.phone %></td>
+                    </tr>
+                 </table>
+            </div>
+        <% end %>
+<!-- Events -->
+        <% if directory_object.type == "Event" %>
+            <div class="panel panel-default directory-card event-card">
+                <h1 class="panel-heading"><%= directory_object.title %></h1>
+                <table class="card-content">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                 </table>
+            </div>
+        <% end %>
+<!-- Departments -->
+        <% if directory_object.type == "Department" %>
+            <div class="panel panel-default directory-card department-card">
+                <h1 class="panel-heading"><%= directory_object.title %></h1>
+                <table class="card-content">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                 </table>
+            </div>
+        <% end %>
+<!-- Rooms -->
+        <% if directory_object.type == "Room" %>
+            <div class="panel panel-default directory-card room-card">
+                <h1 class="panel-heading"><%= directory_object.room_number %></h1>
+                <table class="card-content">
+                    <tr>
+                        <td><%= directory_object.name %></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                 </table>
+            </div>
+        <% end %>
+    <% end %>
     </div>
 </div>
 
