@@ -37,6 +37,9 @@ class DirectoryObjectsController < ApplicationController
     render :layout => "landing"
   end
   
+  def map
+  end
+
   def about
   end
   

@@ -1,11 +1,12 @@
 <div id="directory-banner">
-    <h1 id="directory-title">People Directory</h1>
+    <h1 id="directory-title">Directory</h1>
 </div>
 <div class="directory-list">
 <!-- People -->
     <% @directory_objects.each do |directory_object| %>
         <% if directory_object.type == "Person" %>
             <div class="panel panel-default directory-card people-card">
+                <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.first + " " + directory_object.last %></h1>
                 <table class="card-content">
                     <tr>
@@ -19,11 +20,13 @@
                         <td><%= directory_object.phone %></td>
                     </tr>
                  </table>
+                </a>
             </div>
         <% end %>
 <!-- Events -->
         <% if directory_object.type == "Event" %>
             <div class="panel panel-default directory-card event-card">
+                <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.title %></h1>
                 <table class="card-content">
                     <tr>
@@ -35,11 +38,13 @@
                         <td></td>
                     </tr>
                  </table>
+                </a>
             </div>
         <% end %>
 <!-- Departments -->
         <% if directory_object.type == "Department" %>
             <div class="panel panel-default directory-card department-card">
+                <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.title %></h1>
                 <table class="card-content">
                     <tr>
@@ -51,11 +56,13 @@
                         <td></td>
                     </tr>
                  </table>
+                </a>
             </div>
         <% end %>
 <!-- Rooms -->
         <% if directory_object.type == "Room" %>
             <div class="panel panel-default directory-card room-card">
+                <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.room_number %></h1>
                 <table class="card-content">
                     <tr>
@@ -67,6 +74,7 @@
                         <td></td>
                     </tr>
                  </table>
+                </a>
             </div>
         <% end %>
     <% end %>

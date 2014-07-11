@@ -65,6 +65,10 @@ body, html, div, #main-view {
   height: 100%;
 }
 
+a, a:hover, a:active {
+  color: #FFF;
+}
+
 .btn-xl{
   height: 95%;
   width: 95%;
