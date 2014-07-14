@@ -6,13 +6,14 @@ class DirectoryObjectsController < ApplicationController
   def index
     if params[:search] && params[:search].length > 0
       # Put search query logic here, should search first, last, title, email, name, room_number, type
-      results = DirectoryObject.where("first LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("last LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("title LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("email LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("name LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("room_number LIKE ?", "%#{params[:search]}%")
+      results = Person.where("first LIKE ?", "%#{params[:search]}%")
+      results = results + Person.where("last LIKE ?", "%#{params[:search]}%")
+      results = results + Event.where("title LIKE ?", "%#{params[:search]}%")
+      results = results + Person.where("email LIKE ?", "%#{params[:search]}%")
+      results = results + Room.where("name LIKE ?", "%#{params[:search]}%")
+      results = results + Room.where("room_number LIKE ?", "%#{params[:search]}%")
       results = results + DirectoryObject.where("type LIKE ?", "%#{params[:search]}%")
+      results = results + Department.where("title LIKE ?", "%#{params[:search]}%")
       @directory_objects = results
     elsif params[:type] == "Person"
       @directory_objects = DirectoryObject.people.all
@@ -25,6 +26,7 @@ class DirectoryObjectsController < ApplicationController
     else
       @directory_objects = DirectoryObject.all
     end
+      @directory_objects = @directory_objects.uniq
   end
 
   # GET /directory_objects/1
