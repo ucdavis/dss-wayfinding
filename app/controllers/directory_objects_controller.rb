@@ -13,8 +13,18 @@ class DirectoryObjectsController < ApplicationController
       results = results + Room.where("name LIKE ?", "%#{params[:search]}%")
       results = results + Room.where("room_number LIKE ?", "%#{params[:search]}%")
       results = results + DirectoryObject.where("type LIKE ?", "%#{params[:search]}%")
-      results = results + Department.where("title LIKE ?", "%#{params[:search]}%")
+
+      department = Department.where("title LIKE ?", "%#{params[:search]}%")
+      results = results + department
+
+      people = Person.where(department: department)
+      results = results + people
+
+      events = Event.where(department: department)
+      results = results + events
+
       @directory_objects = results
+
     elsif params[:type] == "Person"
       @directory_objects = DirectoryObject.people.all
     elsif params[:type] == "Department"
