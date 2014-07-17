@@ -68,7 +68,9 @@
                 <span><%= @directory_object.phone %></span>
                 <% end %>
                 <h1>Search Similar<h1>
+                <% if @directory_object.department %>
                 <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
+                <% end %>
             <% end %>
             <% if @directory_object.type == "Room" %>
                 <h2>Room </h2>
