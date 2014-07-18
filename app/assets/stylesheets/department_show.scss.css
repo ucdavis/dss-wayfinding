@@ -291,3 +291,20 @@ input.search:focus {
 .search-container form button i {
   margin-top: 0.3em;
 }
+
+#floor-picker
+{
+    height: 100px;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+
+.floor {
+    width: 15%;
+}
+
+.show-map
+{
+  height: 89%;
+}
