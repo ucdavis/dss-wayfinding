@@ -9,14 +9,14 @@
                 <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.first + " " + directory_object.last %></h1>
                 <table class="card-content">
-                    <tr class="debug">
+                    <tr>
                         <% if directory_object.department  %>
-                        <td class="debug"><%= directory_object.department.title %></td>
+                        <td><%= directory_object.department.title %></td>
                         <% else %>
                         <td></td>
                         <% end %>
                         <% if directory_object.rooms.length > 0 %>
-                        <td class="debug"><%= directory_object.rooms.first.room_number %></td>
+                        <td><%= directory_object.rooms.first.room_number %></td>
                         <% else %>
                         <td></td>
                         <% end %>
@@ -36,12 +36,28 @@
                 <h1 class="panel-heading"><%= directory_object.title %></h1>
                 <table class="card-content">
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <% if directory_object.room %>
+                            <%= directory_object.room.room_number %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if directory_object.time %>
+                            <%= directory_object.time %>
+                            <% end %>
+                        </td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <% if directory_object.link %>
+                            <%= directory_object.link %>
+                            <% end %>
+                        </td>
+                        <td>
+                            <% if directory_object.department %>
+                            <%= directory_object.department.title %>
+                            <% end %>
+                        </td>
                     </tr>
                  </table>
                 </a>
