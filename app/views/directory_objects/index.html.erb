@@ -9,12 +9,16 @@
                 <a href="/directory/<%= directory_object.id %>">
                 <h1 class="panel-heading"><%= directory_object.first + " " + directory_object.last %></h1>
                 <table class="card-content">
-                    <tr>
+                    <tr class="debug">
                         <% if directory_object.department  %>
-                        <td><%= directory_object.department.title %></td>
+                        <td class="debug"><%= directory_object.department.title %></td>
+                        <% else %>
+                        <td></td>
                         <% end %>
                         <% if directory_object.rooms.length > 0 %>
-                        <td><%= directory_object.rooms.first.room_number %></td>
+                        <td class="debug"><%= directory_object.rooms.first.room_number %></td>
+                        <% else %>
+                        <td></td>
                         <% end %>
                     </tr>
                     <tr>

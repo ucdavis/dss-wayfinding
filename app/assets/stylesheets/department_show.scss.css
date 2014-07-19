@@ -188,13 +188,11 @@ div.room-card {
 .card-content {
   text-align: center;
   line-height: 27px;
-  padding-bottom: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
+  padding-bottom: 0px;
+  padding-top: 0px;
   text-align: center;
   font-size: 2.5rem;
-  margin-left: 7px;
+  margin-left: 40px;
 }
 
 div.directory-card h1.panel-heading
