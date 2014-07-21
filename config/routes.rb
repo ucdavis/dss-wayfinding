@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'map', to: 'directory_objects#map'
   get 'admin', to: 'directory_objects#admin'
+  post 'admin/origin', to: 'directory_objects#set_origin'
 
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'

@@ -44,7 +44,7 @@ class DirectoryObjectsController < ApplicationController
   def show
     @directory_object = DirectoryObject.find(params[:id])
     # Set the origin
-    @origin = 'R1152' # TODO: get from cookie origin set at the admin screen
+    @origin = cookies[:origin]
     # Set the destination
     @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
   end
@@ -55,10 +55,18 @@ class DirectoryObjectsController < ApplicationController
   
   def map
     # Set the origin
-    @origin = 'R1152' # TODO: get from cookie origin set at the admin screen
+    @origin = cookies[:origin]
   end
 
   def admin
+    # Read current origin if exists
+    @origin = cookies[:origin]
+  end
+
+  def set_origin
+    cookies.permanent[:origin] = params[:origin] unless params[:origin].blank?
+
+    render :nothing => true
   end
 
   def about

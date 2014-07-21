@@ -3,8 +3,12 @@
 <% end %>
 <div class="admin-view">
   <h1>Set start location</h1>
-    <input name="start" id="start" type="text" class="form-control start" placeholder="">
-    <button type="button" class="submit-start">Submit Start Location</button>
+    <%= form_tag("/admin/origin", remote: true, class: 'form-inline') do %>
+      <div class="form-group">
+        <%= text_field_tag :origin, @origin, placeholder: 'Example: R1152', class: 'form-control start' %>
+      </div>
+      <%= submit_tag 'Submit Start Location', class: 'btn btn-default' %>
+    <% end %>
 
   <h1>input csv</h1>
 
