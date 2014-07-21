@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'directory_objects#landing'
 
   get 'map', to: 'directory_objects#map'
+  get 'admin', to: 'directory_objects#admin'
 
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'

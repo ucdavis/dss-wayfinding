@@ -52,6 +52,10 @@ class DirectoryObjectsController < ApplicationController
   def map
   end
 
+  def admin
+    @start_location = "taco"
+  end
+
   def about
   end
   

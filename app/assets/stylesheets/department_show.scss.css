@@ -306,3 +306,10 @@ input.search:focus {
 {
   height: 89%;
 }
+
+.admin-view
+{
+  width: 30%;
+  display: inline-block;
+  height: 79%;
+}
