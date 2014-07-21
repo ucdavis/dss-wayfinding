@@ -11,7 +11,9 @@
 
     $(document).on("wayfinding:ready", function() {
       console.log("wayfinding is now ready");
-      $('#map').wayfinding('routeTo', 'R1182'); // R1131 can come from ID
+      var destination = '<%= @destination %>';
+      if (destination.length > 0)
+        $('#map').wayfinding('routeTo', destination);
     });
 
     $('#map').wayfinding({
@@ -31,7 +33,7 @@
         speed: 8
       },
       'startpoint': function () {
-        return 'R1152';
+        return '<%= @origin %>';
       },
       'defaultMap': 'floor1'
     });

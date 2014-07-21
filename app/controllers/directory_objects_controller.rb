@@ -43,6 +43,10 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects/1.json
   def show
     @directory_object = DirectoryObject.find(params[:id])
+    # Set the origin
+    @origin = 'R1152' # TODO: get from cookie origin set at the admin screen
+    # Set the destination
+    @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
   end
   
   def landing
@@ -50,10 +54,11 @@ class DirectoryObjectsController < ApplicationController
   end
   
   def map
+    # Set the origin
+    @origin = 'R1152' # TODO: get from cookie origin set at the admin screen
   end
 
   def admin
-    @start_location = "taco"
   end
 
   def about
