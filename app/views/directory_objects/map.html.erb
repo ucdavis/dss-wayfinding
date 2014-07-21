@@ -1,5 +1,6 @@
 <% content_for :javascript do %>
   <%= javascript_include_tag "jquery.wayfinding" %>
+  <%= javascript_include_tag "floor" %>
 <% end %>
 
 <script type="text/javascript">
@@ -47,6 +48,13 @@
       <div class="col-xs-9">
         <div id="mapLoading">Loading</div>
         <div id="map"></div>
+<div id="floor-picker">
+            <button type="button" class="btn-xl btn floor floor1-button">Floor 1</button>
+            <button type="button" class="btn-xl btn floor floor2-button">Floor 2</button>
+            <button type="button" class="btn-xl btn floor floor3-button">Floor 3</button>
+            <button type="button" class="btn-xl btn floor floor4-button">Floor 4</button>
+            <button type="button" class="btn-xl btn floor floor5-button">Floor 5</button>
+        </div>
       </div>
       <div class="col-xs-3">
     </div> <!-- col-xs-3 -->
