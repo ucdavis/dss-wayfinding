@@ -1,9 +1,16 @@
 <% content_for :javascript do %>
   <%= javascript_include_tag "jquery.wayfinding" %>
   <%= javascript_include_tag "floor" %>
+  <%= javascript_include_tag "redirect" %>
 <% end %>
 
 <script type="text/javascript">
+  <!-- Redirect after 60 seconds if @origin is set (Kiosk mode) -->
+  setTimeout(function(){
+    if ('<%= @origin %>' != '')
+      window.location = "/";
+  }, 60000);
+
   console.log("DirectoryObject#show content_for firing.");
 
   ready = function() {

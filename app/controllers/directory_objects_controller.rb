@@ -1,5 +1,6 @@
 class DirectoryObjectsController < ApplicationController
   before_action :set_directory_object, only: [:show, :edit, :update, :destroy]
+  before_action :set_origin
 
   # GET /directory_objects
   # GET /directory_objects.json
@@ -43,8 +44,6 @@ class DirectoryObjectsController < ApplicationController
   # GET /directory_objects/1.json
   def show
     @directory_object = DirectoryObject.find(params[:id])
-    # Set the origin
-    @origin = cookies[:origin]
     # Set the destination
     @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
   end
@@ -54,13 +53,9 @@ class DirectoryObjectsController < ApplicationController
   end
   
   def map
-    # Set the origin
-    @origin = cookies[:origin]
   end
 
   def admin
-    # Read current origin if exists
-    @origin = cookies[:origin]
   end
 
   def set_origin
@@ -88,6 +83,10 @@ class DirectoryObjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_directory_object
     @directory_object = DirectoryObject.find(params[:id])
+  end
+
+  def set_origin
+    @origin = cookies[:origin]
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
