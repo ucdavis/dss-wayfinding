@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'directory_objects#landing'
 
+  get 'search', to: 'directory_objects#search'
   get 'map', to: 'directory_objects#map'
   get 'admin', to: 'directory_objects#admin'
   post 'admin/origin', to: 'directory_objects#set_origin'
