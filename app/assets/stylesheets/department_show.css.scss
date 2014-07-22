@@ -1,3 +1,6 @@
+$search-button-color: rgba(200, 200, 200, 0.5);
+
+
 #site-container {
   width: 100%;
   height: 100%;
@@ -133,14 +136,6 @@ a, a:hover, a:active {
   background-color: #B1B3B3;
 }
 
-.search-container {
-  position: absolute;
-  right: 2%;
-  top: 2%;
-  height: 10%;
-  width: 10%;
-}
-
 .btn-map {
   background-color: #00573F;
 }
@@ -239,13 +234,32 @@ body {
 /* Search interface styling below */
 
 .search-container {
-  overflow: hidden;
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  height: 10em;
+  width: 10em;
   float: right;
-  height: 7em;
-  width: 7em;
   -moz-transition: all 0.35s;
   -webkit-transition: all 0.35s;
   z-index: 999;
+
+  a {
+      border-radius: 99px;
+      border: 7px solid #fff;
+      padding: 0.7rem;
+      font-size: 3em;
+      text-align: center;
+      vertical-align: bottom;
+      color: black;
+      background-color: $search-button-color;
+      box-shadow: 5px 5px 10px 0 rgba(0,0,0,.3);
+    }
+
+  i {
+      width: 50px;
+      height: 50px;
+    }
 }
 
 input.search {
