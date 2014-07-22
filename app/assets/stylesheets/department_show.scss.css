@@ -27,13 +27,35 @@ div#map svg {
 
 /* map target information pane */
 div#destination-view {
-  margin-right: 10px;
+  visibility: none;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.1;
   text-align: center;
-  margin-top: 35%;
-  width: 100%;
+  width: 25rem;
   height: 75%;
+  border: none;
+
+  position: absolute;
+  top: 17%;
+  right: -300px;
+
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
+  z-index: 10;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 }
 div#destination-view h1 {
   font-size: 4.5rem;

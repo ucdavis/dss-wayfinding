@@ -6,10 +6,15 @@
 <script type="text/javascript">
   console.log("DirectoryObject#show content_for firing.");
 
+  function showInfo() {
+    $('#destination-view').css('right', -30);
+  }
+
   ready = function() {
     console.log("DirectoryObject#show content_for page:load firing.");
 
     $(document).on("wayfinding:ready", function() {
+      setTimeout( showInfo(), 3000 );
       console.log("wayfinding is now ready");
       var destination = '<%= @destination %>';
       if (destination.length > 0)
@@ -58,71 +63,69 @@
         </div>
         <div id="map"></div>
       </div>
-      <div class="col-xs-3">
-        <div id="destination-view" class="panel panel-default">
-            <h1 class="panel-heading">Destination</h1>
-            <div class="panel-body">
-            <% if @directory_object.type == "Person" %>
-                <h2>Room </h2>
-                <span><%= @directory_object.rooms.first.room_number %></span> 
-                <% if @directory_object.name %>
-                <h2>Name </h2>
-                <span><%= @directory_object.first + " " + @directory_object.last %></span> 
-                <% end %>
-                <% if @directory_object.email %>
-                <h2>Email </h2>
-                <span><%= @directory_object.email %></span> 
-                <% end %>
-                <% if @directory_object.phone %>
-                <h2>Phone </h2>
-                <span><%= @directory_object.phone %></span>
-                <% end %>
-                <% if @directory_object.department %>
-                <h1>Search Similar<h1>
-                <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
-                <% end %>
-            <% end %>
-            <% if @directory_object.type == "Room" %>
-                <h2>Room </h2>
-                <span><%= @directory_object.room_number %></span> 
-                <% if @directory_object.name %>
-                <h2>Name </h2>
-                <span><%= @directory_object.name %></span> 
-                <% end %>
-            <% end %>
-            <% if @directory_object.type == "Department" %>
-                <h2>Title</h2>
-                <span><%= @directory_object.title %></span> 
-                <h1>Search Similar<h1>
-                <a href="/directory?search=<%= @directory_object.title %>"><button type="button" class="btn-xl btn btn-departments"><%= @directory_object.title %></button></a>
-            <% end %>
-            <% if @directory_object.type == "Event" %>
-                <% if @directory_object.title %>
-                    <h2>Title </h2>
-                    <span><%= @directory_object.title %></span> 
-                <% end %>
-                <% if @directory_object.room %>
-                <h2>Room </h2>
-                <span><%= @directory_object.room.room_number %></span> 
-                <% end %>
-                <% if @directory_object.time %>
-                <h2>Time </h2>
-                <span><%= @directory_object.time %></span> 
-                <% end %>
-                <% if @directory_object.link %>
-                <h2>Link </h2>
-                <span><a href="<%= @directory_object.link %>">Event Link</span></a>
-                <% end %>
-                <% if @directory_object.department %>
-                <h2>Department </h2>
-                <span><%= @directory_object.department.title %></span>
-                <% end %>
+      <div id="destination-view" class="panel panel-default">
+          <h1 class="panel-heading">Destination</h1>
+          <div class="panel-body">
+          <% if @directory_object.type == "Person" %>
+              <h2>Room </h2>
+              <span><%= @directory_object.rooms.first.room_number %></span> 
+              <% if @directory_object.name %>
+              <h2>Name </h2>
+              <span><%= @directory_object.first + " " + @directory_object.last %></span> 
+              <% end %>
+              <% if @directory_object.email %>
+              <h2>Email </h2>
+              <span><%= @directory_object.email %></span> 
+              <% end %>
+              <% if @directory_object.phone %>
+              <h2>Phone </h2>
+              <span><%= @directory_object.phone %></span>
+              <% end %>
+              <% if @directory_object.department %>
+              <h1>Search Similar<h1>
+              <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
+              <% end %>
+          <% end %>
+          <% if @directory_object.type == "Room" %>
+              <h2>Room </h2>
+              <span><%= @directory_object.room_number %></span> 
+              <% if @directory_object.name %>
+              <h2>Name </h2>
+              <span><%= @directory_object.name %></span> 
+              <% end %>
+          <% end %>
+          <% if @directory_object.type == "Department" %>
+              <h2>Title</h2>
+              <span><%= @directory_object.title %></span> 
+              <h1>Search Similar<h1>
+              <a href="/directory?search=<%= @directory_object.title %>"><button type="button" class="btn-xl btn btn-departments"><%= @directory_object.title %></button></a>
+          <% end %>
+          <% if @directory_object.type == "Event" %>
+              <% if @directory_object.title %>
+                  <h2>Title </h2>
+                  <span><%= @directory_object.title %></span> 
+              <% end %>
+              <% if @directory_object.room %>
+              <h2>Room </h2>
+              <span><%= @directory_object.room.room_number %></span> 
+              <% end %>
+              <% if @directory_object.time %>
+              <h2>Time </h2>
+              <span><%= @directory_object.time %></span> 
+              <% end %>
+              <% if @directory_object.link %>
+              <h2>Link </h2>
+              <span><a href="<%= @directory_object.link %>">Event Link</span></a>
+              <% end %>
+              <% if @directory_object.department %>
+              <h2>Department </h2>
+              <span><%= @directory_object.department.title %></span>
+              <% end %>
 
-                <h1>Search Similar<h1>
-                <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
-            <% end %>
-            </div> <!-- panel body -->
-        </div> <!-- destination-view -->
-    </div> <!-- col-xs-3 -->
+              <h1>Search Similar<h1>
+              <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
+          <% end %>
+          </div> <!-- panel body -->
+      </div> <!-- destination-view -->
 </div> <!-- row -->
 
