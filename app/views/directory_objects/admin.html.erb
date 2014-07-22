@@ -12,7 +12,10 @@
     <% end %>
 
   <h1>input csv</h1>
-
-
-
+    <%= form_tag("/admin/csv", multipart: true, class: 'form-inline') do %>
+      <div class="form-group">
+        <%= file_field_tag :file, class: 'form-control start' %>
+      </div>
+      <%= submit_tag 'Submit CSV for import', class: 'btn btn-default' %>
+    <% end %>
 </div>

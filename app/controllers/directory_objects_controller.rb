@@ -64,6 +64,16 @@ class DirectoryObjectsController < ApplicationController
     render :nothing => true
   end
 
+  def import_csv
+   require 'csv'
+#   csv_text = File.read('...')
+#   csv = CSV.parse(csv_text, :headers => true)
+#   csv.each do |row|
+#     row
+#   end
+    render :nothing => true
+  end
+
   def about
   end
   
