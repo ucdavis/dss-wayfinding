@@ -1,3 +1,9 @@
+#site-container {
+  width: 100%;
+  height: 100%;
+  margin-top: 15px;
+}
+
 div#map {
 	height: 480px;
 	width: 785px;
@@ -37,7 +43,7 @@ div#destination-view {
 
   position: absolute;
   top: 17%;
-  right: -300px;
+  right: -1000px;
 
   background-color: #fff;
   border-radius: 4px;
@@ -224,10 +230,6 @@ div.directory-card h1.panel-heading
 table#landing-buttons {
   margin-left: 10%;
   margin-top: 10%;
-  }
-#site-container {
-  width: 100%;
-  height: 100%;
 }
 
 body {
