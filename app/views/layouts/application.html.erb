@@ -33,14 +33,11 @@
       </div>
       <div id="main-view" class="col-xs-10">
         <div class="search-container">
-            <%= form_tag("/directory", method: "get") do %>
-            <input name="search" type="text" class="form-control search" placeholder="Search">
-            <button type="button">S</button>
-            <% end %>
-      </div>
+            <a href="/search"><button type="button" class="btn-search">S</button></a>
+        </div>
         <%= yield %>
         <%= yield :javascript %>
-    </div> <!-- row -->
+      </div> <!-- site-container row -->
 </div> <!-- container-fluid -->
 
 </body>

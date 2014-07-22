@@ -113,13 +113,6 @@ a, a:hover, a:active {
   width: 10%;
 }
 
-.btn-search {
-  background-color: #0099FF;
-  font-size: 3rem;
-  border-radius: 8px;
-  color: white;
-}
-
 .btn-map {
   background-color: #00573F;
 }
@@ -220,9 +213,6 @@ body {
 }
 
 /* Search interface styling below */
-.search-submit {
-  display: none;
-}
 
 .search-container {
   overflow: hidden;
@@ -234,21 +224,9 @@ body {
   z-index: 999;
 }
 
-.search-container:hover {
-  width: 70em;
-}
-
-.search-container:hover form input.search {
-  display: absolute;
-  width: 59em;
-}
-
 input.search {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
   float: left;
-  width: 0em;
+  width: 80%;
   height: 3em;
   margin: 1em;
   margin-right: -4.5em;
@@ -256,15 +234,11 @@ input.search {
   color: #6a5d4f;
   font-size: 1em;
   font-weight: 600;
-  padding: 0px;
-  border: 0;
   border-radius: 5px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) inset;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
   -moz-transition: all 0.25s;
   -webkit-transition: all 0.25s;
-  position: absolute;
-  z-index: -1;
 }
 
 input.search:focus {
@@ -272,7 +246,7 @@ input.search:focus {
   box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 5px rgba(0, 0, 0, 0.15);
 }
 
-.search-container form button {
+.btn-search {
   float: right;
   width: 2.75em;
   height: 2.75em;
@@ -286,9 +260,6 @@ input.search:focus {
   text-shadow: 0 -2px 1px rgba(0, 0, 0, 0.3);
 }
 
-.search-container form button i {
-  margin-top: 0.3em;
-}
 
 #floor-picker
 {
