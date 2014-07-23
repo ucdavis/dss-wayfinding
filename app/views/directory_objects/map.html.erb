@@ -1,9 +1,6 @@
 <script type="text/javascript">
-  <!-- Redirect after 60 seconds if @origin is set (Kiosk mode) -->
-  setTimeout(function(){
-    if ('<%= @origin %>' != '')
-      window.location = "/";
-  }, 60000);
+  // Call redirect timer function
+  setRedirectToHome();
 
   console.log("DirectoryObject#show content_for firing.");
 
