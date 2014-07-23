@@ -23,11 +23,13 @@ $map-color: #00573F;
   speak: none;
 }
 
+.icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; } 
 .icon-departments:after      { content: "\E803"; } 
 .icon-events:after       { content: "\E801"; } 
 .icon-rooms:after { content: "\E800"; }
 .icon-map:after { content: "\E804"; }
+.icon-search:after { content: "\E806"; }
 
 #site-container {
   width: 100%;
@@ -69,7 +71,7 @@ div#destination-view {
   line-height: 1.1;
   text-align: center;
   width: 25rem;
-  height: 75%;
+  height: 90%;
   border: none;
 
   position: absolute;
@@ -109,17 +111,6 @@ div#destination-view span {
   color: #333;
   font-size: 2rem;
   font-weight: bold;
-}
-
-#left-nav {
-  height: 100%;
-}
-.left-nav-link {
-  height: 16%;
-  width: 90%;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.1;
-  text-align: center;
 }
 
 a, a:hover, a:active {
@@ -174,10 +165,70 @@ ul.landing-nav {
       height: 144px;
       position: relative;
       text-align: center;
-      line-height: 144px;
+      line-height: 135px;
       border-radius: 50%;
       border: 7px solid #fff;
       font-size: 6em;
+      box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
+
+      &:before {
+        content: "";
+        display: block;
+        background: #fff;
+        border-top: 2px solid #ddd;
+        position: absolute;
+        top: -18px;
+        left: -18px;
+        bottom: -18px;
+        right: -18px;
+        z-index: -1;
+        border-radius: 50%;
+        box-shadow: inset 0px 8px 48px #ddd;
+      }
+    }
+
+    &:hover {
+      a {
+        color: #eee;
+        text-decoration: none;
+      }
+      span {
+        color: #333;
+      }
+    }
+  }
+}
+
+ul.left-nav {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+
+  li {
+    position: relative;
+
+    span {
+      color: #777;
+      font-size: 1.2em;
+      text-transform: uppercase;
+      white-space: normal;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    a {
+      display: block;
+      margin: 25px 10px;
+      width: 80px;
+      height: 80px;
+      position: relative;
+      text-align: center;
+      line-height: 70px;
+      border-radius: 50%;
+      border: 7px solid #fff;
+      font-size: 3em;
       box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
 
       &:before {

@@ -13,36 +13,41 @@
 <body>
 
 <div class="container-fluid">
-    <div id="site-container" class="row">
+    <div id="site-container">
       <div class="search-container">
           <a href="/search">
             <i class="glyphicon glyphicon-search"></i>
           </a>
       </div>
-      <div id="left-nav"class="col-xs-2">
-        <div class="left-nav-link">
-        <a href="/" ><button type="button" class="btn btn-home btn-xl">Home</button></a>
-        </div>
-        <div class="left-nav-link">
-        <a href="/people" ><button type="button" class="btn btn-people btn-xl">People</button></a>
-        </div>
-        <div class="left-nav-link">
-        <a href="/departments" ><button type="button" class="btn btn-departments btn-xl">Departments</button></a>
-        </div>
-        <div class="left-nav-link">
-        <a href="/events" ><button type="button" class="btn btn-events btn-xl">Events</button></a>
-        </div>
-        <div class="left-nav-link">
-        <a href="/rooms" ><button type="button" class="btn btn-rooms btn-xl">Rooms</button></a>
-        </div>
-        <div class="left-nav-link">
-        <a href="/map" ><button type="button" class="btn btn-map btn-xl">Map</button></a>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2">
+        <ul class="left-nav">
+          <li>
+          <a href="/" class="btn-home icon-home" ></a>
+          </li>
+          <li>
+          <a href="/people" class="btn-people icon-people" ></a>
+          </li>
+          <li>
+          <a href="/departments" class="btn-departments icon-departments" ></a>
+          </li>
+          <li>
+          <a href="/events" class="btn-events icon-events" ></a>
+          </li>
+          <li>
+          <a href="/rooms" class="btn-rooms icon-rooms" ></a>
+          </li>
+          <li>
+          <a href="/map" class="btn-map icon-map" ></a>
+          </li>
+        </ul>
       </div>
       <div id="main-view" class="col-xs-10">
         <%= yield %>
         <%= yield :javascript %>
-      </div> <!-- site-container row -->
+      </div> <!-- main-view -->
+    </div> <!-- row -->
 </div> <!-- container-fluid -->
 
 </body>
