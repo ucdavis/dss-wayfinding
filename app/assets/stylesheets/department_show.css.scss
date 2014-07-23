@@ -1,4 +1,4 @@
-$search-button-color: rgba(200, 200, 200, 0.5);
+$search-color: rgba(200, 200, 200, 0.5);
 $home-color: #C26E60;
 $people-color: #E6A65D;
 $events-color: #ACA39A;
@@ -283,6 +283,10 @@ ul.left-nav {
   background-color: $map-color;
 }
 
+.btn-search {
+  background: $search-color;
+}
+
 #directory-banner {
   height: 7%;
 }
@@ -388,21 +392,38 @@ body {
   z-index: 999;
 
   a {
-      border-radius: 99px;
-      border: 7px solid #fff;
-      padding: 0.7rem;
-      font-size: 3em;
+      display: block;
+      width: 55px;
+      height: 55px;
+      position: relative;
       text-align: center;
-      vertical-align: bottom;
       color: black;
-      background-color: $search-button-color;
-      box-shadow: 5px 5px 10px 0 rgba(0,0,0,.3);
-    }
+      line-height: 40px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      font-size: 2em;
+      box-shadow: 1px 3px 8px 0 rgba(0,0,0,.3);
 
-  i {
-      width: 50px;
-      height: 50px;
-    }
+      &:before {
+        content: "";
+        display: block;
+        background: #fff;
+        border-top: 2px solid #ddd;
+        position: absolute;
+        top: -11px;
+        left: -11px;
+        bottom: -11px;
+        right: -11px;
+        z-index: -1;
+        border-radius: 50%;
+        box-shadow: inset 2px 4px 20px #ddd;
+      }
+
+      &:hover {
+        color: #999;
+        text-decoration: none;
+      }
+  }
 }
 
 input.search {
@@ -426,21 +447,6 @@ input.search:focus {
   outline: none;
   box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 5px rgba(0, 0, 0, 0.15);
 }
-
-.btn-search {
-  float: right;
-  width: 2.75em;
-  height: 2.75em;
-  margin: 0.125em;
-  background: #6a5d4f;
-  text-align: center;
-  font-size: 2em;
-  color: #fdf6e3;
-  border-radius: 50%;
-  box-shadow: 0 -1px 1px rgba(255, 255, 255, 0.25), 0 1px 1px rgba(0, 0, 0, 0.25);
-  text-shadow: 0 -2px 1px rgba(0, 0, 0, 0.3);
-}
-
 
 #floor-picker
 {
