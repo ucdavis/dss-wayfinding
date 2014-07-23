@@ -12,16 +12,12 @@
 
 <div class="container-fluid">
     <div id="site-container" class="row">
-      <div id="left-nav"class="col-xs-2">
-        <div class="left-nav-link">
-        </div>
+      <div class="search-container">
+          <a href="/search">
+            <i class="glyphicon glyphicon-search"></i>
+          </a>
       </div>
-      <div id="main-view" class="col-xs-10">
-        <div class="search-container">
-            <a href="/search">
-              <i class="glyphicon glyphicon-search"></i>
-            </a>
-        </div>
+      <div id="main-view" class="col-xs-12">
         <%= yield %>
         <%= yield :javascript %>
       </div>

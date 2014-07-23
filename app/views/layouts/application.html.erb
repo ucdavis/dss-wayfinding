@@ -14,6 +14,11 @@
 
 <div class="container-fluid">
     <div id="site-container" class="row">
+      <div class="search-container">
+          <a href="/search">
+            <i class="glyphicon glyphicon-search"></i>
+          </a>
+      </div>
       <div id="left-nav"class="col-xs-2">
         <div class="left-nav-link">
         <a href="/" ><button type="button" class="btn btn-home btn-xl">Home</button></a>
@@ -35,11 +40,6 @@
         </div>
       </div>
       <div id="main-view" class="col-xs-10">
-        <div class="search-container">
-            <a href="/search">
-              <i class="glyphicon glyphicon-search"></i>
-            </a>
-        </div>
         <%= yield %>
         <%= yield :javascript %>
       </div> <!-- site-container row -->
