@@ -1,7 +1,3 @@
-<% content_for :javascript do %>
-  <%= javascript_include_tag "redirect" %>
+<%= form_tag("/directory", method: "get") do %>
+  <input name="search" type="text" class="form-control search" placeholder="Search">
 <% end %>
-
-            <%= form_tag("/directory", method: "get") do %>
-            <input name="search" type="text" class="form-control search" placeholder="Search">
-            <% end %>
