@@ -58,7 +58,7 @@ class DirectoryObjectsController < ApplicationController
   def admin
   end
 
-  def set_origin
+  def modify_origin
     cookies.permanent[:origin] = params[:origin] unless params[:origin].blank?
 
     render :nothing => true
