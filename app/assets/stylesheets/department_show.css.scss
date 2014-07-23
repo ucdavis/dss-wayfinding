@@ -37,45 +37,42 @@ $map-color: #00573F;
   margin-top: 15px;
 }
 
-div#map {
+/* may be unnecessary now */
+#map div {
+	display: inline-block;
 	height: 480px;
 	width: 785px;
 }
 
-/* may be unnecessary now */
-div#map div {
-	display: inline-block;
-	height: 480px;
-	width: 600px;
-}
-
-div#mapLoading {
+#mapLoading {
 	font-size: 10em;
 	left: 50px;
-	position: absolute;
+	position: relative;
 	top: 60px;
 	z-index: -1;
 }
 
-div#map svg {
+#map svg {
   position: absolute;
-  margin: auto;
+  margin: 0;
+  padding: 0;
+  left: 0;
   height: 100%;
   width: 100%;
 }
 
 /* map target information pane */
-div#destination-view {
+#destination-view {
   visibility: none;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.1;
   text-align: center;
-  width: 25rem;
-  height: 90%;
+  width: 25%; /* Since the map is the other 75% (col-xs-9) */
+  height: 85%;
   border: none;
 
   position: absolute;
-  top: 17%;
+  top: 20%;
   right: -1000px;
 
   background-color: #fff;
@@ -95,22 +92,22 @@ div#destination-view {
   -ms-flex-direction: column;
   flex-direction: column;
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
-}
-div#destination-view h1 {
-  font-size: 4.5rem;
-  color: gray;
-}
 
+  h1 {
+    font-size: 4rem;
+    color: gray;
+  }
 
-div#destination-view h2 {
-  font-size: 3rem;
-  color: gray;
-}
+  h2 {
+    font-size: 3rem;
+    color: gray;
+  }
 
-div#destination-view span {
-  color: #333;
-  font-size: 2rem;
-  font-weight: bold;
+  span {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+  }
 }
 
 a, a:hover, a:active {
