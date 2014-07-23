@@ -1,5 +1,5 @@
-<!-- Redirect after 90 seconds if @origin is set (Kiosk mode) -->
+// Redirect after 5 minutes if @origin is set (Kiosk mode)
 setTimeout(function(){
   if (document.origin != '')
     window.location = "/";
-}, 90000);
+}, 300000);
