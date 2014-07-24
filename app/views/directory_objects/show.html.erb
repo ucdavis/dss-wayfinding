@@ -23,6 +23,12 @@
 
     $(document).on("wayfinding:ready", function() {
       setTimeout( showInfo(), 3000 );
+
+      $('.replay').click(function() {
+        if (destination.length > 0)
+          $('#map').wayfinding('routeTo', destination);
+       })
+
       console.log("wayfinding is now ready");
       $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
       var destination = '<%= @destination %>';
@@ -42,7 +48,7 @@
       'dataStoreCache': '<%= asset_path "datastore.json" %>',
       'path': {
         width: 3,
-        color: 'cyan',
+        color: '#C26E60',
         radius: 8,
         speed: 8
       },
@@ -140,7 +146,10 @@
               <h1>Search Similar<h1>
               <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
           <% end %>
-          </div> <!-- panel body -->
+          <div class="replay-container">
+            <a class="glyphicon glyphicon-repeat replay">Replay</a>
+          </div>
+        </div> <!-- panel body -->
       </div> <!-- destination-view -->
 </div> <!-- row -->
 
