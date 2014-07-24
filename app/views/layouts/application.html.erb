@@ -8,30 +8,6 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <script type="text/javascript">
     document.origin = '<%= @origin %>'
-    $(function() {
-        // Ease-in the left nav only if the user is coming from the landing page
-        if (document.referrer == window.location.origin + "/")
-          $('ul.vertical-nav').css('left','-100%');
-          setTimeout(function(){
-              $('ul.vertical-nav').css('-moz-transition', 'all 1s ease');
-              $('ul.vertical-nav').css('-webkit-transition', 'all 1s ease');
-              $('ul.vertical-nav').css('transition', 'all 1s ease');
-              $('ul.vertical-nav').css('left',0);
-            }, 100);
-        // Ease-out the left nav only if the user is going to the landing page
-        $('ul.vertical-nav a.btn-home').click(function(e) {
-          var anchor = $(this), h;
-          h = anchor.attr('href');
-          e.preventDefault();
-          $('ul.vertical-nav').css('-moz-transition', 'all 1s ease');
-          $('ul.vertical-nav').css('-webkit-transition', 'all 1s ease');
-          $('ul.vertical-nav').css('transition', 'all 1s ease');
-          $('ul.vertical-nav').css('left','-100%');
-          setTimeout(function(){
-              window.location = h;
-            }, 500);
-          });
-    });
   </script>
 </head>
 <body>

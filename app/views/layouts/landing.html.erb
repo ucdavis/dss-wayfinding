@@ -13,19 +13,13 @@
           var anchor = $(this), h;
           h = anchor.attr('href');
           e.preventDefault();
-          $('ul.landing').css('margin-top','200%');
-          setTimeout(function(){
-              window.location = h;
-            }, 500);
+          $('ul.landing').animate({'margin-top': '200%'}, 700, function() {
+            window.location = h;
+          })
       });
       // Hide the buttons, then ease them in on page load
       $('ul.landing').css('margin-top','200%');
-      setTimeout(function(){
-          $('ul.landing').css('-moz-transition', 'all 1s ease');
-          $('ul.landing').css('-webkit-transition', 'all 1s ease');
-          $('ul.landing').css('transition', 'all 1s ease');
-          $('ul.landing').css('margin-top','15%');
-        }, 0);
+      $('ul.landing').animate({'margin-top': '15%'}, 700)
     });
   </script>
 </head>

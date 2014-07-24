@@ -1,4 +1,15 @@
 <script type="text/javascript">
   // Call redirect timer function
   setRedirectToHome();
+  $(document).on("page:fetch", animateOut());
+  $(function() {
+    $('ul.vertical-nav a.btn-home').click(function(e) {
+      e.preventDefault();
+      var anchor = $(this), h;
+      h = anchor.attr('href');
+      $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
+        window.location = h;
+      })
+    });
+  });
 </script>
