@@ -1,4 +1,6 @@
 class AdministrationController < ApplicationController
+  http_basic_authenticate_with name: $AUTH_CONFIG_SETTINGS["USER"], password: $AUTH_CONFIG_SETTINGS["PASSWORD"]
+
   def index
     @origin = cookies[:origin]
   end

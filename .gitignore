@@ -16,3 +16,7 @@
 /tmp
 *~
 *.DS_Store
+
+# Ignore sensitive files
+config/auth_config.yml
+
