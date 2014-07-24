@@ -39,7 +39,7 @@ class AdministrationController < ApplicationController
 
         # Found new room?
         results = Room.where(room_number: csv_room_number)
-        if results
+        if results.empty?
           room = Room.new
           if not csv_room_number.blank?
             room.room_number = csv_room_number
@@ -53,7 +53,7 @@ class AdministrationController < ApplicationController
         
         # Found existing room? update entry
         # Ensure custom data has not already been set
-        if room.name.blank?      
+        if room.name.blank?
           room.name = csv_room_name
         end
         room.save
@@ -61,16 +61,19 @@ class AdministrationController < ApplicationController
 
       # Found new department
       results = Department.where(title: csv_person_organization)
-      if results.length == 0
+      if results.empty?
+        logger.info "creating new department"
         department = Department.new
-        if not csv_person_organization.blank?
+        if csv_person_organization.present?
           department.title = csv_person_organization
+          department.save
+          logger.info "saving new department"
         else
           logger.info "entry was missing an organization"
         end
       else
+        logger.info "department already exists"
         department = results.first
-        department.save
       end
 
       # People parsing need to account for multiple rooms associated to an individual, and multiple people with the same first/last name
