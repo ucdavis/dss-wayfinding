@@ -35,11 +35,11 @@ class AdministrationController < ApplicationController
       csv_phone = row[13]
       csv_email = row[14]
 
-      if csv_room != ""
+      if csv_room_number != ""
 
         # Found new room?
-        results = Room.where(csv_room_number: room_number)
-        if results.length = 0
+        results = Room.where(room_number: csv_room_number)
+        if results
           room = Room.new
           if not csv_room_number.blank?
             room.room_number = csv_room_number
@@ -53,8 +53,8 @@ class AdministrationController < ApplicationController
         
         # Found existing room? update entry
         # Ensure custom data has not already been set
-        if room.room_name.blank?      
-          room.room_name = csv_room_name
+        if room.name.blank?      
+          room.name = csv_room_name
         end
         room.save
       end
