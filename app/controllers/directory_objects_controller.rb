@@ -65,14 +65,36 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def import_csv
-   require 'csv'
-#   csv_text = File.read('...')
-#   csv = CSV.parse(csv_text, :headers => true)
-#   csv.each do |row|
-#     row
-#   end
+    require 'csv'
+    csv_path = params[:uploaded_csv]
+    csv_path = csv_path.path
+    CSV.foreach(csv_path, :headers => true) do |row|
+      building = row[1]
+      room = row[3]
+      room_name = row[4]
+      department = row[7]
+      person_name = row[9] #can be general purpose name like 'general graduate student'
+      person_department = row[11]
+      person_organization = row [12] 
+      phone = row[13]
+      email = row[14]
+      
+      # Found new room?
+      
+      # Found existing room? update entry
+
+      # Found new department
+
+      # Found new person?
+
+      # Found existing person? update entry
+    end
     render :nothing => true
   end
+
+   
+#   csv = CSV.parse(csv_text, :headers => true)
+#   csv.each do |row|
 
   def about
   end
