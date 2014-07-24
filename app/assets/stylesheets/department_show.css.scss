@@ -7,6 +7,14 @@ $departments-color: #B1B3B3;
 $map-color: #00573F;
 $floor-color: #B1B3B3;
 
+.icon-home:after     { content: "\E805"; }
+.icon-people:after     { content: "\E802"; }
+.icon-departments:after      { content: "\E803"; }
+.icon-events:after       { content: "\E801"; }
+.icon-rooms:after { content: "\E800"; }
+.icon-map:after { content: "\E804"; }
+.icon-search:after { content: "\E806"; }
+
 @font-face {
   font-family: 'fontello';
   src: url('fontello.eot');
@@ -23,14 +31,6 @@ $floor-color: #B1B3B3;
   font-size: 3em;
   speak: none;
 }
-
-.icon-home:after     { content: "\E805"; }
-.icon-people:after     { content: "\E802"; } 
-.icon-departments:after      { content: "\E803"; } 
-.icon-events:after       { content: "\E801"; } 
-.icon-rooms:after { content: "\E800"; }
-.icon-map:after { content: "\E804"; }
-.icon-search:after { content: "\E806"; }
 
 #site-container {
   width: 100%;
@@ -231,6 +231,7 @@ ul.horizontal-nav {
 }
 
 ul.vertical-nav {
+  position: relative;
   list-style: none;
   text-align: center;
   padding: 0;
