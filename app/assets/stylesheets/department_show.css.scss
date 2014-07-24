@@ -161,6 +161,11 @@ ul.horizontal-nav {
       font-size: 2em;
       border: 5px solid #fff;
 
+      &.active {
+        box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
+        background-color: #5B7F95;
+      }
+
       &:before {
         top: -12px;
         left: -12px;
