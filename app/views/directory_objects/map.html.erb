@@ -9,6 +9,7 @@
 
     $(document).on("wayfinding:ready", function() {
       console.log("wayfinding is now ready");
+      $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
     });
 
     $('#map').wayfinding({
