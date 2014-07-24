@@ -9,7 +9,7 @@
   <script type="text/javascript">
     $(function() {
       // When clicking any link in the landing page, animate, then go
-      $('ul.landing a').click(function(e) {
+      $('a').click(function(e) {
           var anchor = $(this), h;
           h = anchor.attr('href');
           e.preventDefault();
@@ -28,8 +28,11 @@
 
 <div class="container-fluid">
     <div id="site-container" class="row">
-      <div class="search-container">
+      <div class="right-btn-container search">
           <a href="/search" class="btn-search icon-search"></a>
+      </div>
+      <div class="right-btn-container about">
+        <a href="/about" class="btn-about icon-about"></a>
       </div>
       <div id="main-view" class="col-xs-12">
         <%= yield %>
