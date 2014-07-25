@@ -45,7 +45,13 @@ class DirectoryObjectsController < ApplicationController
   def show
     @directory_object = DirectoryObject.find(params[:id])
     # Set the destination
-    @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
+    
+    if @directory_object.type == "Room"
+        @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
+    elsif @directory_object.type == "Person"
+      p = Person.find(params[:id])
+      @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
+    end
   end
 
   def landing

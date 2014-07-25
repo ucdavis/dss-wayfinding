@@ -33,6 +33,7 @@
       $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
       var destination = '<%= @destination %>';
       if (destination.length > 0)
+        console.debug("destination = ",destination);
         $('#map').wayfinding('routeTo', destination);
     });
 
