@@ -70,13 +70,13 @@ $about-color: #B1B3B3;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.1;
   text-align: center;
-  width: 25%; /* Since the map is the other 75% (col-xs-9) */
-  height: 85%;
+  width: 20%; /* Since the map is the other 75% (col-xs-9) */
   border: none;
 
-  position: absolute;
-  top: 20%;
-  right: -1000px;
+  position: fixed;
+  bottom: 100px;
+  top: 100px;
+  margin-bottom: 0;  right: -1000px;
 
   background-color: #fff;
   border-radius: 4px;
@@ -97,12 +97,12 @@ $about-color: #B1B3B3;
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 
   h1 {
-    font-size: 4rem;
+    font-size: 3rem;
     color: gray;
   }
 
   h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     color: gray;
   }
 
@@ -130,7 +130,6 @@ $about-color: #B1B3B3;
 
   span {
     color: #333;
-    font-size: 2rem;
     font-weight: bold;
   }
 }

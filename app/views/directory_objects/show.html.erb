@@ -104,7 +104,7 @@
               <% end %>
               <% if @directory_object.department %>
               <h1>Search Similar<h1>
-              <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
+              <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn btn-departments">Psychology</button></a>
               <% end %>
           <% end %>
           <% if @directory_object.type == "Room" %>
@@ -119,7 +119,7 @@
               <h2>Title</h2>
               <span><%= @directory_object.title %></span> 
               <h1>Search Similar<h1>
-              <a href="/directory?search=<%= @directory_object.title %>"><button type="button" class="btn-xl btn btn-departments"><%= @directory_object.title %></button></a>
+              <a href="/directory?search=<%= @directory_object.title %>"><button type="button" class="btn btn-departments"><%= @directory_object.title %></button></a>
           <% end %>
           <% if @directory_object.type == "Event" %>
               <% if @directory_object.title %>
@@ -144,7 +144,9 @@
               <% end %>
 
               <h1>Search Similar<h1>
-              <a href="/directory?search=<%= @directory_object.department.title %>"><button type="button" class="btn-xl btn btn-departments">Psychology</button></a>
+              <a href="/directory?search=<%= @directory_object.department.title %>">
+                <button type="button" class="btn btn-departments">Psychology</button>
+              </a>
           <% end %>
           <div class="replay-container">
             <a class="glyphicon glyphicon-repeat replay">Replay</a>
