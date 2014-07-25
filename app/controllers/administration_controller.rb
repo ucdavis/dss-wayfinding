@@ -23,7 +23,7 @@ class AdministrationController < ApplicationController
     # Wipe database on csv load, will need to be modified when event RSS feeds are fixed
     Person.destroy_all
     Department.destroy_all
-
+    DirectoryObject.where(type: "Room").delete_all
     CSV.foreach(csv_path, :headers => true) do |row|
       csv_building = row[1]
       csv_room_number = row[3]
@@ -94,16 +94,17 @@ class AdministrationController < ApplicationController
           person = results.first
         end
         # Ensure room is associated
-        if not person.rooms.include?(room)
-#          person.rooms << room
+        if room
+          if not person.rooms.include?(room)
+            person.rooms << room
+          end
         end
-
         # Ensure department is associated
         # Currently assumes each person has one department, seems to be the case from the data
         if person.department.blank?
           if department.present?
             logger.info "associating department"
-#            person.department = department
+            person.department = department
           end
         end
         person.email = csv_email
