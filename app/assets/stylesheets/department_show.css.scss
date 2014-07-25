@@ -260,10 +260,11 @@ ul.horizontal-nav {
 }
 
 ul.vertical-nav {
-  position: relative;
+  position: fixed;
   list-style: none;
   text-align: center;
-  padding: 0;
+  padding: 0 15px;
+  left: 0;
 
   li {
     position: relative;
@@ -450,7 +451,7 @@ body {
 /* Search interface styling below */
 
 .right-btn-container {
-  position: absolute;
+  position: fixed;
   z-index: 999;
   right: 30px;
 
@@ -532,4 +533,12 @@ input.search:focus {
 {
   display: inline-block;
   height: 79%;
+}
+
+img.building-pic {
+  padding: 1px;
+  border: 1px solid #021a40;
+  background-color: #eee;
+  width: 100%;
+  margin: 2em 0;
 }
