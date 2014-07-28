@@ -3,6 +3,7 @@ class AdministrationController < ApplicationController
 
   def index
     @origin = cookies[:origin]
+    @departments = Department.all
   end
 
   # POST
@@ -10,6 +11,17 @@ class AdministrationController < ApplicationController
   def origin
     cookies.permanent[:origin] = params[:origin] unless params[:origin].blank?
 
+    render :nothing => true
+  end
+  
+  def department_location
+    room_number = params[:department_room_number]
+    id = params[:department_id]
+
+    room = Room.where(room_number: room_number).first_or_create
+    department = Department.find(id)
+    department.room = room
+    department.save
     render :nothing => true
   end
 

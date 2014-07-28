@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     collection do
       post 'origin' #, to: 'directory_objects#modify_origin'
       post 'csv' #, to: 'directory_objects#import_csv'
+      post 'department_location'
     end
   end
 end
