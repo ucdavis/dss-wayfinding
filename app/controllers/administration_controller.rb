@@ -105,18 +105,6 @@ class AdministrationController < ApplicationController
           person.first = csv_first_name
           person.last = csv_last_name
           person.save
-          if person.errors.present?
-            logger.debug "---------------"
-            logger.debug "---------------"
-            logger.debug "---------------"
-            logger.info "Failed to save person:" + person.inspect
-            logger.debug person.errors.messages
-            logger.info "room = " + room.inspect
-            logger.info "department = " + department.inspect
-            logger.debug "---------------"
-            logger.debug "---------------"
-            logger.debug "---------------"
-          end
         end
       end 
     end
