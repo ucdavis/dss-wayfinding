@@ -77,7 +77,7 @@ class AdministrationController < ApplicationController
             logger.info "creating new department"
             department = Department.new
             if csv_person_organization.present?
-              department.title = csv_person_organization
+              department.title = (csv_person_organization).downcase
               department.save
               logger.info "saving new department"
             else

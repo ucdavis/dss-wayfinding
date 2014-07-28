@@ -26,7 +26,7 @@
                 <table class="card-content">
                     <tr>
                         <% if directory_object.department  %>
-                        <td><%= directory_object.department.title %></td>
+                        <td><%= directory_object.department.title.titleize %></td>
                         <% else %>
                         <td></td>
                         <% end %>
@@ -70,7 +70,7 @@
                         </td>
                         <td>
                             <% if directory_object.department %>
-                            <%= directory_object.department.title %>
+                            <%= directory_object.department.title.titleize %>
                             <% end %>
                         </td>
                     </tr>
@@ -82,7 +82,7 @@
         <% if directory_object.type == "Department" %>
             <div class="panel panel-default directory-card department-card">
                 <a href="/directory/<%= directory_object.id %>">
-                <h1 class="panel-heading"><%= directory_object.title %></h1>
+                <h1 class="panel-heading"><%= directory_object.title.titleize %></h1>
                 <table class="card-content">
                     <tr>
                         <td></td>
