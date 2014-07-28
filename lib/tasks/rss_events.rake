@@ -17,9 +17,13 @@ namespace :rss_events do
       DirectoryObject.events.destroy_all(:rss_feed => url)
 
       # Begin Parsing
+      department = Department.where(title: "sociology").first
+      room = nil
+
       feed = feeds[url]
-      event = Event.new
+
       feed.entries.each do |entry|
+      event = Event.new
       event.rss_feed = url
 
       entry.each do |e|
@@ -27,12 +31,8 @@ namespace :rss_events do
             event.title = entry[e]
         end
 
-        if e == "time"
-          event.time = entry[e]
-        end
-
         if e == "date"
-          event.date = entry[e]
+          event.time = entry[e]
         end
 
         if e == "link"
@@ -40,10 +40,19 @@ namespace :rss_events do
         end
 
         if e == "location"
-          # try to parse string and find a room to associate to
+          room = Room.where("room_number LIKE ?", e).first
         end
       end
       
+      # event did not have a parsable location, use default department location
+      if room
+        event.room = room
+      else
+        event.room = department.room
+      end
+
+      event.department = department
+      event.rss_feed = url
       event.save
     end
   end

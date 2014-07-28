@@ -51,6 +51,12 @@ class DirectoryObjectsController < ApplicationController
     elsif @directory_object.type == "Person"
       p = Person.find(params[:id])
       @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
+    elsif @directory_object.type == "Department"
+      d = Department.find(params[:id])
+      @destination = 'R' + d.room.room_number if d.room.present?
+    elsif @directory_object.type == "Event"
+      e = Event.find(params[:id])
+      @destination = 'R' + e.room.room_number if e.room.present?
     end
   end
 

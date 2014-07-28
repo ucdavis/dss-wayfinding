@@ -146,7 +146,7 @@
 
               <h1>Search Similar<h1>
               <a href="/directory?search=<%= @directory_object.department.title %>">
-                <button type="button" class="btn btn-departments">@directory_object.department.title@directory_object.department.titleize</button>
+                <button type="button" class="btn btn-departments"><%= @directory_object.department.title.titleize %></button>
               </a>
           <% end %>
           <div class="replay-container">
