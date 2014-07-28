@@ -45,76 +45,81 @@ class AdministrationController < ApplicationController
         # Found new room?
         if results.empty?
           room = Room.new
-          if not csv_room_number.blank?
-            room.room_number = csv_room_number
-          else
-            logger.error "csv_room is missing a room number"
-            # TODO - should the loop for this row be broken out of if room number doesn't exist?, without a room, there is no location
-          end
+          room.room_number = csv_room_number
+          room.save
         else
           room = results.first
         end
-        
-        # Found existing room? update entry
+
         # Ensure custom data has not already been set
-        if room.name.blank?
-          room.name = csv_room_name
-        end
-        room.save
-      end
-
-      # Parse Department
-      # Don't bother with department/person parsing, something is wrong with this row 
-      unless csv_organization.include?("Identity Purged")
-        results = Department.where(title: csv_person_organization)
-        department = nil
-        if results.empty?
-          logger.info "creating new department"
-          department = Department.new
-          if csv_person_organization.present?
-            department.title = csv_person_organization
-            department.save
-            logger.info "saving new department"
+#        if room.name.blank?
+#          room.name = csv_room_name
+#          room.save
+#        end
+        # Parse Department
+        # Don't bother with department/person parsing, something is wrong with this row 
+        unless csv_organization.include?("Identity Purged")
+          results = Department.where(title: csv_person_organization)
+          department = nil
+          if results.empty?
+            logger.info "creating new department"
+            department = Department.new
+            if csv_person_organization.present?
+              department.title = csv_person_organization
+              department.save
+              logger.info "saving new department"
+            else
+              logger.info "entry was missing an organization"
+            end
           else
-            logger.info "entry was missing an organization"
+            logger.info "department already exists"
+            department = results.first
           end
-        else
-          logger.info "department already exists"
-          department = results.first
-        end
 
-        results = Person.where(email: csv_email)
+          results = Person.where(email: csv_email)
 
-        # Found new person?
-        if results.empty?
-          person = Person.new
+          # Found new person?
+          if results.empty?
+            person = Person.new
 
-        # Found existing person?
-        else
-          person = results.first
-        end
-        # Ensure room is associated
-        if room
-          if not person.rooms.include?(room)
-            person.rooms << room
+          # Found existing person?
+          else
+            person = results.first
+          end
+          # Ensure room is associated
+          if room.present?
+            if not person.rooms.include?(room)
+              person.rooms << room
+            end
+          end
+          # Ensure department is associated
+          # Currently assumes each person has one department, seems to be the case from the data
+          if person.department.blank?
+            if department.present?
+              logger.info "associating department"
+              person.department = department
+            end
+          end
+          person.email = csv_email
+          person.phone = csv_phone
+          person.first = csv_first_name
+          person.last = csv_last_name
+          person.save
+          if person.errors.present?
+            logger.debug "---------------"
+            logger.debug "---------------"
+            logger.debug "---------------"
+            logger.info "Failed to save person:" + person.inspect
+            logger.debug person.errors.messages
+            logger.info "room = " + room.inspect
+            logger.info "department = " + department.inspect
+            logger.debug "---------------"
+            logger.debug "---------------"
+            logger.debug "---------------"
           end
         end
-        # Ensure department is associated
-        # Currently assumes each person has one department, seems to be the case from the data
-        if person.department.blank?
-          if department.present?
-            logger.info "associating department"
-            person.department = department
-          end
-        end
-        person.email = csv_email
-        person.phone = csv_phone
-        person.first = csv_first_name
-        person.last = csv_last_name
-        logger.info "Attempting to save person:" + person.inspect
-        person.save
-      end
-    end 
+      end 
+    end
     render :nothing => true
   end
 end
