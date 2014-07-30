@@ -58,7 +58,7 @@
 	$.fn.wayfinding = function (action, options) {
 
 		var passed = options,
-			dataStore,
+			dataStore = null,
 			obj, // the jQuery object being worked with;
 			maps, // the array of maps populated from options each time
 			defaultMap, // the floor to show at start propulated from options
@@ -233,252 +233,29 @@
 			}
 		} //function setStartPoint
 
-		function cleanupSVG(target, el) {
+		// Hide SVG div, hide 'internal' path lines, make rooms clickable
+		function activateSVG(obj, svgDiv) {
 			//hide maps until explicitly displayed
-			$(el).hide();
+			$(svgDiv).hide();
 
 			//hide route information
-			$('#Paths line', el).attr('stroke-opacity', 0);
-			$('#Doors line', el).attr('stroke-opacity', 0);
-			$('#Portals line', el).attr('stroke-opacity', 0);
-
-			//Rooms
-
-			// clean up after illustrator -> svg issues
-			$('#Rooms a, #Doors line', el).each(function () {
-				if ($(this).prop('id') && $(this).prop('id').indexOf('_') > 0) {
-					var oldID = $(this).prop('id');
-					$(this).prop('id', oldID.slice(0, oldID.indexOf('_')));
-				}
-			});
+			$('#Paths line', svgDiv).attr('stroke-opacity', 0);
+			$('#Doors line', svgDiv).attr('stroke-opacity', 0);
+			$('#Portals line', svgDiv).attr('stroke-opacity', 0);
 
 			//The following need to use the el variable to scope their calls: el is jquery element
 
 			// make clickable
 			// removed el scope from this next call.
-			$('#Rooms a', el).click(function (event) {
+			$('#Rooms a', svgDiv).click(function (event) {
 				console.log("routing to:");
 				console.log($(this).prop('id'));
-				$(target).wayfinding('routeTo', $(this).prop('id'));
+				$(obj).wayfinding('routeTo', $(this).prop('id'));
 				event.preventDefault();
 			});
-		} //function cleanupSVG
 
-		// Extract data from the svg maps
-		function finishFloor(el, mapNum, floor) {
-
-			window.wayfindingDataStore = dataStore;
-
-			var path,
-				doorId,
-				x1,
-				y1,
-				x2,
-				y2,
-				matches,
-				portal,
-				portalId;
-
-			//Paths
-
-			dataStore.paths[mapNum] = [];
-
-			$('#' + floor.id + ' #Paths line', el).each(function () { // index, line
-
-				path = {};
-				path.floor = floor.id; // floor_1
-				path.mapNum = mapNum; // index of floor in array 1
-				path.route = Infinity; //Distance
-				path.prior = -1; //Prior node in path that yielded route distance
-				path.ax = $(this).prop('x1').animVal.value;
-				path.ay = $(this).prop('y1').animVal.value;
-				path.doorA = [];
-				path.bx = $(this).prop('x2').animVal.value;
-				path.by = $(this).prop('y2').animVal.value;
-				path.doorB = [];
-				path.length = Math.sqrt(Math.pow(path.ax - path.bx, 2) + Math.pow(path.ay - path.by, 2));
-
-				path.connections = []; //other paths
-				path.portals = []; // connected portals
-
-				dataStore.paths[mapNum].push(path);
-
-			});
-
-			//Doors and starting points
-			//roomId or POI_Id
-
-			$('#' + floor.id + ' #Doors line', el).each(function () { // index, line
-
-				x1 = $(this).prop('x1').animVal.value;
-				y1 = $(this).prop('y1').animVal.value;
-				x2 = $(this).prop('x2').animVal.value;
-				y2 = $(this).prop('y2').animVal.value;
-				doorId = $(this).prop('id');
-
-				$.each(dataStore.paths[mapNum], function (index, path) {
-					if (floor.id === path.floor && ((path.ax === x1 && path.ay === y1) || (path.ax === x2 && path.ay === y2))) {
-						path.doorA.push(doorId);
-					} else if (floor.id === path.floor && ((path.bx === x1 && path.by === y1) || (path.bx === x2 && path.by === y2))) {
-						path.doorB.push(doorId);
-					}
-				});
-
-			});
-
-			//Portal Segments -- string theory says unmatched portal segment useless -- no wormhole
-
-			$('#' + floor.id + ' #Portals line', el).each(function () { // index, line
-				portal = {};
-
-				portalId = $(this).prop('id');
-
-				if (portalId && portalId.indexOf('_') > -1) {
-					portalId = portalId.slice(0, portalId.indexOf('_'));
-				}
-
-				portal.id = portalId;
-				portal.type = portalId.split('.')[0];
-				portal.floor = floor.id;
-
-				portal.mate = portalId.split('.').slice(0, 2).join('.') + '.' + floor.id;
-
-				portal.mapNum = mapNum;
-
-				portal.matched = false;
-
-				x1 = $(this).prop('x1').animVal.value;
-				y1 = $(this).prop('y1').animVal.value;
-				x2 = $(this).prop('x2').animVal.value;
-				y2 = $(this).prop('y2').animVal.value;
-
-				matches = $.grep(dataStore.paths[mapNum], function (n) { // , i
-					return ((x1 === n.ax && y1 === n.ay) || (x1 === n.bx && y1 === n.by));
-				});
-
-				if (matches.length !== 0) {
-					portal.x = x1;
-					portal.y = y1;
-				} else {
-					portal.x = x2;
-					portal.y = y2;
-				}
-
-				//portal needs length -- long stairs versus elevator
-				portal.length = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-
-				portalSegments.push(portal);
-
-			});
-		} // function finishfloor
-
-
-    // // after data extracted from all svg maps then build portals between them
-    // function buildPortals() {
-    //
-    //   var segmentOuterNum,
-    //     segmentInnerNum,
-    //     outerSegment,
-    //     innerSegment,
-    //     portal,
-    //     mapNum,
-    //     pathOuterNum,
-    //     pathInnerNum,
-    //     portalNum,
-    //     pathNum;
-    //
-    //   for (segmentOuterNum = 0; segmentOuterNum < portalSegments.length; segmentOuterNum++) {
-    //
-    //     outerSegment = portalSegments[segmentOuterNum];
-    //
-    //     if (outerSegment.matched === false) {
-    //
-    //       for (segmentInnerNum = segmentOuterNum; segmentInnerNum < portalSegments.length; segmentInnerNum++) {
-    //         if (portalSegments[segmentInnerNum].id === outerSegment.mate && portalSegments[segmentInnerNum].mate === outerSegment.id) {
-    //           innerSegment = portalSegments[segmentInnerNum];
-    //
-    //           portal = {};
-    //
-    //           outerSegment.matched = true;
-    //           innerSegment.matched = true;
-    //
-    //           portal.type = outerSegment.type;
-    //           portal.accessible = (portal.type === 'Elev' || portal.type === 'Door') ? true : false; // consider changing to != Stair
-    //
-    //           portal.idA = outerSegment.id;
-    //           portal.floorA = outerSegment.floor;
-    //           portal.floorANum = outerSegment.mapNum;
-    //           portal.xA = outerSegment.x;
-    //           portal.yA = outerSegment.y;
-    //           portal.connectionsA = []; //only paths
-    //
-    //           portal.idB = innerSegment.id;
-    //           portal.floorB = innerSegment.floor;
-    //           portal.floorBNum = innerSegment.mapNum;
-    //           portal.xB = innerSegment.x;
-    //           portal.yB = innerSegment.y;
-    //           portal.connectionsB = []; // only paths
-    //
-    //           portal.length = outerSegment.length + innerSegment.length;
-    //
-    //           portal.route = Infinity;
-    //           portal.prior = -1;
-    //
-    //           dataStore.portals.push(portal);
-    //
-    //         }
-    //       }
-    //     }
-    //   }
-    //
-    //   //check each path for connections to other paths
-    //   //checks only possible matchs on same floor, and only for half-1 triangle of search area to speed up search
-    //   for (mapNum = 0; mapNum < maps.length; mapNum++) {
-    //     for (pathOuterNum = 0; pathOuterNum < dataStore.paths[mapNum].length - 1; pathOuterNum++) {
-    //       for (pathInnerNum = pathOuterNum + 1; pathInnerNum < dataStore.paths[mapNum].length; pathInnerNum++) {
-    //         if (
-    //           (dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].ax &&
-    //           dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].ay) ||
-    //             (dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].ax &&
-    //               dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].ay) ||
-    //             (dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].bx &&
-    //               dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].by) ||
-    //             (dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].bx &&
-    //               dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].by)
-    //         ) {
-    //           dataStore.paths[mapNum][pathOuterNum].connections.push(pathInnerNum);
-    //           dataStore.paths[mapNum][pathInnerNum].connections.push(pathOuterNum);
-    //         }
-    //       }
-    //     }
-    //   }
-    //
-    //   //optimize portal searching of paths
-    //   for (portalNum = 0; portalNum < dataStore.portals.length; portalNum++) {
-    //     for (mapNum = 0; mapNum < maps.length; mapNum++) {
-    //       for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
-    //         if (dataStore.portals[portalNum].floorA === dataStore.paths[mapNum][pathNum].floor &&
-    //             ((dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].ax &&
-    //               dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].ay) ||
-    //               (dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].bx &&
-    //                 dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].by))) {
-    //           dataStore.portals[portalNum].connectionsA.push(pathNum);
-    //           dataStore.paths[mapNum][pathNum].portals.push(portalNum);
-    //         } else if (dataStore.portals[portalNum].floorB === dataStore.paths[mapNum][pathNum].floor &&
-    //             ((dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].ax &&
-    //               dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].ay) ||
-    //             (dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].bx &&
-    //               dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].by))) {
-    //           dataStore.portals[portalNum].connectionsB.push(pathNum);
-    //           dataStore.paths[mapNum][pathNum].portals.push(portalNum);
-    //         }
-    //       }
-    //     }
-    //   }
-    //
-    //   portalSegments = [];
-    //
-    // }   // end function buildportals
+			$(obj).append(svgDiv);
+		} //function activateSVG
 
 		function replaceLoadScreen(el) {
 			var displayNum,
@@ -533,74 +310,64 @@
 			}
 		}
 
-		function loadMaps(target) {
+		// Initialize the jQuery target object
+		function initialize(obj) {
 			var processed = 0;
 
-			$.each(maps, function (i, floor) {
-				//create div to put map in, disconnected from DOM for performance reasons
-				var targetFloor = $('<div id="' + floor.id + '"><\/div>');
+			// Load SVGs off the network
+			$.each(maps, function (i, map) {
+				var svgDiv = $('<div id="' + map.id + '"><\/div>');
 
 				//create svg in that div
-				targetFloor.load(
-					floor.path,
+				svgDiv.load(
+					map.path,
 					function (svg) {
-						//get handle for that svg
-						processed = processed + 1;
 						maps[i].svgHandle = svg;
-						cleanupSVG(target, targetFloor);
+						maps[i].el = svgDiv;
 
-						//attach div
-						target.append(this);
+						activateSVG(obj, svgDiv);
 
-						if (!options.dataStoreCache) {
-							finishFloor(target, i, floor);
-							// rather than checking if we have processed the last map in order, this checks if we have processed the right number of maps
-							if (processed === maps.length) {
-								buildPortals();
+						processed = processed + 1;
+
+						if(processed == maps.length) {
+							// All SVGs have finished loading
+
+							// Load or create dataStore
+							if (options.dataStoreCache) {
+								if (typeof(options.dataStoreCache) === 'object') {
+									console.debug('Using dataStoreCache object.');
+									dataStore = options.dataStoreCache;
+
+									options.wayFound = true;
+								} else if (typeof(options.dataStoreCache) === 'string') {
+									$.getJSON(options.dataStoreCache, function (result) {
+										console.debug('Using dataStoreCache from remote.');
+										dataStore = result;
+
+										options.wayFound = true;
+									}).fail(function () {
+										console.log('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
+
+										options.dataStoreCache = false;
+									});
+								}
 							}
-						}
 
-						if (processed === maps.length) {
-							setStartPoint(options.startpoint, target);
-							setOptions(target);
-							replaceLoadScreen(target);
+							// Manually build the dataStore if necessary
+							if(dataStore == null) {
+								console.debug("No dataStore cache exists, building ...");
+								// No dataStore cache exists, build it.
+								dataStore = WayfindingDataStore.build(maps);
+							}
+
+							// SVGs are loaded, dataStore is set, ready the DOM
+							setStartPoint(options.startpoint, obj);
+							setOptions(obj);
+							replaceLoadScreen(obj);
 						}
 					}
 				);
 			});
-		} // function loadMaps
-
-		//initialize the jQuery target object
-		function initialize(target) {
-			//Pull dataStore from cache, if available.
-			if (options.dataStoreCache) {
-				if (typeof(options.dataStoreCache) === 'object') {
-					console.debug('Using dataStoreCache object.');
-					dataStore = options.dataStoreCache;
-					loadMaps(target);
-					options.wayFound = true;
-				} else if (typeof(options.dataStoreCache) === 'string') {
-					$.getJSON(options.dataStoreCache, function (result) {
-						console.debug('Using dataStoreCache from remote.');
-						dataStore = result;
-						loadMaps(target);
-						options.wayFound = true;
-					}).fail(function () {
-						console.log('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
-
-						dataStore.paths = [];
-						dataStore.portals = [];
-						options.dataStoreCache = false;
-
-						loadMaps(target);
-					});
-				}
-			} else {
-				dataStore.paths = [];
-				dataStore.portals = [];
-
-				loadMaps(target);
-			}
 		} // function initialize
 
 		function switchFloor(floor, el) {
@@ -873,30 +640,6 @@
 				return _minLengthRoute(destinations);
 			}
 
-		}
-
-		function generateRoutes() {
-			var sourceInfo,
-			mapNum,
-			sourcemapNum;
-
-			if (!options.wayFound) {
-				sourceInfo = getDoorPaths(startpoint);
-
-				for (mapNum = 0; mapNum < maps.length; mapNum++) {
-					if (maps[mapNum].id === sourceInfo.floor) {
-						sourcemapNum = mapNum;
-					}
-				}
-
-				prepareForSearch();
-				$.each(sourceInfo.paths, function (i, pathId) {
-					dataStore.paths[sourcemapNum][pathId].route = dataStore.paths[sourcemapNum][pathId].length;
-					dataStore.paths[sourcemapNum][pathId].prior = 'door';
-					recursiveSearch('pa', sourcemapNum, pathId, dataStore.paths[sourcemapNum][pathId].length);
-				});
-				setOptions(obj);
-			}
 		}
 
 		// The combined routing function
@@ -1231,7 +974,6 @@
 
 
 
-
 		if (action && typeof (action) === 'object') {
 			options = action;
 			action = 'initialize';
@@ -1239,22 +981,16 @@
 
 		// for each jQuery target object
 		this.each(function () {
-
-
 			// store reference to the currently processing jQuery object
 			obj = $(this);
 
 			getOptions(obj); // load the current options
 
-//          console.log("options loaded: ", action, passed, options);
-
-			//handle actions
+			// Handle actions
 			if (action && typeof (action) === 'string') {
 				switch (action) {
 				case 'initialize':
 					checkIds();
-          dataStore = WayfindingDataStore.build(maps);
-          console.log('dataStore: ', dataStore);
 					initialize(obj);
 					break;
 				case 'routeTo':

@@ -16,9 +16,7 @@ WayfindingDataStore = {
   }, //function cleanupSVG
 
   // Extract data from the svg maps
-  processMap: function (mapNum, map, el) {
-
-  	window.wayfindingDataStore = WayfindingDataStore.dataStore;
+  buildDataStore: function (mapNum, map, el) {
 
   	var path,
   		doorId,
@@ -35,7 +33,6 @@ WayfindingDataStore = {
   	WayfindingDataStore.dataStore.paths[mapNum] = [];
 
   	$('#Paths line', el).each(function () { // index, line
-
   		path = {};
   		path.floor = map.id; // floor_1
   		path.mapNum = mapNum; // index of floor in array 1
@@ -53,14 +50,12 @@ WayfindingDataStore = {
   		path.portals = []; // connected portals
 
   		WayfindingDataStore.dataStore.paths[mapNum].push(path);
-
   	});
 
   	//Doors and starting points
   	//roomId or POI_Id
 
   	$('#Doors line', el).each(function () { // index, line
-
   		x1 = $(this).prop('x1').animVal.value;
   		y1 = $(this).prop('y1').animVal.value;
   		x2 = $(this).prop('x2').animVal.value;
@@ -124,7 +119,7 @@ WayfindingDataStore = {
   }, // function finishfloor
 
 	// after data extracted from all svg maps then build portals between them
-	buildPortals: function () {
+	buildPortals: function (maps) {
 
 		var segmentOuterNum,
 			segmentInnerNum,
@@ -137,15 +132,15 @@ WayfindingDataStore = {
 			portalNum,
 			pathNum;
 
-		for (segmentOuterNum = 0; segmentOuterNum < portalSegments.length; segmentOuterNum++) {
+		for (segmentOuterNum = 0; segmentOuterNum < WayfindingDataStore.portalSegments.length; segmentOuterNum++) {
 
-			outerSegment = portalSegments[segmentOuterNum];
+			outerSegment = WayfindingDataStore.portalSegments[segmentOuterNum];
 
 			if (outerSegment.matched === false) {
 
-				for (segmentInnerNum = segmentOuterNum; segmentInnerNum < portalSegments.length; segmentInnerNum++) {
-					if (portalSegments[segmentInnerNum].id === outerSegment.mate && portalSegments[segmentInnerNum].mate === outerSegment.id) {
-						innerSegment = portalSegments[segmentInnerNum];
+				for (segmentInnerNum = segmentOuterNum; segmentInnerNum < WayfindingDataStore.portalSegments.length; segmentInnerNum++) {
+					if (WayfindingDataStore.portalSegments[segmentInnerNum].id === outerSegment.mate && WayfindingDataStore.portalSegments[segmentInnerNum].mate === outerSegment.id) {
+						innerSegment = WayfindingDataStore.portalSegments[segmentInnerNum];
 
 						portal = {};
 
@@ -184,8 +179,8 @@ WayfindingDataStore = {
 		//check each path for connections to other paths
 		//checks only possible matchs on same floor, and only for half-1 triangle of search area to speed up search
 		for (mapNum = 0; mapNum < maps.length; mapNum++) {
-			for (pathOuterNum = 0; pathOuterNum < dataStore.paths[mapNum].length - 1; pathOuterNum++) {
-				for (pathInnerNum = pathOuterNum + 1; pathInnerNum < dataStore.paths[mapNum].length; pathInnerNum++) {
+			for (pathOuterNum = 0; pathOuterNum < WayfindingDataStore.dataStore.paths[mapNum].length - 1; pathOuterNum++) {
+				for (pathInnerNum = pathOuterNum + 1; pathInnerNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathInnerNum++) {
 					if (
 						(WayfindingDataStore.dataStore.paths[mapNum][pathInnerNum].ax === WayfindingDataStore.dataStore.paths[mapNum][pathOuterNum].ax &&
 						WayfindingDataStore.dataStore.paths[mapNum][pathInnerNum].ay === WayfindingDataStore.dataStore.paths[mapNum][pathOuterNum].ay) ||
@@ -204,9 +199,9 @@ WayfindingDataStore = {
 		}
 
 		//optimize portal searching of paths
-		for (portalNum = 0; portalNum < dataStore.portals.length; portalNum++) {
+		for (portalNum = 0; portalNum < WayfindingDataStore.dataStore.portals.length; portalNum++) {
 			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
+				for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
 					if (WayfindingDataStore.dataStore.portals[portalNum].floorA === WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor &&
 							((WayfindingDataStore.dataStore.portals[portalNum].xA === WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax &&
 								WayfindingDataStore.dataStore.portals[portalNum].yA === WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay) ||
@@ -231,29 +226,13 @@ WayfindingDataStore = {
 	},   // end function buildportals
 
   build: function (maps) {
-  	var processed = 0;
-  	$.each(maps, function (i, map) {
-			var targetFloor = $('<div id="' + map.id + '"><\/div>');
+    $.each(maps, function(i, map) {
+      WayfindingDataStore.cleanupSVG(map.el);
+      WayfindingDataStore.buildDataStore(i, map, map.el);
+    });
 
-			//create svg in that div
-			targetFloor.load(
-				map.path,
-				function (svg) {
-					//get handle for that svg
-					processed = processed + 1;
-					maps[i].svgHandle = svg;
-					WayfindingDataStore.cleanupSVG(targetFloor);
+    WayfindingDataStore.buildPortals(maps);
 
-      		WayfindingDataStore.processMap(i, map, this);
-
-      		if (processed === maps.length) {
-      			WayfindingDataStore.buildPortals();
-      		}
-        }
-      );
-  		// rather than checking if we have processed the last map in order, this checks if we have processed the right number of maps
-      
-  	});
-    console.log(window.wayfindingDataStore);
-  } // function loadMaps
+    return WayfindingDataStore.dataStore;
+  } // function build
 }
