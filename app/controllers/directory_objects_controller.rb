@@ -27,13 +27,13 @@ class DirectoryObjectsController < ApplicationController
       @directory_objects = results
 
     elsif params[:type] == "Person"
-      @directory_objects = DirectoryObject.people.all
+      @directory_objects = DirectoryObject.people.all.order(:last)
     elsif params[:type] == "Department"
-      @directory_objects = DirectoryObject.departments.all
+      @directory_objects = DirectoryObject.departments.all.order(:title)
     elsif params[:type] == "Event"
-      @directory_objects = DirectoryObject.events.all
+      @directory_objects = DirectoryObject.events.all.order(:title)
     elsif params[:type] == "Room"
-      @directory_objects = DirectoryObject.rooms.all
+      @directory_objects = DirectoryObject.rooms.all.order(:room_number)
     else
       @directory_objects = DirectoryObject.all
     end
