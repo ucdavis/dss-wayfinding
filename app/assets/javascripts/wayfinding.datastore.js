@@ -4,6 +4,7 @@ WayfindingDataStore = {
     'portals': []
   },
   portalSegments: [],
+  accessible: false,
 
   cleanupSVG: function (el) {
   	// clean up after illustrator -> svg issues
@@ -225,13 +226,117 @@ WayfindingDataStore = {
 
 	},   // end function buildportals
 
-  build: function (maps) {
+  generateRoutes: function (startpoint, maps) {
+    var sourceInfo,
+    mapNum,
+    sourcemapNum;
+
+    sourceInfo = WayfindingDataStore.getDoorPaths(maps, startpoint);
+
+    for (mapNum = 0; mapNum < maps.length; mapNum++) {
+      if (maps[mapNum].id === sourceInfo.floor) {
+        sourcemapNum = mapNum;
+      }
+    }
+
+    $.each(sourceInfo.paths, function (i, pathId) {
+      WayfindingDataStore.dataStore.paths[sourcemapNum][pathId].route = WayfindingDataStore.dataStore.paths[sourcemapNum][pathId].length;
+      WayfindingDataStore.dataStore.paths[sourcemapNum][pathId].prior = 'door';
+      WayfindingDataStore.recursiveSearch('pa', sourcemapNum, pathId, WayfindingDataStore.dataStore.paths[sourcemapNum][pathId].length);
+    });
+  },
+
+  recursiveSearch: function (segmentType, segmentFloor, segment, length) {
+    //SegmentType is PAth or POrtal, segment floor limits search, segment is id per type and floor, length is total length of current thread
+    // for each path on this floor look at all the paths we know connect to it
+    $.each(WayfindingDataStore.dataStore.paths[segmentFloor][segment].connections, function (i, tryPath) {
+      // check and see if the current path is a shorter path to the new path
+      if (length + WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].length < WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].route) {
+        WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].route = length + WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].length;
+        WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].prior = segment;
+        WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].priorType = segmentType;
+        WayfindingDataStore.recursiveSearch('pa', segmentFloor,  tryPath, WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].route);
+      }
+    });
+    // if the current path is connected to any portals
+    if (WayfindingDataStore.dataStore.paths[segmentFloor][segment].portals.length > 0) {
+      // look at each portal, tryPortal is portal index in portals
+      $.each(WayfindingDataStore.dataStore.paths[segmentFloor][segment].portals, function (i, tryPortal) {
+        if (length + WayfindingDataStore.dataStore.portals[tryPortal].length < WayfindingDataStore.dataStore.portals[tryPortal].route && (WayfindingDataStore.accessible === false || (WayfindingDataStore.accessible === true && WayfindingDataStore.dataStore.portals[tryPortal].accessible))) {
+          WayfindingDataStore.dataStore.portals[tryPortal].route = length + WayfindingDataStore.dataStore.portals[tryPortal].length;
+          WayfindingDataStore.dataStore.portals[tryPortal].prior = segment;
+          WayfindingDataStore.dataStore.portals[tryPortal].priormapNum = WayfindingDataStore.dataStore.paths[segmentFloor][segment].mapNum;
+          WayfindingDataStore.dataStore.portals[tryPortal].priorType = segmentType;
+          // if the incoming segment to the portal is at one end of the portal try all the paths at the other end
+          if ($.inArray(segment, WayfindingDataStore.dataStore.portals[tryPortal].connectionsA) !== -1) {
+            $.each(WayfindingDataStore.dataStore.portals[tryPortal].connectionsB, function (i, tryPath) {
+              //if adding this path
+              if (length + WayfindingDataStore.dataStore.portals[tryPortal].length + WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].length < WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].route) {
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].route = WayfindingDataStore.dataStore.portals[tryPortal].route + WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].length;
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].prior = tryPortal;
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].priorType = 'po';
+                WayfindingDataStore.recursiveSearch('pa', WayfindingDataStore.dataStore.portals[tryPortal].floorBNum, tryPath, WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorBNum][tryPath].route);
+              }
+            });
+          } else {
+            $.each(WayfindingDataStore.dataStore.portals[tryPortal].connectionsA, function (i, tryPath) {
+              // if adding this path
+              if (length + WayfindingDataStore.dataStore.portals[tryPortal].length + WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].length < WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].route) {
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].route = WayfindingDataStore.dataStore.portals[tryPortal].route + WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].length;
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].prior = tryPortal;
+                WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].priorType = 'po';
+                WayfindingDataStore.recursiveSearch('pa', WayfindingDataStore.dataStore.portals[tryPortal].floorANum, tryPath, WayfindingDataStore.dataStore.paths[WayfindingDataStore.dataStore.portals[tryPortal].floorANum][tryPath].route);
+              }
+            });
+          }
+        }
+      });
+    }
+  },
+
+  //get the set of paths adjacent to a door or endpoint.
+  getDoorPaths: function (maps, door) {
+    var mapNum,
+    pathNum,
+    doorANum,
+    doorBNum,
+    result = {
+      'paths' : [],
+      'floor' : null
+    };
+
+    for (mapNum = 0; mapNum < maps.length; mapNum++) {
+      for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
+        for (doorANum = 0; doorANum < WayfindingDataStore.dataStore.paths[mapNum][pathNum].doorA.length; doorANum++) {
+          if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].doorA[doorANum] === door) {
+            result.paths.push(pathNum); // only pushing pathNum because starting on a single floor
+            result.floor = WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor;
+          }
+        }
+        for (doorBNum = 0; doorBNum < WayfindingDataStore.dataStore.paths[mapNum][pathNum].doorB.length; doorBNum++) {
+          if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].doorB[doorBNum] === door) {
+            result.paths.push(pathNum); // only pushing pathNum because starting on a single floor
+            result.floor = WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor;
+          }
+        }
+      }
+    }
+
+    return result;
+  },
+
+  build: function (startpoint, maps, accessible) {
+    if(accessible == undefined) accessible = false;
+    WayfindingDataStore.accessible = accessible;
+
     $.each(maps, function(i, map) {
       WayfindingDataStore.cleanupSVG(map.el);
       WayfindingDataStore.buildDataStore(i, map, map.el);
     });
 
     WayfindingDataStore.buildPortals(maps);
+
+    WayfindingDataStore.generateRoutes(startpoint, maps);
 
     return WayfindingDataStore.dataStore;
   } // function build

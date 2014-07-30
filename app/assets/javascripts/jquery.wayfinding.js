@@ -49,7 +49,6 @@
 			fill: 'red',
 			height: 40
 		},
-		'wayFound' : false,
 		'zoomToRoute' : false,
 		'zoomPadding' : 50,
 		'mapEvents': false
@@ -285,31 +284,6 @@
 			$.event.trigger("wayfinding:ready");
 		} //function replaceLoadScreen
 
-		//deletes path metadata from datastore.
-		//otherwise old path data will be reused.
-		function prepareForSearch() {
-			var mapNum,
-			pathNum,
-			portalNum;
-
-			// set route distance back to infinity and prior path to unvisited
-			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
-					dataStore.paths[mapNum][pathNum].route = Infinity;
-					dataStore.paths[mapNum][pathNum].prior = -1;
-				}
-			} //function prepareForSearch
-
-			// reset portals
-			for (portalNum = 0; portalNum < dataStore.portals.length; portalNum++) {
-				//Set route distance to infinity
-				dataStore.portals[portalNum].route = Infinity;
-				//indicate which node was used to get to this node -1 = none
-				dataStore.portals[portalNum].prior = -1;
-				dataStore.portals[portalNum].priormapNum = -1;
-			}
-		}
-
 		// Initialize the jQuery target object
 		function initialize(obj) {
 			var processed = 0;
@@ -337,14 +311,10 @@
 								if (typeof(options.dataStoreCache) === 'object') {
 									console.debug('Using dataStoreCache object.');
 									dataStore = options.dataStoreCache;
-
-									options.wayFound = true;
 								} else if (typeof(options.dataStoreCache) === 'string') {
 									$.getJSON(options.dataStoreCache, function (result) {
 										console.debug('Using dataStoreCache from remote.');
 										dataStore = result;
-
-										options.wayFound = true;
 									}).fail(function () {
 										console.log('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
 
@@ -355,9 +325,9 @@
 
 							// Manually build the dataStore if necessary
 							if(dataStore == null) {
-								console.debug("No dataStore cache exists, building ...");
+								console.debug("No dataStore cache exists, building with startpoint '" + options.startpoint + "' ...");
 								// No dataStore cache exists, build it.
-								dataStore = WayfindingDataStore.build(maps);
+								dataStore = WayfindingDataStore.build(options.startpoint, maps);
 							}
 
 							// SVGs are loaded, dataStore is set, ready the DOM
@@ -382,14 +352,6 @@
 			// if there get drawing[level].routeLength and use that.
 
 			var i, level, mapNum, pathLength;
-
-
-
-
-			// work here
-
-
-
 
 			if (drawing) {
 				mapNum = -1;
@@ -418,56 +380,6 @@
 				}
 			}
 		} //function switchFloor
-
-		function recursiveSearch(segmentType, segmentFloor, segment, length) {
-			//SegmentType is PAth or POrtal, segment floor limits search, segment is id per type and floor, length is total length of current thread
-			// for each path on this floor look at all the paths we know connect to it
-			$.each(dataStore.paths[segmentFloor][segment].connections, function (i, tryPath) {
-				// check and see if the current path is a shorter path to the new path
-				if (length + dataStore.paths[segmentFloor][tryPath].length < dataStore.paths[segmentFloor][tryPath].route) {
-					dataStore.paths[segmentFloor][tryPath].route = length + dataStore.paths[segmentFloor][tryPath].length;
-					dataStore.paths[segmentFloor][tryPath].prior = segment;
-					dataStore.paths[segmentFloor][tryPath].priorType = segmentType;
-					recursiveSearch('pa', segmentFloor,  tryPath, dataStore.paths[segmentFloor][tryPath].route);
-				}
-			});
-			// if the current path is connected to any portals
-			if (dataStore.paths[segmentFloor][segment].portals.length > 0) {
-				// look at each portal, tryPortal is portal index in portals
-				$.each(dataStore.paths[segmentFloor][segment].portals, function (i, tryPortal) {
-					if (length + dataStore.portals[tryPortal].length < dataStore.portals[tryPortal].route && (options.accessibleRoute === false || (options.accessibleRoute === true && dataStore.portals[tryPortal].accessible))) {
-						dataStore.portals[tryPortal].route = length + dataStore.portals[tryPortal].length;
-						dataStore.portals[tryPortal].prior = segment;
-						dataStore.portals[tryPortal].priormapNum = dataStore.paths[segmentFloor][segment].mapNum;
-						dataStore.portals[tryPortal].priorType = segmentType;
-						// if the incoming segment to the portal is at one end of the portal try all the paths at the other end
-						if ($.inArray(segment, dataStore.portals[tryPortal].connectionsA) !== -1) {
-							$.each(dataStore.portals[tryPortal].connectionsB, function (i, tryPath) {
-								//if adding this path
-								if (length + dataStore.portals[tryPortal].length + dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].length < dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].route) {
-									dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].route = dataStore.portals[tryPortal].route + dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].length;
-									dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].prior = tryPortal;
-									dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].priorType = 'po';
-									recursiveSearch('pa', dataStore.portals[tryPortal].floorBNum, tryPath, dataStore.paths[dataStore.portals[tryPortal].floorBNum][tryPath].route);
-								}
-							});
-						} else {
-							$.each(dataStore.portals[tryPortal].connectionsA, function (i, tryPath) {
-								// if adding this path
-								if (length + dataStore.portals[tryPortal].length + dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].length < dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].route) {
-									dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].route = dataStore.portals[tryPortal].route + dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].length;
-									dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].prior = tryPortal;
-									dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].priorType = 'po';
-									recursiveSearch('pa', dataStore.portals[tryPortal].floorANum, tryPath, dataStore.paths[dataStore.portals[tryPortal].floorANum][tryPath].route);
-								}
-							});
-						}
-					}
-				});
-			}
-
-			options.wayFound = true;
-		}
 
 		// from a given end point generate an array representing the reverse steps needed to reach destination along shortest path
 		function backTrack(segmentType, segmentFloor, segment) {
@@ -550,41 +462,7 @@
 			delay + 1000);
 		} //function animatePath
 
-		//get the set of paths adjacent to a door or endpoint.
-		function getDoorPaths(door) {
-			var mapNum,
-			pathNum,
-			doorANum,
-			doorBNum,
-			result = {
-				'paths' : [],
-				'floor' : null
-			};
-
-			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				console.log("animatePath for loop for mapNum:" + mapNum);
-				for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
-					for (doorANum = 0; doorANum < dataStore.paths[mapNum][pathNum].doorA.length; doorANum++) {
-						if (dataStore.paths[mapNum][pathNum].doorA[doorANum] === door) {
-							result.paths.push(pathNum); // only pushing pathNum because starting on a single floor
-							result.floor = dataStore.paths[mapNum][pathNum].floor;
-						}
-					}
-					for (doorBNum = 0; doorBNum < dataStore.paths[mapNum][pathNum].doorB.length; doorBNum++) {
-						if (dataStore.paths[mapNum][pathNum].doorB[doorBNum] === door) {
-							result.paths.push(pathNum); // only pushing pathNum because starting on a single floor
-							result.floor = dataStore.paths[mapNum][pathNum].floor;
-						}
-					}
-				}
-			}
-
-			return result;
-		}
-
 		function getShortestRoute(destinations) {
-			generateRoutes();
-
 			function _minLengthRoute(destination) {
 				var destInfo,
 				mapNum,
@@ -593,7 +471,7 @@
 				destinationmapNum,
 				i;
 
-				destInfo = getDoorPaths(destination);
+				destInfo = WayfindingDataStore.getDoorPaths(maps, destination);
 
 				for (mapNum = 0; mapNum < maps.length; mapNum++) {
 					if (maps[mapNum].id === destInfo.floor) {
@@ -711,6 +589,10 @@
 					//build drawing and modify solution for text generation by adding .direction to solution segments?
 
 					draw = {};
+
+					if(solution.length == 0) {
+						debugger;
+					}
 
 					//if statement incorrectly assumes one door at the end of the path, works in that case, need to generalize
 					if (dataStore.paths[solution[0].floor][solution[0].segment].doorA[0] === startpoint) {
@@ -1006,7 +888,6 @@
 					if (passed === undefined) {
 						result = startpoint;
 					} else {
-						options.wayFound = false;
 						setStartPoint(passed);
 					}
 					break;
@@ -1023,9 +904,6 @@
 					if (passed === undefined) {
 						result = options.accessibleRoute;
 					} else {
-						if (options.accessibleRoute !== passed) {
-							options.wayFound = false;
-						}
 						options.accessibleRoute = passed;
 					}
 					break;
@@ -1070,11 +948,6 @@
 
 		}); //this each loop for wayfinding
 
-
-
-
-
-	//  }); //this each
 		if (result !== undefined) {
 			return result;
 		}
