@@ -58,10 +58,7 @@
 	$.fn.wayfinding = function (action, options) {
 
 		var passed = options,
-			dataStore = {
-				'paths': [],
-				'portals': []
-			},
+			dataStore,
 			obj, // the jQuery object being worked with;
 			maps, // the array of maps populated from options each time
 			defaultMap, // the floor to show at start propulated from options
@@ -376,112 +373,112 @@
 		} // function finishfloor
 
 
-		// after data extracted from all svg maps then build portals between them
-		function buildPortals() {
-
-			var segmentOuterNum,
-				segmentInnerNum,
-				outerSegment,
-				innerSegment,
-				portal,
-				mapNum,
-				pathOuterNum,
-				pathInnerNum,
-				portalNum,
-				pathNum;
-
-			for (segmentOuterNum = 0; segmentOuterNum < portalSegments.length; segmentOuterNum++) {
-
-				outerSegment = portalSegments[segmentOuterNum];
-
-				if (outerSegment.matched === false) {
-
-					for (segmentInnerNum = segmentOuterNum; segmentInnerNum < portalSegments.length; segmentInnerNum++) {
-						if (portalSegments[segmentInnerNum].id === outerSegment.mate && portalSegments[segmentInnerNum].mate === outerSegment.id) {
-							innerSegment = portalSegments[segmentInnerNum];
-
-							portal = {};
-
-							outerSegment.matched = true;
-							innerSegment.matched = true;
-
-							portal.type = outerSegment.type;
-							portal.accessible = (portal.type === 'Elev' || portal.type === 'Door') ? true : false; // consider changing to != Stair
-
-							portal.idA = outerSegment.id;
-							portal.floorA = outerSegment.floor;
-							portal.floorANum = outerSegment.mapNum;
-							portal.xA = outerSegment.x;
-							portal.yA = outerSegment.y;
-							portal.connectionsA = []; //only paths
-
-							portal.idB = innerSegment.id;
-							portal.floorB = innerSegment.floor;
-							portal.floorBNum = innerSegment.mapNum;
-							portal.xB = innerSegment.x;
-							portal.yB = innerSegment.y;
-							portal.connectionsB = []; // only paths
-
-							portal.length = outerSegment.length + innerSegment.length;
-
-							portal.route = Infinity;
-							portal.prior = -1;
-
-							dataStore.portals.push(portal);
-
-						}
-					}
-				}
-			}
-
-			//check each path for connections to other paths
-			//checks only possible matchs on same floor, and only for half-1 triangle of search area to speed up search
-			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				for (pathOuterNum = 0; pathOuterNum < dataStore.paths[mapNum].length - 1; pathOuterNum++) {
-					for (pathInnerNum = pathOuterNum + 1; pathInnerNum < dataStore.paths[mapNum].length; pathInnerNum++) {
-						if (
-							(dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].ax &&
-							dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].ay) ||
-								(dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].ax &&
-									dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].ay) ||
-								(dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].bx &&
-									dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].by) ||
-								(dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].bx &&
-									dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].by)
-						) {
-							dataStore.paths[mapNum][pathOuterNum].connections.push(pathInnerNum);
-							dataStore.paths[mapNum][pathInnerNum].connections.push(pathOuterNum);
-						}
-					}
-				}
-			}
-
-			//optimize portal searching of paths
-			for (portalNum = 0; portalNum < dataStore.portals.length; portalNum++) {
-				for (mapNum = 0; mapNum < maps.length; mapNum++) {
-					for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
-						if (dataStore.portals[portalNum].floorA === dataStore.paths[mapNum][pathNum].floor &&
-								((dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].ax &&
-									dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].ay) ||
-									(dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].bx &&
-										dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].by))) {
-							dataStore.portals[portalNum].connectionsA.push(pathNum);
-							dataStore.paths[mapNum][pathNum].portals.push(portalNum);
-						} else if (dataStore.portals[portalNum].floorB === dataStore.paths[mapNum][pathNum].floor &&
-								((dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].ax &&
-									dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].ay) ||
-								(dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].bx &&
-									dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].by))) {
-							dataStore.portals[portalNum].connectionsB.push(pathNum);
-							dataStore.paths[mapNum][pathNum].portals.push(portalNum);
-						}
-					}
-				}
-			}
-
-			portalSegments = [];
-
-		}   // end function buildportals
+    // // after data extracted from all svg maps then build portals between them
+    // function buildPortals() {
+    //
+    //   var segmentOuterNum,
+    //     segmentInnerNum,
+    //     outerSegment,
+    //     innerSegment,
+    //     portal,
+    //     mapNum,
+    //     pathOuterNum,
+    //     pathInnerNum,
+    //     portalNum,
+    //     pathNum;
+    //
+    //   for (segmentOuterNum = 0; segmentOuterNum < portalSegments.length; segmentOuterNum++) {
+    //
+    //     outerSegment = portalSegments[segmentOuterNum];
+    //
+    //     if (outerSegment.matched === false) {
+    //
+    //       for (segmentInnerNum = segmentOuterNum; segmentInnerNum < portalSegments.length; segmentInnerNum++) {
+    //         if (portalSegments[segmentInnerNum].id === outerSegment.mate && portalSegments[segmentInnerNum].mate === outerSegment.id) {
+    //           innerSegment = portalSegments[segmentInnerNum];
+    //
+    //           portal = {};
+    //
+    //           outerSegment.matched = true;
+    //           innerSegment.matched = true;
+    //
+    //           portal.type = outerSegment.type;
+    //           portal.accessible = (portal.type === 'Elev' || portal.type === 'Door') ? true : false; // consider changing to != Stair
+    //
+    //           portal.idA = outerSegment.id;
+    //           portal.floorA = outerSegment.floor;
+    //           portal.floorANum = outerSegment.mapNum;
+    //           portal.xA = outerSegment.x;
+    //           portal.yA = outerSegment.y;
+    //           portal.connectionsA = []; //only paths
+    //
+    //           portal.idB = innerSegment.id;
+    //           portal.floorB = innerSegment.floor;
+    //           portal.floorBNum = innerSegment.mapNum;
+    //           portal.xB = innerSegment.x;
+    //           portal.yB = innerSegment.y;
+    //           portal.connectionsB = []; // only paths
+    //
+    //           portal.length = outerSegment.length + innerSegment.length;
+    //
+    //           portal.route = Infinity;
+    //           portal.prior = -1;
+    //
+    //           dataStore.portals.push(portal);
+    //
+    //         }
+    //       }
+    //     }
+    //   }
+    //
+    //   //check each path for connections to other paths
+    //   //checks only possible matchs on same floor, and only for half-1 triangle of search area to speed up search
+    //   for (mapNum = 0; mapNum < maps.length; mapNum++) {
+    //     for (pathOuterNum = 0; pathOuterNum < dataStore.paths[mapNum].length - 1; pathOuterNum++) {
+    //       for (pathInnerNum = pathOuterNum + 1; pathInnerNum < dataStore.paths[mapNum].length; pathInnerNum++) {
+    //         if (
+    //           (dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].ax &&
+    //           dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].ay) ||
+    //             (dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].ax &&
+    //               dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].ay) ||
+    //             (dataStore.paths[mapNum][pathInnerNum].ax === dataStore.paths[mapNum][pathOuterNum].bx &&
+    //               dataStore.paths[mapNum][pathInnerNum].ay === dataStore.paths[mapNum][pathOuterNum].by) ||
+    //             (dataStore.paths[mapNum][pathInnerNum].bx === dataStore.paths[mapNum][pathOuterNum].bx &&
+    //               dataStore.paths[mapNum][pathInnerNum].by === dataStore.paths[mapNum][pathOuterNum].by)
+    //         ) {
+    //           dataStore.paths[mapNum][pathOuterNum].connections.push(pathInnerNum);
+    //           dataStore.paths[mapNum][pathInnerNum].connections.push(pathOuterNum);
+    //         }
+    //       }
+    //     }
+    //   }
+    //
+    //   //optimize portal searching of paths
+    //   for (portalNum = 0; portalNum < dataStore.portals.length; portalNum++) {
+    //     for (mapNum = 0; mapNum < maps.length; mapNum++) {
+    //       for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
+    //         if (dataStore.portals[portalNum].floorA === dataStore.paths[mapNum][pathNum].floor &&
+    //             ((dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].ax &&
+    //               dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].ay) ||
+    //               (dataStore.portals[portalNum].xA === dataStore.paths[mapNum][pathNum].bx &&
+    //                 dataStore.portals[portalNum].yA === dataStore.paths[mapNum][pathNum].by))) {
+    //           dataStore.portals[portalNum].connectionsA.push(pathNum);
+    //           dataStore.paths[mapNum][pathNum].portals.push(portalNum);
+    //         } else if (dataStore.portals[portalNum].floorB === dataStore.paths[mapNum][pathNum].floor &&
+    //             ((dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].ax &&
+    //               dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].ay) ||
+    //             (dataStore.portals[portalNum].xB === dataStore.paths[mapNum][pathNum].bx &&
+    //               dataStore.portals[portalNum].yB === dataStore.paths[mapNum][pathNum].by))) {
+    //           dataStore.portals[portalNum].connectionsB.push(pathNum);
+    //           dataStore.paths[mapNum][pathNum].portals.push(portalNum);
+    //         }
+    //       }
+    //     }
+    //   }
+    //
+    //   portalSegments = [];
+    //
+    // }   // end function buildportals
 
 		function replaceLoadScreen(el) {
 			var displayNum,
@@ -1256,6 +1253,8 @@
 				switch (action) {
 				case 'initialize':
 					checkIds();
+          dataStore = WayfindingDataStore.build(maps);
+          console.log('dataStore: ', dataStore);
 					initialize(obj);
 					break;
 				case 'routeTo':
