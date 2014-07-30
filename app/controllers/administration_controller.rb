@@ -71,23 +71,21 @@ class AdministrationController < ApplicationController
         # Parse Department
         # Don't bother with department/person parsing, something is wrong with this row 
         unless csv_organization.include?("Identity Purged")
-          results = Department.where(title: csv_person_organization)
           department = nil
-          if results.empty?
-            logger.info "creating new department"
+          results = Department.where(title: csv_person_organization.downcase).first
+          if results.blank?
             department = Department.new
             if csv_person_organization.present?
               department.title = (csv_person_organization).downcase
               department.save
-              logger.info "saving new department"
             else
               logger.info "entry was missing an organization"
             end
           else
-            logger.info "department already exists"
-            department = results.first
+            department = results
           end
 
+          # Parsing Person
           results = Person.where(email: csv_email)
 
           # Found new person?
@@ -108,7 +106,6 @@ class AdministrationController < ApplicationController
           # Currently assumes each person has one department, seems to be the case from the data
           if person.department.blank?
             if department.present?
-              logger.info "associating department"
               person.department = department
             end
           end
