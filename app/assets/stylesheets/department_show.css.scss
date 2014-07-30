@@ -267,6 +267,7 @@ ul.vertical-nav {
 
   li {
     position: relative;
+    margin: 5px 10px 35px;
 
     span {
       color: #777;
@@ -274,14 +275,18 @@ ul.vertical-nav {
       text-transform: uppercase;
       white-space: normal;
       position: absolute;
-      left: 0;
-      width: 100%;
+      left: -50%;
+      width: 200%;
       text-align: center;
+
+      &.left-icon {
+        font-size: 0.7em;
+        margin-top: 1em;
+      }
     }
 
     a {
       display: block;
-      margin: 25px 10px;
       width: 80px;
       height: 80px;
       position: relative;
@@ -354,6 +359,42 @@ ul.vertical-nav {
 
 .btn-about {
   background: $about-color;
+}
+
+.text-home {
+  color: $home-color;
+}
+
+.text-people {
+  color: $people-color;
+}
+
+.text-events {
+  color: $events-color;
+}
+
+.text-rooms {
+  color: $rooms-color;
+}
+
+.text-departments {
+  color: $departments-color;
+}
+
+.text-map {
+  color: $map-color;
+}
+
+.text-search {
+  color: $search-color;
+}
+
+.text-floor {
+  color: $floor-color;
+}
+
+.text-about {
+  color: $about-color;
 }
 
 #directory-banner {
