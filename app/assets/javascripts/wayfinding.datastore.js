@@ -15,7 +15,6 @@ WayfindingDataStore = {
 
   // Extract data from the svg maps
   buildDataStore: function (mapNum, map, el) {
-
   	var path,
   		doorId,
   		x1,
@@ -30,7 +29,7 @@ WayfindingDataStore = {
 
   	WayfindingDataStore.dataStore.paths[mapNum] = [];
 
-    console.debug("Map #" + mapNum + " has " + $('#Paths line', el).length + " paths");
+    //console.debug("Map #" + mapNum + " has " + $('#Paths line', el).length + " paths");
 
   	$('#Paths line', el).each(function (i, line) {
   		path = {};
@@ -56,7 +55,7 @@ WayfindingDataStore = {
   	//Doors and starting points
   	//roomId or POI_Id
 
-    console.debug("Map #" + mapNum + " has " + $('#Doors line', el).length + " doors");
+    //console.debug("Map #" + mapNum + " has " + $('#Doors line', el).length + " doors");
 
   	$('#Doors line', el).each(function () { // index, line
   		x1 = $(this).attr('x1');
@@ -77,7 +76,7 @@ WayfindingDataStore = {
 
   	//Portal Segments -- string theory says unmatched portal segment useless -- no wormhole
 
-    console.debug("Map #" + mapNum + " has " + $('#Portals line', el).length + " portals");
+    //console.debug("Map #" + mapNum + " has " + $('#Portals line', el).length + " portals");
 
   	$('#Portals line', el).each(function () { // index, line
   		portal = {};
@@ -328,7 +327,52 @@ WayfindingDataStore = {
     return result;
   },
 
+  // TODO: This function was copied from the jQuery file. Needs to be updated for use in NodeJS.
+  checkMap: function (el) {
+    var mapNum,
+      pathNum,
+      debugLine,
+      report = [],
+      i = 0;
+
+    generateRoutes();
+
+    for (mapNum = 0; mapNum < maps.length; mapNum++) {
+      report[i++] = 'Checking map: ' + mapNum;
+      for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
+        if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].route === Infinity || WayfindingDataStore.dataStore.paths[mapNum][pathNum].prior === -1) {
+          report[i++] = 'unreachable path: ' + pathNum;
+          //Show where paths that are unreachable from the given start point are.
+          debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          debugLine.setAttribute('class', 'debugPath');
+          debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
+          debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
+          debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
+          debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
+          $('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
+        }
+      }
+      report[i++] = '\n';
+
+      /* jshint ignore:start */
+      $('#' + WayfindingDataStore.dataStore.paths[mapNum][0].floor + ' #Rooms a', el).each(function (_i, room) {
+        var doorPaths = getShortestRoute($(room).prop('id'));
+
+        if (doorPaths.solution.length === 0) {
+          report[i++] = 'unreachable room: ' + $(room).prop('id');
+          //highlight unreachable rooms
+          $(room).attr('class', 'debugRoom');
+        }
+      }); //
+      /* jshint ignore:end */
+      report[i++] = '\n';
+    }
+
+    return report.join('\n');
+  }, // checkMap function
+
   build: function (startpoint, maps, accessible) {
+    // Reset dataStore data
     if(accessible == undefined) accessible = false;
     WayfindingDataStore.accessible = accessible;
 
@@ -337,8 +381,11 @@ WayfindingDataStore = {
       'portals': []
     };
 
+    WayfindingDataStore.portalSegments = [];
+
+    // Build the dataStore from each map given
     $.each(maps, function(i, map) {
-      console.log("Looping over map ", i);
+      //console.log("Looping over map ", i);
       WayfindingDataStore.cleanupSVG(map.el);
       WayfindingDataStore.buildDataStore(i, map, map.el);
     });

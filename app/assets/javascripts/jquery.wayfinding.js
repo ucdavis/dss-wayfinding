@@ -817,52 +817,6 @@
 			}
 		} //RouteTo
 
-		function checkMap(el) {
-
-			var mapNum,
-				pathNum,
-				debugLine,
-				report = [],
-				i = 0;
-
-			generateRoutes();
-
-			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				report[i++] = 'Checking map: ' + mapNum;
-				for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
-					if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].route === Infinity || WayfindingDataStore.dataStore.paths[mapNum][pathNum].prior === -1) {
-						report[i++] = 'unreachable path: ' + pathNum;
-						//Show where paths that are unreachable from the given start point are.
-						debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-						debugLine.setAttribute('class', 'debugPath');
-						debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
-						debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
-						debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
-						debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
-						$('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
-					}
-				}
-				report[i++] = '\n';
-
-				/* jshint ignore:start */
-				$('#' + WayfindingDataStore.dataStore.paths[mapNum][0].floor + ' #Rooms a', el).each(function (_i, room) {
-					var doorPaths = getShortestRoute($(room).prop('id'));
-
-					if (doorPaths.solution.length === 0) {
-						report[i++] = 'unreachable room: ' + $(room).prop('id');
-						//highlight unreachable rooms
-						$(room).attr('class', 'debugRoom');
-					}
-				}); //
-				/* jshint ignore:end */
-				report[i++] = '\n';
-			}
-
-			return report.join('\n');
-		} // checkMap function
-
-
-
 
 		if (action && typeof (action) === 'object') {
 			options = action;

@@ -1,3 +1,5 @@
+if(console.debug == undefined) console.debug = console.log;
+
 jsdom = require('jsdom');
 fs = require('fs');
 require('json');
@@ -17,11 +19,33 @@ var maps = [
 
 require('../app/assets/javascripts/wayfinding.datastore.js');
 
-var dataStore = null;
-var processed = 0;
-var startpoint = 'R1131';
+getRooms = function(maps) {
+  var rooms = [];
 
-// Load SVGs off the network
+  $.each(maps, function (i, map) {
+    $('#Doors line', map.el).each(function () {
+      var doorId = $(this).attr('id');
+
+      // cleanupSVG does this but it might not be called at this point.
+      // Ensure IDs do not have Illustrator '_' junk
+      if (doorId && doorId.indexOf('_') > 0) {
+        var oldID = doorId;
+        doorId = oldID.slice(0, oldID.indexOf('_'));
+      }
+
+      rooms.push(doorId);
+    });
+  });
+
+  return(rooms);
+}
+
+var processed = 0;
+var rooms = [];
+
+console.debug("Loading SVGs ...");
+
+// Load SVGs
 $.each(maps, function (i, map) {
   var svgDiv = $('<div id="' + map.id + '"><\/div>');
 
@@ -32,21 +56,22 @@ $.each(maps, function (i, map) {
 
     maps[i].svgHandle = data;
     maps[i].el = svgDiv;
-    console.log("Creating DOM fragment for ", map.path);
-    svgDiv.append(data);
 
-    //$(obj).append(svgDiv);
+    svgDiv.append(data);
 
     processed = processed + 1;
 
     if(processed == maps.length) {
-      console.log("Building dataStore ...");
-      dataStore = WayfindingDataStore.build(startpoint, maps);
-      console.log("Done building dataStore. Writing to disk ...");
+      rooms = getRooms(maps);
 
-      fs.writeFile('dataStore-' + startpoint + '.json', JSON.stringify(dataStore), function (err) {
-        if (err) return console.log(err);
-        console.log('Done saving.');
+      $.each(rooms, function(i, startpoint) {
+        dataStore = null;
+
+        console.debug("Building dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + ")...");
+
+        dataStore = WayfindingDataStore.build(startpoint, maps);
+
+        fs.writeFileSync('dataStore-' + startpoint + '.json', JSON.stringify(dataStore));
       });
     }
   });
