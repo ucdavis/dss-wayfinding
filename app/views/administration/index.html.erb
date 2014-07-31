@@ -1,19 +1,8 @@
 <script type="text/javascript">
   // Call redirect timer function
   setRedirectToHome();
-  $(document).ready(function(){
-    $(".alert button.close").click(function() {
-      $(".alert").attr('class', 'alert').css('visibility','hidden');
-    });
-    $("#originform").on('ajax:success',function(event, data){
-      $(".alert").addClass("alert-success").css('visibility','visible');
-      $(".alert span.notice").text(data.notice);
-      if(typeof data.origin !== 'undefined' ) $("input#origin").val(data.origin);
-    }).on('ajax:error',function(xhr, status, error){
-      $(".alert").addClass("alert-error").show();
-      $(".alert span.notice").text("Error communicating with server!");
-    });
-  });
+  var notice = "<%= params[:notice] %>";
+  var error = "<%= params[:error] %>";
 </script>
 
 <div class="admin-view">
@@ -34,7 +23,7 @@
     <% end %>
 
   <h1>Upload Facilities CSV</h1>
-    <%= form_tag(csv_administration_index_path, multipart: true, class: 'form-inline') do %>
+    <%= form_tag(csv_administration_index_path, multipart: true, remote: true, class: 'form-inline') do %>
       <div class="form-group">
         <%= file_field_tag :uploaded_csv, class: 'form-control start' %>
       </div>
