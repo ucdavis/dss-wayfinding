@@ -403,80 +403,109 @@ ul.vertical-nav {
 
 h1#directory-title {
   text-align: center;
-  position: relative;
-  font-size: 5rem;
   color: gray;
-  top: 40px;
+  text-transform: uppercase;
+  margin: 1em;
 }
 
-.directory-list {
-  padding-top: 4%;
-  width: 100%;
-  height: 90%;
-}
+ul.directory-list {
+  list-style: none;
+  padding: 0;
 
-.directory-card {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.1;
-  height: 26%;
-  display: inline-block;
-  width: 31%;
-  text-align: center;
-  font-size: 2.5rem;
-  overflow: hidden;
-}
+  li {
+    position: relative;
+    margin: 5px 20px 35px;
+    float: left;
+    width: 25%;
+    height: 120px;
 
-.directory-card table {
-  height: 50%;
-  width: 100%;
-  text-align: left;
-}
+    a {
+      display: block;
+      text-indent:7px;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 5px;
+      box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
 
-div.directory-card {
-  color: #FFF;
-  text-shadow: 0 0 2px #000;
-}
+      p {
+        margin: 0;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+      }
 
-div.people-card {
-  border: solid $people-color 4px;
-  background-color: $people-color;
-}
+      &.people-card {
+        border: 7px solid $people-color;
+        color: $people-color;
+        h3 {
+          color: $people-color;
+        }
+      }
 
-div.event-card {
-  border: solid $events-color 4px;
-  background-color: $events-color;
-}
+      &.events-card {
+        border: 7px solid $events-color;
+        color: $events-color;
+        h3 {
+          color: $events-color;
+        }
+      }
 
-div.department-card {
-  border: solid $departments-color 4px;
-  background-color: $departments-color;
-}
+      &.rooms-card {
+        border: 7px solid $rooms-color;
+        color: $rooms-color;
+        h3 {
+          color: $rooms-color;
+        }
+      }
 
-div.room-card {
-  border: solid $rooms-color 4px;
-  background-color: $rooms-color;
-}
+      &.departments-card {
+        border: 7px solid $departments-color;
+        color: $departments-color;
+        h3 {
+          color: $departments-color;
+        }
+      }
 
+      h3 {
+        text-align: center;
+        color: #EEE;
+        text-transform: capitalize;
+        font-size: 1.7rem;
+        font-weight: bold;
+        margin-top: 10px;
+      }
 
-.card-content {
-  text-align: center;
-  line-height: 27px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-  text-align: center;
-  font-size: 2.5rem;
-  margin-left: 40px;
-}
+      &:before {
+        content: "";
+        display: block;
+        background: #fff;
+        border-top: 2px solid #ddd;
+        position: absolute;
+        top: -18px;
+        left: -18px;
+        bottom: -18px;
+        right: -18px;
+        z-index: -1;
+        border-radius: 5px;
+        box-shadow: inset 0px 8px 48px #ddd;
+      }
+    }
 
-div.directory-card h1.panel-heading
-{
-  color: #333;
-  font-style: bold;
-  font-size: 4rem;
-  background-color: white;
-  text-shadow: none;
-  overflow: hidden;
-  max-height: 6rem;
+    &:hover {
+      a {
+        border: 7px solid #999;
+        color: #999;
+        text-decoration: none;
+        h3 {
+          color: #999;
+        }
+      }
+      span {
+        color: #333;
+      }
+    }
+  }
 }
 
 table#landing-buttons {
