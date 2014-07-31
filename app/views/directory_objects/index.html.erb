@@ -13,106 +13,76 @@
   });
 </script>
 
-<div id="directory-banner">
-    <h1 id="directory-title">Directory</h1>
-</div>
-<div class="directory-list">
+<h1 id="directory-title">Directory</h1>
+<ul class="directory-list">
 <!-- People -->
     <% @directory_objects.each do |directory_object| %>
         <% if directory_object.type == "Person" %>
-            <div class="panel panel-default directory-card people-card">
-                <a href="/directory/<%= directory_object.id %>">
-                <h1 class="panel-heading"><%= directory_object.first + " " + directory_object.last %></h1>
-                <table class="card-content">
-                    <tr>
-                        <% if directory_object.department  %>
-                        <td><%= directory_object.department.title.titleize %></td>
-                        <% else %>
-                        <td></td>
-                        <% end %>
-                        <% if directory_object.rooms.length > 0 %>
-                        <td><%= directory_object.rooms.first.room_number %></td>
-                        <% else %>
-                        <td></td>
-                        <% end %>
-                    </tr>
-                    <tr>
-                        <td><%= directory_object.email %></td>
-                        <td><%= directory_object.phone %></td>
-                    </tr>
-                 </table>
-                </a>
-            </div>
+          <li>
+            <a href="/directory/<%= directory_object.id %>" class="people-card">
+              <h3><%= directory_object.first + " " + directory_object.last %></h3>
+              <p>
+                <!-- Room number -->
+                <% if directory_object.rooms.length > 0 %>
+                  <%= directory_object.rooms.first.room_number %>
+                <% end %>
+                <!-- Department -->
+                <% if directory_object.department  %>
+                  <%= directory_object.department.title.titleize %>
+                <% end %>
+              </p>
+              <!-- Email -->
+              <p><%= directory_object.email %></p>
+              <!-- Phone -->
+              <p><%= directory_object.phone %></p>
+            </a>
+          </li>
         <% end %>
 <!-- Events -->
         <% if directory_object.type == "Event" %>
-            <div class="panel panel-default directory-card event-card">
-                <a href="/directory/<%= directory_object.id %>">
-                <h1 class="panel-heading"><%= directory_object.title %></h1>
-                <table class="card-content">
-                    <tr>
-                        <td>
-                            <% if directory_object.room %>
-                            <%= directory_object.room.room_number %>
-                            <% end %>
-                        </td>
-                        <td>
-                            <% if directory_object.time %>
-                            <%= directory_object.time %>
-                            <% end %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <% if directory_object.link %>
-                            <%= directory_object.link %>
-                            <% end %>
-                        </td>
-                        <td>
-                            <% if directory_object.department %>
-                            <%= directory_object.department.title.titleize %>
-                            <% end %>
-                        </td>
-                    </tr>
-                 </table>
-                </a>
-            </div>
+          <li>
+            <a href="/directory/<%= directory_object.id %>" class="events-card">
+              <h3><%= directory_object.title %></h3>
+                <p>
+                  <% if directory_object.room %>
+                  <%= directory_object.room.room_number %>
+                  <% end %>
+
+                  <% if directory_object.time %>
+                  <%= directory_object.time %>
+                  <% end %>
+                </p>
+                <p>
+                  <% if directory_object.link %>
+                  <%= directory_object.link %>
+                  <% end %>
+                </p>
+                <p>
+                  <% if directory_object.department %>
+                  <%= directory_object.department.title.titleize %>
+                  <% end %>
+               </p>
+             </a>
+          </li>
         <% end %>
 <!-- Departments -->
         <% if directory_object.type == "Department" %>
-            <div class="panel panel-default directory-card department-card">
-                <a href="/directory/<%= directory_object.id %>">
-                <h1 class="panel-heading"><%= directory_object.title.titleize %></h1>
-                <table class="card-content">
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                 </table>
-                </a>
-            </div>
+            <li>
+              <a href="/directory/<%= directory_object.id %>" class="departments-card">
+                <h3><%= directory_object.title.titleize %></h3>
+                <p>
+                </p>
+              </a>
+            </li>
         <% end %>
 <!-- Rooms -->
         <% if directory_object.type == "Room" %>
-            <div class="panel panel-default directory-card room-card">
-                <a href="/directory/<%= directory_object.id %>">
-                <h1 class="panel-heading"><%= directory_object.room_number %></h1>
-                <table class="card-content">
-                    <tr>
-                        <td><%= directory_object.name %></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                 </table>
-                </a>
-            </div>
+            <li>
+              <a href="/directory/<%= directory_object.id %>" class="rooms-card">
+                <h3><%= directory_object.room_number %></h3>
+                <p><%= directory_object.name %></p>
+              </a>
+            </li>
         <% end %>
     <% end %>
     </div>
