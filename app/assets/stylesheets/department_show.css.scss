@@ -600,8 +600,14 @@ input.search:focus {
 
 .admin-view
 {
-  display: inline-block;
-  height: 79%;
+  padding-top: 50px;
+
+  .alert {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    visibility: hidden;
+  }
 }
 
 img.building-pic {

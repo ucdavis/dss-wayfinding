@@ -1,11 +1,32 @@
 <script type="text/javascript">
   // Call redirect timer function
   setRedirectToHome();
+  $(document).ready(function(){
+    $(".alert button.close").click(function() {
+      $(".alert").attr('class', 'alert').css('visibility','hidden');
+    });
+    $("#originform").on('ajax:success',function(event, data){
+      $(".alert").addClass("alert-success").css('visibility','visible');
+      $(".alert span.notice").text(data.notice);
+      if(typeof data.origin !== 'undefined' ) $("input#origin").val(data.origin);
+    }).on('ajax:error',function(xhr, status, error){
+      $(".alert").addClass("alert-error").show();
+      $(".alert span.notice").text("Error communicating with server!");
+    });
+  });
 </script>
 
 <div class="admin-view">
+  <div class="alert" role="alert">
+    <button type="button" class="close">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <span class="notice"></span>
+  </div>
+
   <h1>Set Kiosk Location</h1>
-    <%= form_tag(origin_administration_index_path, remote: true, class: 'form-inline') do %>
+    <%= form_tag(origin_administration_index_path, id: "originform", remote: true, class: 'form-inline') do %>
       <div class="form-group">
         <%= text_field_tag :origin, @origin, placeholder: 'Example: R1152', class: 'form-control start' %>
       </div>

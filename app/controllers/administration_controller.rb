@@ -9,9 +9,19 @@ class AdministrationController < ApplicationController
   # POST
   # Modifies the starting location. Useful for kiosks.
   def origin
-    cookies.permanent[:origin] = params[:origin] unless params[:origin].blank?
+    unless params[:origin].blank?
+      params[:origin].prepend("R") unless params[:origin][0].upcase == "R" # Prepend R id not provided
+      cookies.permanent[:origin] = params[:origin].upcase
 
-    render :nothing => true
+      respond_to do |format|
+        format.json {
+          render :json => {
+            origin: cookies[:origin],
+            notice: "Origin successfully updated to: #{cookies[:origin]}"
+          }
+        }
+      end
+    end
   end
   
   def department_location
