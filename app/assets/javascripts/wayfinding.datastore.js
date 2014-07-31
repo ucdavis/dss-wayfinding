@@ -33,17 +33,20 @@ WayfindingDataStore = {
 
   	WayfindingDataStore.dataStore.paths[mapNum] = [];
 
-  	$('#Paths line', el).each(function () { // index, line
+    console.debug("Map #" + mapNum + " has " + $('#Paths line', el).length + " paths");
+
+  	$('#Paths line', el).each(function (i, line) {
   		path = {};
   		path.floor = map.id; // floor_1
   		path.mapNum = mapNum; // index of floor in array 1
   		path.route = Infinity; //Distance
   		path.prior = -1; //Prior node in path that yielded route distance
-  		path.ax = $(this).prop('x1').animVal.value;
-  		path.ay = $(this).prop('y1').animVal.value;
+
+  		path.ax = $(this).attr('x1');
+  		path.ay = $(this).attr('y1');
   		path.doorA = [];
-  		path.bx = $(this).prop('x2').animVal.value;
-  		path.by = $(this).prop('y2').animVal.value;
+  		path.bx = $(this).attr('x2');
+  		path.by = $(this).attr('y2');
   		path.doorB = [];
   		path.length = Math.sqrt(Math.pow(path.ax - path.bx, 2) + Math.pow(path.ay - path.by, 2));
 
@@ -56,12 +59,14 @@ WayfindingDataStore = {
   	//Doors and starting points
   	//roomId or POI_Id
 
+    console.debug("Map #" + mapNum + " has " + $('#Doors line', el).length + " doors");
+
   	$('#Doors line', el).each(function () { // index, line
-  		x1 = $(this).prop('x1').animVal.value;
-  		y1 = $(this).prop('y1').animVal.value;
-  		x2 = $(this).prop('x2').animVal.value;
-  		y2 = $(this).prop('y2').animVal.value;
-  		doorId = $(this).prop('id');
+  		x1 = $(this).attr('x1');
+  		y1 = $(this).attr('y1');
+  		x2 = $(this).attr('x2');
+  		y2 = $(this).attr('y2');
+  		doorId = $(this).attr('id');
 
   		$.each(WayfindingDataStore.dataStore.paths[mapNum], function (index, path) {
   			if (map.id === path.floor && ((path.ax === x1 && path.ay === y1) || (path.ax === x2 && path.ay === y2))) {
@@ -75,10 +80,12 @@ WayfindingDataStore = {
 
   	//Portal Segments -- string theory says unmatched portal segment useless -- no wormhole
 
+    console.debug("Map #" + mapNum + " has " + $('#Portals line', el).length + " portals");
+
   	$('#Portals line', el).each(function () { // index, line
   		portal = {};
 
-  		portalId = $(this).prop('id');
+  		portalId = $(this).attr('id');
 
   		if (portalId && portalId.indexOf('_') > -1) {
   			portalId = portalId.slice(0, portalId.indexOf('_'));
@@ -94,10 +101,10 @@ WayfindingDataStore = {
 
   		portal.matched = false;
 
-  		x1 = $(this).prop('x1').animVal.value;
-  		y1 = $(this).prop('y1').animVal.value;
-  		x2 = $(this).prop('x2').animVal.value;
-  		y2 = $(this).prop('y2').animVal.value;
+  		x1 = $(this).attr('x1');
+  		y1 = $(this).attr('y1');
+  		x2 = $(this).attr('x2');
+  		y2 = $(this).attr('y2');
 
   		matches = $.grep(WayfindingDataStore.dataStore.paths[mapNum], function (n) { // , i
   			return ((x1 === n.ax && y1 === n.ay) || (x1 === n.bx && y1 === n.by));
@@ -115,7 +122,6 @@ WayfindingDataStore = {
   		portal.length = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
   		WayfindingDataStore.portalSegments.push(portal);
-
   	});
   }, // function finishfloor
 
@@ -330,6 +336,7 @@ WayfindingDataStore = {
     WayfindingDataStore.accessible = accessible;
 
     $.each(maps, function(i, map) {
+      console.log("Looping over map ", i);
       WayfindingDataStore.cleanupSVG(map.el);
       WayfindingDataStore.buildDataStore(i, map, map.el);
     });
