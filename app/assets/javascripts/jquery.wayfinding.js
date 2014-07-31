@@ -57,7 +57,6 @@
 	$.fn.wayfinding = function (action, options) {
 
 		var passed = options,
-			dataStore = null,
 			obj, // the jQuery object being worked with;
 			maps, // the array of maps populated from options each time
 			defaultMap, // the floor to show at start propulated from options
@@ -102,7 +101,7 @@
 			}
 
 			if (dataStorePrior !== undefined) {
-				dataStore = dataStorePrior;
+				WayfindingDataStore.dataStore = dataStorePrior;
 			}
 		} //function getOptions
 
@@ -110,7 +109,7 @@
 		function setOptions(el) {
 			el.data('wayfinding:options', options);
 			el.data('wayfinding:drawing', drawing);
-			el.data('wayfinding:data', dataStore);
+			el.data('wayfinding:data', WayfindingDataStore.dataStore);
 		}
 
 		//verify that all floor ids are unique. make them so if they are not
@@ -287,6 +286,7 @@
 		// Initialize the jQuery target object
 		function initialize(obj) {
 			var processed = 0;
+			var deferInitializing = false;
 
 			// Load SVGs off the network
 			$.each(maps, function (i, map) {
@@ -310,35 +310,43 @@
 							if (options.dataStoreCache) {
 								if (typeof(options.dataStoreCache) === 'object') {
 									console.debug('Using dataStoreCache object.');
-									dataStore = options.dataStoreCache;
+									WayfindingDataStore.dataStore = options.dataStoreCache;
 								} else if (typeof(options.dataStoreCache) === 'string') {
+									deferInitializing = true;
+									console.debug("Attempting to load dataStoreCache from URL ...");
 									$.getJSON(options.dataStoreCache, function (result) {
 										console.debug('Using dataStoreCache from remote.');
-										dataStore = result;
+										WayfindingDataStore.dataStore = result;
+										finishInitializing();
 									}).fail(function () {
-										console.log('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
+										console.error('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
 
 										options.dataStoreCache = false;
+										finishInitializing();
 									});
 								}
 							}
 
-							// Manually build the dataStore if necessary
-							if(dataStore == null) {
-								console.debug("No dataStore cache exists, building with startpoint '" + options.startpoint + "' ...");
-								// No dataStore cache exists, build it.
-								dataStore = WayfindingDataStore.build(options.startpoint, maps);
-							}
-
-							// SVGs are loaded, dataStore is set, ready the DOM
-							setStartPoint(options.startpoint, obj);
-							setOptions(obj);
-							replaceLoadScreen(obj);
+							if(deferInitializing == false) finishInitializing();
 						}
 					}
 				);
 			});
 		} // function initialize
+
+		function finishInitializing() {
+			// Manually build the dataStore if necessary
+			if(WayfindingDataStore.dataStore == null) {
+				console.debug("No dataStore cache exists, building with startpoint '" + options.startpoint + "' ...");
+				// No dataStore cache exists, build it.
+				WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps);
+			}
+
+			// SVGs are loaded, dataStore is set, ready the DOM
+			setStartPoint(options.startpoint, obj);
+			setOptions(obj);
+			replaceLoadScreen(obj);
+		} // function finishInitializing
 
 		function switchFloor(floor, el) {
 			$('div', el).hide();
@@ -394,10 +402,10 @@
 				solution.push(step);
 				switch (segmentType) {
 				case 'pa':
-					backTrack(dataStore.paths[segmentFloor][segment].priorType, segmentFloor, dataStore.paths[segmentFloor][segment].prior);
+					backTrack(WayfindingDataStore.dataStore.paths[segmentFloor][segment].priorType, segmentFloor, WayfindingDataStore.dataStore.paths[segmentFloor][segment].prior);
 					break;
 				case 'po':
-					backTrack(dataStore.portals[segment].priorType, dataStore.portals[segment].priormapNum, dataStore.portals[segment].prior);
+					backTrack(WayfindingDataStore.dataStore.portals[segment].priorType, WayfindingDataStore.dataStore.portals[segment].priormapNum, WayfindingDataStore.dataStore.portals[segment].prior);
 					break;
 				}
 			}
@@ -483,8 +491,8 @@
 				reversePathStart = -1;
 
 				for (i = 0; i < destInfo.paths.length; i++) {
-					if (dataStore.paths[destinationmapNum][destInfo.paths[i]].route < minPath) {
-						minPath = dataStore.paths[destinationmapNum][destInfo.paths[i]].route;
+					if (WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route < minPath) {
+						minPath = WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route;
 						reversePathStart = destInfo.paths[i];
 					}
 				}
@@ -595,36 +603,36 @@
 					}
 
 					//if statement incorrectly assumes one door at the end of the path, works in that case, need to generalize
-					if (dataStore.paths[solution[0].floor][solution[0].segment].doorA[0] === startpoint) {
+					if (WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].doorA[0] === startpoint) {
 						draw = {};
 						draw.floor = [solution[0].floor];
 						draw.type = 'M';
-						draw.x = dataStore.paths[solution[0].floor][solution[0].segment].ax;
-						draw.y = dataStore.paths[solution[0].floor][solution[0].segment].ay;
+						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ax;
+						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ay;
 						draw.length = 0;
 						drawing[0].push(draw);
 						draw = {};
 						draw.type = 'L';
 						draw.floor = [solution[0].floor];
-						draw.x = dataStore.paths[solution[0].floor][solution[0].segment].bx;
-						draw.y = dataStore.paths[solution[0].floor][solution[0].segment].by;
-						draw.length = dataStore.paths[solution[0].floor][solution[0].segment].length;
+						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].bx;
+						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].by;
+						draw.length = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].length;
 						drawing[0].push(draw);
 						drawing[0].routeLength = draw.length;
-					} else if (dataStore.paths[solution[0].floor][solution[0].segment].doorB[0] === startpoint) {
+					} else if (WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].doorB[0] === startpoint) {
 						draw = {};
 						draw.type = 'M';
 						draw.floor = [solution[0].floor];
-						draw.x = dataStore.paths[solution[0].floor][solution[0].segment].bx;
-						draw.y = dataStore.paths[solution[0].floor][solution[0].segment].by;
+						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].bx;
+						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].by;
 						draw.length = 0;
 						drawing[0].push(draw);
 						draw = {};
 						draw.type = 'L';
 						draw.floor = [solution[0].floor];
-						draw.x = dataStore.paths[solution[0].floor][solution[0].segment].ax;
-						draw.y = dataStore.paths[solution[0].floor][solution[0].segment].ay;
-						draw.length = dataStore.paths[solution[0].floor][solution[0].segment].length;
+						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ax;
+						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ay;
+						draw.length = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].length;
 						drawing[0].push(draw);
 						drawing[0].routeLength = draw.length;
 					}
@@ -635,10 +643,10 @@
 					for (i = 0; i < portalsEntered + 1; i++) {
 						for (stepNum = lastStep; stepNum < solution.length; stepNum++) {
 							if (solution[stepNum].type === 'pa') {
-								ax = dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].ax;
-								ay = dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].ay;
-								bx = dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].bx;
-								by = dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].by;
+								ax = WayfindingDataStore.dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].ax;
+								ay = WayfindingDataStore.dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].ay;
+								bx = WayfindingDataStore.dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].bx;
+								by = WayfindingDataStore.dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].by;
 
 								draw = {};
 								draw.floor = solution[stepNum].floor;
@@ -649,7 +657,7 @@
 									draw.x = ax;
 									draw.y = ay;
 								}
-								draw.length = dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].length;
+								draw.length = WayfindingDataStore.dataStore.paths[solution[stepNum].floor][solution[stepNum].segment].length;
 								draw.type = 'L';
 								drawing[i].push(draw);
 								drawing[i].routeLength += draw.length;
@@ -660,16 +668,16 @@
 								// push the first object on
 								// check for more than just floor number here....
 								pick = '';
-								if (dataStore.portals[solution[stepNum].segment].floorANum === dataStore.portals[solution[stepNum].segment].floorBNum) {
-									if (dataStore.portals[solution[stepNum].segment].xA === draw.x && dataStore.portals[solution[stepNum].segment].yA === draw.y) {
+								if (WayfindingDataStore.dataStore.portals[solution[stepNum].segment].floorANum === WayfindingDataStore.dataStore.portals[solution[stepNum].segment].floorBNum) {
+									if (WayfindingDataStore.dataStore.portals[solution[stepNum].segment].xA === draw.x && WayfindingDataStore.dataStore.portals[solution[stepNum].segment].yA === draw.y) {
 										pick = 'B';
 									} else {
 										pick = 'A';
 									}
 								} else {
-									if (dataStore.portals[solution[stepNum].segment].floorANum === solution[stepNum].floor) {
+									if (WayfindingDataStore.dataStore.portals[solution[stepNum].segment].floorANum === solution[stepNum].floor) {
 										pick = 'A';
-									} else if (dataStore.portals[solution[stepNum].segment].floorBNum === solution[stepNum].floor) {
+									} else if (WayfindingDataStore.dataStore.portals[solution[stepNum].segment].floorBNum === solution[stepNum].floor) {
 										pick = 'B';
 									}
 								}
@@ -677,8 +685,8 @@
 									draw = {};
 									draw.floor = solution[stepNum].floor;
 									draw.type = 'M';
-									draw.x = dataStore.portals[solution[stepNum].segment].xA;
-									draw.y = dataStore.portals[solution[stepNum].segment].yA;
+									draw.x = WayfindingDataStore.dataStore.portals[solution[stepNum].segment].xA;
+									draw.y = WayfindingDataStore.dataStore.portals[solution[stepNum].segment].yA;
 									draw.length = 0;
 									drawing[i + 1].push(draw);
 									drawing[i + 1].routeLength = draw.length;
@@ -686,8 +694,8 @@
 									draw = {};
 									draw.floor = solution[stepNum].floor;
 									draw.type = 'M';
-									draw.x = dataStore.portals[solution[stepNum].segment].xB;
-									draw.y = dataStore.portals[solution[stepNum].segment].yB;
+									draw.x = WayfindingDataStore.dataStore.portals[solution[stepNum].segment].xB;
+									draw.y = WayfindingDataStore.dataStore.portals[solution[stepNum].segment].yB;
 									draw.length = 0;
 									drawing[i + 1].push(draw);
 									drawing[i + 1].routeLength = draw.length;
@@ -821,23 +829,23 @@
 
 			for (mapNum = 0; mapNum < maps.length; mapNum++) {
 				report[i++] = 'Checking map: ' + mapNum;
-				for (pathNum = 0; pathNum < dataStore.paths[mapNum].length; pathNum++) {
-					if (dataStore.paths[mapNum][pathNum].route === Infinity || dataStore.paths[mapNum][pathNum].prior === -1) {
+				for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
+					if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].route === Infinity || WayfindingDataStore.dataStore.paths[mapNum][pathNum].prior === -1) {
 						report[i++] = 'unreachable path: ' + pathNum;
 						//Show where paths that are unreachable from the given start point are.
 						debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 						debugLine.setAttribute('class', 'debugPath');
-						debugLine.setAttribute('x1', dataStore.paths[mapNum][pathNum].ax);
-						debugLine.setAttribute('y1', dataStore.paths[mapNum][pathNum].ay);
-						debugLine.setAttribute('x2', dataStore.paths[mapNum][pathNum].bx);
-						debugLine.setAttribute('y2', dataStore.paths[mapNum][pathNum].by);
-						$('#' + dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
+						debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
+						debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
+						debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
+						debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
+						$('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
 					}
 				}
 				report[i++] = '\n';
 
 				/* jshint ignore:start */
-				$('#' + dataStore.paths[mapNum][0].floor + ' #Rooms a', el).each(function (_i, room) {
+				$('#' + WayfindingDataStore.dataStore.paths[mapNum][0].floor + ' #Rooms a', el).each(function (_i, room) {
 					var doorPaths = getShortestRoute($(room).prop('id'));
 
 					if (doorPaths.solution.length === 0) {
@@ -923,7 +931,7 @@
 				case 'getDataStore':
 					//shows JSON version of dataStore when called from console.
 					//To facilitate caching dataStore.
-					result = JSON.stringify(dataStore);
+					result = JSON.stringify(WayfindingDataStore.dataStore);
 					$('body').replaceWith(result);
 					break;
 				case 'getRoutes':

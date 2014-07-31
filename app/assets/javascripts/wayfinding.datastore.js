@@ -1,8 +1,5 @@
 WayfindingDataStore = {
-  dataStore: {
-    'paths': [],
-    'portals': []
-  },
+  dataStore: null,
   portalSegments: [],
   accessible: false,
 
@@ -334,6 +331,11 @@ WayfindingDataStore = {
   build: function (startpoint, maps, accessible) {
     if(accessible == undefined) accessible = false;
     WayfindingDataStore.accessible = accessible;
+
+    WayfindingDataStore.dataStore = {
+      'paths': [],
+      'portals': []
+    };
 
     $.each(maps, function(i, map) {
       console.log("Looping over map ", i);
