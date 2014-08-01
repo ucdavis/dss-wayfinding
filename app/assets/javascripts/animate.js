@@ -6,4 +6,10 @@ $(function() {
       $('ul.vertical-nav').animate({left: 0}, 500)
       }, 0);
   }
+
 });
+
+function resizeIcons() {
+  var iconSize = Math.min(window.innerHeight/6-40, 0.1*window.innerWidth);
+  $('.vertical-nav li a').css('height',iconSize).css('width',iconSize);
+}
