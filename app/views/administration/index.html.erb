@@ -30,33 +30,28 @@
       <%= submit_tag 'Submit CSV for import', class: 'btn btn-default' %>
     <% end %>
   <h1>Edit Department Locations</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Room Number</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @departments.each do |department| %>
 
-          <%= form_tag(department_location_administration_index_path, remote: true) do %>
-          <tr>
-            <td><%= department.title %></td>
-            <% if department.room %>
-            <td><%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %></td>
-            <% else %>
-            <td><%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %></td>
-            <% end %>
-            <%= hidden_field_tag :department_id, department.id %>
-            <td><%= submit_tag 'Submit Start Location', class: 'btn btn-default' %></td>
-          </tr>
+  <div class="row" style="margin-top: 1em;">
+    <% @departments.each do |department| %>
+      <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
+      <div class="form-group">
+
+        <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
+        <div class="col-sm-2">
+        <% if department.room %>
+        <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
+        <% else %>
+        <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
         <% end %>
-
+        <%= hidden_field_tag :department_id, department.id %>
+        </div>
+        <div class="col-sm-2">
+        <%= submit_tag 'Submit Start Location', class: 'btn btn-default' %>
+        </div>
+      </div>
       <% end %>
-      </tbody>
-    </table>
+    <% end %>
+  </div>
 </div>
 
 

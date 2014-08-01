@@ -27,4 +27,22 @@ $(document).ready(function(){
     $(".alert").addClass("alert-danger").show();
     $(".alert span.notice").text("Error communicating with server!");
   });
+
+  $(".deptform").on('ajax:success',function(event, data){
+    if (typeof data.notice !== 'undefined' ) {
+      // Clear others
+      $('.deptform input[type="submit"]').attr('class','btn btn-default');
+      $('.deptform p.status').hide();
+      // Display status
+      $(this).find('input[type="submit"]').addClass('btn-success')
+      $(this).find('.form-group').append('<p class="help-block col-sm-2 status">Saved successfully...</p>');
+    } else if (typeof data.error !== 'undefined' ) {
+      // Clear others
+      $('.deptform input[type="submit"]').attr('class','btn btn-default');
+      $('.deptform p.status').hide();
+      // Display status
+      $(this).find('input[type="submit"]').addClass('btn-danger')
+      $(this).find('.form-group').append('<p class="help-block col-sm-2 status">Error saving...</p>');
+    }
+  });
 });
