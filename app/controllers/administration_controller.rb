@@ -32,8 +32,13 @@ class AdministrationController < ApplicationController
     room = Room.where(room_number: room_number).first_or_create
     department = Department.find(id)
     department.room = room
-    department.save
-    render :nothing => true
+    respond_to do |format|
+      if department.save && room_number.present?
+        format.json {render json: { notice: "Department location saved successfully" } }
+      else
+        format.json {render json: { error: "Error saving department location" } }
+      end
+    end
   end
 
   # POST
