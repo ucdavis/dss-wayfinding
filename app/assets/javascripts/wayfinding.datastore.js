@@ -327,41 +327,121 @@ WayfindingDataStore = {
     return result;
   },
 
-  // TODO: This function was copied from the jQuery file. Needs to be updated for use in NodeJS.
-  checkMap: function (el) {
+  // from a given end point generate an array representing the reverse steps needed to reach destination along shortest path
+  backTrack: function (segmentType, segmentFloor, segment) {
+    var step;
+
+    // if we aren't at the startpoint point
+    if (segment !== 'door') {
+      step = {};
+      step.type = segmentType;
+      step.floor = segmentFloor;
+      step.segment = segment;
+      solution.push(step);
+      switch (segmentType) {
+      case 'pa':
+        WayfindingDataStore.backTrack(WayfindingDataStore.dataStore.paths[segmentFloor][segment].priorType, segmentFloor, WayfindingDataStore.dataStore.paths[segmentFloor][segment].prior);
+        break;
+      case 'po':
+        WayfindingDataStore.backTrack(WayfindingDataStore.dataStore.portals[segment].priorType, WayfindingDataStore.dataStore.portals[segment].priormapNum, WayfindingDataStore.dataStore.portals[segment].prior);
+        break;
+      }
+    }
+  },
+
+  getShortestRoute: function (maps, destinations, startpoint) {
+    function _minLengthRoute(maps, destination, startpoint) {
+      var destInfo,
+      mapNum,
+      minPath,
+      reversePathStart,
+      destinationmapNum,
+      i;
+
+      destInfo = WayfindingDataStore.getDoorPaths(maps, destination);
+
+      for (mapNum = 0; mapNum < maps.length; mapNum++) {
+        if (maps[mapNum].id === destInfo.floor) {
+          destinationmapNum = mapNum;
+        }
+      }
+
+      minPath = Infinity;
+      reversePathStart = -1;
+
+      for (i = 0; i < destInfo.paths.length; i++) {
+        if (WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route < minPath) {
+          minPath = WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route;
+          reversePathStart = destInfo.paths[i];
+        }
+      }
+
+      if (reversePathStart !== -1) {
+        solution = []; //can't be set in backtrack because it is recursive.
+        WayfindingDataStore.backTrack('pa', destinationmapNum, reversePathStart);
+        solution.reverse();
+
+        return {
+          'startpoint': startpoint,
+          'endpoint': destination,
+          'solution': solution,
+          'distance': minPath
+        };
+      }
+
+      return {
+        'startpoint': startpoint,
+        'endpoint': destination,
+        'solution': [],
+        'distance': minPath
+      };
+    }
+
+    if (Array.isArray(destinations)) {
+      return $.map(destinations, function (dest) {
+        return _minLengthRoute(maps, dest, startpoint);
+      });
+    } else {
+      return _minLengthRoute(maps, destinations, startpoint);
+    }
+  },
+
+  checkMaps: function (maps, startpoint) {
     var mapNum,
       pathNum,
-      debugLine,
+      //debugLine,
       report = [],
       i = 0;
 
-    generateRoutes();
+    //generateRoutes();
 
     for (mapNum = 0; mapNum < maps.length; mapNum++) {
+
       report[i++] = 'Checking map: ' + mapNum;
+
       for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
         if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].route === Infinity || WayfindingDataStore.dataStore.paths[mapNum][pathNum].prior === -1) {
-          report[i++] = 'unreachable path: ' + pathNum;
+          report[i++] = 'Unreachable path: ' + pathNum;
           //Show where paths that are unreachable from the given start point are.
-          debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          debugLine.setAttribute('class', 'debugPath');
-          debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
-          debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
-          debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
-          debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
-          $('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
+          //debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          //debugLine.setAttribute('class', 'debugPath');
+          //debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
+          //debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
+          //debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
+          //debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
+          //$('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
         }
       }
       report[i++] = '\n';
 
       /* jshint ignore:start */
-      $('#' + WayfindingDataStore.dataStore.paths[mapNum][0].floor + ' #Rooms a', el).each(function (_i, room) {
-        var doorPaths = getShortestRoute($(room).prop('id'));
+      $('#Rooms a', maps[mapNum].el).each(function (_i, room) {
+        var doorPaths = WayfindingDataStore.getShortestRoute(maps, $(room).attr('id'), startpoint);
 
         if (doorPaths.solution.length === 0) {
-          report[i++] = 'unreachable room: ' + $(room).prop('id');
+          report[i++] = 'Unreachable room: ' + $(room).attr('id');
           //highlight unreachable rooms
-          $(room).attr('class', 'debugRoom');
+          //$(room).attr('class', 'debugRoom');
         }
       }); //
       /* jshint ignore:end */

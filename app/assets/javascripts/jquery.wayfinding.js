@@ -389,28 +389,6 @@
 			}
 		} //function switchFloor
 
-		// from a given end point generate an array representing the reverse steps needed to reach destination along shortest path
-		function backTrack(segmentType, segmentFloor, segment) {
-			var step;
-
-			// if we aren't at the startpoint point
-			if (segment !== 'door') {
-				step = {};
-				step.type = segmentType;
-				step.floor = segmentFloor;
-				step.segment = segment;
-				solution.push(step);
-				switch (segmentType) {
-				case 'pa':
-					backTrack(WayfindingDataStore.dataStore.paths[segmentFloor][segment].priorType, segmentFloor, WayfindingDataStore.dataStore.paths[segmentFloor][segment].prior);
-					break;
-				case 'po':
-					backTrack(WayfindingDataStore.dataStore.portals[segment].priorType, WayfindingDataStore.dataStore.portals[segment].priormapNum, WayfindingDataStore.dataStore.portals[segment].prior);
-					break;
-				}
-			}
-		}
-
 		function hidePath(obj) {
 			$('path[class^=directionPath]', obj).css({
 				'stroke': 'none'
@@ -470,64 +448,6 @@
 			delay + 1000);
 		} //function animatePath
 
-		function getShortestRoute(destinations) {
-			function _minLengthRoute(destination) {
-				var destInfo,
-				mapNum,
-				minPath,
-				reversePathStart,
-				destinationmapNum,
-				i;
-
-				destInfo = WayfindingDataStore.getDoorPaths(maps, destination);
-
-				for (mapNum = 0; mapNum < maps.length; mapNum++) {
-					if (maps[mapNum].id === destInfo.floor) {
-						destinationmapNum = mapNum;
-					}
-				}
-
-				minPath = Infinity;
-				reversePathStart = -1;
-
-				for (i = 0; i < destInfo.paths.length; i++) {
-					if (WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route < minPath) {
-						minPath = WayfindingDataStore.dataStore.paths[destinationmapNum][destInfo.paths[i]].route;
-						reversePathStart = destInfo.paths[i];
-					}
-				}
-
-				if (reversePathStart !== -1) {
-					solution = []; //can't be set in backtrack because it is recursive.
-					backTrack('pa', destinationmapNum, reversePathStart);
-					solution.reverse();
-
-					return {
-						'startpoint': startpoint,
-						'endpoint': destination,
-						'solution': solution,
-						'distance': minPath
-					};
-				}
-
-				return {
-					'startpoint': startpoint,
-					'endpoint': destination,
-					'solution': [],
-					'distance': minPath
-				};
-			}
-
-			if (Array.isArray(destinations)) {
-				return $.map(destinations, function (dest) {
-					return _minLengthRoute(dest);
-				});
-			} else {
-				return _minLengthRoute(destinations);
-			}
-
-		}
-
 		// The combined routing function
 		// revise to only interate if startpoint has changed since last time?
 		function routeTo(destination) {
@@ -576,7 +496,7 @@
 				//hilight the destination room
 				$('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
 
-				solution = getShortestRoute(destination).solution;
+				solution = WayfindingDataStore.getShortestRoute(maps, destination, startpoint).solution;
 
 				if (reversePathStart !== -1) {
 
@@ -892,9 +812,9 @@
 					//gets the length of the shortest route to one or more
 					//destinations.
 					if (passed === undefined) {
-						result = getShortestRoute(options.endpoint);
+						result = WayfindingDataStore.getShortestRoute(maps, options.endpoint, startpoint);
 					} else {
-						result = getShortestRoute(passed);
+						result = WayfindingDataStore.getShortestRoute(maps, passed, startpoint);
 					}
 					break;
 				case 'destroy':
