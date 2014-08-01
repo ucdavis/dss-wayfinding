@@ -13,7 +13,7 @@
   });
 </script>
 
-<h1 id="directory-title">Directory</h1>
+<h1 id="directory-title"><%= params[:type].pluralize %></h1>
 <ul class="directory-list">
 <!-- People -->
     <% @directory_objects.each do |directory_object| %>
