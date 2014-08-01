@@ -247,10 +247,13 @@
 			// removed el scope from this next call.
 			$('#Rooms a', svgDiv).click(function (event) {
 				console.log("routing to:");
-				console.log($(this).prop('id'));
+				console.log($(this).attr('id'));
 				$(obj).wayfinding('routeTo', $(this).prop('id'));
 				event.preventDefault();
 			});
+
+			// ensure text labels won't prevent room clicks
+			$('text', svgDiv).css("pointer-events", "none");
 
 			$(obj).append(svgDiv);
 		} //function activateSVG
