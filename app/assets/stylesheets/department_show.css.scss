@@ -40,19 +40,28 @@ $about-color: #B1B3B3;
   margin-top: 15px;
 }
 
-/* may be unnecessary now */
 #map div {
-	display: inline-block;
-	height: 480px;
-	width: 785px;
+  height: 35vw;
+	//display: inline-block;
+	//height: 480px;
+	//width: 785px;
 }
 
 #mapLoading {
-	font-size: 10em;
-	left: 50px;
-	position: relative;
-	top: 60px;
-	z-index: -1;
+	font-size: 7vw;
+  color: #777;
+  text-align: center;
+  height: 8vw;
+  position: relative;
+
+  #mapLoadingInner {
+    width: 100%;
+
+    position: absolute;
+    top: 50%;
+    height: 8vw;
+    margin-top: -4vw;
+  }
 }
 
 #map svg {
