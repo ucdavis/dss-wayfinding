@@ -363,6 +363,7 @@ WayfindingDataStore = {
       for (mapNum = 0; mapNum < maps.length; mapNum++) {
         if (maps[mapNum].id === destInfo.floor) {
           destinationmapNum = mapNum;
+          break;
         }
       }
 
