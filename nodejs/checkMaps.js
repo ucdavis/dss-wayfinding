@@ -40,11 +40,15 @@ $.each(maps, function (i, map) {
     processed = processed + 1;
 
     if(processed == maps.length) {
-      dataStore = null;
+      var rooms = WayfindingDataStore.getRooms(maps);
+      var randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
 
-      dataStore = WayfindingDataStore.build('R1131', maps);
+      console.log("Using randomly choosen room '" + randomRoom + "' as the starting point.");
+      console.log("Be aware that the randomly choosen room could itself be disconnected from the map. Recommended to run the script a few times and only consider common results.");
+      
+      var dataStore = WayfindingDataStore.build(randomRoom, maps);
 
-      console.log(WayfindingDataStore.checkMaps(maps, 'R1131'));
+      console.log(WayfindingDataStore.checkMaps(maps, randomRoom));
     }
   });
 });

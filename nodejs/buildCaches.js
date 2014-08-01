@@ -1,8 +1,9 @@
 if(console.debug == undefined) console.debug = console.log;
 
-jsdom = require('jsdom');
-fs = require('fs');
+var jsdom = require('jsdom');
+var fs = require('fs');
 require('json');
+var md5 = require('MD5');
 
 window 	= jsdom.jsdom().createWindow();
 
@@ -18,27 +19,6 @@ var maps = [
 ];
 
 require('../app/assets/javascripts/wayfinding.datastore.js');
-
-getRooms = function(maps) {
-  var rooms = [];
-
-  $.each(maps, function (i, map) {
-    $('#Doors line', map.el).each(function () {
-      var doorId = $(this).attr('id');
-
-      // cleanupSVG does this but it might not be called at this point.
-      // Ensure IDs do not have Illustrator '_' junk
-      if (doorId && doorId.indexOf('_') > 0) {
-        var oldID = doorId;
-        doorId = oldID.slice(0, oldID.indexOf('_'));
-      }
-
-      rooms.push(doorId);
-    });
-  });
-
-  return(rooms);
-}
 
 var processed = 0;
 var rooms = [];
@@ -57,21 +37,38 @@ $.each(maps, function (i, map) {
     maps[i].svgHandle = data;
     maps[i].el = svgDiv;
 
+    maps[i].md5 = md5(data);
+
     svgDiv.append(data);
 
     processed = processed + 1;
 
     if(processed == maps.length) {
-      rooms = getRooms(maps);
+      var rooms = WayfindingDataStore.getRooms(maps);
+
+      // Compute a shared MD5 sum for all maps
+      var shared_md5 = "";
+      for(i = 0; i < maps.length; i++) {
+        shared_md5 = shared_md5 + maps[i].md5;
+      }
+      shared_md5 = md5(shared_md5);
 
       $.each(rooms, function(i, startpoint) {
-        dataStore = null;
+        var dsFilename = "dataStore-" + startpoint + "-" + shared_md5 + ".json";
 
-        console.debug("Building dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + ")...");
+        fs.exists(dsFilename, function(exists) {
+          if (exists) {
+            console.debug("Skipping " + shared_md5 + " dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
+          } else {
+            var dataStore = null;
 
-        dataStore = WayfindingDataStore.build(startpoint, maps);
+            console.debug("Building " + shared_md5 + " dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + ")...");
 
-        fs.writeFileSync('dataStore-' + startpoint + '.json', JSON.stringify(dataStore));
+            dataStore = WayfindingDataStore.build(startpoint, maps);
+
+            fs.writeFileSync(dsFilename, JSON.stringify(dataStore));
+          }
+        });
       });
     }
   });

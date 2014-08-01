@@ -451,6 +451,28 @@ WayfindingDataStore = {
     return report.join('\n');
   }, // checkMap function
 
+  // Returns all rooms in the given 'maps' array
+  getRooms: function(maps) {
+    var rooms = [];
+
+    $.each(maps, function (i, map) {
+      $('#Doors line', map.el).each(function () {
+        var doorId = $(this).attr('id');
+
+        // cleanupSVG does this but it might not be called at this point.
+        // Ensure IDs do not have Illustrator '_' junk
+        if (doorId && doorId.indexOf('_') > 0) {
+          var oldID = doorId;
+          doorId = oldID.slice(0, oldID.indexOf('_'));
+        }
+
+        rooms.push(doorId);
+      });
+    });
+
+    return(rooms);
+  },
+
   build: function (startpoint, maps, accessible) {
     // Reset dataStore data
     if(accessible == undefined) accessible = false;
