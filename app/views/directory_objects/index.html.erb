@@ -14,7 +14,7 @@
   });
 </script>
 
-<h1 id="directory-title"><%= params[:type].pluralize %></h1>
+<h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <ul class="directory-list">
 <!-- People -->
     <% @directory_objects.each do |directory_object| %>
