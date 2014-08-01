@@ -11,5 +11,10 @@ $(function() {
 
 function resizeIcons() {
   var iconSize = Math.min(window.innerHeight/6-40, 0.1*window.innerWidth);
-  $('.vertical-nav li a').css('height',iconSize).css('width',iconSize);
+  $('.vertical-nav li a')
+    .css('height', iconSize + 'px')
+    .css('width', iconSize + 'px')
+    .css('line-height', 0.8*iconSize + 'px')
+    .css('font-size', iconSize/2 + 'px')
+    .css('border-width', 0.08*iconSize + 'px');
 }
