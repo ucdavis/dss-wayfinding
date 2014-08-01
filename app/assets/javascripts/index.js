@@ -2,10 +2,10 @@
 //= require animate
 
 $(document).ready(function(){
-  if ( notice ) {
+  if ( typeof notice !== 'undefined' && notice ) {
     $(".alert").addClass("alert-success").css('visibility','visible');
     $(".alert span.notice").text(notice);
-  } else if ( error ) {
+  } else if ( typeof error !== 'undefined' && error ) {
     $(".alert").addClass("alert-danger").css('visibility','visible');
     $(".alert span.notice").text(error);
   }
