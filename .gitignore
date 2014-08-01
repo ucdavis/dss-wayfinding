@@ -20,3 +20,6 @@
 # Ignore sensitive files
 config/auth_config.yml
 
+# Ignore map data caches
+dataStore-*.json
+
