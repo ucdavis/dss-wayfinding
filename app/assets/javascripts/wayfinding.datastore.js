@@ -226,7 +226,7 @@ WayfindingDataStore = {
 
 		WayfindingDataStore.portalSegments = [];
 
-	},   // end function buildportals
+	}, // end function buildportals
 
   generateRoutes: function (startpoint, maps) {
     var sourceInfo,
@@ -238,6 +238,7 @@ WayfindingDataStore = {
     for (mapNum = 0; mapNum < maps.length; mapNum++) {
       if (maps[mapNum].id === sourceInfo.floor) {
         sourcemapNum = mapNum;
+        break;
       }
     }
 
@@ -260,6 +261,7 @@ WayfindingDataStore = {
         WayfindingDataStore.recursiveSearch('pa', segmentFloor,  tryPath, WayfindingDataStore.dataStore.paths[segmentFloor][tryPath].route);
       }
     });
+
     // if the current path is connected to any portals
     if (WayfindingDataStore.dataStore.paths[segmentFloor][segment].portals.length > 0) {
       // look at each portal, tryPortal is portal index in portals
