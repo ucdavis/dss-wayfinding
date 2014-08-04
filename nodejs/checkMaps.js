@@ -6,7 +6,7 @@ require('json');
 
 window 	= jsdom.jsdom().createWindow();
 
-$ = require('jQuery');
+$ = require('jquery');
 
 var maps = [
   {'path': '../app/assets/images/ssh_floor_0.svg', 'id': 'floor0'},
@@ -45,7 +45,7 @@ $.each(maps, function (i, map) {
 
       console.log("Using randomly choosen room '" + randomRoom + "' as the starting point.");
       console.log("Be aware that the randomly choosen room could itself be disconnected from the map. Recommended to run the script a few times and only consider common results.");
-      
+
       var dataStore = WayfindingDataStore.build(randomRoom, maps);
 
       console.log(WayfindingDataStore.checkMaps(maps, randomRoom));

@@ -7,7 +7,7 @@ var md5 = require('MD5');
 
 window 	= jsdom.jsdom().createWindow();
 
-$ = require('jQuery');
+$ = require('jquery');
 
 var maps = [
   {'path': '../app/assets/images/ssh_floor_0.svg', 'id': 'floor0'},
