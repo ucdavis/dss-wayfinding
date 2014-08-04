@@ -145,9 +145,12 @@ body {
   }
 }
 
-a, a:hover, a:active {
-  color: #FFF;
-}
+// This applies to every page and the default background is white.
+// This messes up the /administration section at least.
+// Perhaps this rule could be more specific?
+// a, a:hover, a:active {
+//   color: #FFF;
+// }
 
 .btn-xl{
   height: 95%;

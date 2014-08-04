@@ -22,7 +22,8 @@ module DirectoryObjectsHelper
     'startpoint': function () {
       console.debug('Start location is ', '" + origin + "');
       return '" + origin + "';
-    }
+    },
+    'defaultMap': 'floor1'
   });
   "
 

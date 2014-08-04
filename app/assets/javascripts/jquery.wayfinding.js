@@ -513,7 +513,6 @@
 
 			//if startpoint != destination
 			if (startpoint !== destination) {
-
 				// get accessibleRoute option -- options.accessibleRoute
 
 				//hilight the destination room
@@ -543,7 +542,7 @@
 
 					if(solution.length == 0) {
 						console.log("Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: " + destination);
-						debugger;
+						return;
 					}
 
 					//if statement incorrectly assumes one door at the end of the path, works in that case, need to generalize

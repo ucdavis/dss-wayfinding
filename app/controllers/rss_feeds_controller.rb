@@ -28,7 +28,7 @@ class RssFeedsController < AdministrationController
 
     respond_to do |format|
       if @rss_feed.save
-        format.html { redirect_to @rss_feed, notice: 'Rss feed was successfully created.' }
+        format.html { redirect_to rss_feeds_path, notice: 'Rss feed was successfully created.' }
         format.json { render :show, status: :created, location: @rss_feed }
       else
         format.html { render :new }
@@ -69,6 +69,6 @@ class RssFeedsController < AdministrationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rss_feed_params
-      params[:rss_feed]
+      params[:rss_feed].permit(:url)
     end
 end

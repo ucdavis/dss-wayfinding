@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       post 'csv'
       post 'department_location'
 
-      resources :rss_events
+      resources :rss_feeds
     end
   end
 end
