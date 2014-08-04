@@ -308,10 +308,12 @@ ul.vertical-nav {
         white-space: normal;
         position: absolute;
         left: -50%;
-        top: 90%;
+        top: 100%;
         width: 200%;
         text-align: center;
+        margin-top: 1em;
         font-size: 0.3em;
+        line-height: 1em;
       }
 
       &:before {
@@ -623,12 +625,4 @@ img.building-pic {
   background-color: #eee;
   width: 100%;
   margin: 2em 0;
-}
-
-.pag-hidden {
-  display: none;
-  visibility: hidden;
-}
-.pag-show {
-  display: inline-block;
 }
