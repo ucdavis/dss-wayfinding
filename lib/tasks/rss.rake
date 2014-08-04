@@ -24,38 +24,38 @@ namespace :rss do
       feed = feeds[url]
 
       feed.entries.each do |entry|
-      event = Event.new
-      event.rss_feed = url
+        event = Event.new
+        event.rss_feed = url
 
-      entry.each do |e|
-        if e == "title"
-            event.title = entry[e]
+        entry.each do |e|
+          if e == "title"
+              event.title = entry[e]
+          end
+
+          if e == "date"
+            event.time = entry[e]
+          end
+
+          if e == "link"
+            event.link = entry[e]
+          end
+
+          if e == "location"
+            room = Room.where("room_number LIKE ?", e).first
+          end
         end
 
-        if e == "date"
-          event.time = entry[e]
+        # event did not have a parsable location, use default department location
+        if room
+          event.room = room
+        else
+          event.room = department.room
         end
 
-        if e == "link"
-          event.link = entry[e]
-        end
-
-        if e == "location"
-          room = Room.where("room_number LIKE ?", e).first
-        end
+        event.department = department
+        event.rss_feed = url
+        event.save
       end
-
-      # event did not have a parsable location, use default department location
-      if room
-        event.room = room
-      else
-        event.room = department.room
-      end
-
-      event.department = department
-      event.rss_feed = url
-      event.save
     end
   end
-end
 end
