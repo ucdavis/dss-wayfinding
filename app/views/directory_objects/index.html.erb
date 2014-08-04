@@ -91,11 +91,11 @@
         <% end %>
     <% end %>
     </div>
-      <div class="directory-paginate-interface">
+      <div class="paginate-interface">
         <ul class="pagination pagination-lg">
-          <li class="paginate-button"><a href="#">1</a></li>
-          <li class="paginate-button"><a href="#">2</a></li>
-          <li class="paginate-button"><a href="#">3</a></li>
+        <% (1..pagination_group).each do |i| %>
+          <li class="paginate-button"><a href="#"><%= i %></a></li>
+        <% end %>
         </ul>
       </div>
 </div>

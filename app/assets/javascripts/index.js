@@ -54,7 +54,7 @@ $(document).ready(function(){
   $(".paginate-button").click(function(event) {
     event.preventDefault();
     var pagination_group = $(this).text();
-    $('.pag').removeClass('pag-hidden').addClass('pag-show');
+    $('.pag').removeClass('pag-show').addClass('pag-hidden');
     $('.paginate-group-'+pagination_group).removeClass('pag-hidden').addClass('pag-show');
   });
 });
