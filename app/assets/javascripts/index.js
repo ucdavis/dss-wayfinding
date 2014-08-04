@@ -4,8 +4,8 @@
 $(document).ready(function(){
 
   // Initial pagination grouping
-  $('.pag').removeClass('pag-show').addClass('pag-hidden');
-  $('.paginate-group-'+1).removeClass('pag-hidden').addClass('pag-show');
+//  $('.pag').removeClass('pag-show').addClass('pag-hidden');
+//  $('.paginate-group-'+1).removeClass('pag-hidden').addClass('pag-show');
 
   if ( typeof notice !== 'undefined' && notice ) {
     $(".alert").addClass("alert-success").css('visibility','visible');
@@ -52,9 +52,9 @@ $(document).ready(function(){
   });
   
   $(".paginate-button").click(function(event) {
-    event.preventDefault();
-    var pagination_group = $(this).text();
-    $('.pag').removeClass('pag-show').addClass('pag-hidden');
-    $('.paginate-group-'+pagination_group).removeClass('pag-hidden').addClass('pag-show');
+//    event.preventDefault();
+//    var pagination_group = $(this).text();
+//    $('.pag').removeClass('pag-show').addClass('pag-hidden');
+ //   $('.paginate-group-'+pagination_group).removeClass('pag-hidden').addClass('pag-show');
   });
 });
