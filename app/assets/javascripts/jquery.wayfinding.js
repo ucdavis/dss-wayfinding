@@ -51,7 +51,7 @@
 		},
 		'zoomToRoute' : false,
 		'zoomPadding' : 50,
-		'mapEvents': false
+		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
 	};
 
 	$.fn.wayfinding = function (action, options) {
@@ -241,18 +241,16 @@
 			$('#Doors line', svgDiv).attr('stroke-opacity', 0);
 			$('#Portals line', svgDiv).attr('stroke-opacity', 0);
 
-			//The following need to use the el variable to scope their calls: el is jquery element
+			// The following need to use the el variable to scope their calls: el is jquery element
 
-			// make clickable
-			// removed el scope from this next call.
+			// Make rooms clickable
 			$('#Rooms a', svgDiv).click(function (event) {
-				console.log("routing to:");
-				console.log($(this).attr('id'));
+				$(obj).trigger('wayfinding:roomClicked', [ { room_id : $(this).attr('id') } ] );
 				$(obj).wayfinding('routeTo', $(this).prop('id'));
 				event.preventDefault();
 			});
 
-			// ensure text labels won't prevent room clicks
+			// Ensure text labels won't prevent room clicks
 			$('text', svgDiv).css("pointer-events", "none");
 
 			$(obj).append(svgDiv);
@@ -264,7 +262,7 @@
 
 			$('#mapLoading').remove();
 
-			//loop ensures defaultMap is in fact one of the maps
+			// loop ensures defaultMap is in fact one of the maps
 			displayNum = 0;
 			for (mapNum = 0; mapNum < maps.length; mapNum++) {
 				if (defaultMap === maps[mapNum].id) {
@@ -272,11 +270,12 @@
 				}
 			}
 
-			//hilight starting floor
+			// highlight starting floor
 			$('#' + maps[displayNum].id, el).show(0, function() {
-				$(this).trigger('wfMapsVisible');
+				$(this).trigger('wayfinding:mapsVisible');
 			}); // rework
-			//if endpoint was specified, route to there.
+
+			// if endpoint was specified, route to there.
 			if (typeof(options.endpoint) === 'function') {
 				routeTo(options.endpoint());
 			} else if (typeof(options.endpoint) === 'string') {
@@ -353,10 +352,10 @@
 
 		function switchFloor(floor, el) {
 			$('div', el).hide();
+
 			$('#' + floor, el).show(0, function() {
-				if (options.mapEvents) {
-					$(el).trigger('wfFloorChange');
-				}
+				console.log("Triggering floorChange with floor_id: " + floor);
+				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
 			});
 
 			//turn floor into mapNum, look for that in drawing
@@ -366,27 +365,32 @@
 
 			if (drawing) {
 				mapNum = -1;
+
 				for (i = 0; i < maps.length; i++) {
 					if (maps[i] === floor) {
 						mapNum = i;
+						break;
 					}
 				}
+
 				level = -1;
+
 				for (i = 0; i < drawing.length; i++) {
 					if (drawing[i].floor === mapNum) {
 						level = i;
+						break;
 					}
 				}
 
 				if (level !== -1) {
 					pathLength =  drawing[level].routeLength;
 
-					//these next three are potentially redundant now
+					// these next three are potentially redundant now
 					$(drawing[level].path, el).attr('stroke-dasharray', [pathLength, pathLength]);
 					$(drawing[level].path, el).attr('stroke-dashoffset', pathLength);
 					$(drawing[level].path, el).attr('pathLength', pathLength);
-
 					$(drawing[level].path, el).attr('stroke-dashoffset', pathLength);
+
 					$(drawing[level].path, el).animate({svgStrokeDashOffset: 0}, pathLength * options.path.speed); //or move minPath to global variable?
 				}
 			}
@@ -398,45 +402,57 @@
 			});
 		}
 
-		function animatePath(drawing, i) {
+		function animatePath(drawing, drawingSegment) {
 			var path,
 			svg,
 			pathRect,
 			oldViewBox,
 			drawLength,
-			delay,
+			animationDuration,
 			pad = options.zoomPadding;
 
-			if (1 !== 1 && i >= drawing.length) {
+			if (1 !== 1 && drawingSegment >= drawing.length) {
 				// if repeat is set, then delay and rerun display from first.
 				// Don't implement, until we have click to cancel out of this
 				setTimeout(function () {
 					animatePath(drawing, 0);
 				},
 				5000);
-			} else if (i >= drawing.length) {
+			} else if (drawingSegment >= drawing.length) {
 				//finished, stop recursion.
 				return;
 			}
 
-			drawLength = drawing[i].routeLength;
-			delay = drawLength * options.path.speed;
+			drawLength = drawing[drawingSegment].routeLength;
+			animationDuration = drawLength * options.path.speed;
 
-			switchFloor(maps[drawing[i][0].floor].id, obj);
+			switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
-			path = $('#' + maps[drawing[i][0].floor].id + ' .directionPath' + i)[0];
+			// Get the complete path for this particular floor-route
+			path = $('#' + maps[drawing[drawingSegment][0].floor].id + ' .directionPath' + drawingSegment)[0];
+
+			// Animate using CSS transitions
+			// SVG animation technique from http://jakearchibald.com/2013/animated-line-drawing-svg/
 			path.style.stroke = options.path.color;
 			path.style.strokeWidth = options.path.width;
 			path.style.transition = path.style.WebkitTransition = 'none';
 			path.style.strokeDasharray = drawLength + ' ' + drawLength;
 			path.style.strokeDashoffset = drawLength;
 			pathRect = path.getBBox();
-			path.style.transition = path.style.WebkitTransition = 'stroke-dashoffset ' + delay + 'ms linear';
+			path.style.transition = path.style.WebkitTransition = 'stroke-dashoffset ' + animationDuration + 'ms linear';
 			path.style.strokeDashoffset = '0';
-// http://jakearchibald.com/2013/animated-line-drawing-svg/
+
+			// If this is the last segment, trigger the 'wayfinding:animationComplete' event
+			// when it finishes drawing.
+			if(drawingSegment == (drawing.length - 1)) {
+				$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
+					console.log("animation complete!");
+					$(obj).trigger('wayfinding:animationComplete');
+				});
+			}
 
 			// Zooming logic...
-			svg = $('#' + maps[drawing[i][0].floor].id + ' svg')[0];
+			svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
 			oldViewBox = svg.getAttribute('viewBox');
 
 			if (options.zoomToRoute) {
@@ -444,11 +460,17 @@
 					' ' + (pathRect.width + pad * 2) + ' ' + (pathRect.height + pad * 2));
 			}
 
+			// Call animatePath after 'animationDuration' milliseconds to animate the next segment of the path,
+			// if any.
+			// Note: This is not tiny path 'segments' which form the lines curving around
+			//       hallways but rather the other 'paths' needed on other floors, if any.
 			setTimeout(function () {
-				animatePath(drawing, ++i);
-				svg.setAttribute('viewBox', oldViewBox); //zoom back out
-			},
-			delay + 1000);
+				animatePath(drawing, ++drawingSegment);
+
+				if (options.zoomToRoute) {
+					svg.setAttribute('viewBox', oldViewBox); // zoom back out
+				}
+			}, animationDuration + options.floorChangeAnimationDelay);
 		} //function animatePath
 
 		// The combined routing function
@@ -522,6 +544,7 @@
 					draw = {};
 
 					if(solution.length == 0) {
+						console.log("Attempting to route with no solution. This should never happen. SVG likely has errors.");
 						debugger;
 					}
 
@@ -732,11 +755,7 @@
 
 					//on switch which floor is displayed reset path svgStrokeDashOffset to minPath and the reanimate
 					//notify animation loop?
-
-				}  /*else {
-					// respond that path not found
-				console.log("path not found from " + startpoint + " to " + destination);
-			}*/
+				}
 			}
 		} //RouteTo
 
