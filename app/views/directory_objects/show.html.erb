@@ -58,7 +58,7 @@
 
 <div class="row">
   <div class="col-xs-9 show-map">
-    <ul class="horizontal-nav floors">
+    <ul class="horizontal-nav map-actions">
       <span>Floors</span>
       <li><a href="#" data-mapId="floor0" class="btn-floor">L</a></li>
       <li><a href="#" data-mapId="floor1" class="btn-floor">1</a></li>
@@ -74,6 +74,10 @@
         </div>
       </div>
     </div>
+    <ul class="horizontal-nav map-actions" style="margin-top: 1em;">
+      <li><a href="#" class="btn-map-action icon-accessible"></a></li>
+      <li><a href="#" class="btn-map-action icon-repeat replay"></a></li>
+    </ul>
   </div>
   <div id="destination-view"
     class="text-<%= @directory_object.type.pluralize.downcase %>">

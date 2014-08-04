@@ -16,6 +16,8 @@ $about-color: #B1B3B3;
 .icon-map:after { content: "\E804"; }
 .icon-search:after { content: "\E806"; }
 .icon-about:after { content: "\E803"; }
+.icon-accessible:after { content: "\E807"; }
+.icon-repeat:after { content: "\E808"; }
 
 @font-face {
   font-family: 'fontello';
@@ -46,9 +48,6 @@ body {
 
 #map div {
   height: 35vw;
-	//display: inline-block;
-	//height: 480px;
-	//width: 785px;
 }
 
 #mapLoading {
@@ -69,10 +68,8 @@ body {
 }
 
 #map svg {
-  position: absolute;
   margin: 0;
   padding: 0;
-  left: 0;
   height: 100%;
   width: 100%;
 }
@@ -188,7 +185,7 @@ ul.horizontal-nav {
     }
   }
 
-  &.floors {
+  &.map-actions {
     font-size: 1.9vw;
 
     span {
@@ -204,7 +201,7 @@ ul.horizontal-nav {
 
       a {
         margin: 0.15em;
-        line-height: 1.9em;
+        line-height: 2em;
         font-size: 1.2em;
         border: 0.12em solid #fff;
 
@@ -380,6 +377,11 @@ ul.vertical-nav {
 }
 
 .btn-floor {
+  background: $floor-color;
+  color: white;
+}
+
+.btn-map-action {
   background: $floor-color;
   color: white;
 }
