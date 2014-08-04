@@ -79,20 +79,18 @@ body {
 
 /* map target information pane */
 #destination-view {
-  visibility: none;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.1;
   text-align: center;
   width: 20%; /* Since the map is the other 75% (col-xs-9) */
-  border: none;
+  overflow: auto;
 
   position: fixed;
-  bottom: 100px;
   top: 100px;
-  margin-bottom: 0;  right: -1000px;
+  bottom: 100px;
+  margin-bottom: 0;
+  right: -1000px;
 
-  background-color: #fff;
-  border-radius: 4px;
+  border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
   z-index: 10;
   display: -webkit-box;
@@ -111,7 +109,9 @@ body {
 
   h1 {
     font-size: 3rem;
-    color: gray;
+    padding: 0.15em;
+    border-top: 5px double #fff;
+    border-bottom: 5px double #fff;
   }
 
   h2 {
@@ -122,8 +122,11 @@ body {
   .replay-container {
     position: absolute;
     bottom: 20px;
+    left: 20px;
+  }
 
-    a.replay {
+  a {
+    &.replay {
       cursor: pointer;
       font-size: 14px;
       font-weight: bold;
@@ -132,18 +135,13 @@ body {
       text-shadow: 0 1px 0 white;
       opacity: 0.2;
       filter: alpha(opacity=20);
-
-      &:hover {
-        text-decoration: none;
-        opacity: 0.5;
-        filter: alpha(opacity=50);
-      }
     }
-  }
 
-  span {
-    color: #333;
-    font-weight: bold;
+    &:hover {
+      text-decoration: none;
+      opacity: 0.8;
+      filter: alpha(opacity=80);
+    }
   }
 }
 
@@ -346,38 +344,47 @@ ul.vertical-nav {
 
 .btn-home {
   background-color: $home-color;
+  color: white;
 }
 
 .btn-people {
   background-color: $people-color;
+  color: white;
 }
 
 .btn-events {
   background-color: $events-color;
+  color: white;
 }
 
 .btn-rooms {
   background-color: $rooms-color;
+  color: white;
 }
 
 .btn-departments {
   background-color: $departments-color;
+  color: white;
 }
 
 .btn-map {
   background-color: $map-color;
+  color: white;
 }
 
 .btn-search {
   background: $search-color;
+  color: white;
 }
 
 .btn-floor {
   background: $floor-color;
+  color: white;
 }
 
 .btn-about {
   background: $about-color;
+  color: white;
 }
 
 .text-home {
