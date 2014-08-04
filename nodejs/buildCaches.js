@@ -58,15 +58,31 @@ $.each(maps, function (i, map) {
 
         fs.exists(dsFilename, function(exists) {
           if (exists) {
-            console.debug("Skipping " + shared_md5 + " dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
+            console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
           } else {
             var dataStore = null;
 
-            console.debug("Building " + shared_md5 + " dataStore for " + startpoint + " (" + (i + 1) + " of " + rooms.length + ")...");
+            console.debug("Building " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + ")...");
 
-            dataStore = WayfindingDataStore.build(startpoint, maps);
+            dataStore = WayfindingDataStore.build(startpoint, maps, false);
 
             fs.writeFileSync(dsFilename, JSON.stringify(dataStore));
+          }
+        });
+
+        var dsFilenameAccessible = "dataStore-accessible-" + startpoint + "-" + shared_md5 + ".json";
+
+        fs.exists(dsFilenameAccessible, function(exists) {
+          if (exists) {
+            console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
+          } else {
+            var dataStore = null;
+
+            console.debug("Building " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + ")...");
+
+            dataStore = WayfindingDataStore.build(startpoint, maps, true);
+
+            fs.writeFileSync(dsFilenameAccessible, JSON.stringify(dataStore));
           }
         });
       });
