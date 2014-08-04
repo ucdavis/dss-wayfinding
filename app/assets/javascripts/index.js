@@ -2,6 +2,11 @@
 //= require animate
 
 $(document).ready(function(){
+
+  // Initial pagination grouping
+  $('.pag').removeClass('pag-show').addClass('pag-hidden');
+  $('.paginate-group-'+1).removeClass('pag-hidden').addClass('pag-show');
+
   if ( typeof notice !== 'undefined' && notice ) {
     $(".alert").addClass("alert-success").css('visibility','visible');
     $(".alert span.notice").text(notice);
@@ -44,5 +49,12 @@ $(document).ready(function(){
       $(this).find('input[type="submit"]').addClass('btn-danger')
       $(this).find('.form-group').append('<p class="help-block col-sm-2 status">Error saving...</p>');
     }
+  });
+  
+  $(".paginate-button").click(function(event) {
+    event.preventDefault();
+    var pagination_group = $(this).text();
+    $('.pag').removeClass('pag-hidden').addClass('pag-show');
+    $('.paginate-group-'+pagination_group).removeClass('pag-hidden').addClass('pag-show');
   });
 });
