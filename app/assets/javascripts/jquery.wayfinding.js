@@ -63,7 +63,6 @@
 			startpoint, // the result of either the options.startpoint value or the value of the function
 			portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped.
 			drawing,
-			solution,
 			result; // used to return non jQuery results
 
 		// set options based on either provided options, prior settings, or defaults
@@ -510,8 +509,7 @@
 			//clear all rooms
 			$('#Rooms *.wayfindingRoom', obj).removeAttr('class');
 
-
-			solution = [];
+			var solution = [];
 
 			//if startpoint != destination
 			if (startpoint !== destination) {
@@ -544,7 +542,7 @@
 					draw = {};
 
 					if(solution.length == 0) {
-						console.log("Attempting to route with no solution. This should never happen. SVG likely has errors.");
+						console.log("Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: " + destination);
 						debugger;
 					}
 
