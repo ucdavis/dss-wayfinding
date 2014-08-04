@@ -1,6 +1,7 @@
 require 'rake'
 require 'pp'
-namespace :rss_events do
+
+namespace :rss do
   desc 'Parses rss feeds and updates local sync.'
   task :fetch => :environment do
     # TODO- code handles one feed currently, needs to be expanded to handle multiple feeds
@@ -43,7 +44,7 @@ namespace :rss_events do
           room = Room.where("room_number LIKE ?", e).first
         end
       end
-      
+
       # event did not have a parsable location, use default department location
       if room
         event.room = room
