@@ -8,4 +8,5 @@ end
 # Ensure dataCaches are up-to-date
 every 4.hours do
   command "cd nodejs && `which node` buildCaches.js"
+  rake "map_cache:update"
 end
