@@ -490,7 +490,6 @@ WayfindingDataStore = {
 
     // Build the dataStore from each map given
     $.each(maps, function(i, map) {
-      //console.log("Looping over map ", i);
       WayfindingDataStore.cleanupSVG(map.el);
       WayfindingDataStore.buildDataStore(i, map, map.el);
     });
