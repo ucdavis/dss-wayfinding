@@ -55,20 +55,20 @@ $.each(maps, function (i, map) {
 
       // Ensures shared_md5 directory exists
       fs.mkdir("./maps", '0777', function(err) {
-        if (err) {
-            console.log("Failed to create directory './maps'. Aborting ...");
-            process.exit(-1);
+        if (err && (err.code != 'EEXIST')) {
+          console.log("Failed to create directory './maps'. Aborting ...");
+          process.exit(-1);
         }
       });
       fs.mkdir("./maps/" + shared_md5, '0777', function(err) {
-        if (err) {
-            console.log("Failed to create directory './maps/'" + shared_md5 + ". Aborting ...");
-            process.exit(-1);
+        if (err && (err.code != 'EEXIST')) {
+          console.log("Failed to create directory './maps/'" + shared_md5 + ". Aborting ...");
+          process.exit(-1);
         }
       });
 
       $.each(rooms, function(i, startpoint) {
-        var dsFilename = "dataStore-" + startpoint + "-" + shared_md5 + ".json";
+        var dsFilename = "dataStore-" + startpoint + ".json";
 
         fs.exists("./maps/" + shared_md5 + "/" + dsFilename, function(exists) {
           if (exists) {
@@ -84,7 +84,7 @@ $.each(maps, function (i, map) {
           }
         });
 
-        var dsFilenameAccessible = "dataStore-accessible-" + startpoint + "-" + shared_md5 + ".json";
+        var dsFilenameAccessible = "dataStore-accessible-" + startpoint + ".json";
 
         fs.exists("./maps/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
           if (exists) {
