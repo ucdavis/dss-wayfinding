@@ -627,3 +627,11 @@ img.building-pic {
   width: 100%;
   margin: 2em 0;
 }
+
+.pag-hidden {
+  display: none;
+  visibility: hidden;
+}
+.pag-show {
+  display: inline-block;
+}

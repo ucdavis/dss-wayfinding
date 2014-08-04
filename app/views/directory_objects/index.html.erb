@@ -17,9 +17,13 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <ul class="directory-list">
 <!-- People -->
-    <% @directory_objects.each do |directory_object| %>
+    <% pagination_group = 1 %>
+    <% @directory_objects.each_with_index do |directory_object, index| %>
+        <% if (index != 0) && (index % 6 == 0) %>
+            <% pagination_group = pagination_group + 1 %>
+        <% end %>
         <% if directory_object.type == "Person" %>
-          <li>
+          <li class="pag paginate-group-<%= pagination_group %>">
             <a href="/directory/<%= directory_object.id %>" class="people-card">
               <h3><%= directory_object.first + " " + directory_object.last %></h3>
               <p>
@@ -41,7 +45,7 @@
         <% end %>
 <!-- Events -->
         <% if directory_object.type == "Event" %>
-          <li>
+          <li class="pag paginate-group-<%= pagination_group %>">
             <a href="/directory/<%= directory_object.id %>" class="events-card">
               <h3><%= directory_object.title %></h3>
                 <p>
@@ -68,7 +72,7 @@
         <% end %>
 <!-- Departments -->
         <% if directory_object.type == "Department" %>
-            <li>
+            <li class="pag paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="departments-card">
                 <h3><%= directory_object.title.titleize %></h3>
                 <p>
@@ -78,7 +82,7 @@
         <% end %>
 <!-- Rooms -->
         <% if directory_object.type == "Room" %>
-            <li>
+            <li class="pag paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="rooms-card">
                 <h3><%= directory_object.room_number %></h3>
                 <p><%= directory_object.name %></p>
@@ -87,4 +91,11 @@
         <% end %>
     <% end %>
     </div>
+      <div class="directory-paginate-interface">
+        <ul class="pagination pagination-lg">
+          <li class="paginate-button"><a href="#">1</a></li>
+          <li class="paginate-button"><a href="#">2</a></li>
+          <li class="paginate-button"><a href="#">3</a></li>
+        </ul>
+      </div>
 </div>
