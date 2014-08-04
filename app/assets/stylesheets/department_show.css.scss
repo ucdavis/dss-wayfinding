@@ -34,6 +34,10 @@ $about-color: #B1B3B3;
   speak: none;
 }
 
+body {
+  background: white;
+}
+
 #site-container {
   width: 100%;
   height: 100%;
@@ -166,39 +170,42 @@ ul.horizontal-nav {
 
     li {
       width: 19%;
+      font-size: 2vw;
 
       a {
-        line-height: 10vw;
-        font-size: 6vw;
-        border: 0.7vw solid #fff;
+        margin: 0.15em;
+        line-height: 1.7em;
+        border: 0.12em solid #fff;
 
         &:before {
-          top: -1.5vw;
-          left: -1.5vw;
-          bottom: -1.5vw;
-          right: -1.5vw;
+          top: -0.22em;
+          left: -0.22em;
+          bottom: -0.22em;
+          right: -0.22em;
         }
       }
     }
   }
 
   &.floors {
+    font-size: 1.9vw;
+
     span {
       text-transform: uppercase;
       color: $floor-color;
       position: absolute;
-      font-size: 1.7vw;
       top: 30%;
       left: 30px;
     }
 
     li {
-      width: 12%;
+      width: 10%;
 
       a {
-        line-height: 3.8vw;
-        font-size: 2vw;
-        border: 0.4vw solid #fff;
+        margin: 0.15em;
+        line-height: 1.9em;
+        font-size: 1.2em;
+        border: 0.12em solid #fff;
 
         &.active {
           box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
@@ -206,10 +213,10 @@ ul.horizontal-nav {
         }
 
         &:before {
-          top: -0.8vw;
-          left: -0.8vw;
-          bottom: -0.8vw;
-          right: -0.8vw;
+          top: -0.25em;
+          left: -0.25em;
+          bottom: -0.25em;
+          right: -0.25em;
         }
       }
     }
@@ -239,7 +246,6 @@ ul.horizontal-nav {
     }
 
     a {
-    margin: 15px;
       position: absolute;
       text-align: center;
       border-radius: 50%;
@@ -516,15 +522,6 @@ ul.directory-list {
       }
     }
   }
-}
-
-table#landing-buttons {
-  margin-left: 10%;
-  margin-top: 10%;
-}
-
-body {
-  background: white;
 }
 
 /* Search interface styling below */
