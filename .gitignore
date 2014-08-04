@@ -23,3 +23,5 @@ config/auth_config.yml
 # Ignore map data caches
 dataStore-*.json
 
+# Ignore node_modules (may vary from architecture to architecture, just use 'npm install')
+node_modules
