@@ -37,28 +37,15 @@
       console.log("Wayfinding indicates animation is complete.");
     });
 
-    $('#map').wayfinding({
-      'maps': [
-        {'path': '<%= asset_path "ssh_floor_0.svg" %>', 'id': 'floor0'},
-        {'path': '<%= asset_path "ssh_floor_1.svg" %>', 'id': 'floor1'},
-        {'path': '<%= asset_path "ssh_floor_2.svg" %>', 'id': 'floor2'},
-        {'path': '<%= asset_path "ssh_floor_3.svg" %>', 'id': 'floor3'},
-        {'path': '<%= asset_path "ssh_floor_4.svg" %>', 'id': 'floor4'},
-        {'path': '<%= asset_path "ssh_floor_5.svg" %>', 'id': 'floor5'}
-      ],
-      'dataStoreCache': '<%= asset_path "dataStore-R1131.json" %>',
-      'path': {
-        width: 3,
-        color: 'rgb(194, 110, 96)',
-        radius: 8,
-        speed: 8
-      },
-      'startpoint': function () {
-        console.debug('Start location is ', '<%= @origin %>');
-        return '<%= @origin %>';
-      },
-      'defaultMap': 'floor1'
-    });
+    <%
+      @svg_paths = [asset_path("ssh_floor_0.svg"),
+                    asset_path("ssh_floor_1.svg"),
+                    asset_path("ssh_floor_2.svg"),
+                    asset_path("ssh_floor_3.svg"),
+                    asset_path("ssh_floor_4.svg"),
+                    asset_path("ssh_floor_5.svg")]
+    %>
+    <%= wayfinding_plugin(@svg_paths, asset_path("dataStore-" + @origin + ".json"), @origin) %>
   };
 
   $(document).ready(ready);
