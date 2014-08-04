@@ -18,5 +18,20 @@ namespace :map_cache do
 
     # Copy latest contents to #{Rails.root}/public so asset_path() can find them
     FileUtils.cp_r(Dir[File.join(Rails.root, "nodejs", "maps", mapsDirContents[0], "*")], File.join(Rails.root, "public"))
+
+    # Remove any caches from #{Rails.root}/public that aren't from the latest copy
+    # This is done after /public is updated so at no point will a needed cache be missing
+    publicDirContents = Dir.entries(File.join(Rails.root, "public"))
+    latestCacheDirContents = Dir.entries(File.join(Rails.root, "nodejs", "maps", mapsDirContents[0]))
+
+    publicDirContents.each do |f|
+      # Only worry about directory contents which are data stores
+      if f.include?("dataStore-")
+        if latestCacheDirContents.include?(f) == false
+          # Found a dataStore file which is not from the latest cache. Delete it.
+          File.delete(File.join(Rails.root, "public", f))
+        end
+      end
+    end
   end
 end
