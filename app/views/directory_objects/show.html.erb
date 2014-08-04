@@ -83,7 +83,7 @@
     class="text-<%= @directory_object.type.pluralize.downcase %>">
 
     <h1 class="btn-<%= @directory_object.type.pluralize.downcase %>">Destination</h1>
-    <div>
+
     <% if @directory_object.type == "Person" %>
       <% if @directory_object.rooms.present? %>
       <h2>Room </h2>
@@ -97,7 +97,9 @@
 
       <% if @directory_object.email.present? %>
       <h2>Email </h2>
-      <span><%= @directory_object.email %></span>
+        <%= mail_to @directory_object.email do %>
+        <span><%= @directory_object.email %></span>
+        <% end %>
       <% end %>
 
       <% if @directory_object.phone.present? %>
@@ -175,8 +177,5 @@
       <% end %>
     <% end %>
 
-    <div class="replay-container">
-      <a class="glyphicon glyphicon-repeat replay">Replay</a>
-    </div>
   </div> <!-- destination-view -->
 </div> <!-- row -->
