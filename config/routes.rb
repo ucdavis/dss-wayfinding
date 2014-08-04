@@ -15,9 +15,11 @@ Rails.application.routes.draw do
   # Administration
   resources :administration do
     collection do
-      post 'origin' #, to: 'directory_objects#modify_origin'
-      post 'csv' #, to: 'directory_objects#import_csv'
+      post 'origin'
+      post 'csv'
       post 'department_location'
+
+      resources :rss_events
     end
   end
 end

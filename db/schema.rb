@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140711082346) do
+ActiveRecord::Schema.define(version: 20140804211253) do
 
   create_table "directory_objects", force: true do |t|
     t.datetime "created_at"
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(version: 20140711082346) do
   create_table "person_room_join_requirements", force: true do |t|
     t.integer "person_id"
     t.integer "room_id"
+  end
+
+  create_table "rss_feeds", force: true do |t|
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

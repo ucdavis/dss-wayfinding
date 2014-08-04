@@ -1,0 +1,23 @@
+<h1>Listing rss_feeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rss_feeds.each do |rss_feed| %>
+      <tr>
+        <td><%= link_to 'Show', rss_feed %></td>
+        <td><%= link_to 'Edit', edit_rss_feed_path(rss_feed) %></td>
+        <td><%= link_to 'Destroy', rss_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Rss feed', new_rss_feed_path %>
