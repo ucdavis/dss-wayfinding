@@ -68,10 +68,14 @@ body {
 }
 
 #map svg {
+  position: absolute;
+  left: 0;
+  top: 0;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
+  z-index: -1;
 }
 
 /* map target information pane */
