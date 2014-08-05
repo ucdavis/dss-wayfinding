@@ -4,3 +4,11 @@
  */
 
 @import "directory_objects_show.css.scss";
+
+.col-xs-2-modified {
+  width: 11%;
+}
+
+.col-xs-10-modified {
+  width: 88%;
+}

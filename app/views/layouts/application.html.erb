@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>DSS Wayfinding</title>
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', params[:action], 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -20,9 +21,10 @@
       <div class="right-btn-container home">
           <a href="/" class="btn-home icon-home"></a>
       </div>
-    </div>
+    </div> <!-- #site-container -->
+
     <div class="row">
-      <div class="col-xs-2">
+      <div class="col-xs-2 col-xs-2-modified" style="width: 11%;">
         <ul class="vertical-nav">
           <li>
           <a href="/people" class="btn-people icon-people" >
@@ -56,10 +58,11 @@
           </li>
         </ul>
       </div>
-      <div id="main-view" class="col-xs-10">
+
+      <div id="main-view" class="col-xs-10 col-xs-10-modified">
         <%= yield :javascript %>
         <%= yield %>
-      </div> <!-- main-view -->
+      </div>
     </div> <!-- row -->
 </div> <!-- container-fluid -->
 
