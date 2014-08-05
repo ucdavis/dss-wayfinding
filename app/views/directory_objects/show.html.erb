@@ -39,9 +39,19 @@
       $(document).on("wayfinding:ready", function() {
         setTimeout( showInfo(), 3000 );
 
-        $('.replay').click(function() {
+        $('.replay').click(function(e) {
+          e.preventDefault();
           if (destination.length > 0)
             $('#map').wayfinding('routeTo', destination);
+         })
+
+         //toggle accessibleRoute
+        $('.accessible').click(function(e) {
+          e.preventDefault();
+          if (destination.length > 0)
+            console.debug('Making accessible');
+            $('a.accessible').toggleClass('active');
+            $('#map').wayfinding('accessibleRoute', !$('#map').wayfinding('accessibleRoute'));
          })
 
         $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
@@ -95,7 +105,7 @@
       </div>
     </div> <!-- #map -->
     <ul class="horizontal-nav map-actions" style="margin-top: 1em;">
-      <li><a href="#" class="btn-map-action icon-accessible"></a></li>
+      <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
       <li><a href="#" class="btn-map-action icon-repeat replay"></a></li>
     </ul>
   </div> <!-- .show-map -->
