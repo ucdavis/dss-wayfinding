@@ -5,20 +5,23 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
   <script type="text/javascript">
     $(function() {
       // When clicking any link in the landing page, animate, then go
       $('a').click(function(e) {
           var anchor = $(this), h;
+
           h = anchor.attr('href');
           e.preventDefault();
+
           $('ul.landing').animate({'margin-top': '200%'}, 700, function() {
             window.location = h;
           })
       });
+
       // Hide the buttons, then ease them in on page load
-      $('ul.landing').css('margin-top','200%');
+      $('ul.landing').css('margin-top', '200%');
       $('ul.landing').animate({'margin-top': '15%'}, 700)
     });
   </script>
