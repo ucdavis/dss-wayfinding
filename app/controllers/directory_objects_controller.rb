@@ -1,59 +1,62 @@
 class DirectoryObjectsController < ApplicationController
-  before_action :set_directory_object, only: [:show, :edit, :update, :destroy]
   before_action :set_origin
 
   # GET /directory_objects
-  # GET /directory_objects.json
   def index
-    if params[:search] && params[:search].length > 0
-      # Put search query logic here, should search first, last, title, email, name, room_number, type
-      results = Person.where("first LIKE ?", "%#{params[:search]}%")
-      results = results + Person.where("last LIKE ?", "%#{params[:search]}%")
-      results = results + Event.where("title LIKE ?", "%#{params[:search]}%")
-      results = results + Person.where("email LIKE ?", "%#{params[:search]}%")
-      results = results + Room.where("name LIKE ?", "%#{params[:search]}%")
-      results = results + Room.where("room_number LIKE ?", "%#{params[:search]}%")
-      results = results + DirectoryObject.where("type LIKE ?", "%#{params[:search]}%")
-
-      department = Department.where("title LIKE ?", "%#{params[:search]}%")
-      results = results + department
-
-      people = Person.where(department: department)
-      results = results + people
-
-      events = Event.where(department: department)
-      results = results + events
-
-      @directory_objects = results
-
-    elsif params[:type] == "Person"
-      @directory_objects = DirectoryObject.people.all.order(:last)
+    if params[:type] == "Person"
+      @directory_objects = Person.all.order(:last)
     elsif params[:type] == "Department"
-      @directory_objects = DirectoryObject.departments.all.order(:title)
+      @directory_objects = Department.all.order(:title)
     elsif params[:type] == "Event"
-      @directory_objects = DirectoryObject.events.all.order(:title)
+      @directory_objects = Event.all.order(:title)
     elsif params[:type] == "Room"
-      @directory_objects = DirectoryObject.rooms.all.order(:room_number)
+      @directory_objects = Room.all.order(:room_number)
     else
       @directory_objects = DirectoryObject.all
     end
+
+    @directory_objects = @directory_objects.uniq
+  end
+
+  # POST /directory/search
+  def search
+    if params[:q] && params[:q].length > 0
+      objects = DirectoryObject.arel_table
+      query = "%#{params[:q]}%"
+
+      @directory_objects = DirectoryObject.where(objects[:first].matches(query)
+                                             .or(objects[:last].matches(query))
+                                             .or(objects[:title].matches(query))
+                                             .or(objects[:email].matches(query))
+                                             .or(objects[:name].matches(query))
+                                             .or(objects[:room_number].matches(query)))
+
       @directory_objects = @directory_objects.uniq
+
+      render "index"
+    end
   end
 
   # GET /directory_objects/1
+  # 'show' is also used for the generic map in which case params[:id] is unset
   def show
-    # Object may not exist if they just want to see the map
+    @directory_object = DirectoryObject.find(params[:id]) if params[:id]
+
     if @directory_object
-      if @directory_object.type == "Room"
-          @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
-      elsif @directory_object.type == "Person"
+      case @directory_object.type
+      when "Room"
+        @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
+      when "Person"
         p = Person.find(params[:id])
+
         @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
-      elsif @directory_object.type == "Department"
+      when "Department"
         d = Department.find(params[:id])
+
         @destination = 'R' + d.room.room_number if d.room.present?
-      elsif @directory_object.type == "Event"
+      when "Event"
         e = Event.find(params[:id])
+
         @destination = 'R' + e.room.room_number if e.room.present?
       end
     end
@@ -66,21 +69,7 @@ class DirectoryObjectsController < ApplicationController
   def about
   end
 
-  def new
-  end
-
-  def create
-  end
-
-  def delete
-  end
-
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_directory_object
-    @directory_object = DirectoryObject.find(params[:id]) if params[:id]
-  end
 
   def set_origin
     @origin = cookies[:origin]
