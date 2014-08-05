@@ -67,7 +67,7 @@
             <thead>
               <tr>
                 <th>Feed URL</th>
-                <th colspan="2"></th>
+                <th></th>
               </tr>
             </thead>
 
@@ -75,7 +75,6 @@
               <% @rss_feeds.each do |rss_feed| %>
                 <tr>
                   <td><%= rss_feed.url %></td>
-                  <td><%= link_to 'Edit', edit_rss_feed_path(rss_feed) %></td>
                   <td><%= link_to 'Remove', rss_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 </tr>
               <% end %>
@@ -84,7 +83,7 @@
                   <td>
                     <%= f.text_field :url, class: "form-control" %>
                   </td>
-                  <td colspan="2">
+                  <td>
                     <%= f.submit "Add Feed", class: "btn btn-default" %>
                   </td>
                   <% end %>

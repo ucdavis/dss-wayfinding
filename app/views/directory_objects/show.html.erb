@@ -160,7 +160,7 @@
 
       <% if @directory_object.department.present? %>
       <h2>Search Similar</h2>
-      <a href="/directory?search=<%= @directory_object.department.title %>">
+      <a href="/search?q=<%= @directory_object.department.title %>">
         <span class="label label-default btn-departments">
           <%= @directory_object.department.title.titleize %>
         </span>
@@ -187,7 +187,7 @@
       <% end %>
 
       <h2>Search Similar</h2>
-      <a href="/directory?search=<%= @directory_object.title %>">
+      <a href="/search?q=<%= @directory_object.title %>">
         <span class="label label-default btn-departments">
           <%= @directory_object.title.titleize %>
         </span>
@@ -220,7 +220,7 @@
       <span><%= @directory_object.department.title.titleize %></span>
 
       <h2>Search Similar</h2>
-      <a href="/directory?search=<%= @directory_object.department.title %>">
+      <a href="/search?q=<%= @directory_object.department.title %>">
         <span class="label label-default btn-departments">
           <%= @directory_object.department.title.titleize %>
         </span>
