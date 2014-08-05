@@ -197,6 +197,11 @@ ul.horizontal-nav {
           background-color: #5B7F95;
         }
 
+        &.disabled {
+          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
+          background-color: #DFD6CD;
+        }
+
         &:before {
           top: -0.25em;
           left: -0.25em;
@@ -256,6 +261,10 @@ ul.horizontal-nav {
       a {
         color: #eee;
         text-decoration: none;
+
+        &.disabled {
+          color: #fff;
+        }
       }
       span {
         color: #333;

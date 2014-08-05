@@ -39,6 +39,7 @@
 
       $(document).on("wayfinding:animationComplete", function(e, data) {
         console.log("Wayfinding indicates animation is complete.");
+        $('.replay').removeClass('disabled');
       });
 
       $(document).on("wayfinding:ready", function() {
@@ -50,13 +51,16 @@
         if (destination.length > 0) {
           console.debug("destination = ",destination);
           $('#map').wayfinding('routeTo', destination);
+          $('.replay').addClass('disabled');
         }
 
         $('.replay').click(function(e) {
           e.preventDefault();
-          if (destination.length > 0)
+          if (destination.length > 0 && !$(this).hasClass('disabled')) {
             $('#map').wayfinding('routeTo', destination);
-         })
+            $(this).addClass('disabled');
+          }
+        });
 
          //toggle accessibleRoute
         $('.accessible').click(function(e) {
@@ -111,7 +115,7 @@
     </div> <!-- #map -->
     <ul class="horizontal-nav map-actions">
       <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
-      <li><a href="#" class="btn-map-action icon-repeat replay"></a></li>
+      <li><a href="#" class="btn-map-action icon-repeat replay disabled"></a></li>
     </ul>
   </div> <!-- .show-map -->
 
