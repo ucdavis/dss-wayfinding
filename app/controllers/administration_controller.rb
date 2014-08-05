@@ -5,6 +5,8 @@ class AdministrationController < ApplicationController
   def index
     @origin = cookies[:origin]
     @departments = Department.all
+    @rss_feeds = RssFeed.all
+    @rss_feed = RssFeed.new # for adding new RSS feeds
   end
 
   # POST
@@ -24,7 +26,7 @@ class AdministrationController < ApplicationController
       end
     end
   end
-  
+
   def department_location
     room_number = params[:department_room_number]
     id = params[:department_id]
@@ -94,7 +96,7 @@ class AdministrationController < ApplicationController
     #          room.save
     #        end
             # Parse Department
-            # Don't bother with department/person parsing, something is wrong with this row 
+            # Don't bother with department/person parsing, something is wrong with this row
             unless csv_organization.include?("Identity Purged")
               department = nil
               results = Department.where(title: csv_person_organization.downcase).first
@@ -149,7 +151,7 @@ class AdministrationController < ApplicationController
       end
     else
       error = "Error uploading file"
-    end # unless csv_path.blank? 
+    end # unless csv_path.blank?
 
     respond_to do |format|
       format.html {
