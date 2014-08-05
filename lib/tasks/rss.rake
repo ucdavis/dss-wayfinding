@@ -17,21 +17,10 @@ namespace :rss do
         event.rss_feed = url
 
         entry.each do |e|
-          if e == "title"
-            event.title = entry[e]
-          end
-
-          if e == "date"
-            event.time = entry[e]
-          end
-
-          if e == "link"
-            event.link = entry[e]
-          end
-
-          if e == "location"
-            event.room = Room.where("room_number LIKE ?", e).first
-          end
+          event.title = entry[e] if e == "title"
+          event.time = entry[e] if e == "date"
+          event.link = entry[e] if e == "link"
+          event.room = Room.where("room_number LIKE ?", e).first if e == "location"
         end
 
         event.save!
