@@ -27,6 +27,9 @@
 
       $(document).on("wayfinding:floorChanged", function(e, data) {
         console.log("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
+        // Make the corresponding floor button active
+        $("a.btn-floor").removeClass('active');
+        $($('a.btn-floor[data-mapId="' + data.map_id + '"]')[0]).addClass('active')
       });
 
       $(document).on("wayfinding:roomClicked", function(e, data) {
@@ -106,7 +109,7 @@
         </div>
       </div>
     </div> <!-- #map -->
-    <ul class="horizontal-nav map-actions" style="margin-top: 1em;">
+    <ul class="horizontal-nav map-actions">
       <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
       <li><a href="#" class="btn-map-action icon-repeat replay"></a></li>
     </ul>
