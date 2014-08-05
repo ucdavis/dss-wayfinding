@@ -1,14 +1,16 @@
-<% @origin = 'R1131' %>
-
 <script type="text/javascript">
-  // Call redirect timer function
+  // Redirect to home page after a certain period has elapsed
   setRedirectToHome();
+
   $(function() {
     resizeIcons();
+
     $('a.btn-home').click(function(e) {
       e.preventDefault();
+
       var anchor = $(this), h;
       h = anchor.attr('href');
+      
       $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
         window.location = h;
       })

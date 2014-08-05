@@ -41,30 +41,26 @@ class DirectoryObjectsController < ApplicationController
   end
 
   # GET /directory_objects/1
-  # GET /directory_objects/1.json
   def show
-    @directory_object = DirectoryObject.find(params[:id])
-    # Set the destination
-    
-    if @directory_object.type == "Room"
-        @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
-    elsif @directory_object.type == "Person"
-      p = Person.find(params[:id])
-      @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
-    elsif @directory_object.type == "Department"
-      d = Department.find(params[:id])
-      @destination = 'R' + d.room.room_number if d.room.present?
-    elsif @directory_object.type == "Event"
-      e = Event.find(params[:id])
-      @destination = 'R' + e.room.room_number if e.room.present?
+    # Object may not exist if they just want to see the map
+    if @directory_object
+      if @directory_object.type == "Room"
+          @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
+      elsif @directory_object.type == "Person"
+        p = Person.find(params[:id])
+        @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
+      elsif @directory_object.type == "Department"
+        d = Department.find(params[:id])
+        @destination = 'R' + d.room.room_number if d.room.present?
+      elsif @directory_object.type == "Event"
+        e = Event.find(params[:id])
+        @destination = 'R' + e.room.room_number if e.room.present?
+      end
     end
   end
 
   def landing
     render :layout => "landing"
-  end
-
-  def map
   end
 
   def about
@@ -83,11 +79,15 @@ class DirectoryObjectsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_directory_object
-    @directory_object = DirectoryObject.find(params[:id])
+    @directory_object = DirectoryObject.find(params[:id]) if params[:id]
   end
 
   def set_origin
     @origin = cookies[:origin]
+
+    unless @origin
+      logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

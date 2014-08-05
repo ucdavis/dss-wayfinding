@@ -1,26 +1,38 @@
 <script type="text/javascript">
-  // Call redirect timer function
+  // Redirect to home page after a certain period has elapsed
   setRedirectToHome();
+
   $(function() {
     resizeIcons();
+
     $('a.btn-home').click(function(e) {
       e.preventDefault();
+
       var anchor = $(this), h;
       h = anchor.attr('href');
+
       $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
         window.location = h;
       })
     });
   });
 
-  console.log("DirectoryObject#show content_for firing.");
-
   function showInfo() {
     $('#destination-view').css('right', 0);
   }
 
   ready = function() {
-    console.log("DirectoryObject#show content_for page:load firing.");
+    $(document).on("wayfinding:floorChanged", function(e, data) {
+      console.log("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
+    });
+
+    $(document).on("wayfinding:roomClicked", function(e, data) {
+      console.log("Wayfinding indicates a room was clicked. Room: " + data.room_id);
+    });
+
+    $(document).on("wayfinding:animationComplete", function(e, data) {
+      console.log("Wayfinding indicates animation is complete.");
+    });
 
     $(document).on("wayfinding:ready", function() {
       setTimeout( showInfo(), 3000 );
@@ -30,12 +42,13 @@
           $('#map').wayfinding('routeTo', destination);
        })
 
-      console.log("wayfinding is now ready");
       $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
+
       var destination = '<%= @destination %>';
-      if (destination.length > 0)
+      if (destination.length > 0) {
         console.debug("destination = ",destination);
         $('#map').wayfinding('routeTo', destination);
+      }
     });
 
     <%
@@ -73,14 +86,15 @@
           <%= image_tag("loader.gif", alt: "Loading") %>
         </div>
       </div>
-    </div>
+    </div> <!-- #map -->
     <ul class="horizontal-nav map-actions" style="margin-top: 1em;">
       <li><a href="#" class="btn-map-action icon-accessible"></a></li>
       <li><a href="#" class="btn-map-action icon-repeat replay"></a></li>
     </ul>
-  </div>
-  <div id="destination-view"
-    class="text-<%= @directory_object.type.pluralize.downcase %>">
+  </div> <!-- .show-map -->
+
+  <% if @directory_object %>
+  <div id="destination-view" class="text-<%= @directory_object.type.pluralize.downcase %>">
 
     <h1 class="btn-<%= @directory_object.type.pluralize.downcase %>">Destination</h1>
 
@@ -178,4 +192,5 @@
     <% end %>
 
   </div> <!-- destination-view -->
+  <% end %>
 </div> <!-- row -->
