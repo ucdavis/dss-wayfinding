@@ -57,7 +57,6 @@ class DirectoryObjectsController < ApplicationController
         @destination = 'R' + e.room.room_number if e.room.present?
       end
     end
-    render "show"
   end
 
   def landing

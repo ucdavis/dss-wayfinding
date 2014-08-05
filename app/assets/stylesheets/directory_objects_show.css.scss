@@ -48,7 +48,7 @@ body {
 
 #map div {
   width: 100%;
-  height: 36vw;
+  height: 40vw;
 }
 
 #mapLoading {
@@ -173,6 +173,7 @@ ul.horizontal-nav {
 
   &.map-actions {
     font-size: 1.9vw;
+    margin: 0;
 
     span {
       text-transform: uppercase;
