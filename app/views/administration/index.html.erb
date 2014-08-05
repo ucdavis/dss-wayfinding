@@ -1,61 +1,132 @@
 <script type="text/javascript">
-  // Call redirect timer function
-  setRedirectToHome();
   var notice = "<%= params[:notice] %>";
   var error = "<%= params[:error] %>";
 </script>
 
-<div class="admin-view">
-  <div class="alert" role="alert">
-    <button type="button" class="close">
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
-    </button>
-    <span class="notice"></span>
-  </div>
+  <h1 id="directory-title">Administration</h1>
 
-  <h1>Set Kiosk Location</h1>
-  <%= form_tag(origin_administration_index_path, id: "originform", remote: true, class: 'form-inline') do %>
-    <div class="form-group">
-      <%= text_field_tag :origin, @origin, placeholder: 'Example: R1152', class: 'form-control start' %>
-    </div>
-    <%= submit_tag 'Set Location', class: 'btn btn-default' %>
-  <% end %>
+  <div class="admin-view">
+    <div class="alert" role="alert">
+      <button type="button" class="close">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <span class="notice"></span>
+    </div> <!-- .alert -->
 
-  <h1>Upload Facilities CSV</h1>
-  <%= form_tag(csv_administration_index_path, multipart: true, remote: true, class: 'form-inline') do %>
-    <div class="form-group">
-      <%= file_field_tag :uploaded_csv, class: 'form-control start' %>
-    </div>
-    <%= submit_tag 'Upload', class: 'btn btn-default' %>
-  <% end %>
-
-  <h1>RSS Feeds</h1>
-  <p>
-    <%= link_to "Edit RSS feeds", rss_feeds_path %>
-  </p>
-
-  <h1>Edit Department Locations</h1>
-
-  <div class="row" style="margin-top: 1em;">
-    <% @departments.each do |department| %>
-      <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
-      <div class="form-group">
-
-        <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
-        <div class="col-sm-2">
-        <% if department.room %>
-        <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
-        <% else %>
-        <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
-        <% end %>
-        <%= hidden_field_tag :department_id, department.id %>
-        </div>
-        <div class="col-sm-2">
-        <%= submit_tag 'Save Location', class: 'btn btn-default' %>
+    <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            Set Kiosk Location
+          </a>
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <%= form_tag(origin_administration_index_path, id: "originform", remote: true, class: 'form-inline') do %>
+            <div class="form-group">
+              <%= text_field_tag :origin, @origin, placeholder: 'Example: R1152', class: 'form-control start' %>
+            </div>
+            <%= submit_tag 'Set Location', class: 'btn btn-default' %>
+          <% end %>
         </div>
       </div>
-      <% end %>
-    <% end %>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+            Upload New Facilities CSV
+          </a>
+        </h4>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+          <%= form_tag(csv_administration_index_path, multipart: true, remote: true, class: 'form-inline') do %>
+            <div class="form-group">
+              <%= file_field_tag :uploaded_csv, class: 'form-control start' %>
+            </div>
+            <%= submit_tag 'Upload', class: 'btn btn-default' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+            Manage RSS Fetching
+          </a>
+        </h4>
+      </div>
+      <div id="collapseThree" class="panel-collapse collapse">
+        <div class="panel-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Feed URL</th>
+                <th colspan="2"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @rss_feeds.each do |rss_feed| %>
+                <tr>
+                  <td><%= rss_feed.url %></td>
+                  <td><%= link_to 'Edit', edit_rss_feed_path(rss_feed) %></td>
+                  <td><%= link_to 'Remove', rss_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+              <% end %>
+                <tr>
+                  <%= form_for(@rss_feed, remote: false, class: 'form-inline') do |f| %>
+                  <td>
+                    <%= f.text_field :url, class: "form-control" %>
+                  </td>
+                  <td colspan="2">
+                    <%= f.submit "Add Feed", class: "btn btn-default" %>
+                  </td>
+                  <% end %>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+            Edit Department Locations
+          </a>
+        </h4>
+      </div>
+      <div id="collapseFour" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div class="row" style="margin-top: 1em;">
+            <% @departments.each do |department| %>
+              <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
+              <div class="form-group">
+
+                <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
+                <div class="col-sm-2">
+                <% if department.room %>
+                <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
+                <% else %>
+                <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
+                <% end %>
+                <%= hidden_field_tag :department_id, department.id %>
+                </div>
+                <div class="col-sm-2">
+                <%= submit_tag 'Save Location', class: 'btn btn-default' %>
+                </div>
+              </div>
+              <% end %>
+            <% end %>
+          </div> <!-- .row -->
+        </div>
+      </div>
+    </div>
   </div>
 </div>
