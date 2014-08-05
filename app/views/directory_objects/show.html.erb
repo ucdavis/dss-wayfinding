@@ -23,7 +23,7 @@
 
   ready = function() {
     <% if @origin %>
-      var destination;
+      var destination,directory_object;
 
       $(document).on("wayfinding:floorChanged", function(e, data) {
         console.log("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
@@ -35,6 +35,11 @@
       $(document).on("wayfinding:roomClicked", function(e, data) {
         console.log("Wayfinding indicates a room was clicked. Room: " + data.room_id);
         destination = data.room_id;
+
+        $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
+          $( ".result" ).html( data );
+          console.log(data, directory_object);
+        });
       });
 
       $(document).on("wayfinding:animationComplete", function(e, data) {
@@ -43,11 +48,17 @@
       });
 
       $(document).on("wayfinding:ready", function() {
-        setTimeout( showInfo(), 3000 );
-
         $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
 
+        try {
+          directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');
+          showInfo();
+        } catch(e) {
+          console.error('Error parsing @directory_object to JSON')
+        }
+
         destination = '<%= @destination %>';
+
         if (destination.length > 0) {
           console.debug("destination = ",destination);
           $('#map').wayfinding('routeTo', destination);

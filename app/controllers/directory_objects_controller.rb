@@ -66,6 +66,14 @@ class DirectoryObjectsController < ApplicationController
   def about
   end
 
+  def room
+    @room = DirectoryObject.where(room_number: params[:number])
+
+    respond_to do |format|
+      format.json { render :json => @room }
+    end
+  end
+
   def new
   end
 

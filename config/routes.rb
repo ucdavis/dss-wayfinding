@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'search', to: 'directory_objects#search'
   get 'map', to: 'directory_objects#show'
   get 'about', to: 'directory_objects#about'
+  get 'room/:number', to: 'directory_objects#room'
 
   # General
   resources :directory_objects, :path => 'directory'
