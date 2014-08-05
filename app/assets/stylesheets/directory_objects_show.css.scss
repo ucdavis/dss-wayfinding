@@ -47,7 +47,8 @@ body {
 }
 
 #map div {
-  height: 35vw;
+  width: 100%;
+  height: 36vw;
 }
 
 #mapLoading {
@@ -68,14 +69,14 @@ body {
 }
 
 #map svg {
-  position: absolute;
-  left: 0;
-  top: 0;
+  //position: absolute;
+  //left: 0;
+  //top: 0;
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  z-index: -1;
+  //z-index: -1;
 }
 
 /* map target information pane */
