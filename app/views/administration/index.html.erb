@@ -1,6 +1,17 @@
 <script type="text/javascript">
   var notice = "<%= params[:notice] %>";
   var error = "<%= params[:error] %>";
+  $(function() {
+    resizeIcons();
+    $('a.btn-home').click(function(e) {
+      e.preventDefault();
+      var anchor = $(this), h;
+      h = anchor.attr('href');
+      $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
+        window.location = h;
+      })
+    });
+  });
 </script>
 
   <h1 id="directory-title">Administration</h1>
