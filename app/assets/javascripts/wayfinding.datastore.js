@@ -476,6 +476,39 @@ WayfindingDataStore = {
     return(rooms);
   },
 
+  // Returns a count of all rooms
+  countRooms: function(maps) {
+    var rooms = 0;
+
+    $.each(maps, function (i, map) {
+      rooms = rooms + $('#Rooms polygon', map.el).length;
+    });
+
+    return(rooms);
+  },
+
+  // Returns a count of all doors
+  countDoors: function(maps) {
+    var doors = 0;
+
+    $.each(maps, function (i, map) {
+      doors = doors + $('#Doors line', map.el).length;
+    });
+
+    return(doors);
+  },
+
+  // Returns a count of all paths
+  countPaths: function(maps) {
+    var paths = 0;
+
+    $.each(maps, function (i, map) {
+      paths = paths + $('#Paths line', map.el).length;
+    });
+
+    return(paths);
+  },
+
   build: function (startpoint, maps, accessible) {
     // Reset dataStore data
     if(accessible == undefined) accessible = false;

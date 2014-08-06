@@ -43,6 +43,10 @@ $.each(maps, function (i, map) {
       var rooms = WayfindingDataStore.getRooms(maps);
       var randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
 
+      console.log("Rooms: " + WayfindingDataStore.countRooms(maps));
+      console.log("Doors: " + WayfindingDataStore.countDoors(maps));
+      console.log("Paths: " + WayfindingDataStore.countPaths(maps));
+
       console.log("Using randomly choosen room '" + randomRoom + "' as the starting point.");
       console.log("Be aware that the randomly choosen room could itself be disconnected from the map. Recommended to run the script a few times and only consider common results.");
 
