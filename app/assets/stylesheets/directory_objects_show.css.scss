@@ -205,6 +205,7 @@ ul.horizontal-nav {
         &.disabled {
           box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
           background-color: #DFD6CD;
+          cursor: default;
         }
 
         &:before {
@@ -641,7 +642,7 @@ img.building-pic {
   fill: #78BE20;
 }
 
-#Rooms { 
+#Rooms {
   opacity: .75;
 }
 .locationIndicator {
