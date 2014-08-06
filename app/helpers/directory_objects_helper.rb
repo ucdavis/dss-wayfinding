@@ -1,5 +1,5 @@
 module DirectoryObjectsHelper
-  def wayfinding_plugin(svg_paths, dataStoreCacheUrl, origin)
+  def wayfinding_plugin(svg_paths, dataStoreCacheUrl, accessibleDataStoreCacheUrl, origin)
     str = "$('#map').wayfinding({
     'maps': ["
 
@@ -13,6 +13,7 @@ module DirectoryObjectsHelper
 
     str = str + "],
     'dataStoreCache': '" + dataStoreCacheUrl + "',
+    'accessibleDataStoreCache': '" + accessibleDataStoreCacheUrl + "',
     'path': {
       width: 3,
       color: 'rgb(194, 110, 96)',
@@ -20,7 +21,7 @@ module DirectoryObjectsHelper
       speed: 8
     },
     'startpoint': function () {
-      console.debug('Start location is ', '" + origin + "');
+      console.debug('Start location is ' + '" + origin + "');
       return '" + origin + "';
     },
     'locationIndicator' : {

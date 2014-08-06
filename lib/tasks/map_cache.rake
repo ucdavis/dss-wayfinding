@@ -4,8 +4,13 @@ require 'fileutils'
 namespace :map_cache do
   desc 'Ensures cache in Rails /public is up-to-date with NodeJS script output.'
   task :update => :environment do
-    # Get the contents of the '/nodejs/maps' directory
-    mapsDirContents = Dir.entries(File.join(Rails.root, "nodejs", "maps")).delete_if {|f| f == '.' || f == '..'}
+    # Get the contents of the '/nodejs/maps' directory, ignoring hidden files and directories
+    mapsDirContents = Dir.entries(File.join(Rails.root, "nodejs", "maps")).delete_if {|f| f[0] == '.'}
+
+    if mapsDirContents.length == 0
+      puts "Cannot find a maps cache directory in #{File.join(Rails.root, "nodejs", "maps")}."
+      exit
+    end
 
     # Sort by file modification time so that the latest directory is the first in the array
     mapsDirContents = mapsDirContents.sort_by {|f| File.mtime(File.join(Rails.root, "nodejs", "maps", f))}.reverse

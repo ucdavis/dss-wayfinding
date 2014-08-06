@@ -19,9 +19,11 @@
 
   function showInfo(data, similar, class_suffix) {
     class_suffix = class_suffix || 'rooms'
+
     $('#destination-view h2, #destination-view span').remove();
     $('#destination-view h1').addClass('btn-' + class_suffix);
     $('#destination-view').addClass('text-' + class_suffix);
+
     var attrs = ['name', 'room_number', 'email', 'phone'];
 
     if (data) {
@@ -115,7 +117,7 @@
                     asset_path("ssh_floor_4.svg"),
                     asset_path("ssh_floor_5.svg")]
     %>
-    <%= wayfinding_plugin(@svg_paths, asset_path("dataStore-" + @origin + ".json"), @origin) %>
+    <%= wayfinding_plugin(@svg_paths, asset_path("dataStore-" + @origin + ".json"), asset_path("dataStore-accessible-" + @origin + ".json"), @origin) %>
     <% else %>
       $("#mapLoadingInner").css("top", "30%");
       $("#mapLoadingInner").html("Uh oh! Kiosk/QR location unset.");

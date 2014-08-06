@@ -2,21 +2,20 @@
 
 /**
  * @preserve
- * Wayfinding v0.2.0
+ * Wayfinding v0.3.0
  * https://github.com/ucdavis/wayfinding
  *
- * Copyright (c) 2010 University of California Regents
+ * Copyright (c) 2010-2014 University of California Regents
  * Licensed under GNU General Public License v2
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Date: 2010-08-02, 2014-02-03
+ * Date: 2010-08-06
  *
  */
 
 //  <![CDATA[
 
 (function ($) {
-
 	'use strict';
 
 	var defaults = {
@@ -43,7 +42,8 @@
 		'defaultMap': function () {
 			return 'map.1';
 		},
-		'dataStoreCache' : false,
+		'dataStoreCache' : null,
+		'accessibleDataStoreCache' : null,
 		'showLocation' : false,
 		'locationIndicator' : {
 			fill: 'red',
@@ -55,24 +55,24 @@
 	};
 
 	$.fn.wayfinding = function (action, options) {
-
 		var passed = options,
-			obj, // the jQuery object being worked with;
-			maps, // the array of maps populated from options each time
-			defaultMap, // the floor to show at start propulated from options
-			startpoint, // the result of either the options.startpoint value or the value of the function
-			portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped.
-			drawing,
-			result; // used to return non jQuery results
+			           obj, // the jQuery object being worked with;
+			           maps, // the array of maps populated from options each time
+			           defaultMap, // the floor to show at start propulated from options
+			           startpoint, // the result of either the options.startpoint value or the value of the function
+			           portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped.
+			           result, // used to return non jQuery results
+								 drawing;
 
-		// set options based on either provided options, prior settings, or defaults
+		// Set options based on either provided options or defaults
 		function getOptions(el) {
-
-			var optionsPrior = el.data('wayfinding:options'), // attempt to load prior settings
-				dataStorePrior = el.data('wayfinding:data'); // load any stored data
+			var optionsPrior = el.data('wayfinding:options');
 
 			drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
 
+			options = $.extend(true, {}, defaults, options);
+
+			// check for settings attached to the current object
 			if (optionsPrior !== undefined) {
 				options = optionsPrior;
 			} else {
@@ -86,33 +86,27 @@
 			maps = options.maps;
 
 			// set defaultMap correctly, handle both function and value being passed
-			if (typeof (options.defaultMap) === 'function') {
+			if (typeof(options.defaultMap) === 'function') {
 				defaultMap = options.defaultMap();
 			} else {
 				defaultMap = options.defaultMap;
 			}
 
-			// set startpoint correctly
-			if (typeof (options.startpoint) === 'function') {
+			// Set startpoint correctly
+			if (typeof(options.startpoint) === 'function') {
 				setStartPoint(options.startpoint(), el);
 			} else {
 				startpoint = options.startpoint;
 			}
-
-			if (dataStorePrior !== undefined) {
-				WayfindingDataStore.dataStore = dataStorePrior;
-			}
 		} //function getOptions
 
-		//
 		function setOptions(el) {
 			el.data('wayfinding:options', options);
 			el.data('wayfinding:drawing', drawing);
 			el.data('wayfinding:data', WayfindingDataStore.dataStore);
 		}
 
-		//verify that all floor ids are unique. make them so if they are not
-
+		// Ensure floor ids are unique.
 		function checkIds() {
 			var mapNum,
 				checkNum,
@@ -195,8 +189,8 @@
 			return indicator;
 		} //function makePin
 
-		//set the start point, and put a location indicator
-		//in that spot, if feature is enabled.
+		// Set the start point, and put a location indicator
+		// in that spot, if feature is enabled.
 		function setStartPoint(passed, el) {
 			var start,
 			x, y,
@@ -252,6 +246,9 @@
 			// Ensure text labels won't prevent room clicks
 			$('text', svgDiv).css("pointer-events", "none");
 
+			// Ensure path lines won't prevent room clicks
+			$('line', svgDiv).css("pointer-events", "none");
+
 			$(obj).append(svgDiv);
 		} //function activateSVG
 
@@ -287,7 +284,6 @@
 		// Initialize the jQuery target object
 		function initialize(obj) {
 			var processed = 0;
-			var deferInitializing = false;
 
 			// Load SVGs off the network
 			$.each(maps, function (i, map) {
@@ -300,60 +296,77 @@
 						maps[i].svgHandle = svg;
 						maps[i].el = svgDiv;
 
+						WayfindingDataStore.cleanupSVG(maps[i].el);
+
 						activateSVG(obj, svgDiv);
 
 						processed = processed + 1;
 
 						if(processed == maps.length) {
+							console.debug("SVGs finished loading.");
+
 							// All SVGs have finished loading
-
-							// Load or create dataStore
-							if (options.dataStoreCache) {
-								if (typeof(options.dataStoreCache) === 'object') {
-									console.debug('Using dataStoreCache object.');
-									WayfindingDataStore.dataStore = options.dataStoreCache;
-								} else if (typeof(options.dataStoreCache) === 'string') {
-									deferInitializing = true;
-									console.debug("Attempting to load dataStoreCache from URL ...");
-									$.getJSON(options.dataStoreCache, function (result) {
-										console.debug('Using dataStoreCache from remote.');
-										WayfindingDataStore.dataStore = result;
-										finishInitializing();
-									}).fail(function () {
-										console.error('Failed to get dataStore cache. Falling back to client-side dataStore generation.');
-
-										options.dataStoreCache = false;
-										finishInitializing();
-									});
-								}
-							}
-
-							if(deferInitializing == false) finishInitializing();
+							establishDataStore(options.accessibleRoute, function() {
+								// SVGs are loaded, dataStore is set, ready the DOM
+								setStartPoint(options.startpoint, obj);
+								setOptions(obj);
+								replaceLoadScreen(obj);
+							});
 						}
 					}
 				);
 			});
 		} // function initialize
 
-		function finishInitializing() {
-			// Manually build the dataStore if necessary
-			if(WayfindingDataStore.dataStore == null) {
-				console.debug("No dataStore cache exists, building with startpoint '" + options.startpoint + "' ...");
-				// No dataStore cache exists, build it.
-				WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps);
-			}
+		// Ensure a dataStore exists and is set, whether from a cache
+		// or by building it.
+		function establishDataStore(accessible, onReadyCallback) {
+			if(accessible == undefined) accessible = false;
 
-			// SVGs are loaded, dataStore is set, ready the DOM
-			setStartPoint(options.startpoint, obj);
-			setOptions(obj);
-			replaceLoadScreen(obj);
-		} // function finishInitializing
+			if(WayfindingDataStore.dataStore != null) {
+				console.debug("establishDataStore returning immediately because dataStore is already set.");
+
+				if(typeof(onReadyCallback) == "function") onReadyCallback();
+			} else {
+				if (options.dataStoreCache) {
+					if (typeof(options.dataStoreCache) === 'object') {
+						console.debug('Using passed dataStoreCache object.');
+
+						WayfindingDataStore.dataStore = options.dataStoreCache;
+
+						if(typeof(onReadyCallback) == "function") onReadyCallback();
+					} else if (typeof(options.dataStoreCache) === 'string') {
+						console.debug("Attempting to load dataStoreCache from URL ...");
+						var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
+
+						$.getJSON(cacheUrl, function (result) {
+							console.debug('Using dataStoreCache from remote.');
+
+							WayfindingDataStore.dataStore = result;
+
+							if(typeof(onReadyCallback) == "function") onReadyCallback();
+						}).fail(function () {
+							console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
+
+							WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+
+							if(typeof(onReadyCallback) == "function") onReadyCallback();
+						});
+					}
+				} else {
+					console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
+
+					WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+
+					if(typeof(onReadyCallback) == "function") onReadyCallback();
+				}
+			}
+		}
 
 		function switchFloor(floor, el) {
 			$('div', el).hide();
 
 			$('#' + floor, el).show(0, function() {
-				console.log("Triggering floorChange with floor_id: " + floor);
 				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
 			});
 
@@ -445,7 +458,6 @@
 			// when it finishes drawing.
 			if(drawingSegment == (drawing.length - 1)) {
 				$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
-					console.log("animation complete!");
 					$(obj).trigger('wayfinding:animationComplete');
 				});
 			}
@@ -793,7 +805,7 @@
 					}
 					break;
 				case 'currentMap':
-					//return and set
+					// return and set
 					if (passed === undefined) {
 						result = $('div:visible', obj).prop('id');
 					} else {
@@ -801,15 +813,25 @@
 					}
 					break;
 				case 'accessibleRoute':
-					//return and set
+					// return and set
 					if (passed === undefined) {
 						result = options.accessibleRoute;
 					} else {
 						options.accessibleRoute = passed;
+
+						if(options.dataStoreCache) {
+							if(options.accessibleRoute) {
+								// Ensure the accessible dataStore is being used
+
+							} else {
+								// Ensure the non-accessible dataStore is being used
+
+							}
+						}
 					}
 					break;
 				case 'path':
-					//return and set
+					// return and set
 					if (passed === undefined) {
 						result = options.path;
 					} else {
@@ -844,18 +866,16 @@
 					break;
 				}
 			}
-			//
-			setOptions(obj);
 
-		}); //this each loop for wayfinding
+			setOptions(obj);
+		});
 
 		if (result !== undefined) {
 			return result;
 		}
+
 		return this;
-
-	}; // wayfinding function
-
+	};
 }(jQuery));
 
 //  ]]>
