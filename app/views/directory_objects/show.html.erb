@@ -79,7 +79,7 @@
         try {
           directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');
           similar = '<%= @department %>';
-          class_suffix = '<%= @directory_object.type.pluralize.downcase if @directory_object.type.present? %>';
+          class_suffix = '<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>';
           showInfo(directory_object, similar, class_suffix);
         } catch(e) {
           console.error('Error parsing @directory_object to JSON', e)
