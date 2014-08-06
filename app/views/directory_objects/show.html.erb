@@ -17,10 +17,13 @@
     });
   });
 
-  function showInfo(data, similar) {
-    console.log("showInfo: " + data);
+  function showInfo(data, similar, class_suffix) {
+    class_suffix = class_suffix || 'rooms'
 
     $('#destination-view h2, #destination-view span').remove();
+    $('#destination-view h1').addClass('btn-' + class_suffix);
+    $('#destination-view').addClass('text-' + class_suffix);
+
     var attrs = ['name', 'room_number', 'email', 'phone'];
 
     if (data) {
@@ -32,10 +35,13 @@
         }
       }
 
-      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + similar + "'><span class='label label-default btn-departments'>" + similar + "</span></a>");
+      if (similar) {
+        $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + similar + "'><span class='label label-default btn-departments'>" + similar + "</span></a>");
+      }
 
       $('#destination-view').css('right', 0);
     } else {
+      console.log('Object not found in directory');
       $('#destination-view').css('right', '-1000px');
     }
   }
@@ -73,9 +79,10 @@
         try {
           directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');
           similar = '<%= @department %>';
-          showInfo(directory_object, similar);
+          class_suffix = '<%= @directory_object.type.pluralize.downcase if @directory_object.type.present? %>';
+          showInfo(directory_object, similar, class_suffix);
         } catch(e) {
-          console.error('Error parsing @directory_object to JSON')
+          console.error('Error parsing @directory_object to JSON', e)
         }
 
         destination = '<%= @destination %>';
@@ -156,56 +163,9 @@
     </ul>
   </div> <!-- .show-map -->
 
-  <div id="destination-view"
-    class="text-<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>">
+  <div id="destination-view">
 
-    <h1 class="btn-<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>">Destination</h1>
-
-    <div class="info" id="title">
-      <h2>Title</h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="room">
-      <h2>Room </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="name">
-      <h2>Name </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="time">
-      <h2>Time </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="link">
-      <h2>Link </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="department">
-      <h2>Department </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="email">
-      <h2>Email </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="phone">
-      <h2>Phone </h2>
-      <span></span>
-    </div>
-
-    <div class="info" id="similar">
-      <h2>Search Similar</h2>
-      <span class="label label-default btn-departments">
-      </span>
-    </div>
+    <h1>Destination</h1>
 
   </div> <!-- destination-view -->
 </div> <!-- row -->
