@@ -119,6 +119,11 @@ body {
   h2 {
     font-size: 2rem;
     color: gray;
+    text-transform: capitalize;
+  }
+
+  .label {
+    text-transform: capitalize;
   }
 
   a:hover {

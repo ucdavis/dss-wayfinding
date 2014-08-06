@@ -17,8 +17,26 @@
     });
   });
 
-  function showInfo() {
-    $('#destination-view').css('right', 0);
+  function showInfo(data, similar) {
+    console.log(data);
+    $('#destination-view h2, #destination-view span').remove();
+    var attrs = ['name', 'room_number', 'email', 'phone'];
+
+    if (data) {
+      for (var i = 0; i < attrs.length; i++) {
+        value = eval("data." + attrs[i]);
+        if (value) {
+          $('#destination-view').append("<h2>" + attrs[i].split('_').join(' ') + "</h2>");
+          $('#destination-view').append("<span>" + value + "</span>");
+        }
+      }
+
+      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + similar + "'><span class='label label-default btn-departments'>" + similar + "</span></a>");
+
+      $('#destination-view').css('right', 0);
+    } else {
+      $('#destination-view').css('right', '-1000px');
+    }
   }
 
   ready = function() {
@@ -37,8 +55,7 @@
         destination = data.room_id;
 
         $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
-          $( ".result" ).html( data );
-          console.log(data, directory_object);
+          showInfo(data);
         });
       });
 
@@ -52,7 +69,8 @@
 
         try {
           directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');
-          showInfo();
+          similar = '<%= @department %>';
+          showInfo(directory_object, similar);
         } catch(e) {
           console.error('Error parsing @directory_object to JSON')
         }
@@ -130,104 +148,57 @@
     </ul>
   </div> <!-- .show-map -->
 
-  <% if @directory_object %>
-  <div id="destination-view" class="text-<%= @directory_object.type.pluralize.downcase %>">
+  <div id="destination-view"
+    class="text-<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>">
 
-    <h1 class="btn-<%= @directory_object.type.pluralize.downcase %>">Destination</h1>
+    <h1 class="btn-<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>">Destination</h1>
 
-    <% if @directory_object.type == "Person" %>
-      <% if @directory_object.rooms.present? %>
-      <h2>Room </h2>
-      <span><%= @directory_object.rooms.first.room_number %></span>
-      <% end %>
-
-      <% if @directory_object.first.present? %>
-      <h2>Name </h2>
-      <span><%= @directory_object.first + " " + @directory_object.last %></span>
-      <% end %>
-
-      <% if @directory_object.email.present? %>
-      <h2>Email </h2>
-        <%= mail_to @directory_object.email do %>
-        <span><%= @directory_object.email %></span>
-        <% end %>
-      <% end %>
-
-      <% if @directory_object.phone.present? %>
-      <h2>Phone </h2>
-      <span><%= @directory_object.phone %></span>
-      <% end %>
-
-      <% if @directory_object.department.present? %>
-      <h2>Search Similar</h2>
-      <a href="/search?q=<%= @directory_object.department.title %>">
-        <span class="label label-default btn-departments">
-          <%= @directory_object.department.title.titleize %>
-        </span>
-      </a>
-      <% end %>
-    <% end %>
-
-    <% if @directory_object.type == "Room" %>
-      <% if @directory_object.room_number.present? %>
-      <h2>Room </h2>
-      <span><%= @directory_object.room_number %></span>
-      <% end %>
-
-      <% if @directory_object.name.present? %>
-      <h2>Name </h2>
-      <span><%= @directory_object.name %></span>
-      <% end %>
-    <% end %>
-
-    <% if @directory_object.type == "Department" %>
-      <% if @directory_object.title.present? %>
+    <div class="info" id="title">
       <h2>Title</h2>
-      <span><%= @directory_object.title %></span>
-      <% end %>
+      <span></span>
+    </div>
 
-      <h2>Search Similar</h2>
-      <a href="/search?q=<%= @directory_object.title %>">
-        <span class="label label-default btn-departments">
-          <%= @directory_object.title.titleize %>
-        </span>
-      </a>
-    <% end %>
-
-    <% if @directory_object.type == "Event" %>
-      <% if @directory_object.title.present? %>
-          <h2>Title </h2>
-          <span><%= @directory_object.title %></span>
-      <% end %>
-
-      <% if @directory_object.room.present? %>
+    <div class="info" id="room">
       <h2>Room </h2>
-      <span><%= @directory_object.room.room_number %></span>
-      <% end %>
+      <span></span>
+    </div>
 
-      <% if @directory_object.time.present? %>
+    <div class="info" id="name">
+      <h2>Name </h2>
+      <span></span>
+    </div>
+
+    <div class="info" id="time">
       <h2>Time </h2>
-      <span><%= @directory_object.time %></span>
-      <% end %>
+      <span></span>
+    </div>
 
-      <% if @directory_object.link.present? %>
+    <div class="info" id="link">
       <h2>Link </h2>
-      <span><a href="<%= @directory_object.link %>">Event Link</span></a>
-      <% end %>
+      <span></span>
+    </div>
 
-      <% if @directory_object.department.present? %>
+    <div class="info" id="department">
       <h2>Department </h2>
-      <span><%= @directory_object.department.title.titleize %></span>
+      <span></span>
+    </div>
 
+    <div class="info" id="email">
+      <h2>Email </h2>
+      <span></span>
+    </div>
+
+    <div class="info" id="phone">
+      <h2>Phone </h2>
+      <span></span>
+    </div>
+
+    <div class="info" id="similar">
       <h2>Search Similar</h2>
-      <a href="/search?q=<%= @directory_object.department.title %>">
-        <span class="label label-default btn-departments">
-          <%= @directory_object.department.title.titleize %>
-        </span>
-      </a>
-      <% end %>
-    <% end %>
+      <span class="label label-default btn-departments">
+      </span>
+    </div>
+
 
   </div> <!-- destination-view -->
-  <% end %>
 </div> <!-- row -->

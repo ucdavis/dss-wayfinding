@@ -50,14 +50,20 @@ class DirectoryObjectsController < ApplicationController
         p = Person.find(params[:id])
 
         @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
+
+        @directory_object.room_number = @destination
+        @directory_object.name = @directory_object.first + ' ' + @directory_object.last
+        @department = @directory_object.department.title
       when "Department"
         d = Department.find(params[:id])
 
         @destination = 'R' + d.room.room_number if d.room.present?
+        @department = @directory_object.title
       when "Event"
         e = Event.find(params[:id])
 
         @destination = 'R' + e.room.room_number if e.room.present?
+        @department = @directory_object.department.title
       end
     end
   end
@@ -70,7 +76,13 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def room
-    @room = DirectoryObject.where(room_number: params[:number])
+    @found = DirectoryObject.where(room_number: params[:number]).first
+    if @found
+      @room = {
+          room_number: @found.room_number,
+          name: @found.name
+        }
+    end
 
     respond_to do |format|
       format.json { render :json => @room }
