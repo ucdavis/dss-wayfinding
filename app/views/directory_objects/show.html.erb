@@ -110,6 +110,7 @@
             $('#map').wayfinding('accessibleRoute', !$('#map').wayfinding('accessibleRoute'), function() {
               if($('.replay').hasClass("disabled") == false) {
                 // Route was alredy shown, so redraw with accessibility enabled
+                $('.replay').addClass('disabled');
                 $('#map').wayfinding('routeTo', destination);
               }
             });
