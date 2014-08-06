@@ -49,7 +49,7 @@
 			fill: 'red',
 			height: 40
 		},
-		'zoomToRoute' : false,
+		'zoomToRoute' : true,
 		'zoomPadding' : 50,
 		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
 	};
@@ -413,6 +413,8 @@
 			svg,
 			pathRect,
 			oldViewBox,
+      oldViewWidth,
+      oldViewHeight,
 			drawLength,
 			animationDuration,
 			pad = options.zoomPadding;
@@ -459,10 +461,32 @@
 			// Zooming logic...
 			svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
 			oldViewBox = svg.getAttribute('viewBox');
+      oldViewWidth = parseInt(svg.getAttribute('width').slice(0,-2));
+      oldViewHeight = parseInt(svg.getAttribute('height').slice(0,-2));
+
+      var steps = 50;
+      var duration = 500; // Zoom animation in milliseconds
+
+      // Calculate single step size from each direction
+      var lxStep = (pathRect.x - pad) / steps;
+          lxStep = lxStep > 0 ? lxStep : 0;
+      var rxStep = (oldViewWidth - (pathRect.width + 2 * pad)) / steps;
+      var tyStep = (pathRect.y - pad) / steps;
+          tyStep = tyStep > 0 ? tyStep : 0;
+      var byStep = (oldViewHeight - (pathRect.height + 2 * pad)) / steps;
 
 			if (options.zoomToRoute) {
-				svg.setAttribute('viewBox', (pathRect.x - pad)  + ' ' + (pathRect.y - pad) +
-					' ' + (pathRect.width + pad * 2) + ' ' + (pathRect.height + pad * 2));
+        // svg.setAttribute('viewBox', (pathRect.x - pad)  + ' ' + (pathRect.y - pad) +
+        //   ' ' + (pathRect.width + pad * 2) + ' ' + (pathRect.height + pad * 2));
+        // Loop the specified number of steps to create the zoom in animation
+        for (var i = 0; i <= steps; i++) {
+          (function(i){
+            setTimeout(function(){
+              svg.setAttribute('viewBox', i*lxStep  + ' ' + i*tyStep +
+                ' ' + (oldViewWidth-i*rxStep) + ' ' + (oldViewHeight-i*byStep));
+            }, i * (duration/steps));
+          }(i));
+        }
 			}
 
 			// Call animatePath after 'animationDuration' milliseconds to animate the next segment of the path,
@@ -473,7 +497,16 @@
 				animatePath(drawing, ++drawingSegment);
 
 				if (options.zoomToRoute) {
-					svg.setAttribute('viewBox', oldViewBox); // zoom back out
+          // svg.setAttribute('viewBox', oldViewBox); // zoom back out
+          // Loop the specified number of steps to create the zoom out animation
+          for (var i = 0; i <= steps; i++) {
+            (function(i){
+              setTimeout(function(){
+                svg.setAttribute('viewBox', (steps-i)*lxStep  + ' ' + (steps-i)*tyStep +
+                  ' ' + (oldViewWidth-(steps-i)*rxStep) + ' ' + (oldViewHeight-(steps-i)*byStep));
+              }, i * (duration/steps));
+            }(i));
+          }
 				}
 			}, animationDuration + options.floorChangeAnimationDelay);
 		} //function animatePath
