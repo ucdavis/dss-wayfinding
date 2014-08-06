@@ -18,7 +18,8 @@
   });
 
   function showInfo(data, similar) {
-    console.log(data);
+    console.log("showInfo: " + data);
+
     $('#destination-view h2, #destination-view span').remove();
     var attrs = ['name', 'room_number', 'email', 'phone'];
 
@@ -109,7 +110,7 @@
                     asset_path("ssh_floor_4.svg"),
                     asset_path("ssh_floor_5.svg")]
     %>
-    <%= wayfinding_plugin(@svg_paths, asset_path("dataStore-" + @origin + ".json"), @origin) %>
+    <%= wayfinding_plugin(@svg_paths, asset_path("dataStore-" + @origin + ".json"), asset_path("dataStore-accessible-" + @origin + ".json"), @origin) %>
     <% else %>
       $("#mapLoadingInner").css("top", "30%");
       $("#mapLoadingInner").html("Uh oh! Kiosk/QR location unset.");
@@ -198,7 +199,6 @@
       <span class="label label-default btn-departments">
       </span>
     </div>
-
 
   </div> <!-- destination-view -->
 </div> <!-- row -->
