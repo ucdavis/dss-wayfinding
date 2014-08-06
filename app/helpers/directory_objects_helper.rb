@@ -23,6 +23,10 @@ module DirectoryObjectsHelper
       console.debug('Start location is ', '" + origin + "');
       return '" + origin + "';
     },
+    'locationIndicator' : {
+      height: 40
+    },
+    'showLocation' : true,
     'defaultMap': 'floor1'
   });
   "
