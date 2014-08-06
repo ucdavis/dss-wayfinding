@@ -647,8 +647,17 @@ img.building-pic {
 }
 
 #Rooms {
-  opacity: .75;
+  opacity: 1;
 }
 .locationIndicator {
-  fill: #5B7F95;
+  fill: #fc6355;
+  fill-opacity: 1;
+}
+
+.destinationPin {
+  fill: #fc6355;
+}
+
+.startPin {
+  fill: #00e13c;
 }

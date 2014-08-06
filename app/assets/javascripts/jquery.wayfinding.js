@@ -192,7 +192,7 @@
 		// Set the start point, and put a location indicator
 		// in that spot, if feature is enabled.
 		function setStartPoint(passed, el) {
-			var start,
+			var start, attachPinLocation,
 			x, y,
 			pin;
 
@@ -210,14 +210,14 @@
 
 			if (options.showLocation) {
 				start = $('#Doors #' + startpoint, el);
-
+                attachPinLocation = $('#numbers', el);
 				if (start.length) {
 					x = (Number(start.attr('x1')) + Number(start.attr('x2'))) / 2;
 					y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
 
 					pin = makePin(x, y);
 
-					start.after(pin);
+					attachPinLocation.after(pin);
 				} else {
 					return; //startpoint does not exist
 				}
