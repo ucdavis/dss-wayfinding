@@ -42,7 +42,7 @@
 
   ready = function() {
     <% if @origin %>
-      var destination,directory_object;
+      var destination, directory_object;
 
       $(document).on("wayfinding:floorChanged", function(e, data) {
         console.log("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
@@ -54,6 +54,8 @@
       $(document).on("wayfinding:roomClicked", function(e, data) {
         console.log("Wayfinding indicates a room was clicked. Room: " + data.room_id);
         destination = data.room_id;
+
+        setRedirectToHome(); // reset the home page return timer
 
         $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
           showInfo(data);
@@ -95,10 +97,15 @@
          //toggle accessibleRoute
         $('.accessible').click(function(e) {
           e.preventDefault();
+
           if (destination.length > 0)
-            console.debug('Making accessible');
             $('a.accessible').toggleClass('active');
-            $('#map').wayfinding('accessibleRoute', !$('#map').wayfinding('accessibleRoute'));
+            $('#map').wayfinding('accessibleRoute', !$('#map').wayfinding('accessibleRoute'), function() {
+              if($('.replay').hasClass("disabled") == false) {
+                // Route was alredy shown, so redraw with accessibility enabled
+                $('#map').wayfinding('routeTo', destination);
+              }
+            });
          })
       });
 

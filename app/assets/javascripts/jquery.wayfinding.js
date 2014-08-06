@@ -54,7 +54,7 @@
 		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
 	};
 
-	$.fn.wayfinding = function (action, options) {
+	$.fn.wayfinding = function (action, options, callback) {
 		var passed = options,
 			           obj, // the jQuery object being worked with;
 			           maps, // the array of maps populated from options each time
@@ -200,7 +200,7 @@
 			$('path.locationIndicator', el).remove();
 
 			// set startpoint correctly
-			if (typeof (passed) === 'function') {
+			if (typeof(passed) === 'function') {
 				options.startpoint = passed();
 			} else {
 				options.startpoint = passed;
@@ -323,43 +323,37 @@
 		function establishDataStore(accessible, onReadyCallback) {
 			if(accessible == undefined) accessible = false;
 
-			if(WayfindingDataStore.dataStore != null) {
-				console.debug("establishDataStore returning immediately because dataStore is already set.");
+			if (options.dataStoreCache) {
+				if (typeof(options.dataStoreCache) === 'object') {
+					console.debug('Using passed dataStoreCache object.');
 
-				if(typeof(onReadyCallback) == "function") onReadyCallback();
-			} else {
-				if (options.dataStoreCache) {
-					if (typeof(options.dataStoreCache) === 'object') {
-						console.debug('Using passed dataStoreCache object.');
-
-						WayfindingDataStore.dataStore = options.dataStoreCache;
-
-						if(typeof(onReadyCallback) == "function") onReadyCallback();
-					} else if (typeof(options.dataStoreCache) === 'string') {
-						console.debug("Attempting to load dataStoreCache from URL ...");
-						var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
-
-						$.getJSON(cacheUrl, function (result) {
-							console.debug('Using dataStoreCache from remote.');
-
-							WayfindingDataStore.dataStore = result;
-
-							if(typeof(onReadyCallback) == "function") onReadyCallback();
-						}).fail(function () {
-							console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
-
-							WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
-
-							if(typeof(onReadyCallback) == "function") onReadyCallback();
-						});
-					}
-				} else {
-					console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
-
-					WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+					WayfindingDataStore.dataStore = options.dataStoreCache;
 
 					if(typeof(onReadyCallback) == "function") onReadyCallback();
+				} else if (typeof(options.dataStoreCache) === 'string') {
+					console.debug("Attempting to load dataStoreCache from URL ...");
+					var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
+
+					$.getJSON(cacheUrl, function (result) {
+						console.debug('Using dataStoreCache from remote.');
+
+						WayfindingDataStore.dataStore = result;
+
+						if(typeof(onReadyCallback) == "function") onReadyCallback();
+					}).fail(function () {
+						console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
+
+						WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+
+						if(typeof(onReadyCallback) == "function") onReadyCallback();
+					});
 				}
+			} else {
+				console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
+
+				WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+
+				if(typeof(onReadyCallback) == "function") onReadyCallback();
 			}
 		}
 
@@ -731,12 +725,9 @@
 								break;
 							case 'L':
 								path += 'L' + stroke.x + ',' + stroke.y;
-//                              maps[level[0].floor].svgHandle.circle(stroke.x,stroke.y,2);
 								break;
 							case 'Q':
 								path += 'Q' + stroke.cx + ',' + stroke.cy + ' ' + stroke.x + ',' + stroke.y;
-//                              maps[level[0].floor].svgHandle.circle(stroke.cx,stroke.cy,4);
-//                              maps[level[0].floor].svgHandle.circle(stroke.x,stroke.y,2);
 								break;
 							}
 						});
@@ -744,6 +735,7 @@
 						newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 						newPath.setAttribute('d', path);
 						newPath.style.fill = 'none';
+
 						if (newPath.classList) {
 							newPath.classList.add('directionPath' + i);
 						} else {
@@ -767,7 +759,6 @@
 				}
 			}
 		} //RouteTo
-
 
 		if (action && typeof (action) === 'object') {
 			options = action;
@@ -819,15 +810,7 @@
 					} else {
 						options.accessibleRoute = passed;
 
-						if(options.dataStoreCache) {
-							if(options.accessibleRoute) {
-								// Ensure the accessible dataStore is being used
-
-							} else {
-								// Ensure the non-accessible dataStore is being used
-
-							}
-						}
+						establishDataStore(options.accessibleRoute, callback);
 					}
 					break;
 				case 'path':
