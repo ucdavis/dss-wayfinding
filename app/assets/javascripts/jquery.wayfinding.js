@@ -145,7 +145,7 @@
 
 		//Takes x and y coordinates and makes a location indicating pin for those
 		//coordinates. Returns the pin element, not yet attached to the DOM.
-		function makePin(x, y) {
+		function makePin(x, y, type) {
 			var indicator,
 			height,
 			width,
@@ -153,7 +153,7 @@
 
 			indicator = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-			$(indicator).attr('class', 'locationIndicator');
+			$(indicator).attr('class', type);
 
 			height = options.locationIndicator.height;
 			width = height * 5 / 8;
@@ -195,7 +195,6 @@
 			var start, attachPinLocation,
 			x, y,
 			pin;
-
 			//clears locationIndicators from the maps
 			$('path.locationIndicator', el).remove();
 
@@ -215,7 +214,7 @@
 					x = (Number(start.attr('x1')) + Number(start.attr('x2'))) / 2;
 					y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
 
-					pin = makePin(x, y);
+					pin = makePin(x, y, 'startPin');
 
 					attachPinLocation.after(pin);
 				} else {
@@ -223,6 +222,34 @@
 				}
 			}
 		} //function setStartPoint
+
+		function setEndPoint(passed, el) {
+			var end, endpoint, attachPinLocation,
+			x, y,
+			pin;
+
+			//clears locationIndicators from the maps
+			$('path.destinationPin', el).remove();
+
+            // set endpoint
+			endpoint = passed;
+
+			if (options.showLocation) {
+				end = $('#Doors #' + endpoint, el);
+                attachPinLocation = $('#numbers', el);
+				if (end.length) {
+					x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
+					y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
+
+					pin = makePin(x, y, 'destinationPin');
+
+					attachPinLocation.after(pin);
+				} else {
+					return; //endpoint does not exist
+				}
+			}
+		} //function setEndPoint
+
 
 		// Hide SVG div, hide 'internal' path lines, make rooms clickable
 		function activateSVG(obj, svgDiv) {
@@ -554,9 +581,9 @@
 			if (startpoint !== destination) {
 				// get accessibleRoute option -- options.accessibleRoute
 
-				//hilight the destination room
+				//highlight the destination room
 				$('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
-
+                setEndPoint(options.endpoint);
 				solution = WayfindingDataStore.getShortestRoute(maps, destination, startpoint).solution;
 
 				if (reversePathStart !== -1) {
