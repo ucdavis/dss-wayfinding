@@ -236,14 +236,18 @@
 
 			if (options.showLocation) {
 				end = $('#Doors #' + endpoint, el);
-                attachPinLocation = $('#numbers', el);
+				
+			    attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
+			    //attachPinLocation = $('path.directionPath0', attachPinLocation);
+                //attachPinLocation = $('#numbers', attachPinLocation);
+//                console.log(attachPinLocation);
 				if (end.length) {
 					x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
 					y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
 
 					pin = makePin(x, y, 'destinationPin');
 
-					attachPinLocation.after(pin);
+					attachPinLocation.append(pin);
 				} else {
 					return; //endpoint does not exist
 				}
@@ -801,8 +805,22 @@
 						} else {
 							newPath.setAttribute('class', 'directionPath' + i);
 						}
+						
+						
+                        // Attach the newpath to the startpin or endpin if they exist on this floor
+						var attachPointSvg = $('#' + maps[level[0].floor].id + ' svg');
+						var startPin = $('.startPin', attachPointSvg);
+						var destinationPin = $('.destinationPin', attachPointSvg);
 
-						$('#' + maps[level[0].floor].id + ' svg').append(newPath);
+						if (startPin.length) {
+							startPin.before(newPath);
+						}
+                        else if (destinationPin.length) {
+                            destinationPin.before(newPath);
+                        }
+                        else {
+                            attachPointSvg.append(newPath);
+                        }
 
 						thisPath = $('#' + maps[level[0].floor].id + ' svg .directionPath' + i);
 
