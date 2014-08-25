@@ -18,7 +18,7 @@ module DirectoryObjectsHelper
       width: 3,
       color: 'rgb(194, 110, 96)',
       radius: 8,
-      speed: 8
+      speed: 20
     },
     'startpoint': function () {
       console.debug('Start location is ' + '" + origin + "');
