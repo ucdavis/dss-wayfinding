@@ -209,7 +209,10 @@
 
 			if (options.showLocation) {
 				start = $('#Doors #' + startpoint, el);
-                attachPinLocation = $('#numbers', el);
+
+				var startMap = el.children().has($('#' + startpoint));
+				attachPinLocation = $('svg', startMap).children().last();
+
 				if (start.length) {
 					x = (Number(start.attr('x1')) + Number(start.attr('x2'))) / 2;
 					y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
