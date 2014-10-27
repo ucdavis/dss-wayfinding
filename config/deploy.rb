@@ -1,152 +1,72 @@
-# # config valid only for Capistrano 3.1
-# lock '3.2.1'
-#
-# set :application, 'my_app_name'
-# set :repo_url, 'git@example.com:me/my_repo.git'
-#
-# # Default branch is :master
-# # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-#
-# # Default deploy_to directory is /var/www/my_app
-# # set :deploy_to, '/var/www/my_app'
-#
-# # Default value for :scm is :git
-# # set :scm, :git
-#
-# # Default value for :format is :pretty
-# # set :format, :pretty
-#
-# # Default value for :log_level is :debug
-# # set :log_level, :debug
-#
-# # Default value for :pty is false
-# # set :pty, true
-#
-# # Default value for :linked_files is []
-# # set :linked_files, %w{config/database.yml}
-#
-# # Default value for linked_dirs is []
-# # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-#
-# # Default value for default_env is {}
-# # set :default_env, { path: "/opt/ruby/bin:$PATH" }
-#
-# # Default value for keep_releases is 5
-# # set :keep_releases, 5
-#
-# namespace :deploy do
-#
-#   desc 'Restart application'
-#   task :restart do
-#     on roles(:app), in: :sequence, wait: 5 do
-#       # Your restart mechanism here, for example:
-#       # execute :touch, release_path.join('tmp/restart.txt')
-#     end
-#   end
-#
-#   after :publishing, :restart
-#
-#   after :restart, :clear_cache do
-#     on roles(:web), in: :groups, limit: 3, wait: 10 do
-#       # Here we can do anything such as:
-#       # within release_path do
-#       #   execute :rake, 'cache:clear'
-#       # end
-#     end
-#   end
-#
-# end
+require "bundler/capistrano"
 
-set :application, 'dss-wayfinding'
-set :deploy_user, 'deployer'
+server "169.237.120.176", :web, :app, :db, primary: true
 
-# setup repo details
-set :scm, :git
-set :repo_url, 'git@github.com:dssit/dss-wayfinding.git'
+set :application, "dss-wayfinding"
+set :url, "http://wayfinding.dss.ucdavis.edu/"
+set :user, "deployer"
+set :deploy_to, "/home/#{user}/apps/#{application}"
+set :deploy_via, :remote_cache
+set :use_sudo, false
 
-# setup rvm.
-set :rbenv_type, :user
-set :rbenv_ruby, '2.1.2'
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :scm, "git"
+set :repository, "https://github.com/dssit/#{application}.git"
+set :branch, "master"
 
-set :assets_roles, [:app]
+set :test_log, "log/capistrano.test.log"
 
-# how many old releases do we want to keep
-set :keep_releases, 5
+default_run_options[:pty] = true
+ssh_options[:forward_agent] = true
 
-# files we want symlinking to specific entries in shared.
-set :linked_files, %w{config/database.yml}
-
-# dirs we want symlinking to shared
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-
-# what specs should be run before deployment is allowed to
-# continue, see lib/capistrano/tasks/run_tests.cap
-set :tests, []
-
-# which config files should be copied by deploy:setup_config
-# see documentation in lib/capistrano/tasks/setup_config.cap
-# for details of operations
-set(:config_files, %w(
-  nginx.conf
-  database.example.yml
-))
-
-# which config files should be made executable after copying
-# by deploy:setup_config
-set(:executable_config_files, [])
-
-# files which need to be symlinked to other parts of the
-# filesystem. For example nginx virtualhosts, log rotation
-# init scripts etc.
-set(:symlinks, [
-  {
-    source: "nginx.conf",
-    link: "/etc/nginx/sites-enabled/#{fetch(:full_app_name)}"
-  }#,
-  # {
-  #   source: "unicorn_init.sh",
-  #   link: "/etc/init.d/unicorn_#{fetch(:full_app_name)}"
-  # },
-  # {
-  #   source: "log_rotation",
-  #  link: "/etc/logrotate.d/#{fetch(:full_app_name)}"
-  # },
-  # {
-  #   source: "monit",
-  #   link: "/etc/monit/conf.d/#{fetch(:full_app_name)}.conf"
-  # }
-])
-
-
-# this:
-# http://www.capistranorb.com/documentation/getting-started/flow/
-# is worth reading for a quick overview of what tasks are called
-# and when for `cap stage deploy`
+after "deploy", "deploy:cleanup" # keep only the last 5 releases
+#after "deploy", "deploy:migrations" # run any pending migrations
+after "deploy:update_code", "deploy:migrate"
 
 namespace :deploy do
-  # make sure we're deploying what we think we're deploying
-  before :deploy, "deploy:check_revision"
-  # only allow a deploy with passing tests to deployed
-  before :deploy, "deploy:run_tests"
-  # compile assets locally then rsync
-  #after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
-  after :finishing, 'deploy:cleanup'
+  before 'deploy' do
+    puts "--> Running tests, please wait ..."
+    unless system "bundle exec rake > #{test_log} 2>&1" #' > /dev/null'
+      puts "--> Tests failed. Run `cat #{test_log}` to see what went wrong."
+      exit
+    else
+      puts "--> Tests passed"
+      system "rm #{test_log}"
+    end
+  end
 
-  # remove the default nginx configuration as it will tend
-  # to conflict with our configs.
-  #before 'deploy:setup_config', 'nginx:remove_default_vhost'
+  desc "Restart Passenger server"
+  task :restart, roles: :app, except: {no_release: true} do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
 
-  # reload nginx to it will pick up any modified vhosts from
-  # setup_config
-  after 'deploy:setup_config', 'nginx:reload'
+  desc "First-time config setup"
+  task :setup_config, roles: :app do
+    run "mkdir -p #{shared_path}/config"
+    put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
+    put File.read("config/dss_rm.example.yml"), "#{shared_path}/config/dss_rm.yml"
+    put File.read("config/sysaid.example.yml"), "#{shared_path}/config/sysaid.yml"
+    put File.read("config/secret_token.example.yml"), "#{shared_path}/config/secret_token.yml"
+    puts "Now edit the config files in #{shared_path}."
+  end
+  after "deploy:setup", "deploy:setup_config"
 
-  # Restart monit so it will pick up any monit configurations
-  # we've added
-  # after 'deploy:setup_config', 'monit:restart'
+  desc "Symlink config from shared to the newly deployed copy"
+  task :symlink_config, roles: :app do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/dss_rm.yml #{release_path}/config/dss_rm.yml"
+    run "ln -nfs #{shared_path}/config/sysaid.yml #{release_path}/config/sysaid.yml"
+    run "ln -nfs #{shared_path}/config/secret_token.yml #{release_path}/config/secret_token.yml"
+    run "mkdir -p #{release_path}/tmp/sessions/"
+  end
+  after "deploy:finalize_update", "deploy:symlink_config"
 
-  # As of Capistrano 3.1, the `deploy:restart` task is not called
-  # automatically.
-  after 'deploy:publishing', 'deploy:restart'
+  desc "Make sure local git is in sync with remote."
+  task :check_revision, roles: :web do
+    unless `git rev-parse HEAD` == `git rev-parse origin/master`
+      puts "WARNING: HEAD is not the same as origin/master"
+      puts "Run `git push` to sync changes."
+      exit
+    end
+  end
+  before "deploy", "deploy:check_revision"
 end
