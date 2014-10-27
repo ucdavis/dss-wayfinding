@@ -21,11 +21,11 @@ $about-color: #B1B3B3;
 
 @font-face {
   font-family: 'fontello';
-  src: url('fontello.eot');
-  src: url('fontello.eot?#iefix') format('embedded-opentype'),
-       url('fontello.woff') format('woff'),
-       url('fontello.ttf') format('truetype'),
-       url('fontello.svg#fontello') format('svg');
+  src: font-url('fontello.eot');
+  src: font-url('fontello.eot?#iefix') format('embedded-opentype'),
+       font-url('fontello.woff') format('woff'),
+       font-url('fontello.ttf') format('truetype'),
+       font-url('fontello.svg#fontello') format('svg');
   font-weight: normal; font-style: normal;
 }
 
