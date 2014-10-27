@@ -35,8 +35,7 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
-gem 'capistrano-rails', group: :development
-gem 'capistrano-rbenv', github: "capistrano/rbenv"
+gem 'capistrano', '< 3.0.0', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
