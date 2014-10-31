@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'about', to: 'directory_objects#about'
   get 'room/:number', to: 'directory_objects#room'
 
+  get 'start/:location', to: redirect('/administration/start?location=%{location}')
+
   # General
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'
