@@ -92,7 +92,7 @@ class DirectoryObjectsController < ApplicationController
   private
 
   def set_origin
-    @origin = cookies[:origin]
+    @origin = cookies[:origin] || cookies[:start_location]
 
     unless @origin
       logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"

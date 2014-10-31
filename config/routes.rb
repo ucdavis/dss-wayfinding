@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       post 'origin'
       post 'csv'
       post 'department_location'
+      get 'start'
 
       resources :rss_feeds
     end

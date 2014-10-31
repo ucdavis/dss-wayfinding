@@ -1,5 +1,5 @@
 class AdministrationController < ApplicationController
-  http_basic_authenticate_with name: $AUTH_CONFIG_SETTINGS["USER"], password: $AUTH_CONFIG_SETTINGS["PASSWORD"]
+  http_basic_authenticate_with name: $AUTH_CONFIG_SETTINGS["USER"], password: $AUTH_CONFIG_SETTINGS["PASSWORD"], except: :start
   skip_before_action :verify_authenticity_token, :only => [:csv]
 
   def index
@@ -13,18 +13,38 @@ class AdministrationController < ApplicationController
   # Modifies the starting location. Useful for kiosks.
   def origin
     unless params[:origin].blank?
-      params[:origin].prepend("R") unless params[:origin][0].upcase == "R" # Prepend R id not provided
-      cookies.permanent[:origin] = params[:origin].upcase
+      params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
+      origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
+      cookies.permanent[:origin] = origin.upcase
 
-      respond_to do |format|
-        format.json {
-          render :json => {
-            origin: cookies[:origin],
-            notice: "Origin successfully updated to: #{cookies[:origin]}"
-          }
-        }
-      end
+      cookies.delete :start_location
+
+      notice = "Origin successfully updated to: #{cookies[:origin]}"
+    else
+      cookies.delete :origin
+      notice = "Origin successfully cleared"
     end
+
+    respond_to do |format|
+      format.json {
+        render :json => {
+          origin: cookies[:origin],
+          notice: notice
+        }
+      }
+    end
+  end
+
+  # GET
+  # Modifies the starting location passed via URL (QR Codes)
+  def start
+    unless params[:location].blank? or cookies[:origin].present?
+      params[:location].slice!(0) if params[:location][0].upcase == "R" # Remove proceeding R if present
+      start_location = params[:location].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
+      cookies.permanent[:start_location] = start_location.upcase
+    end
+
+    redirect_to root_path
   end
 
   def department_location
