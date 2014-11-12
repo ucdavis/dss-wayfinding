@@ -13,7 +13,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
-gem 'turbolinks'
+gem 'turbolinks', '2.2.2'
+gem 'sprockets','2.11.0'
+gem 'sprockets-rails','2.1.3'
 
 # RSS feed parser
 gem 'feedjira'
