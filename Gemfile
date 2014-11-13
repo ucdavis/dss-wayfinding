@@ -11,11 +11,9 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
 
-gem 'turbolinks', '2.2.2'
-gem 'sprockets','2.11.0'
-gem 'sprockets-rails','2.1.3'
+gem 'turbolinks'
 
 # RSS feed parser
 gem 'feedjira'
