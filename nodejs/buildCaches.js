@@ -54,15 +54,15 @@ $.each(maps, function (i, map) {
       shared_md5 = md5(shared_md5);
 
       // Ensures shared_md5 directory exists
-      fs.mkdir("./maps", '0777', function(err) {
+      fs.mkdir("../public/dataStore", '0777', function(err) {
         if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory './maps'. Aborting ...");
+          console.log("Failed to create directory '../public/dataStore'. Aborting ...");
           process.exit(-1);
         }
       });
-      fs.mkdir("./maps/" + shared_md5, '0777', function(err) {
+      fs.mkdir("../public/dataStore/" + shared_md5, '0777', function(err) {
         if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory './maps/'" + shared_md5 + ". Aborting ...");
+          console.log("Failed to create directory '../public/dataStore/'" + shared_md5 + ". Aborting ...");
           process.exit(-1);
         }
       });
@@ -70,7 +70,7 @@ $.each(maps, function (i, map) {
       $.each(rooms, function(i, startpoint) {
         var dsFilename = "dataStore-" + startpoint + ".json";
 
-        fs.exists("./maps/" + shared_md5 + "/" + dsFilename, function(exists) {
+        fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilename, function(exists) {
           if (exists) {
             console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
           } else {
@@ -80,13 +80,13 @@ $.each(maps, function (i, map) {
 
             dataStore = WayfindingDataStore.build(startpoint, maps, false);
 
-            fs.writeFileSync("./maps/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
+            fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
           }
         });
 
         var dsFilenameAccessible = "dataStore-accessible-" + startpoint + ".json";
 
-        fs.exists("./maps/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
+        fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
           if (exists) {
             console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
           } else {
@@ -96,7 +96,7 @@ $.each(maps, function (i, map) {
 
             dataStore = WayfindingDataStore.build(startpoint, maps, true);
 
-            fs.writeFileSync("./maps/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
+            fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
           }
         });
       });
