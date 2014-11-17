@@ -34,12 +34,12 @@
                 <!-- Department -->
                 <% if directory_object.department  %>
                   <%= directory_object.department.title.titleize %>
-                <% end %>
+                <% end %>&nbsp;l
               </p>
               <!-- Email -->
-              <p><%= directory_object.email %></p>
+              <p><%= directory_object.email %>&nbsp;</p>
               <!-- Phone -->
-              <p><%= directory_object.phone %></p>
+              <p><%= directory_object.phone %>&nbsp;</p>
             </a>
           </li>
         <% end %>
@@ -51,21 +51,22 @@
                 <p>
                   <% if directory_object.room %>
                   <%= directory_object.room.room_number %>
-                  <% end %>
-
+                  <% end %>&nbsp;
+                </p>
+                <p>
                   <% if directory_object.time %>
                   <%= directory_object.time %>
-                  <% end %>
+                  <% end %>&nbsp;
                 </p>
                 <p>
                   <% if directory_object.link %>
                   <%= directory_object.link %>
-                  <% end %>
+                  <% end %>&nbsp;
                 </p>
                 <p>
                   <% if directory_object.department %>
                   <%= directory_object.department.title.titleize %>
-                  <% end %>
+                  <% end %>&nbsp;
                </p>
              </a>
           </li>
@@ -75,17 +76,16 @@
             <li class="pag paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="departments-card">
                 <h3><%= directory_object.title.titleize %></h3>
-                <p>
-                </p>
+                <p>&nbsp;</p> <!-- room number should go here -->
               </a>
             </li>
         <% end %>
 <!-- Rooms -->
         <% if directory_object.type == "Room" %>
-            <li class="pag paginate-group-<%= pagination_group %>">
+            <li class="pag room paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="rooms-card">
-                <h3><%= directory_object.room_number %></h3>
-                <p><%= directory_object.name %></p>
+                <h3><%= directory_object.room_number %>&nbsp;</h3>
+                <p><%= directory_object.name %>&nbsp;</p>
               </a>
             </li>
         <% end %>
