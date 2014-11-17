@@ -3,7 +3,7 @@
 <head>
   <title>DSS Wayfinding</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">  
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <link rel="icon" type="image/png" href="/favicon.png" />
 
@@ -17,18 +17,18 @@
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">
-    document.origin = '<%= @origin %>'
+  document.origin = '<%= @origin %>'
   </script>
 </head>
 <body>
 
-<div class="container-fluid">
+  <div class="container-fluid">
     <div id="site-container">
       <div class="right-btn-container search">
-          <a href="/search" class="btn-search icon-search"></a>
+        <a href="/search" class="btn-search icon-search"></a>
       </div>
       <div class="right-btn-container home">
-          <a href="/" class="btn-home icon-home"></a>
+        <a href="/" class="btn-home icon-home"></a>
       </div>
     </div> <!-- #site-container -->
 
@@ -36,34 +36,34 @@
       <div class="col-xs-2 col-xs-2-modified" style="width: 11%;">
         <ul class="vertical-nav">
           <li>
-          <a href="/people" class="btn-people icon-people" >
-            <span class="text-people">people</span>
-          </a>
+            <a href="/people" class="btn-people icon-people" >
+              <span class="text-people">people</span>
+            </a>
           </li>
           <li>
-          <a href="/departments" class="btn-departments icon-departments" >
-            <span class="text-departments">departments</span>
-          </a>
+            <a href="/departments" class="btn-departments icon-departments" >
+              <span class="text-departments">departments</span>
+            </a>
           </li>
           <li>
-          <a href="/events" class="btn-events icon-events" >
-            <span class="text-events">events</span>
-          </a>
+            <a href="/events" class="btn-events icon-events" >
+              <span class="text-events">events</span>
+            </a>
           </li>
           <li>
-          <a href="/rooms" class="btn-rooms icon-rooms" >
-            <span class="text-rooms">rooms</span>
-          </a>
+            <a href="/rooms" class="btn-rooms icon-rooms" >
+              <span class="text-rooms">rooms</span>
+            </a>
           </li>
           <li>
-          <a href="/map" class="btn-map icon-map" >
-            <span class="text-map">map</span>
-          </a>
+            <a href="/map" class="btn-map icon-map" >
+              <span class="text-map">map</span>
+            </a>
           </li>
           <li>
-          <a href="/about" class="btn-about icon-about" >
-            <span class="text-about">about</span>
-          </a>
+            <a href="/about" class="btn-about icon-about" >
+              <span class="text-about">about</span>
+            </a>
           </li>
         </ul>
       </div>
@@ -73,17 +73,9 @@
         <%= yield %>
       </div>
     </div> <!-- row -->
-</div> <!-- container-fluid -->
+  </div> <!-- container-fluid -->
+
+  <%= render "shared/analytics" %>
 
 </body>
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-1958864-19', 'auto');
-    ga('send', 'pageview');
-
-  </script>
 </html>

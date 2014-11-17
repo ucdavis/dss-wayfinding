@@ -3,7 +3,8 @@
 <head>
   <title>DSS Wayfinding</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">  
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <link rel="icon" type="image/png" href="/favicon.png" />
 
   <link href="/favicon.png" rel="apple-touch-icon" />
@@ -16,32 +17,31 @@
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">
-    $(function() {
-      // When clicking any link in the landing page, animate, then go
-      $('a').click(function(e) {
-          var anchor = $(this), h;
+  $(function() {
+    // When clicking any link in the landing page, animate, then go
+    $('a').click(function(e) {
+      var anchor = $(this), h;
 
-          h = anchor.attr('href');
-          e.preventDefault();
+      h = anchor.attr('href');
+      e.preventDefault();
 
-          $('ul.landing').animate({'margin-top': '200%'}, 700, function() {
-            window.location = h;
-          })
-      });
-
-      // Hide the buttons, then ease them in on page load
-      $('ul.landing').css('margin-top', '200%');
-      $('ul.landing').animate({'margin-top': '15%'}, 700)
+      $('ul.landing').animate({'margin-top': '200%'}, 700, function() {
+        window.location = h;
+      })
     });
+
+    // Hide the buttons, then ease them in on page load
+    $('ul.landing').css('margin-top', '200%');
+    $('ul.landing').animate({'margin-top': '15%'}, 700)
+  });
   </script>
 </head>
 <body>
-
-
-<div class="container-fluid">
+  
+  <div class="container-fluid">
     <div id="site-container" class="row">
       <div class="right-btn-container search">
-          <a href="/search" class="btn-search icon-search"></a>
+        <a href="/search" class="btn-search icon-search"></a>
       </div>
       <div class="right-btn-container about">
         <a href="/about" class="btn-about icon-about"></a>
@@ -51,17 +51,9 @@
         <%= yield :javascript %>
       </div>
     </div> <!-- row -->
-</div> <!-- container-fluid -->
+  </div> <!-- container-fluid -->
+
+  <%= render "shared/analytics" %>
 
 </body>
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-1958864-19', 'auto');
-    ga('send', 'pageview');
-
-  </script>
 </html>
