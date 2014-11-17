@@ -4,7 +4,7 @@
   <title>DSS Wayfinding</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport' />
   <link rel="icon" type="image/png" href="/favicon.png" />
 
   <link href="/favicon.png" rel="apple-touch-icon" />
@@ -13,7 +13,7 @@
   <link href="/favicon_152.png" rel="apple-touch-icon" sizes="152x152" />
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', params[:action], 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', action_name, 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">
@@ -23,59 +23,37 @@
 <body>
 
   <div class="container-fluid">
-    <div id="site-container">
-      <div class="right-btn-container search">
-        <a href="/search" class="btn-search icon-search"></a>
-      </div>
-      <div class="right-btn-container home">
-        <a href="/" class="btn-home icon-home"></a>
-      </div>
-    </div> <!-- #site-container -->
+    <div class="right-btn-container search">
+      <a href="/search" class="btn-search icon-search"></a>
+    </div>
+    <% if action_name == "landing" %>
+    <div class="right-btn-container about">
+      <a href="/about" class="btn-about icon-about"></a>
+    </div>
+    <% else %>
+    <div class="right-btn-container home">
+      <a href="/" class="btn-home icon-home"></a>
+    </div>
+    <% end %>
 
     <div class="row">
-      <div class="col-xs-2 col-xs-2-modified" style="width: 11%;">
-        <ul class="vertical-nav">
-          <li>
-            <a href="/people" class="btn-people icon-people" >
-              <span class="text-people">people</span>
-            </a>
-          </li>
-          <li>
-            <a href="/departments" class="btn-departments icon-departments" >
-              <span class="text-departments">departments</span>
-            </a>
-          </li>
-          <li>
-            <a href="/events" class="btn-events icon-events" >
-              <span class="text-events">events</span>
-            </a>
-          </li>
-          <li>
-            <a href="/rooms" class="btn-rooms icon-rooms" >
-              <span class="text-rooms">rooms</span>
-            </a>
-          </li>
-          <li>
-            <a href="/map" class="btn-map icon-map" >
-              <span class="text-map">map</span>
-            </a>
-          </li>
-          <li>
-            <a href="/about" class="btn-about icon-about" >
-              <span class="text-about">about</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <%= render "vertical_navigation" unless action_name == "landing" %>
 
-      <div id="main-view" class="col-xs-10 col-xs-10-modified">
-        <%= yield :javascript %>
-        <%= yield %>
+      <div class="col-xs-12">
+        <% if action_name == "landing" %>
+          <%= yield :javascript %>
+          <%= yield %>
+        <% else %>
+          <!-- Inner-div required to pad all pages except 'landing' -->
+          <div class="main-content">
+            <%= yield :javascript %>
+            <%= yield %>
+          </div> <!-- main-content -->
+        <% end %>
       </div>
     </div> <!-- row -->
   </div> <!-- container-fluid -->
 
   <%= render "shared/analytics" %>
-
 </body>
 </html>

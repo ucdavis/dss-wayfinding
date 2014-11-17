@@ -69,7 +69,7 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def landing
-    render :layout => "landing"
+    #render :layout => "landing"
   end
 
   def about

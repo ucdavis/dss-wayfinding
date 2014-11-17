@@ -13,3 +13,19 @@ function setRedirectToHome() {
     }
   }, 180000); // 3 minutes
 }
+
+$(function() {
+  // Call redirect timer function
+  setRedirectToHome();
+
+  //resizeIcons();
+
+  $('a.btn-home').click(function(e) {
+    e.preventDefault();
+    var anchor = $(this), h;
+    h = anchor.attr('href');
+    $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
+      window.location = h;
+    })
+  });
+});

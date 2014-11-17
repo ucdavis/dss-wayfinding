@@ -1,22 +1,4 @@
 <script type="text/javascript">
-  // Redirect to home page after a certain period has elapsed
-  setRedirectToHome();
-
-  $(function() {
-    resizeIcons();
-
-    $('a.btn-home').click(function(e) {
-      e.preventDefault();
-
-      var anchor = $(this), h;
-      h = anchor.attr('href');
-
-      $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
-        window.location = h;
-      })
-    });
-  });
-
   function showInfo(data, similar, class_suffix) {
     class_suffix = class_suffix || 'rooms'
 
@@ -143,7 +125,7 @@
 </script>
 
 
-<div class="row">
+<div class="row" style="margin-top: 15px;">
   <div class="col-xs-9 show-map">
     <ul class="horizontal-nav map-actions">
       <span>Floors</span>
