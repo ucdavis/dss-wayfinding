@@ -73,8 +73,9 @@
         $('.replay').removeClass('disabled');
       });
 
-      $(document).on("wayfinding:ready", function() {
-        $($('a.btn-floor[data-mapId="floor1"]')[0]).addClass('active')
+      $(document).on("wayfinding:ready", function(e, data) {
+        startFloor = '<%= @origin %>'.substring(1,2);
+        $('a.btn-floor[data-mapId="floor' + startFloor + '"]').addClass('active')
 
         try {
           directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');

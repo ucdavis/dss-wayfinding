@@ -28,7 +28,7 @@ module DirectoryObjectsHelper
       height: 30
     },
     'showLocation' : true,
-    'defaultMap': 'floor1'
+    'defaultMap': 'floor" + origin[1,1] + "'
   });
   "
 
