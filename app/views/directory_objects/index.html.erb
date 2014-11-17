@@ -61,8 +61,8 @@
               <a href="/directory/<%= directory_object.id %>" class="departments-card">
                 <h3><%= directory_object.title.titleize %></h3>
                 <p>
-                  <% if directory_object.department %>
-                  <%= directory_object.department.room.room_number %>
+                  <% if directory_object.room %>
+                  <%= directory_object.room.room_number %>
                   <% end %>
                   &nbsp;
                 </p>
