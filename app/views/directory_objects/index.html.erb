@@ -60,7 +60,12 @@
             <li class="pag paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="departments-card">
                 <h3><%= directory_object.title.titleize %></h3>
-                <p>&nbsp;</p> <!-- room number should go here -->
+                <p>
+                  <% if directory_object.department %>
+                  <%= directory_object.department.room.room_number %>
+                  <% end %>
+                  &nbsp;
+                </p>
               </a>
             </li>
         <% end %>
