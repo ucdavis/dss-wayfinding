@@ -465,7 +465,6 @@ ul.directory-list {
     margin: 5px 20px 35px;
     float: left;
     width: 25%;
-    height: 120px;
 
     a {
       display: block;
@@ -670,4 +669,9 @@ img.building-pic {
 
 .startPin {
   fill: #00e13c;
+}
+
+ul li.room {
+    margin-bottom: 0px;
+    margin-right: 0px;
 }
