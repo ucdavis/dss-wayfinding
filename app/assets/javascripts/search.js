@@ -3,9 +3,9 @@
 
 $(function() {
   $("input#search").bind("change paste keyup", function() {
-    $('#result').empty();
     var query = $("#search").val();
     $.post( "/search", {q: query}, function( data ) {
+      $('#result').empty();
       data.directory_objects.forEach( function(directory_object) {
         var tmpl;
         if (directory_object.type == 'Person') {
@@ -19,7 +19,7 @@ $(function() {
           if (directory_object.department) {
             tmpl = tmpl + directory_object.department.title;
           }
-          tmpl = tmpl + '</p>'
+          tmpl = tmpl + '&nbsp</p>'
               + '<p>' + directory_object.email + '&nbsp;</p>'
               + '<p>' + directory_object.phone + '&nbsp;</p>'
             + '</a>'
@@ -32,15 +32,15 @@ $(function() {
           if (directory_object.room) {
             tmpl = tmpl + directory_object.room.room_number;
           }
-          tmpl = tmpl + '</p><p>';
+          tmpl = tmpl + '&nbsp</p><p>';
           if (directory_object.link) {
             tmpl = tmpl + directory_object.link;
           }
-          tmpl = tmpl + '</p><p>';
+          tmpl = tmpl + '&nbsp</p><p>';
           if (directory_object.department) {
             tmpl = tmpl + directory_object.department.title;
           }
-            + '</p></a>'
+            + '&nbsp</p></a>'
           + '</li>';
         } else if (directory_object.type == 'Department') {
           tmpl = '<li>'
@@ -50,14 +50,18 @@ $(function() {
           if (directory_object.room) {
             tmpl = tmpl + directory_object.room.room_number;
           }
-          tmpl = tmpl + '</p>'
+          tmpl = tmpl + '&nbsp</p>'
             + '</a>'
           + '</li>';
         } else if (directory_object.type == 'Room') {
           tmpl = '<li>'
             + '<a href="/directory/' + directory_object.id +'" class="rooms-card">'
               + '<h3>' + directory_object.room_number +'</h3>'
-              + '<p>' + directory_object.name + '</p>'
+              + '<p>';
+              if (directory_object.name) {
+                tmpl = tmpl + directory_object.name;
+              }
+              tmpl = tmpl + '&nbsp</p>'
             + '</a>'
           + '</li>';
        }
