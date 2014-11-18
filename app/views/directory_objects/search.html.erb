@@ -1,28 +1,4 @@
-<script type="text/javascript">
-  $(function() {
-    $('#search')
-    .change(function (event) {
-      var query = $("#search").val();
-      $.post( "/search", {q: query}, function( data ) {
-        data.directory_objects.forEach( function(directory_object) {
-          if (directory_object.type == 'Person') {
-            console.log('Person!');
-          } else if (directory_object.type == 'Event') {
-            console.log('Event!');
-          } else if (directory_object.type == 'Department') {
-            console.log('Department!');
-          } else if (directory_object.type == 'Room') {
-            console.log('Room!');
-          }
-        })
-      }).fail(function() {
-        console.error("Could not complete search");
-      });
-    })
-  });
-</script>
-
 <input name="q" type="text" id="search" class="form-control search" placeholder="Search">
-<ul id="result">
+<ul id="result"class="directory-list">
   
 </ul>
