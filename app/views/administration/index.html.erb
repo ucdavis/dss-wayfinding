@@ -1,17 +1,6 @@
 <script type="text/javascript">
   var notice = "<%= params[:notice] %>";
   var error = "<%= params[:error] %>";
-  $(function() {
-    resizeIcons();
-    $('a.btn-home').click(function(e) {
-      e.preventDefault();
-      var anchor = $(this), h;
-      h = anchor.attr('href');
-      $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
-        window.location = h;
-      })
-    });
-  });
 </script>
 
   <h1 id="directory-title">Administration</h1>
@@ -60,6 +49,9 @@
               <%= file_field_tag :uploaded_csv, class: 'form-control start' %>
             </div>
             <%= submit_tag 'Upload', class: 'btn btn-default' %>
+            <%= link_to " FacilitiesLink",
+              "https://ucdavis.metabim.com/Buildings/Home/Managers/Managers.csv?Bkey=1066",
+              :target => "_blank", :class => "pull-right btn" %>
           <% end %>
         </div>
       </div>
