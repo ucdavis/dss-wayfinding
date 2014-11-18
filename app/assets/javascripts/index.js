@@ -46,4 +46,11 @@ $(document).ready(function(){
       $(this).find('.form-group').append('<p class="help-block col-sm-2 status">Error saving...</p>');
     }
   });
+  
+  $(".clickable-row").click(function() {
+    window.document.location = $(this).data("url");
+  });
+  
+//$('.spy-container').scrollspy({ target: '#side-nav' });
+
 });

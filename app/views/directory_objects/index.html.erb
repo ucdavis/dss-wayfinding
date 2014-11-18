@@ -1,83 +1,108 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
-<ul class="directory-list">
-<!-- People -->
-    <% pagination_group = 1 %>
-    <% @directory_objects.each_with_index do |directory_object, index| %>
-        <% if (index != 0) && (index % 6 == 0) %>
-            <% pagination_group = pagination_group + 1 %>
-        <% end %>
-        <% if directory_object.type == "Person" %>
-          <li class="pag paginate-group-<%= pagination_group %>">
-            <a href="/directory/<%= directory_object.id %>" class="people-card">
-              <h3><%= directory_object.first + " " + directory_object.last %></h3>
-              <p>
-                <!-- Room number -->
-                <% if directory_object.rooms.length > 0 %>
-                  <%= directory_object.rooms.first.room_number %>
-                <% end %>
-                <!-- Department -->
-                <% if directory_object.department  %>
-                  <%= directory_object.department.title %>
-                <% end %>&nbsp;
-              </p>
-              <!-- Email -->
-              <p><%= directory_object.email %>&nbsp;</p>
-              <!-- Phone -->
-              <p><%= directory_object.phone %>&nbsp;</p>
-            </a>
-          </li>
-        <% end %>
-<!-- Events -->
-        <% if directory_object.type == "Event" %>
-          <li class="pag paginate-group-<%= pagination_group %>">
-            <a href="/directory/<%= directory_object.id %>" class="events-card">
-              <h3><%= directory_object.title %></h3>
-                <p>
-                  <% if directory_object.room %>
-                  <%= directory_object.room.room_number %>
-                  <% end %>&nbsp;
-                </p>
-                <p>
-                  <% if directory_object.time %>
-                  <%= directory_object.time %>
-                  <% end %>&nbsp;
-                </p>
-                <p>
-                  <% if directory_object.link %>
-                  <%= directory_object.link %>
-                  <% end %>&nbsp;
-                </p>
-                <p>
-                  <% if directory_object.department %>
-                  <%= directory_object.department.title %>
-                  <% end %>&nbsp;
-               </p>
-             </a>
-          </li>
-        <% end %>
-<!-- Departments -->
-        <% if directory_object.type == "Department" %>
-            <li class="pag paginate-group-<%= pagination_group %>">
-              <a href="/directory/<%= directory_object.id %>" class="departments-card">
-                <h3><%= directory_object.title %></h3>
-                <p>
-                  <% if directory_object.room %>
-                  <%= directory_object.room.room_number %>
-                  <% end %>
-                  &nbsp;
-                </p>
-              </a>
-            </li>
-        <% end %>
-<!-- Rooms -->
-        <% if directory_object.type == "Room" %>
-            <li class="pag room paginate-group-<%= pagination_group %>">
-              <a href="/directory/<%= directory_object.id %>" class="rooms-card">
-                <h3><%= directory_object.room_number %>&nbsp;</h3>
-                <p><%= directory_object.name %>&nbsp;</p>
-              </a>
-            </li>
-        <% end %>
-    <% end %>
+<div class="directory-list">
+    <div id="destination-view" class="text-people directory-nav" style="right: 0px;">
+
+        <h1 class="btn-people">Quick Nav</h1>
+        <div id="side-nav">
+          <ul class="nav nav-list affix">
+            <li><a href="#one">One</a></li>
+            <li><a href="#two">Two</a></li>
+            <li><a href="#three">Three</a></li>
+            <li><a href="#four">Four</a></li>
+            <li><a href="#five">Five</a></li>
+          </ul>
+        </div>
+        
     </div>
-</div>
+
+    <table class="table content">
+    <tbody>
+        <% pagination_group = 1 %>
+        <% @directory_objects.each_with_index do |directory_object, index| %>
+            <% if (index != 0) && (index % 6 == 0) %>
+                <% pagination_group = pagination_group + 1 %>
+            <% end %>
+    <!-- People -->
+            <% if directory_object.type == "Person" %>
+                <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
+                  <h3><%= directory_object.first + " " + directory_object.last %></h3>
+                  <!-- Room number -->
+                  <% if directory_object.rooms.length > 0 %>
+                    <span class="people-row-field"><%= directory_object.rooms.first.room_number %></span>
+                  <% end %>
+                  <!-- Department -->
+                  <% if directory_object.department  %>
+                    <span class="people-row-field"><%= directory_object.department.title %></span>
+                  <% end %>&nbsp;
+                  <!-- Email -->
+                  <span class="people-row-field"><%= directory_object.email %></span>
+                  <!-- Phone -->
+                  <span class="people-row-field"><%= directory_object.phone %></span>
+                  </td>
+                </tr>
+                <% if index == 0 %>
+                    <tr><td id="one">found me! <%= index %></td></tr>
+                <% end %>
+                <% if index == 20 %>
+                    <tr><td id="two">found me! <%= index %></td></tr>
+                <% end %>
+                <% if index == 40 %>
+                    <tr><td id="three">found me! <%= index %></td></tr>
+                <% end %>
+                
+            <% end %>
+    <!-- Events -->
+            <% if directory_object.type == "Event" %>
+              <li class="pag paginate-group-<%= pagination_group %>">
+                <a href="/directory/<%= directory_object.id %>" class="events-card">
+                  <h3><%= directory_object.title %></h3>
+                    <p>
+                      <% if directory_object.room %>
+                      <%= directory_object.room.room_number %>
+                      <% end %>&nbsp;
+                    </p>
+                    <p>
+                      <% if directory_object.time %>
+                      <%= directory_object.time %>
+                      <% end %>&nbsp;
+                    </p>
+                    <p>
+                      <% if directory_object.link %>
+                      <%= directory_object.link %>
+                      <% end %>&nbsp;
+                    </p>
+                    <p>
+                      <% if directory_object.department %>
+                      <%= directory_object.department.title %>
+                      <% end %>&nbsp;
+                   </p>
+                 </a>
+              </li>
+            <% end %>
+    <!-- Departments -->
+            <% if directory_object.type == "Department" %>
+                <li class="pag paginate-group-<%= pagination_group %>">
+                  <a href="/directory/<%= directory_object.id %>" class="departments-card">
+                    <h3><%= directory_object.title %></h3>
+                    <p>
+                      <% if directory_object.room %>
+                      <%= directory_object.room.room_number %>
+                      <% end %>
+                      &nbsp;
+                    </p>
+                  </a>
+                </li>
+            <% end %>
+    <!-- Rooms -->
+            <% if directory_object.type == "Room" %>
+                <li class="pag room paginate-group-<%= pagination_group %>">
+                  <a href="/directory/<%= directory_object.id %>" class="rooms-card">
+                    <h3><%= directory_object.room_number %>&nbsp;</h3>
+                    <p><%= directory_object.name %>&nbsp;</p>
+                  </a>
+                </li>
+            <% end %>
+        <% end %>
+    </tbody>
+    </table>
+</div> <!-- .directory-list.spy-container -->
