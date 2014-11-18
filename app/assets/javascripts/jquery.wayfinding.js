@@ -239,7 +239,7 @@
 
 			if (options.showLocation) {
 				end = $('#Doors #' + endpoint, el);
-				
+
 			    attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
 			    //attachPinLocation = $('path.directionPath0', attachPinLocation);
                 //attachPinLocation = $('#numbers', attachPinLocation);
@@ -442,6 +442,13 @@
 			});
 		}
 
+		// Applies linear interpolation to find the correct value
+		// for traveling from value oldValue to newValue taking into account
+		// that you are (i / steps) of the way through the process
+		function interpolateValue(oldValue, newValue, i, steps) {
+			return (((steps - i) / steps) * oldValue) + ((i / steps) * newValue);
+		}
+
 		function animatePath(drawing, drawingSegment) {
 			var path,
 			svg,
@@ -494,31 +501,38 @@
 
 			// Zooming logic...
 			svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
-			oldViewBox = svg.getAttribute('viewBox');
-      oldViewWidth = parseInt(svg.getAttribute('width').slice(0,-2));
-      oldViewHeight = parseInt(svg.getAttribute('height').slice(0,-2));
 
-      var steps = 50;
-      var duration = 500; // Zoom animation in milliseconds
+			// Store the original SVG viewBox in order to zoom out back to it after path animation
+			var oldViewBox = svg.getAttribute('viewBox');
+			var oldViewX = parseFloat(oldViewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
+			var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
+			var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
+			var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
+
+      var steps = 35;
+      var duration = 600; // Zoom animation in milliseconds
 
       // Calculate single step size from each direction
-      var lxStep = (pathRect.x - pad) / steps;
-          lxStep = lxStep > 0 ? lxStep : 0;
-      var rxStep = (oldViewWidth - (pathRect.width + 2 * pad)) / steps;
-      var tyStep = (pathRect.y - pad) / steps;
-          tyStep = tyStep > 0 ? tyStep : 0;
-      var byStep = (oldViewHeight - (pathRect.height + 2 * pad)) / steps;
+      var newViewX = pathRect.x - pad;
+					newViewX = newViewX > 0 ? newViewX : 0;
+      var newViewW = pathRect.width + (2 * pad);
+      var newViewY = pathRect.y - pad;
+					newViewY = newViewY > 0 ? newViewY : 0;
+      var newViewH = pathRect.height + (2 * pad);
 
 			if (options.zoomToRoute) {
-        // svg.setAttribute('viewBox', (pathRect.x - pad)  + ' ' + (pathRect.y - pad) +
-        //   ' ' + (pathRect.width + pad * 2) + ' ' + (pathRect.height + pad * 2));
         // Loop the specified number of steps to create the zoom in animation
         for (var i = 0; i <= steps; i++) {
-          (function(i){
-            setTimeout(function(){
-              svg.setAttribute('viewBox', i*lxStep  + ' ' + i*tyStep +
-                ' ' + (oldViewWidth-i*rxStep) + ' ' + (oldViewHeight-i*byStep));
-            }, i * (duration/steps));
+          (function(i) {
+            setTimeout(function() {
+							var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
+							var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
+							var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
+							var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
+
+							svg.setAttribute('viewBox', zoomInX  + ' ' + zoomInY +
+                ' ' + zoomInW + ' ' + zoomInH);
+            }, i * (duration / steps));
           }(i));
         }
 			}
@@ -531,14 +545,19 @@
 				animatePath(drawing, ++drawingSegment);
 
 				if (options.zoomToRoute) {
-          // svg.setAttribute('viewBox', oldViewBox); // zoom back out
           // Loop the specified number of steps to create the zoom out animation
           for (var i = 0; i <= steps; i++) {
-            (function(i){
-              setTimeout(function(){
-                svg.setAttribute('viewBox', (steps-i)*lxStep  + ' ' + (steps-i)*tyStep +
-                  ' ' + (oldViewWidth-(steps-i)*rxStep) + ' ' + (oldViewHeight-(steps-i)*byStep));
-              }, i * (duration/steps));
+            (function(i) {
+              setTimeout(function() {
+								var interpolateFactor = steps - i;
+								var zoomOutX = interpolateValue(newViewX, oldViewX, i, steps);
+								var zoomOutY = interpolateValue(newViewY, oldViewY, i, steps);
+								var zoomOutW = interpolateValue(newViewW, oldViewW, i, steps);
+								var zoomOutH = interpolateValue(newViewH, oldViewH, i, steps);
+
+								svg.setAttribute('viewBox', zoomOutX  + ' ' + zoomOutY +
+                  ' ' + zoomOutW + ' ' + zoomOutH);
+              }, i * (duration / steps));
             }(i));
           }
 				}
@@ -808,8 +827,8 @@
 						} else {
 							newPath.setAttribute('class', 'directionPath' + i);
 						}
-						
-						
+
+
                         // Attach the newpath to the startpin or endpin if they exist on this floor
 						var attachPointSvg = $('#' + maps[level[0].floor].id + ' svg');
 						var startPin = $('.startPin', attachPointSvg);

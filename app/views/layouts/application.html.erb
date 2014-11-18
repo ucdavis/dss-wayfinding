@@ -17,7 +17,12 @@
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">
-  document.origin = '<%= @origin %>'
+  document.origin = '<%= @origin %>';
+  // Do not use the development_mode flag to enable access or otherwise
+  // alter security. It is very easy to fake.
+  // It is merely used to turn off the auto-redirect in redirect.js
+  // as this annoys developers who may wish to linger on a page.
+  document.development_mode = '<%= Rails.env %>' == "development";
   </script>
 </head>
 <body>

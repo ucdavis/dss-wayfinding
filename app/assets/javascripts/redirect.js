@@ -11,14 +11,14 @@ function setRedirectToHome() {
         }, 500);
       })
     }
-  }, 180000); // 3 minutes
+  }, 120000); // 2 minutes
 }
 
 $(function() {
-  // Call redirect timer function
-  setRedirectToHome();
-
-  //resizeIcons();
+  if(document.development_mode == false) {
+    // Call redirect timer function
+    setRedirectToHome();
+  }
 
   $('a.btn-home').click(function(e) {
     e.preventDefault();
