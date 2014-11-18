@@ -4,6 +4,10 @@
 $(function() {
   $("input#search").bind("change paste keyup", function() {
     var query = $("#search").val();
+    if (query.length < 3) {
+      $('#result').empty();
+      return;
+    }
     $.post( "/search", {q: query}, function( data ) {
       $('#result').empty();
       data.directory_objects.forEach( function(directory_object) {
