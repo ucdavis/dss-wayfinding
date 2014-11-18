@@ -2,15 +2,13 @@
 // or reset. This currently happens on page load (in production) and whenever
 // a room is clicked (allowing more time for active users of the map).
 function setRedirectToHome() {
-  if(document.development_mode == false) {
-    return;
-  }
+  if(document.development_mode == true) return;
 
   // Cancel any previous timer
-  clearTimeout(document.timer);
+  clearTimeout(document.redirectTimer);
 
   // Redirect after 2 minutes if @origin is set (Kiosk mode)
-  document.timer = setTimeout(function(){
+  document.redirectTimer = setTimeout(function(){
     if (document.origin != '') {
       $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
         setTimeout(function(){
