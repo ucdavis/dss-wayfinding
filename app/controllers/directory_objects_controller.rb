@@ -33,7 +33,9 @@ class DirectoryObjectsController < ApplicationController
 
       @directory_objects = @directory_objects.uniq
 
-      render "index"
+      respond_to do |format|
+        format.json
+      end
     end
   end
 
