@@ -130,10 +130,6 @@ body {
     text-transform: capitalize;
   }
 
-  .label {
-    text-transform: capitalize;
-  }
-
   a:hover {
     text-decoration: none;
     opacity: 0.6;
@@ -523,7 +519,6 @@ ul.directory-list {
       h3 {
         text-align: center;
         color: #EEE;
-        text-transform: capitalize;
         font-size: 1.7rem;
         font-weight: bold;
         margin-top: 10px;

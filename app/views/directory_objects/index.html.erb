@@ -17,8 +17,8 @@
                 <% end %>
                 <!-- Department -->
                 <% if directory_object.department  %>
-                  <%= directory_object.department.title.titleize %>
-                <% end %>&nbsp;l
+                  <%= directory_object.department.title %>
+                <% end %>&nbsp;
               </p>
               <!-- Email -->
               <p><%= directory_object.email %>&nbsp;</p>
@@ -49,7 +49,7 @@
                 </p>
                 <p>
                   <% if directory_object.department %>
-                  <%= directory_object.department.title.titleize %>
+                  <%= directory_object.department.title %>
                   <% end %>&nbsp;
                </p>
              </a>
@@ -59,7 +59,7 @@
         <% if directory_object.type == "Department" %>
             <li class="pag paginate-group-<%= pagination_group %>">
               <a href="/directory/<%= directory_object.id %>" class="departments-card">
-                <h3><%= directory_object.title.titleize %></h3>
+                <h3><%= directory_object.title %></h3>
                 <p>
                   <% if directory_object.room %>
                   <%= directory_object.room.room_number %>
