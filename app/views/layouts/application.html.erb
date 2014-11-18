@@ -37,7 +37,7 @@
     <% end %>
 
     <div class="row">
-      <%= render "vertical_navigation" unless action_name == "landing" or controller_name == "administration" %>
+      <%= render "vertical_navigation" unless (action_name == "landing" || controller_name == "administration") %>
 
       <div class="col-xs-12">
         <% if action_name == "landing" %>
