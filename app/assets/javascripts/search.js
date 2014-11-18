@@ -2,14 +2,27 @@
 //= require animate
 
 $(function() {
+  $(".right-btn-container.search").remove();
   $("input#search").bind("change paste keyup", function() {
     var query = $("#search").val();
+
     if (query.length < 3) {
-      $('#result').empty();
+      if (query.length == 0) {
+        $('#result').empty();
+      }
+      else {
+        $('#result').html('<div align="center">You need at least 3 charachters</div>');
+      }
       return;
     }
+
     $.post( "/search", {q: query}, function( data ) {
-      $('#result').empty();
+      if(data.directory_objects.length) {
+        $('#result').empty();
+      } else {
+        $('#result').html('<div align="center">No results found for your query</div>');
+      }
+
       data.directory_objects.forEach( function(directory_object) {
         var tmpl;
         if (directory_object.type == 'Person') {
