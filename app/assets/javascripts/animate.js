@@ -9,6 +9,7 @@ function resizeIcons() {
 }
 
 $(function() {
+  resizeIcons();
   // Ease-in the left nav only if the user is coming from the landing page
   if (document.referrer == window.location.origin + "/") {
     $('ul.vertical-nav').css('left','-200%');
