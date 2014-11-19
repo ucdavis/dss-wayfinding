@@ -29,8 +29,13 @@ $(function() {
     var anchor = $(this), h;
     h = anchor.attr('href');
 
-    $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
+    // Slide away the vertical navigation if it exists, but always redirect.
+    if($('ul.vertical-nav').length == 0) {
       window.location = h;
-    })
+    } else {
+      $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
+        window.location = h;
+      });
+    }
   });
 });
