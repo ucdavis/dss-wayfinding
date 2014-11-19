@@ -23,9 +23,10 @@ config/secret_token.yml
 
 # Ignore map files
 public/maps/*
+public/maps.tmp/*
 
 # Ignore map data caches
-dataStore-*.json
+public/dataStore/*
 
 # Ignore node_modules (may vary from architecture to architecture, just use 'npm install')
 node_modules

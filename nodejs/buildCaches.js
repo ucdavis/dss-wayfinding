@@ -10,18 +10,19 @@ window 	= jsdom.jsdom().createWindow();
 $ = require('jquery');
 
 var maps = [
-  {'path': '../app/assets/images/ssh_floor_0.svg', 'id': 'floor0'},
-  {'path': '../app/assets/images/ssh_floor_1.svg', 'id': 'floor1'},
-  {'path': '../app/assets/images/ssh_floor_2.svg', 'id': 'floor2'},
-  {'path': '../app/assets/images/ssh_floor_3.svg', 'id': 'floor3'},
-  {'path': '../app/assets/images/ssh_floor_4.svg', 'id': 'floor4'},
-  {'path': '../app/assets/images/ssh_floor_5.svg', 'id': 'floor5'}
+  {'path': '../public/maps.tmp/floor0.svg', 'id': 'floor0'},
+  {'path': '../public/maps.tmp/floor1.svg', 'id': 'floor1'},
+  {'path': '../public/maps.tmp/floor2.svg', 'id': 'floor2'},
+  {'path': '../public/maps.tmp/floor3.svg', 'id': 'floor3'},
+  {'path': '../public/maps.tmp/floor4.svg', 'id': 'floor4'},
+  {'path': '../public/maps.tmp/floor5.svg', 'id': 'floor5'}
 ];
 
 require('../app/assets/javascripts/wayfinding.datastore.js');
 
 var processed = 0;
 var rooms = [];
+var stats = {};
 
 console.debug("Loading SVGs ...");
 
@@ -44,6 +45,9 @@ $.each(maps, function (i, map) {
     processed = processed + 1;
 
     if(processed == maps.length) {
+      stats['startTime'] = new Date();
+      console.log("Start time: " + stats['startTime']);
+
       var rooms = WayfindingDataStore.getRooms(maps);
 
       // Compute a shared MD5 sum for all maps
@@ -98,7 +102,23 @@ $.each(maps, function (i, map) {
 
             fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
           }
+
+
+          // Update build progress
+          if ((i+1) == rooms.length) {
+            stats['progress'] = "Completed";
+            stats['finishTime'] = new Date();
+            // Total Time in minutes
+            stats['totalTime'] = (stats['startTime'].getTime() - stats['finishTime'].getTime()) / 60000;
+          } else {
+            stats['progress'] = Math.round(100*(i+1)/rooms.length) + "%";
+          }
+
+          fs.writeFileSync("../public/dataStore/" + shared_md5 + "/stats.json", JSON.stringify( stats ));
+
         });
+
+
       });
     }
   });

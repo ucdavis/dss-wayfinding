@@ -195,7 +195,7 @@ class AdministrationController < ApplicationController
     unless params[:uploaded_map].blank? || map_floor.blank?
       require 'fileutils'
 
-      directory = "public/maps"
+      directory = "public/maps.tmp"
       # Create directory if does not exist
       FileUtils::mkdir_p directory
 
