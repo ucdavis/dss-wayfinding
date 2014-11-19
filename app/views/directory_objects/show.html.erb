@@ -112,12 +112,12 @@
       });
 
     <%
-      @svg_paths = [asset_path("ssh_floor_0.svg"),
-                    asset_path("ssh_floor_1.svg"),
-                    asset_path("ssh_floor_2.svg"),
-                    asset_path("ssh_floor_3.svg"),
-                    asset_path("ssh_floor_4.svg"),
-                    asset_path("ssh_floor_5.svg")]
+      @svg_paths = ["/maps/floor0.svg",
+                    "/maps/floor1.svg",
+                    "/maps/floor2.svg",
+                    "/maps/floor3.svg",
+                    "/maps/floor4.svg",
+                    "/maps/floor5.svg"]
     %>
     <%= wayfinding_plugin(@svg_paths, asset_path("assets/dataStore/dataStore-" + @origin + ".json"), asset_path("assets/dataStore/dataStore-accessible-" + @origin + ".json"), @origin) %>
     <% else %>

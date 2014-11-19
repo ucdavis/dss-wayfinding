@@ -337,7 +337,12 @@
 				//create svg in that div
 				svgDiv.load(
 					map.path,
-					function (svg) {
+					function (svg, status, xhr) {
+						if (status == "error") {
+							svgDiv.html("<p class='text-center text-danger'>Map " + i + " Was not found at "
+								+ map.path + "<br />Please upload it in the administration section</p>");
+							maps[i].el = svgDiv;
+						}
 						maps[i].svgHandle = svg;
 						maps[i].el = svgDiv;
 
