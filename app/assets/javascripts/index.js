@@ -55,6 +55,43 @@ $(document).ready(function(){
     window.document.location = $(this).data("url");
   });
 
+$( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 60,
+      slide: function( event, ui ) {
+        
+        if (ui.value < 30)
+        {
+            $('#nav-three').addClass('active');
+            $('#nav-two').removeClass('active');
+            $('#nav-one').removeClass('active');
+            element_to_scroll_to = document.getElementById("three");
+            element_to_scroll_to.scrollIntoView();
+        }
+        if (ui.value >=30 && ui.value < 60)
+        {
+            $('#nav-two').addClass('active');
+            $('#nav-three').removeClass('active');
+            $('#nav-one').removeClass('active');
+            element_to_scroll_to = document.getElementById("two");
+            element_to_scroll_to.scrollIntoView();
+        }
+        if (ui.value >=60 && ui.value <= 100)
+        {
+            $('#nav-one').addClass('active');
+            $('#nav-two').removeClass('active');
+            $('#nav-three').removeClass('active');
+            element_to_scroll_to = document.getElementById("one");
+            element_to_scroll_to.scrollIntoView();
+        }
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+
 //$('.spy-container').scrollspy({ target: '#side-nav' });
 
 });

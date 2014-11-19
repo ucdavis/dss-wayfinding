@@ -1,18 +1,15 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
     <div id="destination-view" class="text-people directory-nav" style="right: 0px;">
-
         <h1 class="btn-people">Quick Nav</h1>
         <div id="side-nav">
-          <ul class="nav nav-list affix">
-            <li><a href="#one">One</a></li>
-            <li><a href="#two">Two</a></li>
-            <li><a href="#three">Three</a></li>
-            <li><a href="#four">Four</a></li>
-            <li><a href="#five">Five</a></li>
+          <ul class="nav nav-list affix" id="slider-vertical">
+            <li><a href="#one" id="nav-one">One</a></li>
+            <li><a href="#two" id="nav-two">Two</a></li>
+            <li><a href="#three" id="nav-three">Three</a></li>
           </ul>
         </div>
-        
+
     </div>
 
     <table class="table content">
@@ -106,3 +103,4 @@
     </tbody>
     </table>
 </div> <!-- .directory-list.spy-container -->
+<%= javascript_include_tag "jquery-ui" %>
