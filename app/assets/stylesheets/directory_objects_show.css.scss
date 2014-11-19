@@ -210,7 +210,7 @@ ul.horizontal-nav {
     }
 
     li {
-      width: 10%;
+      width: 9%;
 
       a {
         margin: 0.15em;
@@ -234,6 +234,28 @@ ul.horizontal-nav {
           left: -0.25em;
           bottom: -0.25em;
           right: -0.25em;
+        }
+
+        &.start:after {
+          content: ".";
+          position: absolute;
+          width: 100%;
+          top: 20%;
+          color: #00e13c;
+          font-size: 120%;
+          display: block;
+          text-align: center;
+        }
+
+        &.destination:after {
+          content: ".";
+          position: absolute;
+          width: 100%;
+          top: 20%;
+          color: #fc6355;
+          font-size: 120%;
+          display: block;
+          text-align: center;
         }
       }
     }
