@@ -1,6 +1,6 @@
 class AdministrationController < ApplicationController
   http_basic_authenticate_with name: $AUTH_CONFIG_SETTINGS["USER"], password: $AUTH_CONFIG_SETTINGS["PASSWORD"], except: :start
-  skip_before_action :verify_authenticity_token, :only => [:csv]
+  skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
   def index
     @origin = cookies[:origin]
@@ -172,6 +172,32 @@ class AdministrationController < ApplicationController
     else
       error = "Error uploading file"
     end # unless csv_path.blank?
+
+    respond_to do |format|
+      format.html {
+        redirect_to action: "index",
+        error: error,
+        notice: notice
+      }
+    end
+  end
+
+  # POST
+  # Upload an SVG map
+  def map_upload
+    unless params[:uploaded_map].blank? or params[:map_floor].blank?
+      require 'fileutils'
+
+      directory = "public/maps"
+      # Create directory if does not exist
+      FileUtils::mkdir_p directory
+
+      path = File.join(directory, "floor" + params[:map_floor] + ".svg")
+      File.open(path, "wb") { |f| f.write(params[:uploaded_map].read) }
+      notice = "Map was successfully uploaded"
+    else
+      error = "Error uploading SVG map"
+    end # unless map_path.blank?
 
     respond_to do |format|
       format.html {

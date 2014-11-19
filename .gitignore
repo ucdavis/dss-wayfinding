@@ -21,6 +21,9 @@
 config/auth_config.yml
 config/secret_token.yml
 
+# Ignore map files
+public/maps/*
+
 # Ignore map data caches
 dataStore-*.json
 

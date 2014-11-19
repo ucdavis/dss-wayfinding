@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     collection do
       post 'origin'
       post 'csv'
+      post 'map_upload'
       post 'department_location'
       get 'start'
 
