@@ -91,6 +91,12 @@ body {
   }
 }
 
+#map>div {
+  // To fix blurriness in jQuery.panZoom affecting webkit browsers
+  //-webkit-backface-visibility: initial !important;
+  //-webkit-transform-origin: 50% 50%;
+}
+
 /* map target information pane */
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

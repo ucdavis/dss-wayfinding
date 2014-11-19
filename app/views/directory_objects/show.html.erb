@@ -122,7 +122,6 @@
     <%= wayfinding_plugin(@svg_paths, asset_path("assets/dataStore/dataStore-" + @origin + ".json"), asset_path("assets/dataStore/dataStore-accessible-" + @origin + ".json"), @origin) %>
     <% else %>
       // Origin is not set
-      //$("#mapLoadingInner").css("top", "30%");
       $("#mapLoadingInner").html("Kiosk location needs to be set.");
 
     <% end %>
@@ -165,3 +164,5 @@
 
   </div> <!-- destination-view -->
 </div> <!-- row -->
+
+<%= javascript_include_tag "jquery.panzoom" %>

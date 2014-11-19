@@ -27,6 +27,7 @@ module DirectoryObjectsHelper
     'locationIndicator' : {
       height: 30
     },
+    'pinchToZoom' : true,
     'showLocation' : true,
     'defaultMap': 'floor" + origin[1,1] + "'
   });

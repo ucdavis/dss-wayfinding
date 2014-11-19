@@ -2,14 +2,14 @@
 
 /**
  * @preserve
- * Wayfinding v0.3.0
+ * Wayfinding v0.4.0
  * https://github.com/ucdavis/wayfinding
  *
  * Copyright (c) 2010-2014 University of California Regents
  * Licensed under GNU General Public License v2
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Date: 2010-08-06
+ * Date: 2014-11-18
  *
  */
 
@@ -49,6 +49,7 @@
 			fill: 'red',
 			height: 40
 		},
+		'pinchToZoom' : false, // requires jquery.panzoom
 		'zoomToRoute' : true,
 		'zoomPadding' : 50,
 		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
@@ -260,10 +261,10 @@
 
 		// Hide SVG div, hide 'internal' path lines, make rooms clickable
 		function activateSVG(obj, svgDiv) {
-			//hide maps until explicitly displayed
+			// Hide maps until explicitly displayed
 			$(svgDiv).hide();
 
-			//hide route information
+			// Hide route information
 			$('#Paths line', svgDiv).attr('stroke-opacity', 0);
 			$('#Doors line', svgDiv).attr('stroke-opacity', 0);
 			$('#Portals line', svgDiv).attr('stroke-opacity', 0);
@@ -303,6 +304,16 @@
 			// highlight starting floor
 			$('#' + maps[displayNum].id, el).show(0, function() {
 				$(this).trigger('wayfinding:mapsVisible');
+
+				// Enable .panzoom()
+				if(options.pinchToZoom) {
+					$('#' + maps[displayNum].id, el).panzoom({minScale: 1.0, contain: 'invert', cursor: "pointer"});
+
+					// Allow clicking on links within the SVG despite $.panZoom()
+					$('#' + maps[displayNum].id + ' a', el).on('mousedown touchstart', function( e ) {
+						e.stopImmediatePropagation();
+					});
+				}
 			}); // rework
 
 			// if endpoint was specified, route to there.
@@ -317,7 +328,7 @@
 
 		// Initialize the jQuery target object
 		function initialize(obj) {
-			var processed = 0;
+			var mapsProcessed = 0;
 
 			// Load SVGs off the network
 			$.each(maps, function (i, map) {
@@ -334,9 +345,9 @@
 
 						activateSVG(obj, svgDiv);
 
-						processed = processed + 1;
+						mapsProcessed = mapsProcessed + 1;
 
-						if(processed == maps.length) {
+						if(mapsProcessed == maps.length) {
 							console.debug("SVGs finished loading.");
 
 							// All SVGs have finished loading
@@ -345,12 +356,27 @@
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
 								replaceLoadScreen(obj);
+								if(options.pinchToZoom) setupPinchToZoom();
 							});
 						}
 					}
 				);
 			});
 		} // function initialize
+
+		function setupPinchToZoom() {
+			console.debug("Setting up custom pinch-to-zoom ...");
+
+			$("#map").on("touchstart", function(e) {
+				console.debug(e);
+
+			});
+
+			// document.body.addEventListener('touchstart', function(e){
+			// 	alert(e.changedTouches[0].pageX) // alert pageX coordinate of touch point
+			// }, false);
+
+		}
 
 		// Ensure a dataStore exists and is set, whether from a cache
 		// or by building it.
@@ -396,6 +422,16 @@
 
 			$('#' + floor, el).show(0, function() {
 				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
+
+				if(options.pinchToZoom) {
+					// Destroy .panzoom() on all SVGs
+					for (i = 0; i < maps.length; i++) {
+						$('#' + i, el).panzoom("destroy");
+					}
+
+					// Enable .panzoom() on the newly displayed floor specific floor
+					$('#' + floor, el).panzoom({minScale: 1.0, contain: 'invert', cursor: "pointer"});
+				}
 			});
 
 			//turn floor into mapNum, look for that in drawing
@@ -470,6 +506,13 @@
 			} else if (drawingSegment >= drawing.length) {
 				//finished, stop recursion.
 				return;
+			}
+
+			if(options.pinchToZoom) {
+				svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
+				console.log("resetting zoom");
+				$(svg).parent().panzoom("resetZoom");
+				//$(svg).panzoom("resetPan");
 			}
 
 			drawLength = drawing[drawingSegment].routeLength;
