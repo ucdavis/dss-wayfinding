@@ -185,14 +185,21 @@ class AdministrationController < ApplicationController
   # POST
   # Upload an SVG map
   def map_upload
-    unless params[:uploaded_map].blank? or params[:map_floor].blank?
+    # Validate map_floor
+    begin
+      map_floor = Integer(params[:map_floor][0,1])
+    rescue
+      map_floor = nil
+    end
+
+    unless params[:uploaded_map].blank? || map_floor.blank?
       require 'fileutils'
 
       directory = "public/maps"
       # Create directory if does not exist
       FileUtils::mkdir_p directory
 
-      path = File.join(directory, "floor" + params[:map_floor] + ".svg")
+      path = File.join(directory, "floor" + map_floor.to_s + ".svg")
       File.open(path, "wb") { |f| f.write(params[:uploaded_map].read) }
       notice = "Map was successfully uploaded"
     else
