@@ -1,7 +1,7 @@
 if(console.debug == undefined) console.debug = console.log;
 
 var jsdom = require('jsdom');
-var fs = require('fs');
+var fs = require('fs-extra');
 require('json');
 var md5 = require('MD5');
 
@@ -104,17 +104,24 @@ $.each(maps, function (i, map) {
           }
 
 
-          // Update build progress
           if ((i+1) == rooms.length) {
+            // Update build progress once all rooms are acompleted
             stats['progress'] = "Completed";
             stats['finishTime'] = new Date();
             // Total Time in minutes
-            stats['totalTime'] = (stats['startTime'].getTime() - stats['finishTime'].getTime()) / 60000;
+            stats['totalTime'] = Math.round((stats['finishTime'].getTime() - stats['startTime'].getTime()) / 60000) + " Minutes";
+
+            // Move caches to proper location
+            fs.copy('../public/dataStore/' + shared_md5, '../public/dataStore', function(err) {
+              if (err) return console.error(err)
+              console.log("Copied files to /public/dataStore")
+            });
           } else {
+            // Update progress percentage
             stats['progress'] = Math.round(100*(i+1)/rooms.length) + "%";
           }
 
-          fs.writeFileSync("../public/dataStore/" + shared_md5 + "/stats.json", JSON.stringify( stats ));
+          fs.writeFileSync("../public/dataStore/stats.json", JSON.stringify( stats ));
 
         });
 
