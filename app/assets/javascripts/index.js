@@ -11,10 +11,6 @@ $(document).ready(function(){
     $(".alert span.notice").text(error);
   }
 
-  $(".alert button.close").click(function() {
-    $(".alert").attr('class', 'alert').css('visibility','hidden');
-  });
-
   $("#originform").on('ajax:success',function(event, data){
     if (typeof data.notice !== 'undefined' ) {
       $(".alert").addClass("alert-success").css('visibility','visible');
@@ -24,9 +20,17 @@ $(document).ready(function(){
       $(".alert span.notice").text(data.error);
     }
     if (typeof data.origin !== 'undefined' ) $("input#origin").val(data.origin);
+
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 2500);
   }).on('ajax:error',function(xhr, status, error){
     $(".alert").addClass("alert-danger").show();
     $(".alert span.notice").text("Error communicating with server!");
+
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 2500);
   });
 
   $(".deptform").on('ajax:success',function(event, data){
@@ -46,11 +50,11 @@ $(document).ready(function(){
       $(this).find('.form-group').append('<p class="help-block col-sm-2 status">Error saving...</p>');
     }
   });
-  
+
   $(".clickable-row").click(function() {
     window.document.location = $(this).data("url");
   });
-  
+
 //$('.spy-container').scrollspy({ target: '#side-nav' });
 
 });

@@ -3,18 +3,15 @@
   var error = "<%= params[:error] %>";
 </script>
 
-  <h1 id="directory-title">Administration</h1>
+<h1 id="directory-title">Administration</h1>
 
-  <div class="admin-view">
-    <div class="alert" role="alert">
-      <button type="button" class="close">
-        <span aria-hidden="true">&times;</span>
-        <span class="sr-only">Close</span>
-      </button>
-      <span class="notice"></span>
-    </div> <!-- .alert -->
+<div class="admin-view">
+  <div class="alert" role="alert">
+    <span class="notice"></span>
+  </div> <!-- .alert -->
 
-    <div class="panel-group" id="accordion">
+  <div class="panel-group" id="accordion">
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -33,7 +30,8 @@
           <% end %>
         </div>
       </div>
-    </div>
+    </div> <!-- .panel -->
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -55,7 +53,8 @@
           <% end %>
         </div>
       </div>
-    </div>
+    </div> <!-- .panel -->
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -95,7 +94,8 @@
           </table>
         </div>
       </div>
-    </div>
+    </div> <!-- .panel -->
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
@@ -104,6 +104,7 @@
           </a>
         </h4>
       </div>
+
       <div id="collapseFour" class="panel-collapse collapse">
         <div class="panel-body">
           <div class="row" style="margin-top: 1em;">
@@ -128,7 +129,8 @@
             <% end %>
           </div> <!-- .row -->
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+      </div> <!-- #collapseFour -->
+    </div> <!-- .panel -->
+
+  </div> <!-- #accordion -->
+</div> <!-- .admin-view -->
