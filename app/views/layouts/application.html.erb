@@ -28,9 +28,11 @@
 <body data-spy="scroll" data-target="#side-nav">
 
   <div class="container-fluid">
+    <% unless controller_name == "administration" %>
     <div class="right-btn-container search">
       <a href="/search" class="btn-search icon-search"></a>
     </div>
+    <% end %>
     <% if action_name == "landing" %>
     <div class="right-btn-container about">
       <a href="/about" class="btn-about icon-about"></a>
