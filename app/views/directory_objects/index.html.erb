@@ -1,15 +1,14 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
-    <div id="destination-view" class="text-people directory-nav" style="right: 0px;">
+    <div id="scrubber-view" >
         <h1 class="btn-people">Quick Nav</h1>
         <div id="side-nav">
           <ul class="nav nav-list affix" id="slider-vertical">
             <% @scrubber_categories.each_with_index do |directory_object, index| %>
-                <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>"></a><%= @scrubber_categories[index] %></li>
+                <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
+                    <%= @scrubber_categories[index] %>
+                </a></li>
             <% end %>
-            <li  id="scrubber-category_0"><a href="#category_0">One</a></li>
-            <li  id="scrubber-category_1"><a href="#category_1">Two</a></li>
-            <li  id="scrubber-category_2"><a href="#category_2">Three</a></li>
           </ul>
         </div>
 

@@ -98,7 +98,7 @@ body {
 }
 
 /* map target information pane */
-#destination-view {
+#destination-view, #scrubber-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
   width: 20%; /* Since the map is the other 75% (col-xs-9) */
@@ -707,9 +707,23 @@ ul li.room {
 }
 
 .nav > li.active, .nav > li > a:focus, .nav > li.active > a:hover  {
-   background-color: red;
+   background-color: #E0E0E0;
 }
 
 .nav > li > a:hover {
     background-color: white;
+}
+
+#slider-vertical li {
+    height: 15px;
+    padding: 0px 0px 0px 0px;
+}
+
+.nav > li > a {
+    padding-top: 0px;
+}
+
+#scrubber-view {
+right: 0px;
+
 }

@@ -105,7 +105,6 @@ $(document).ready(function(){
     }
 
     // Trigger anchors
-    console.log(active_element.children()[0]);
     active_element.children()[0].click();
   });
 
