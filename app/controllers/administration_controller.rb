@@ -198,6 +198,9 @@ class AdministrationController < ApplicationController
         File.open(path, "wb") { |f| f.write(map[1].read) }
       end
 
+      # Run the buildCaches script
+      %x( node nodejs/buildCaches.js )
+
       notice = "Maps were successfully uploaded. Re-building of caches began"
     else
       error = "Error uploading SVG map"
