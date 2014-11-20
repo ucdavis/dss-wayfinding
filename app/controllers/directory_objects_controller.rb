@@ -8,10 +8,12 @@ class DirectoryObjectsController < ApplicationController
       @scrubber_categories = ("A".."Z").to_a
     elsif params[:type] == "Department"
       @directory_objects = Department.all.order(:title)
+      @scrubber_categories = ("A".."Z").to_a
     elsif params[:type] == "Event"
       @directory_objects = Event.all.order(:title)
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
+      @scrubber_categories = [0,1,2,3,4,5]
     else
       @directory_objects = DirectoryObject.all
     end
