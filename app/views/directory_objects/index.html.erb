@@ -4,6 +4,9 @@
         <h1 class="btn-people">Quick Nav</h1>
         <div id="side-nav">
           <ul class="nav nav-list affix" id="slider-vertical">
+            <% @scrubber_categories.each_with_index do |directory_object, index| %>
+                <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>"></a><%= @scrubber_categories[index] %></li>
+            <% end %>
             <li  id="scrubber-category_0"><a href="#category_0">One</a></li>
             <li  id="scrubber-category_1"><a href="#category_1">Two</a></li>
             <li  id="scrubber-category_2"><a href="#category_2">Three</a></li>
@@ -14,13 +17,26 @@
 
     <table class="table content">
     <tbody>
-        <% pagination_group = 1 %>
+
+        <% initial_category = false %>
+        <% scrubber_category_index = 0 %>
         <% @directory_objects.each_with_index do |directory_object, index| %>
-            <% if (index != 0) && (index % 6 == 0) %>
-                <% pagination_group = pagination_group + 1 %>
-            <% end %>
     <!-- People -->
             <% if directory_object.type == "Person" %>
+
+                <!-- Generate Initial Anchor -->
+                <% if initial_category == false %>
+                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <% initial_category = true %>
+                <% end %>
+
+                <!-- Generate Category Anchors -->
+                <% while directory_object.last.first.upcase != @scrubber_categories[scrubber_category_index] do %>
+                    <% scrubber_category_index += 1 %>
+                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                <% end %>
+
+                <!-- Generate a row for a person -->
                 <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
                   <h3><%= directory_object.first + " " + directory_object.last %></h3>
                   <!-- Room number -->
@@ -37,16 +53,6 @@
                   <span class="people-row-field"><%= directory_object.phone %></span>
                   </td>
                 </tr>
-                <% if index == 0 %>
-                    <tr><td id="category_0">found me! <%= index %></td></tr>
-                <% end %>
-                <% if index == 20 %>
-                    <tr><td id="category_1">found me! <%= index %></td></tr>
-                <% end %>
-                <% if index == 40 %>
-                    <tr><td id="category_2">found me! <%= index %></td></tr>
-                <% end %>
-                
             <% end %>
     <!-- Events -->
             <% if directory_object.type == "Event" %>

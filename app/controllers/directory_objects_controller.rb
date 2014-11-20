@@ -5,6 +5,7 @@ class DirectoryObjectsController < ApplicationController
   def index
     if params[:type] == "Person"
       @directory_objects = Person.all.order(:last)
+      @scrubber_categories = ("A".."Z").to_a
     elsif params[:type] == "Department"
       @directory_objects = Department.all.order(:title)
     elsif params[:type] == "Event"
