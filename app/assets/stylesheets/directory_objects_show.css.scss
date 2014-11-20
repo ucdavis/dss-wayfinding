@@ -142,11 +142,7 @@ body {
     text-transform: capitalize;
   }
 
-  a:hover {
-    text-decoration: none;
-    opacity: 0.6;
-    filter: alpha(opacity=60);
-  }
+
 }
 
 // This applies to every page and the default background is white.
@@ -710,6 +706,10 @@ ul li.room {
     margin-right: 0px;
 }
 
-.active {
-    background-color: blue;
+.nav > li.active, .nav > li > a:focus, .nav > li.active > a:hover  {
+   background-color: red;
+}
+
+.nav > li > a:hover {
+    background-color: white;
 }
