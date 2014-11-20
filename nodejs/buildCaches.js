@@ -24,6 +24,75 @@ var processed = 0;
 var rooms = [];
 var stats = {};
 
+var buildDataStores = function (shared_md5) {
+  $.each(rooms, function(i, startpoint) {
+    var dsFilename = "dataStore-" + startpoint + ".json";
+
+    fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilename, function(exists) {
+      if (exists) {
+        console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
+      } else {
+        var dataStore = null;
+
+        console.debug("Building " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + ")...");
+
+        dataStore = WayfindingDataStore.build(startpoint, maps, false);
+
+        fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
+      }
+    });
+
+    var dsFilenameAccessible = "dataStore-accessible-" + startpoint + ".json";
+
+    fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
+      if (exists) {
+        console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
+      } else {
+        var dataStore = null;
+
+        console.debug("Building " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + ")...");
+
+        dataStore = WayfindingDataStore.build(startpoint, maps, true);
+
+        fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
+      }
+
+
+      if ((i+1) == rooms.length) {
+        // Update build progress once all rooms are acompleted
+        stats['progress'] = "Completed";
+        stats['finishTime'] = new Date();
+        // Total Time in minutes
+        stats['totalTime'] = Math.round((stats['finishTime'].getTime() - stats['startTime'].getTime()) / 60000) + " Minutes";
+
+        // Move caches to proper location
+        fs.copy('../public/dataStore/' + shared_md5, '../public/dataStore', function(err) {
+          if (err) return console.error("Error copying dataStore files: " + err);
+          fs.removeSync('../public/dataStore/' + shared_md5);
+          console.log("Moved cache files to /public/dataStore");
+        });
+
+        // Move uploaded map files
+        fs.copy('../public/maps.tmp', '../public/maps', function(err) {
+          if (err) return console.error("Error copying map files: " + err);
+          fs.removeSync('../public/maps.tmp/');
+          console.log("Moved maps to /public/maps");
+        });
+
+      } else {
+        // Update progress percentage
+        stats['progress'] = Math.round(100*(i+1)/rooms.length) + "%";
+      }
+
+      fs.writeFileSync("../public/dataStore/stats.json", JSON.stringify( stats ));
+
+    });
+
+
+  });
+}
+
+
 console.debug("Loading SVGs ...");
 
 // Load SVGs
@@ -48,7 +117,7 @@ $.each(maps, function (i, map) {
       stats['startTime'] = new Date();
       console.log("Start time: " + stats['startTime']);
 
-      var rooms = WayfindingDataStore.getRooms(maps);
+      rooms = WayfindingDataStore.getRooms(maps);
 
       // Compute a shared MD5 sum for all maps
       var shared_md5 = "";
@@ -71,62 +140,26 @@ $.each(maps, function (i, map) {
         }
       });
 
-      $.each(rooms, function(i, startpoint) {
-        var dsFilename = "dataStore-" + startpoint + ".json";
-
-        fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilename, function(exists) {
-          if (exists) {
-            console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
-          } else {
-            var dataStore = null;
-
-            console.debug("Building " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + ")...");
-
-            dataStore = WayfindingDataStore.build(startpoint, maps, false);
-
-            fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
-          }
-        });
-
-        var dsFilenameAccessible = "dataStore-accessible-" + startpoint + ".json";
-
-        fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
-          if (exists) {
-            console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
-          } else {
-            var dataStore = null;
-
-            console.debug("Building " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + ")...");
-
-            dataStore = WayfindingDataStore.build(startpoint, maps, true);
-
-            fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
-          }
-
-
-          if ((i+1) == rooms.length) {
-            // Update build progress once all rooms are acompleted
-            stats['progress'] = "Completed";
-            stats['finishTime'] = new Date();
-            // Total Time in minutes
-            stats['totalTime'] = Math.round((stats['finishTime'].getTime() - stats['startTime'].getTime()) / 60000) + " Minutes";
-
-            // Move caches to proper location
-            fs.copy('../public/dataStore/' + shared_md5, '../public/dataStore', function(err) {
-              if (err) return console.error(err)
-              console.log("Copied files to /public/dataStore")
-            });
-          } else {
-            // Update progress percentage
-            stats['progress'] = Math.round(100*(i+1)/rooms.length) + "%";
-          }
-
-          fs.writeFileSync("../public/dataStore/stats.json", JSON.stringify( stats ));
-
-        });
-
-
+      // Check if a rebuild is necessary
+      fs.exists("../public/dataStore/" + shared_md5 + ".md5", function(md5Exists) {
+        if (md5Exists) {
+          fs.readFile("../public/dataStore/stats.json", 'utf8', function(err,data) {
+            if (err) {
+              return console.log(err);
+            }
+            var stats = JSON.parse( data );
+            if ( stats.progress == "Completed") {
+              console.log("Caches are already up to date.");
+            } else {
+              buildDataStores(shared_md5);
+            }
+          });
+        } else {
+          fs.writeFileSync("../public/dataStore/" + shared_md5 + ".md5", "");
+          buildDataStores(shared_md5);
+        }
       });
+
     }
   });
 });
