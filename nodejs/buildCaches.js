@@ -10,12 +10,12 @@ window 	= jsdom.jsdom().createWindow();
 $ = require('jquery');
 
 var maps = [
-  {'path': '../public/maps.tmp/floor0.svg', 'id': 'floor0'},
-  {'path': '../public/maps.tmp/floor1.svg', 'id': 'floor1'},
-  {'path': '../public/maps.tmp/floor2.svg', 'id': 'floor2'},
-  {'path': '../public/maps.tmp/floor3.svg', 'id': 'floor3'},
-  {'path': '../public/maps.tmp/floor4.svg', 'id': 'floor4'},
-  {'path': '../public/maps.tmp/floor5.svg', 'id': 'floor5'}
+  {'path': 'public/maps.tmp/floor0.svg', 'id': 'floor0'},
+  {'path': 'public/maps.tmp/floor1.svg', 'id': 'floor1'},
+  {'path': 'public/maps.tmp/floor2.svg', 'id': 'floor2'},
+  {'path': 'public/maps.tmp/floor3.svg', 'id': 'floor3'},
+  {'path': 'public/maps.tmp/floor4.svg', 'id': 'floor4'},
+  {'path': 'public/maps.tmp/floor5.svg', 'id': 'floor5'}
 ];
 
 require('../app/assets/javascripts/wayfinding.datastore.js');
@@ -28,7 +28,7 @@ var buildDataStores = function (shared_md5) {
   $.each(rooms, function(i, startpoint) {
     var dsFilename = "dataStore-" + startpoint + ".json";
 
-    fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilename, function(exists) {
+    fs.exists("public/dataStore/" + shared_md5 + "/" + dsFilename, function(exists) {
       if (exists) {
         console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilename + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
       } else {
@@ -38,13 +38,13 @@ var buildDataStores = function (shared_md5) {
 
         dataStore = WayfindingDataStore.build(startpoint, maps, false);
 
-        fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
+        fs.writeFileSync("public/dataStore/" + shared_md5 + "/" + dsFilename, JSON.stringify(dataStore));
       }
     });
 
     var dsFilenameAccessible = "dataStore-accessible-" + startpoint + ".json";
 
-    fs.exists("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
+    fs.exists("public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, function(exists) {
       if (exists) {
         console.debug("Skipping " + shared_md5 + " dataStore for " + dsFilenameAccessible + " (" + (i + 1) + " of " + rooms.length + "), already exists.");
       } else {
@@ -54,7 +54,7 @@ var buildDataStores = function (shared_md5) {
 
         dataStore = WayfindingDataStore.build(startpoint, maps, true);
 
-        fs.writeFileSync("../public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
+        fs.writeFileSync("public/dataStore/" + shared_md5 + "/" + dsFilenameAccessible, JSON.stringify(dataStore));
       }
 
 
@@ -66,16 +66,16 @@ var buildDataStores = function (shared_md5) {
         stats['totalTime'] = Math.round((stats['finishTime'].getTime() - stats['startTime'].getTime()) / 60000) + " Minutes";
 
         // Move caches to proper location
-        fs.copy('../public/dataStore/' + shared_md5, '../public/dataStore', function(err) {
+        fs.copy('public/dataStore/' + shared_md5, 'public/dataStore', function(err) {
           if (err) return console.error("Error copying dataStore files: " + err);
-          fs.removeSync('../public/dataStore/' + shared_md5);
+          fs.removeSync('public/dataStore/' + shared_md5);
           console.log("Moved cache files to /public/dataStore");
         });
 
         // Move uploaded map files
-        fs.copy('../public/maps.tmp', '../public/maps', function(err) {
+        fs.copy('public/maps.tmp', 'public/maps', function(err) {
           if (err) return console.error("Error copying map files: " + err);
-          fs.removeSync('../public/maps.tmp/');
+          fs.removeSync('public/maps.tmp/');
           console.log("Moved maps to /public/maps");
         });
 
@@ -84,7 +84,7 @@ var buildDataStores = function (shared_md5) {
         stats['progress'] = Math.round(100*(i+1)/rooms.length) + "%";
       }
 
-      fs.writeFileSync("../public/dataStore/stats.json", JSON.stringify( stats ));
+      fs.writeFileSync("public/dataStore/stats.json", JSON.stringify( stats ));
 
     });
 
@@ -101,7 +101,8 @@ $.each(maps, function (i, map) {
 
   fs.readFile(map.path, 'utf8', function (err, data) {
     if (err) {
-      return console.log(err);
+      // Removed the return statement, because admins may not upload all maps
+      console.log(err);
     }
 
     maps[i].svgHandle = data;
@@ -127,23 +128,23 @@ $.each(maps, function (i, map) {
       shared_md5 = md5(shared_md5);
 
       // Ensures shared_md5 directory exists
-      fs.mkdir("../public/dataStore", '0777', function(err) {
+      fs.mkdir("public/dataStore", '0777', function(err) {
         if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory '../public/dataStore'. Aborting ...");
+          console.log("Failed to create directory 'public/dataStore'. Aborting ...");
           process.exit(-1);
         }
       });
-      fs.mkdir("../public/dataStore/" + shared_md5, '0777', function(err) {
+      fs.mkdir("public/dataStore/" + shared_md5, '0777', function(err) {
         if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory '../public/dataStore/'" + shared_md5 + ". Aborting ...");
+          console.log("Failed to create directory 'public/dataStore/'" + shared_md5 + ". Aborting ...");
           process.exit(-1);
         }
       });
 
       // Check if a rebuild is necessary
-      fs.exists("../public/dataStore/" + shared_md5 + ".md5", function(md5Exists) {
+      fs.exists("public/dataStore/" + shared_md5 + ".md5", function(md5Exists) {
         if (md5Exists) {
-          fs.readFile("../public/dataStore/stats.json", 'utf8', function(err,data) {
+          fs.readFile("public/dataStore/stats.json", 'utf8', function(err,data) {
             if (err) {
               return console.log(err);
             }
@@ -155,7 +156,7 @@ $.each(maps, function (i, map) {
             }
           });
         } else {
-          fs.writeFileSync("../public/dataStore/" + shared_md5 + ".md5", "");
+          fs.writeFileSync("public/dataStore/" + shared_md5 + ".md5", "");
           buildDataStores(shared_md5);
         }
       });
