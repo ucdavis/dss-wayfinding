@@ -14,7 +14,7 @@
             <% if @directory_objects.first.type == "Room" %>
                 <% @scrubber_categories.each_with_index do |category, index| %>
                     <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                        Floor <%= category %>
+                        <%= category %>
                     </a></li>
                 <% end %>
             <% end %>
@@ -65,7 +65,7 @@
             <% end %>
     <!-- Events -->
             <% if directory_object.type == "Event" %>
-              <li class="pag paginate-group-<%= pagination_group %>">
+              <li>
                 <a href="/directory/<%= directory_object.id %>" class="events-card">
                   <h3><%= directory_object.title %></h3>
                     <p>

@@ -1,8 +1,8 @@
 //= require redirect
 //= require animate
 
-$(document).ready(function(){
-
+var ready;
+ready = function() {
   if ( typeof notice !== 'undefined' && notice ) {
     $(".alert").addClass("alert-success").css('visibility','visible');
     $(".alert span.notice").text(notice);
@@ -147,4 +147,7 @@ $(document).ready(function(){
 
   getCacheStats();
 
-});
+};
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
