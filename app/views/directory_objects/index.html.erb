@@ -1,7 +1,6 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
     <div id="scrubber-view" >
-        <h1 class="btn-people">Quick Nav</h1>
         <div id="side-nav">
           <ul class="nav nav-list affix" id="slider-vertical">
 
@@ -36,14 +35,14 @@
 
                 <!-- Generate Initial Anchor -->
                 <% if initial_category == false %>
-                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <tr class="category-header"><td id="category_<%= scrubber_category_index %>" ><%= @scrubber_categories[scrubber_category_index] %></td></tr>
                     <% initial_category = true %>
                 <% end %>
 
                 <!-- Generate Category Anchors -->
                 <% while directory_object.last.first.upcase != @scrubber_categories[scrubber_category_index] do %>
                     <% scrubber_category_index += 1 %>
-                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <tr class="category-header"><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
                 <% end %>
 
                 <!-- Generate a row for a person -->
@@ -98,14 +97,14 @@
 
                 <!-- Generate Initial Anchor -->
                 <% if initial_category == false %>
-                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <tr class="category-header"><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
                     <% initial_category = true %>
                 <% end %>
 
                 <!-- Generate Category Anchors -->
                 <% while directory_object.title.first.upcase != @scrubber_categories[scrubber_category_index] do %>
                     <% scrubber_category_index += 1 %>
-                    <tr><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <tr class="category-header"><td id="category_<%= scrubber_category_index %>"><%= @scrubber_categories[scrubber_category_index] %></td></tr>
                 <% end %>
 
                 <!-- Generate a row for a department -->
@@ -123,14 +122,14 @@
             <% if directory_object.type == "Room" %>
                 <!-- Generate Initial Anchor -->
                 <% if initial_category == false %>
-                    <tr><td id="category_<%= scrubber_category_index %>">Floor <%= @scrubber_categories[scrubber_category_index] %></td></tr>
+                    <tr><td id="category_<%= scrubber_category_index %>" class="category-header">Floor <%= @scrubber_categories[scrubber_category_index] %></td></tr>
                     <% initial_category = true %>
                 <% end %>
 
                 <!-- Generate Category Anchors -->
                 <% while (scrubber_category_index < @scrubber_categories.count) && (directory_object.room_number.to_s.first.to_i != @scrubber_categories[scrubber_category_index]) do %>
                     <% scrubber_category_index += 1 %>
-                    <tr><td id="category_<%= scrubber_category_index %>">Floor <%= scrubber_category_index %> 
+                    <tr><td id="category_<%= scrubber_category_index %>" class="category-header">Floor <%= scrubber_category_index %> 
                     </td></tr>
                 <% end %>
 

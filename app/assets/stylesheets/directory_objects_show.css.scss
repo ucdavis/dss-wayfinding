@@ -707,7 +707,7 @@ ul li.room {
 }
 
 .nav > li.active, .nav > li > a:focus, .nav > li.active > a:hover  {
-   background-color: #E0E0E0;
+
 }
 
 .nav > li > a:hover {
@@ -724,6 +724,29 @@ ul li.room {
 }
 
 #scrubber-view {
-right: 0px;
+    right: 0px;
+    width: 2%;
+    box-shadow: none;
+}
 
+.clickable-row {
+    width: 50%;
+}
+
+table > tbody > tr.category-header > td {
+    font-size: 2em;
+    font-weight: bold;
+    border-top: 1px solid black;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    float: left;
+    width: 100%;
+}
+
+.table > tbody > tr.clickable-row > td {
+    padding-left: 50px;
+}
+
+.table.content {
+    width: 80%;
 }
