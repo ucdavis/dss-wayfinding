@@ -101,7 +101,7 @@ body {
 #destination-view, #scrubber-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 20%; /* Since the map is the other 75% (col-xs-9) */
+  width: 19vw;
   overflow: auto;
 
   background-color: #fff;
@@ -130,19 +130,21 @@ body {
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 
   h1 {
-    font-size: 3rem;
+    font-size: 2.25vw;
     padding: 0.15em;
     border-top: 5px double #fff;
     border-bottom: 5px double #fff;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5vw;
     color: gray;
     text-transform: capitalize;
   }
 
-
+  span {
+    font-size: 1.2vw;
+  }
 }
 
 // This applies to every page and the default background is white.
