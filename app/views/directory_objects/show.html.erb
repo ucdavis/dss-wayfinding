@@ -1,32 +1,4 @@
 <script type="text/javascript">
-  function showInfo(data, similar, class_suffix) {
-    class_suffix = class_suffix || 'rooms'
-
-    $('#destination-view h2, #destination-view span').remove();
-    $('#destination-view h1').addClass('btn-' + class_suffix);
-    $('#destination-view').addClass('text-' + class_suffix);
-
-    var attrs = ['name', 'room_number', 'email', 'phone'];
-
-    if (data) {
-      for (var i = 0; i < attrs.length; i++) {
-        value = eval("data." + attrs[i]);
-        if (value) {
-          $('#destination-view').append("<h2>" + attrs[i].split('_').join(' ') + "</h2>");
-          $('#destination-view').append("<span>" + value + "</span>");
-        }
-      }
-
-      if (similar) {
-        $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + similar + "'><span class='label label-default btn-departments'>" + similar + "</span></a>");
-      }
-
-      $('#destination-view').css('right', 0);
-    } else {
-      console.log('Object not found in directory');
-      $('#destination-view').css('right', '-1000px');
-    }
-  }
 
   ready = function() {
     <% if @origin %>
@@ -34,14 +6,14 @@
       var destination, directory_object;
 
       $(document).on("wayfinding:floorChanged", function(e, data) {
-        console.log("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
+        console.debug("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
         // Make the corresponding floor button active
         $("a.btn-floor").removeClass('active');
         $($('a.btn-floor[data-mapId="' + data.map_id + '"]')[0]).addClass('active')
       });
 
       $(document).on("wayfinding:roomClicked", function(e, data) {
-        console.log("Wayfinding indicates a room was clicked. Room: " + data.room_id);
+        console.debug("Wayfinding indicates a room was clicked. Room: " + data.room_id);
         destination = data.room_id;
 
         endFloor = destination.substring(1,2);
@@ -55,8 +27,8 @@
         });
       });
 
-      $(document).on("wayfinding:animationComplete", function(e, data) {
-        console.log("Wayfinding indicates animation is complete.");
+      $(document).on("wayfinding:animationComplete", function() {
+        console.debug("Wayfinding indicates animation is complete.");
         $('.replay').removeClass('disabled');
       });
 
@@ -164,5 +136,3 @@
 
   </div> <!-- destination-view -->
 </div> <!-- row -->
-
-<%= javascript_include_tag "jquery.panzoom" %>

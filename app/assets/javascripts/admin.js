@@ -1,5 +1,4 @@
 //= require redirect
-//= require animate
 
 var ready;
 ready = function() {

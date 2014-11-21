@@ -1,5 +1,4 @@
 //= require redirect
-//= require animate
 
 $(function() {
   $(".right-btn-container.search").remove();

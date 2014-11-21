@@ -1,2 +1,1 @@
 //= require redirect
-//= require animate

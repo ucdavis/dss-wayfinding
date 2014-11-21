@@ -1,5 +1,4 @@
 //= require redirect
-//= require animate
 
 var ready;
 ready = function() {
@@ -48,7 +47,7 @@ ready = function() {
 
       inactive_element = $('#scrubber-category_' + previous_active_category);
       inactive_element.removeClass("active");
-      
+
       // Remove any potential hovering triggered during the movement
       $("[id^=scrubber-category]").blur();
       $("[id^=scrubber-category]").children().blur();
