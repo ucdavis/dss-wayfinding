@@ -59,13 +59,17 @@ ready = function() {
     $.get( "/dataStore/stats.json", function( data ) {
       if ( progress == null ) {
         // Set interval to keep checking stats
-        statsInterval = setInterval(function(){getCacheStats();}, 10000);
+        statsInterval = setInterval(function(){getCacheStats();}, 3000);
       }
 
       if (typeof data == 'undefined' || data.progress == "Completed" ) {
         // Stop checking if no build in progress
-        progress = "No cache building in porgress"
         clearInterval(statsInterval);
+        lastBuild = new Date(data.startTime);
+        lastBuild = lastBuild.getMonth() + '/' + lastBuild.getDate() + '/' + lastBuild.getFullYear()
+          + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
+        progress = "No cache building in porgress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
+        percentage = '100%';
       } else {
         // Update values if process is not completed
         progress = data.progress;
