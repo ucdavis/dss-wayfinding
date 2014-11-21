@@ -731,9 +731,13 @@ ul li.room {
 }
 
 #scrubber-view {
-    right: 0px;
-    width: 2%;
+    right: 3vw;
+    width: 2vw;
     box-shadow: none;
+
+    .nav > li > a {
+      padding: 0;
+    }
 }
 
 .clickable-row {
