@@ -9,12 +9,12 @@ window 	= jsdom.jsdom().createWindow();
 $ = require('jquery');
 
 var maps = [
-  {'path': '../app/assets/images/ssh_floor_0.svg', 'id': 'floor0'},
-  {'path': '../app/assets/images/ssh_floor_1.svg', 'id': 'floor1'},
-  {'path': '../app/assets/images/ssh_floor_2.svg', 'id': 'floor2'},
-  {'path': '../app/assets/images/ssh_floor_3.svg', 'id': 'floor3'},
-  {'path': '../app/assets/images/ssh_floor_4.svg', 'id': 'floor4'},
-  {'path': '../app/assets/images/ssh_floor_5.svg', 'id': 'floor5'}
+  {'path': 'public/maps/floor0.svg', 'id': 'floor0'},
+  {'path': 'public/maps/floor1.svg', 'id': 'floor1'},
+  {'path': 'public/maps/floor2.svg', 'id': 'floor2'},
+  {'path': 'public/maps/floor3.svg', 'id': 'floor3'},
+  {'path': 'public/maps/floor4.svg', 'id': 'floor4'},
+  {'path': 'public/maps/floor5.svg', 'id': 'floor5'}
 ];
 
 require('../app/assets/javascripts/wayfinding.datastore.js');

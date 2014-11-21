@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120203503) do
+ActiveRecord::Schema.define(version: 20141121224529) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 20141120203503) do
     t.integer  "room_id"
     t.integer  "department_id"
   end
+
+  add_index "directory_objects", ["room_number"], name: "index_directory_objects_on_room_number", unique: true
 
   create_table "floors", force: true do |t|
     t.string   "title"
