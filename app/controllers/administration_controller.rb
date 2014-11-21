@@ -199,7 +199,9 @@ class AdministrationController < ApplicationController
       end
 
       # Run the buildCaches script
-      %x( node nodejs/buildCaches.js )
+      require 'buildCaches'
+      buildCaches = BuildCaches.new
+      Delayed::Job.enqueue buildCaches
 
       notice = "Maps were successfully uploaded. Re-building of caches began"
     else
@@ -214,4 +216,5 @@ class AdministrationController < ApplicationController
       }
     end
   end
+
 end
