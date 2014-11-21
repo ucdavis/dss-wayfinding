@@ -116,4 +116,35 @@ $(document).ready(function(){
     $("[id^=scrubber-category]").removeClass("active");
   });
 
+  // Build caches progress bar
+  var progress = null;
+  var percantage = '100%';
+  var statsInterval;
+  var getCacheStats = function () {
+    $.get( "/dataStore/stats.json", function( data ) {
+      if ( progress == null ) {
+        // Set interval to keep checking stats
+        statsInterval = setInterval(function(){getCacheStats();}, 10000);
+      }
+
+      if (typeof data == 'undefined' || data.progress == "Completed" ) {
+        // Stop checking if no build in progress
+        progress = "No cache building in porgress"
+        clearInterval(statsInterval);
+      } else {
+        // Update values if process is not completed
+        progress = data.progress;
+        percentage = data.progress;
+      }
+
+      $('#cacheStats').css('width', percentage);
+      $('#cacheStats').text(progress);
+    }).fail(function() {
+      console.error("Could not fetch cache building progress");
+      clearInterval(statsInterval);
+    });
+  }
+
+  getCacheStats();
+
 });
