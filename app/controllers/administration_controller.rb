@@ -198,15 +198,19 @@ class AdministrationController < ApplicationController
         File.open(path, "wb") { |f| f.write(map[1].read) }
       end
 
+      # Modify the stats file to initialize the progress bar
+      File.open("public/dataStore/stats.json", "w+") do |f|
+        f.write('{"progress": "0%"}')
+      end
+
       # Run the buildCaches script
-      require 'buildCaches'
-      buildCaches = BuildCaches.new
-      Delayed::Job.enqueue buildCaches
+      load File.join(Rails.root, 'lib', 'tasks', 'build_caches.rake')
+      Delayed::Job.enqueue(DelayedRake.new("caches:build"))
 
       notice = "Maps were successfully uploaded. Re-building of caches began"
     else
       error = "Error uploading SVG map"
-    end # unless map_path.blank?
+    end # unless uploaded_map.blank?
 
     respond_to do |format|
       format.html {
