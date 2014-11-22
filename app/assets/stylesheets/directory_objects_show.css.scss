@@ -10,6 +10,7 @@ $about-color: #B1B3B3;
 $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
+$vertical-slider-element-height: 15px;
 // $map-actions-height: 76px;
 
 .icon-home:after     { content: "\E805"; }
@@ -724,8 +725,15 @@ ul li.room {
 }
 
 #slider-vertical li {
-    height: 15px;
+    height: $vertical-slider-element-height;
     padding: 0px 0px 0px 0px;
+}
+
+#slider-vertical {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
 }
 
 .nav > li > a {
@@ -736,6 +744,10 @@ ul li.room {
     right: 3vw;
     width: 2vw;
     box-shadow: none;
+    position: fixed;
+    height: 100vh;
+    top: 0px;
+    right: 0px;
 
     .nav > li > a {
       padding: 0;
