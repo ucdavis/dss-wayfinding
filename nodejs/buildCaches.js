@@ -9,6 +9,14 @@ window 	= jsdom.jsdom().createWindow();
 
 $ = require('jquery');
 
+var oldMaps = [
+  {'path': 'public/maps/floor0.svg', 'id': 'floor0'},
+  {'path': 'public/maps/floor1.svg', 'id': 'floor1'},
+  {'path': 'public/maps/floor2.svg', 'id': 'floor2'},
+  {'path': 'public/maps/floor3.svg', 'id': 'floor3'},
+  {'path': 'public/maps/floor4.svg', 'id': 'floor4'},
+  {'path': 'public/maps/floor5.svg', 'id': 'floor5'}
+];
 var maps = [
   {'path': 'public/maps.tmp/floor0.svg', 'id': 'floor0'},
   {'path': 'public/maps.tmp/floor1.svg', 'id': 'floor1'},
@@ -25,6 +33,7 @@ var rooms = [];
 var stats = {};
 
 var buildDataStores = function (shared_md5) {
+  stats['MD5'] = shared_md5;
   $.each(rooms, function(i, startpoint) {
     var dsFilename = "dataStore-" + startpoint + ".json";
 
@@ -92,6 +101,56 @@ var buildDataStores = function (shared_md5) {
   });
 }
 
+var prepareData = function() {
+  processed = processed + 1;
+
+  if(processed == maps.length) {
+    console.log("oldMaps", oldMaps);
+    console.log("maps", maps);
+
+    stats['startTime'] = new Date();
+    console.log("Start time: " + stats['startTime']);
+
+    rooms = WayfindingDataStore.getRooms(maps);
+
+    // Compute a shared MD5 sum for all maps
+    var shared_md5 = "";
+    $.each(maps, function (j, map) {
+      shared_md5 = shared_md5 + map.md5;
+    });
+    shared_md5 = md5(shared_md5);
+
+    // Ensures dataStore directory exists
+    fs.mkdir("public/dataStore", '0777', function(err) {
+      if (err && (err.code != 'EEXIST')) {
+        console.log("Failed to create directory 'public/dataStore'. Aborting ...");
+        process.exit(-1);
+      }
+    });
+    fs.mkdir("public/dataStore/" + shared_md5, '0777', function(err) {
+      if (err && (err.code != 'EEXIST')) {
+        console.log("Failed to create directory 'public/dataStore/'" + shared_md5 + ". Aborting ...");
+        process.exit(-1);
+      }
+    });
+
+    // Check if a rebuild is necessary
+    fs.readFile("public/dataStore/stats.json", 'utf8', function(err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      var stats = JSON.parse( data );
+      if ( stats.MD5 == shared_md5 ) {
+        console.log("Caches are already up to date.");
+      } else {
+        console.log("Starting build");
+        buildDataStores(shared_md5);
+      }
+    });
+
+  }
+  
+}
 
 console.debug("Loading SVGs ...");
 
@@ -102,65 +161,33 @@ $.each(maps, function (i, map) {
   fs.readFile(map.path, 'utf8', function (err, data) {
     if (err) {
       // Removed the return statement, because admins may not upload all maps
-      console.log(err);
+      console.log("Could not load " + map.path,err);
+
+      // Push the corresponding old map to the maps array for the
+      // WayfindingDataStore.build if no new map was uploaded
+      fs.readFile(oldMaps[i].path, 'utf8', function (err, data) {
+        if (err) console.log("Could not load " + oldMaps[i].path,err);
+
+        maps[i].path = oldMaps[i].path;
+        maps[i].svgHandle = data;
+        maps[i].el = svgDiv;
+        svgDiv.append(data);
+
+        maps[i].md5 = md5(data);
+
+        prepareData();
+      });
+
+    } else {
+
+      maps[i].svgHandle = data;
+      maps[i].el = svgDiv;
+      svgDiv.append(data);
+
+      maps[i].md5 = md5(data);
+
+      prepareData();
     }
 
-    maps[i].svgHandle = data;
-    maps[i].el = svgDiv;
-
-    maps[i].md5 = md5(data);
-
-    svgDiv.append(data);
-
-    processed = processed + 1;
-
-    if(processed == maps.length) {
-      stats['startTime'] = new Date();
-      console.log("Start time: " + stats['startTime']);
-
-      rooms = WayfindingDataStore.getRooms(maps);
-
-      // Compute a shared MD5 sum for all maps
-      var shared_md5 = "";
-      for(i = 0; i < maps.length; i++) {
-        shared_md5 = shared_md5 + maps[i].md5;
-      }
-      shared_md5 = md5(shared_md5);
-
-      // Ensures shared_md5 directory exists
-      fs.mkdir("public/dataStore", '0777', function(err) {
-        if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory 'public/dataStore'. Aborting ...");
-          process.exit(-1);
-        }
-      });
-      fs.mkdir("public/dataStore/" + shared_md5, '0777', function(err) {
-        if (err && (err.code != 'EEXIST')) {
-          console.log("Failed to create directory 'public/dataStore/'" + shared_md5 + ". Aborting ...");
-          process.exit(-1);
-        }
-      });
-
-      // Check if a rebuild is necessary
-      fs.exists("public/dataStore/" + shared_md5 + ".md5", function(md5Exists) {
-        if (md5Exists) {
-          fs.readFile("public/dataStore/stats.json", 'utf8', function(err,data) {
-            if (err) {
-              return console.log(err);
-            }
-            var stats = JSON.parse( data );
-            if ( stats.progress == "Completed") {
-              console.log("Caches are already up to date.");
-            } else {
-              buildDataStores(shared_md5);
-            }
-          });
-        } else {
-          fs.writeFileSync("public/dataStore/" + shared_md5 + ".md5", "");
-          buildDataStores(shared_md5);
-        }
-      });
-
-    }
   });
 });
