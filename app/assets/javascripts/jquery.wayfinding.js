@@ -9,7 +9,7 @@
  * Licensed under GNU General Public License v2
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Date: 2014-11-18
+ * Date: 2014-11-21
  *
  */
 
@@ -19,26 +19,26 @@
 	'use strict';
 
 	var defaults = {
-		// will look for a local .svg file called floorplan.svg by default
+		// Defaults to a local file called floorplan.svg
 		'maps': [{'path': 'floorplan.svg', 'id': 'map.1'}],
-		// path formatting
+		// Path formatting
 		'path': {
 			color: 'red', // the color of the solution path that will be drawn
 			radius: 10, // the radius in pixels to apply to the solution path
 			speed: 8, // the speed at which the solution path with be drawn
 			width: 3 // the width of the solution path in pixels
 		},
-		// the door identifier for the default starting point
+		// The door identifier for the default starting point
 		'startpoint': function () {
 			return 'startpoint';
 		},
-		// if specified in the wayfinding initialization
+		// If specified in the wayfinding initialization
 		// route to this point as soon as the maps load. Can be initialized
 		// as a function or a string (for consistency with startpoint)
 		'endpoint': false,
-		//controls routing through stairs
+		// Controls routing through stairs
 		'accessibleRoute': false,
-		//provides the identifier for the map that should be show at startup, if not given will default to showing first map in the array
+		// Provides the identifier for the map that should be show at startup, if not given will default to showing first map in the array
 		'defaultMap': function () {
 			return 'map.1';
 		},
@@ -235,16 +235,13 @@
 			//clears locationIndicators from the maps
 			$('path.destinationPin', el).remove();
 
-            // set endpoint
+      // Set endpoint
 			endpoint = passed;
 
 			if (options.showLocation) {
 				end = $('#Doors #' + endpoint, el);
 
-			    attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
-			    //attachPinLocation = $('path.directionPath0', attachPinLocation);
-                //attachPinLocation = $('#numbers', attachPinLocation);
-//                console.log(attachPinLocation);
+			  attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
 				if (end.length) {
 					x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
 					y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
@@ -258,8 +255,7 @@
 			}
 		} //function setEndPoint
 
-
-		// Hide SVG div, hide 'internal' path lines, make rooms clickable
+		// Hide SVG div, hide path lines (they're data, not visuals), make rooms clickable
 		function activateSVG(obj, svgDiv) {
 			// Hide maps until explicitly displayed
 			$(svgDiv).hide();
@@ -302,19 +298,30 @@
 			}
 
 			// highlight starting floor
-			$('#' + maps[displayNum].id, el).show(0, function() {
-				$(this).trigger('wayfinding:mapsVisible');
+			$('#' + maps[displayNum].id, el).show();
 
-				// Enable .panzoom()
-				if(options.pinchToZoom) {
-					$('#' + maps[displayNum].id, el).panzoom({minScale: 1.0, contain: 'invert', cursor: "pointer"});
+			$(this).trigger('wayfinding:mapsVisible');
 
-					// Allow clicking on links within the SVG despite $.panZoom()
-					$('#' + maps[displayNum].id + ' a', el).on('mousedown touchstart', function( e ) {
-						e.stopImmediatePropagation();
-					});
-				}
-			}); // rework
+			// Ensure SVG w/h are divisble by 2 (to avoid webkit blurriness bug on pan/zoom)
+			var elem = $('#' + maps[displayNum].id + ">svg", el)[0];
+			elem.style.height = (Math.ceil(elem.offsetHeight / 2) * 2) + "px";
+			elem.style.width = (Math.ceil(elem.offsetWidth / 2) * 2) + "px";
+
+			// Enable pinch-to-zoom
+			if(options.pinchToZoom) {
+				console.debug("replacing load screen ...");
+
+				$('#' + maps[displayNum].id + ">svg", el).panzoom({
+					minScale: 1.0,
+					contain: 'invert',
+					cursor: "pointer"
+				});
+
+				// Allow clicking on links within the SVG despite $.panZoom()
+				$('#' + maps[displayNum].id + '>svg a', el).on('mousedown touchstart', function( e ) {
+					e.stopImmediatePropagation();
+				});
+			}
 
 			// if endpoint was specified, route to there.
 			if (typeof(options.endpoint) === 'function') {
@@ -360,8 +367,8 @@
 								// SVGs are loaded, dataStore is set, ready the DOM
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
-								replaceLoadScreen(obj);
 								if(options.pinchToZoom) setupPinchToZoom();
+								replaceLoadScreen(obj);
 							});
 						}
 					}
@@ -372,14 +379,6 @@
 		function setupPinchToZoom() {
 			console.debug("Setting up custom pinch-to-zoom ...");
 
-			$("#map").on("touchstart", function(e) {
-				console.debug(e);
-
-			});
-
-			// document.body.addEventListener('touchstart', function(e){
-			// 	alert(e.changedTouches[0].pageX) // alert pageX coordinate of touch point
-			// }, false);
 
 		}
 
@@ -422,6 +421,7 @@
 			}
 		}
 
+		// Called when animatePath() is switching the floor and also when
 		function switchFloor(floor, el) {
 			$('div', el).hide();
 
@@ -429,6 +429,8 @@
 				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
 
 				if(options.pinchToZoom) {
+					console.debug("switchFloor called");
+
 					// Destroy .panzoom() on all SVGs
 					for (i = 0; i < maps.length; i++) {
 						$('#' + i, el).panzoom("destroy");
@@ -494,10 +496,8 @@
 			var path,
 			svg,
 			pathRect,
-			oldViewBox,
-      oldViewWidth,
-      oldViewHeight,
 			drawLength,
+			oldViewBox,
 			animationDuration,
 			pad = options.zoomPadding;
 
@@ -513,11 +513,11 @@
 				return;
 			}
 
+			// Handle pinch-to-zoom
 			if(options.pinchToZoom) {
 				svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
 				console.log("resetting zoom");
 				$(svg).parent().panzoom("resetZoom");
-				//$(svg).panzoom("resetPan");
 			}
 
 			drawLength = drawing[drawingSegment].routeLength;
@@ -548,7 +548,11 @@
 			}
 
 			// Zooming logic...
-			svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
+			var mapIdx = drawing[drawingSegment][0].floor;
+			svg = $('#' + maps[mapIdx].id + ' svg')[0];
+
+      var steps = 35;
+      var duration = 600; // Zoom animation in milliseconds
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
@@ -556,9 +560,6 @@
 			var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
 			var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
 			var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
-
-      var steps = 35;
-      var duration = 600; // Zoom animation in milliseconds
 
       // Calculate single step size from each direction
       var newViewX = pathRect.x - pad;
@@ -663,7 +664,7 @@
 				if (reversePathStart !== -1) {
 
 					portalsEntered = 0;
-					//count number of portal trips
+					// Count number of portal trips
 					for (i = 0; i < solution.length; i++) {
 						if (solution[i].type === 'po') {
 							portalsEntered++;
@@ -671,7 +672,6 @@
 					}
 
 					//break this into a new function?
-
 					drawing = new Array(portalsEntered); // Problem at line 707 character 40: Use the array literal notation [].
 
 					drawing[0] = [];
@@ -681,14 +681,14 @@
 					draw = {};
 
 					if(solution.length == 0) {
-						console.log("Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: " + destination);
+						console.warn("Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: " + destination);
 						return;
 					}
 
 					//if statement incorrectly assumes one door at the end of the path, works in that case, need to generalize
 					if (WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].doorA[0] === startpoint) {
 						draw = {};
-						draw.floor = [solution[0].floor];
+						draw.floor = solution[0].floor; //[solution[0].floor];
 						draw.type = 'M';
 						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ax;
 						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ay;
@@ -696,7 +696,7 @@
 						drawing[0].push(draw);
 						draw = {};
 						draw.type = 'L';
-						draw.floor = [solution[0].floor];
+						draw.floor = solution[0].floor; //[solution[0].floor];
 						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].bx;
 						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].by;
 						draw.length = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].length;
@@ -705,14 +705,14 @@
 					} else if (WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].doorB[0] === startpoint) {
 						draw = {};
 						draw.type = 'M';
-						draw.floor = [solution[0].floor];
+						draw.floor = solution[0].floor; //[solution[0].floor];
 						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].bx;
 						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].by;
 						draw.length = 0;
 						drawing[0].push(draw);
 						draw = {};
 						draw.type = 'L';
-						draw.floor = [solution[0].floor];
+						draw.floor = solution[0].floor; //[solution[0].floor];
 						draw.x = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ax;
 						draw.y = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].ay;
 						draw.length = WayfindingDataStore.dataStore.paths[solution[0].floor][solution[0].segment].length;

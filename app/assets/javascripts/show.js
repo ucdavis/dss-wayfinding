@@ -1,5 +1,5 @@
 //= require redirect
-//= require hammer
+//= require jquery.panzoom
 //= require wayfinding.datastore
 //= require jquery.wayfinding
 

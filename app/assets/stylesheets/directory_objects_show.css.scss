@@ -10,7 +10,6 @@ $about-color: #B1B3B3;
 $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
-// $map-actions-height: 76px;
 
 .icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; }
@@ -51,7 +50,7 @@ body {
   width: unquote("calc(100vw - ") $vertical-nav-width unquote(" - ") $right-btn-container-width + $right-btn-container-right-offset unquote(")");
 }
 
-#map div {
+#map>div {
   width: 100%;
   height: 73vh; //calc(100vh - 200px);
 }
@@ -83,18 +82,15 @@ body {
   height: 100%;
   width: 100%;
 
-  g {
-      -webkit-transition: all 0.5s ease-in-out;
-      -moz-transition: all 0.5s ease-in-out;
-      -o-transition: all 0.5s ease-in-out;
-      transition: all 0.5s ease-in-out;
-  }
-}
-
-#map>div {
-  // To fix blurriness in jQuery.panZoom affecting webkit browsers
-  //-webkit-backface-visibility: initial !important;
-  //-webkit-transform-origin: 50% 50%;
+  // g {
+  //     -webkit-transition: all 0.5s ease-in-out;
+  //     -moz-transition: all 0.5s ease-in-out;
+  //     -o-transition: all 0.5s ease-in-out;
+  //     transition: all 0.5s ease-in-out;
+  // }
+  
+  -webkit-backface-visibility: initial !important;
+  -webkit-transform-origin: 50% 50%;
 }
 
 /* map target information pane */
@@ -147,13 +143,6 @@ body {
   }
 }
 
-// This applies to every page and the default background is white.
-// This messes up the /administration section at least.
-// Perhaps this rule could be more specific?
-// a, a:hover, a:active {
-//   color: #FFF;
-// }
-
 .btn-xl{
   height: 95%;
   width: 95%;
@@ -204,8 +193,6 @@ ul.horizontal-nav {
 
     width: 75%;
     margin: auto auto;
-    // margin-top: 15px;
-    // height: $map-actions-height;
 
     span {
       text-transform: uppercase;
@@ -595,7 +582,6 @@ ul.directory-list {
 }
 
 /* Search interface styling below */
-
 .right-btn-container {
   position: fixed;
   z-index: 999;
@@ -697,6 +683,7 @@ img.building-pic {
 #Rooms {
   opacity: 1;
 }
+
 .locationIndicator {
   fill: #00e13c;
   fill-opacity: 1;
@@ -713,10 +700,6 @@ img.building-pic {
 ul li.room {
     margin-bottom: 0px;
     margin-right: 0px;
-}
-
-.nav > li.active, .nav > li > a:focus, .nav > li.active > a:hover  {
-
 }
 
 .nav > li > a:hover {
@@ -746,20 +729,24 @@ ul li.room {
     width: 50%;
 }
 
-table > tbody > tr.category-header > td {
-    font-size: 2em;
-    font-weight: bold;
-    border-top: 1px solid black;
-    margin-bottom: 30px;
-    margin-top: 30px;
-    float: left;
-    width: 100%;
-}
-
-.table > tbody > tr.clickable-row > td {
-    padding-left: 50px;
-}
-
-.table.content {
+table {
+  .content {
     width: 80%;
+  }
+
+  tbody {
+    tr.category-header > td {
+      font-size: 2em;
+      font-weight: bold;
+      border-top: 1px solid black;
+      margin-bottom: 30px;
+      margin-top: 30px;
+      float: left;
+      width: 100%;
+    }
+
+    tr.clickable-row > td {
+      padding-left: 50px;
+    }
+  }
 }
