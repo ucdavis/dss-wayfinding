@@ -1,28 +1,25 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
-    <div id="scrubber-view" >
-        <div id="side-nav">
-          <ul class="nav nav-list affix" id="slider-vertical">
+        <div id="scrubber-view" >
+              <ul class="nav nav-list affix" id="slider-vertical">
 
-            <% if @directory_objects.first.type == "Person" || @directory_objects.first.type == "Department" %>
-                <% @scrubber_categories.each_with_index do |category, index| %>
-                    <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                        <%= category %>
-                    </a></li>
+                <% if @directory_objects.first.type == "Person" || @directory_objects.first.type == "Department" %>
+                    <% @scrubber_categories.each_with_index do |category, index| %>
+                        <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
+                            <%= category %>
+                        </a></li>
+                    <% end %>
                 <% end %>
-            <% end %>
-            <% if @directory_objects.first.type == "Room" %>
-                <% @scrubber_categories.each_with_index do |category, index| %>
-                    <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                        <%= category %>
-                    </a></li>
+                <% if @directory_objects.first.type == "Room" %>
+                    <% @scrubber_categories.each_with_index do |category, index| %>
+                        <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
+                            <%= category %>
+                        </a></li>
+                    <% end %>
                 <% end %>
-            <% end %>
 
-          </ul>
+              </ul>
         </div>
-
-    </div>
 
     <table class="table content">
     <tbody>

@@ -10,6 +10,7 @@ $about-color: #B1B3B3;
 $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
+$vertical-slider-element-height: 15px;
 
 .icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; }
@@ -88,7 +89,7 @@ body {
   //     -o-transition: all 0.5s ease-in-out;
   //     transition: all 0.5s ease-in-out;
   // }
-  
+
   -webkit-backface-visibility: initial !important;
   -webkit-transform-origin: 50% 50%;
 }
@@ -707,8 +708,15 @@ ul li.room {
 }
 
 #slider-vertical li {
-    height: 15px;
+    height: $vertical-slider-element-height;
     padding: 0px 0px 0px 0px;
+}
+
+#slider-vertical {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
 }
 
 .nav > li > a {
@@ -719,6 +727,10 @@ ul li.room {
     right: 3vw;
     width: 2vw;
     box-shadow: none;
+    position: fixed;
+    height: 100vh;
+    top: 0px;
+    right: 0px;
 
     .nav > li > a {
       padding: 0;
