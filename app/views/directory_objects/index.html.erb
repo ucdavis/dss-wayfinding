@@ -1,24 +1,15 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
         <div id="scrubber-view" >
-              <ul class="nav nav-list affix" id="slider-vertical">
-
-                <% if @directory_objects.first.type == "Person" || @directory_objects.first.type == "Department" %>
+            <ul class="nav nav-list affix" id="slider-vertical">
+                <% if ( ( @directory_objects.count > 0 )  && ( (['Room', 'Person', 'Department']).includes? @directory_objects.first.type ) ) %>
                     <% @scrubber_categories.each_with_index do |category, index| %>
                         <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
                             <%= category %>
                         </a></li>
                     <% end %>
                 <% end %>
-                <% if @directory_objects.first.type == "Room" %>
-                    <% @scrubber_categories.each_with_index do |category, index| %>
-                        <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                            <%= category %>
-                        </a></li>
-                    <% end %>
-                <% end %>
-
-              </ul>
+            </ul>
         </div>
 
     <table class="table content">
@@ -88,7 +79,7 @@
                  </a>
               </li>
             <% end %>
-            
+
     <!-- Departments -->
             <% if directory_object.type == "Department" %>
 
@@ -114,7 +105,7 @@
                   </td>
                 </tr>
             <% end %>
-            
+
     <!-- Rooms -->
             <% if directory_object.type == "Room" %>
                 <!-- Generate Initial Anchor -->
@@ -126,7 +117,7 @@
                 <!-- Generate Category Anchors -->
                 <% while (scrubber_category_index < @scrubber_categories.count) && (directory_object.room_number.to_s.first.to_i != @scrubber_categories[scrubber_category_index]) do %>
                     <% scrubber_category_index += 1 %>
-                    <tr><td id="category_<%= scrubber_category_index %>" class="category-header">Floor <%= scrubber_category_index %> 
+                    <tr><td id="category_<%= scrubber_category_index %>" class="category-header">Floor <%= scrubber_category_index %>
                     </td></tr>
                 <% end %>
 
