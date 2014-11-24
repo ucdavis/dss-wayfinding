@@ -8,5 +8,5 @@ end
 
 # Ensure our background processor starts up on reboot
 every :reboot do
-  envcommand 'bin/delayed_job -n 1 restart'
+  envcommand 'script/delayed_job -n 1 restart'
 end
