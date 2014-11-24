@@ -1,4 +1,20 @@
 require "bundler/capistrano"
+require "delayed_job_active_record"
+
+# 'delayed_job' setup
+require "delayed/recipes"
+
+# Use 10 background workers (the same value should be set in config/schedule.rb)
+set :delayed_job_args, "-n 1"
+
+# 'whenever' setup
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
+before "deploy:restart", "delayed_job:stop"
+after  "deploy:restart", "delayed_job:start"
+after "deploy:stop",  "delayed_job:stop"
+after "deploy:start", "delayed_job:start"
 
 server "169.237.120.176", :web, :app, :db, primary: true
 

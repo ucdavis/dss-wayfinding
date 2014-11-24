@@ -5,8 +5,7 @@ every 15.minutes do
   rake "rss:fetch"
 end
 
-# Ensure dataCaches are up-to-date
-every 4.hours do
-  command "cd nodejs && `which node` buildCaches.js"
-  rake "map_cache:update"
+# Ensure our background processor starts up on reboot
+every :reboot do
+  envcommand 'script/delayed_job -n 1 restart'
 end
