@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'map', to: 'directory_objects#show'
   get 'about', to: 'directory_objects#about'
   get 'room/:number', to: 'directory_objects#room'
+  get "/logout" => 'application#logout'
 
   get 'start/:location', to: redirect('/administration/start?location=%{location}')
 

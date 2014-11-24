@@ -1,5 +1,5 @@
 class AdministrationController < ApplicationController
-  http_basic_authenticate_with name: $AUTH_CONFIG_SETTINGS["USER"], password: $AUTH_CONFIG_SETTINGS["PASSWORD"], except: :start
+  before_filter CASClient::Frameworks::Rails::Filter
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
   def index

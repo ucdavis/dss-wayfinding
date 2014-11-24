@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/rubycas/rubycas-client.git
+  revision: 195a4b70333029be474b0ac70efdc85bd4288861
+  specs:
+    rubycas-client (2.3.10.rc1)
+      activesupport
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -161,6 +168,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (~> 4.1.8)
+  rubycas-client!
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring
