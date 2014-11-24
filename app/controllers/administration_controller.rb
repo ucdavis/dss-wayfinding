@@ -199,6 +199,7 @@ class AdministrationController < ApplicationController
       end
 
       # Modify the stats file to initialize the progress bar
+      FileUtils::mkdir_p "public/dataStore"
       File.open("public/dataStore/stats.json", "w+") do |f|
         f.write('{"progress": "0%"}')
       end
