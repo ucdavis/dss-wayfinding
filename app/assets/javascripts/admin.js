@@ -70,6 +70,9 @@ ready = function() {
         progress = "No cache building in porgress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
         percentage = '100%';
       } else {
+        // Expand the SVG Management section once
+        if (!progress) $('#collapseMaps').collapse('toggle');
+
         // Update values if process is not completed
         progress = data.progress;
         percentage = data.progress;
