@@ -80,4 +80,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Use local sendmail
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  # Send e-mail on exceptions
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[DSS Wayfinding] ",
+      :sender_address => %{no-reply@wayfinding.dss.ucdavis.edu},
+      :exception_recipients => %w{dssit-devs-exceptions@ucdavis.edu}
+    }
 end

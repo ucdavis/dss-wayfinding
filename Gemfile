@@ -46,5 +46,6 @@ group :test, :development do
 end
 
 group :production do
-  gem "pg"
+  gem 'pg'
+  gem 'exception_notification'
 end
