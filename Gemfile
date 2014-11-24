@@ -21,6 +21,7 @@ gem 'whenever'
 
 # Delayed job for running the buildCaches script
 gem 'delayed_job_active_record'
+gem 'daemons'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

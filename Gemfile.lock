@@ -44,6 +44,7 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     curb (0.8.6)
+    daemons (1.1.9)
     delayed_job (4.0.4)
       activesupport (>= 3.0, < 4.2)
     delayed_job_active_record (4.0.2)
@@ -149,6 +150,7 @@ PLATFORMS
 DEPENDENCIES
   capistrano (< 3.0.0)
   coffee-rails (~> 4.0.0)
+  daemons
   delayed_job_active_record
   feedjira
   jbuilder (~> 2.0)
