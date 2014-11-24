@@ -1,0 +1,5 @@
+# Copy this file to dss-rm.yml and set the appropriate values below.
+
+HOST: https://rm-instance/api/
+USER: username
+PASSWORD: password

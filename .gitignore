@@ -20,6 +20,7 @@
 # Ignore sensitive files
 config/auth_config.yml
 config/secret_token.yml
+config/dss_rm.yml
 
 # Ignore map files
 public/maps/*
