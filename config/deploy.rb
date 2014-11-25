@@ -71,6 +71,10 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/auth_config.yml #{release_path}/config/auth_config.yml"
     run "ln -nfs #{shared_path}/config/secret_token.yml #{release_path}/config/secret_token.yml"
     run "mkdir -p #{release_path}/tmp/sessions/"
+
+    # this creates public/maps and public/dataStore in the shared folder and creates symlinks to them.
+    set :shared_children, shared_children + %w{public/maps}
+    set :shared_children, shared_children + %w{public/dataStore}
   end
   after "deploy:finalize_update", "deploy:symlink_config"
 
