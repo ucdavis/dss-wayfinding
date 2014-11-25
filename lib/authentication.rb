@@ -94,9 +94,9 @@ module Authentication
     CASClient::Frameworks::Rails::Filter.filter(self)
 
     if session[:cas_user]
-      @user = User.find_or_create_by_loginid(session[:cas_user])
+      rm_id = RolesManagement.fetch_id_by_loginid(session[:cas_user])
 
-      @user.rm_id = RolesManagement.fetch_id_by_loginid(@user.loginid) unless @user.rm_id
+      @user = User.find_or_create_by(loginid: session[:cas_user], rm_id: rm_id)
 
       # Valid user found through CAS.
       session[:user_id] = @user.id

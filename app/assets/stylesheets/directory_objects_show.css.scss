@@ -1,4 +1,5 @@
 $search-color: #B1B3B3;
+$logout-color: #B1B3B3;
 $home-color: #B1B3B3;
 $people-color: #5B7F95;
 $events-color: #9CAF88;
@@ -22,6 +23,7 @@ $vertical-slider-element-height: 15px;
 .icon-about:after { content: "\E803"; }
 .icon-accessible:after { content: "\E807"; }
 .icon-repeat:after { content: "\E808"; }
+.icon-logout:after { content: "\E80A"; }
 
 @font-face {
   font-family: 'fontello';
@@ -420,6 +422,11 @@ ul.vertical-nav {
 
 .btn-search {
   background: $search-color;
+  color: white;
+}
+
+.btn-logout {
+  background: $logout-color;
   color: white;
 }
 

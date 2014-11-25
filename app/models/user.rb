@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  using_access_control
+
   validates :loginid, uniqueness: true, presence: true
   validates :rm_id, uniqueness: true, presence: true
 

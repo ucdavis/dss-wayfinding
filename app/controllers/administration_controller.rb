@@ -1,5 +1,5 @@
 class AdministrationController < ApplicationController
-  before_filter CASClient::Frameworks::Rails::Filter
+  filter_access_to :all
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
   def index

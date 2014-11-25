@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'start/:location', to: redirect('/administration/start?location=%{location}')
 
+  get '/access_denied' => 'site#access_denied'
+
   # General
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'

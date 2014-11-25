@@ -1,5 +1,7 @@
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin
+  skip_before_filter :require_login
+  skip_before_filter :authenticate
 
   # GET /directory_objects
   def index

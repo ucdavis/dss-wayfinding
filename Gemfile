@@ -37,6 +37,9 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # More: https://github.com/rubycas/rubycas-client/issues/78
 gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
 
+# Provides Authorization
+gem 'declarative_authorization'
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
