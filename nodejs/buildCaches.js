@@ -5,7 +5,7 @@ var fs = require('fs-extra');
 require('json');
 var md5 = require('MD5');
 
-window 	= jsdom.jsdom().createWindow();
+window 	= jsdom.jsdom().defaultView;
 
 $ = require('jquery');
 
@@ -137,10 +137,12 @@ var prepareData = function() {
     // Check if a rebuild is necessary
     fs.readFile("public/dataStore/stats.json", 'utf8', function(err,data) {
       if (err) {
-        return console.log(err);
+        console.log("Could not find public/dataStore/stats.json.. ", err);
+      } else {
+        var stats = JSON.parse( data );
       }
-      var stats = JSON.parse( data );
-      if ( stats.MD5 == shared_md5 ) {
+
+      if ( typeof stats != "undefined" && stats.MD5 == shared_md5 ) {
         console.log("Caches are already up to date.");
       } else {
         console.log("Starting build");
