@@ -142,7 +142,7 @@ var prepareData = function() {
         var stats = JSON.parse( data );
       }
 
-      if ( typeof stats != "undefined" && stats.MD5 == shared_md5 ) {
+      if ( typeof stats != "undefined" && stats.MD5 == shared_md5 && stats.progress = "Completed" ) {
         console.log("Caches are already up to date.");
       } else {
         console.log("Starting build");
