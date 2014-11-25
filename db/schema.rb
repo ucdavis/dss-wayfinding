@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124203038) do
+ActiveRecord::Schema.define(version: 20141125195821) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -64,6 +64,19 @@ ActiveRecord::Schema.define(version: 20141124203038) do
 
   create_table "rss_feeds", force: true do |t|
     t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "search_term_logs", force: true do |t|
+    t.string   "term"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unmatched_query_logs", force: true do |t|
+    t.string   "query"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
