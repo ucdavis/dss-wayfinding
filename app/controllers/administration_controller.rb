@@ -1,5 +1,4 @@
 class AdministrationController < ApplicationController
-  filter_access_to :all
   skip_before_filter :require_login, only: :start
   skip_before_filter :authenticate, only: :start
 
