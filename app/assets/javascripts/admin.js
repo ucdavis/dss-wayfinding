@@ -58,7 +58,7 @@ ready = function() {
     $.get( "/dataStore/stats.json", function( data ) {
       if ( progress == null ) {
         // Set interval to keep checking stats
-        statsInterval = setInterval(function(){getCacheStats();}, 3000);
+        statsInterval = setInterval(function(){getCacheStats();}, 10000);
       }
 
       if (typeof data == 'undefined' || data.progress == "Completed" ) {

@@ -4,6 +4,9 @@ require "delayed_job_active_record"
 # 'delayed_job' setup
 require "delayed/recipes"
 
+# npm support for Capistrano
+require 'capistrano/npm'
+
 # Use 10 background workers (the same value should be set in config/schedule.rb)
 set :delayed_job_args, "-n 1"
 
@@ -23,18 +26,15 @@ set :url, "http://wayfinding.dss.ucdavis.edu/"
 set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
+set :use_sudo, false
+
+set :npm_target_path, -> { release_path.join('nodejs') } # default not set
 
 set :scm, "git"
-set :repo_url, "https://github.com/dssit/#{application}.git"
+set :repository, "https://github.com/dssit/#{application}.git"
 set :branch, "master"
 
 set :test_log, "log/capistrano.test.log"
-
-# Directories that are persisted between deploys
-set :linked_dirs, %w{public/maps public/dataStore}
-
-# Set the node app path
-set :npm_target_path, -> { release_path.join('nodejs') }
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
