@@ -96,13 +96,14 @@ module Authentication
     if session[:cas_user]
       rm_id = RolesManagement.fetch_id_by_loginid(session[:cas_user])
 
+      Authorization.ignore_access_control(true)
+
       @user = User.find_or_create_by(loginid: session[:cas_user], rm_id: rm_id)
 
       # Valid user found through CAS.
       session[:user_id] = @user.id
       session[:auth_via] = :cas
       Authorization.current_user = @user
-      Authorization.ignore_access_control(true)
       
       @user.save!
 
