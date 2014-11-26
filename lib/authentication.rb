@@ -9,12 +9,12 @@ module Authentication
       #   return ApiWhitelistedIpUser.find_by_address(session[:user_id])
       # when :api_key
       #   return ApiKeyUser.find_by_name(session[:user_id])
-      when :cas
+      when 'cas'
         return Authorization.current_user
       end
     end
   end
-  
+
   # Returns the 'actual' user - usually this matches current_user but when
   # impersonating, it will return the human doing the impersonating, not the
   # account they are pretending to be. Useful for determining if actions like
@@ -32,13 +32,19 @@ module Authentication
       #   Authorization.current_user = ApiWhitelistedIpUser.find_by_address(session[:user_id])
       # when :api_key
       #   Authorization.current_user = ApiKeyUser.find_by_name(session[:user_id])
-      when :cas
+      when 'cas'
+        logger.debug "Auth is via CAS"
         if impersonating?
+          logger.debug "User is impersonating"
           Authorization.current_user = User.find_by_id(session[:impersonation_id])
         else
+          logger.debug "User set to CAS user #{session[:user_id]}"
           Authorization.current_user = User.find_by_id(session[:user_id])
         end
+      else
+        logger.warn "Unknown auth_via: #{session[:auth_via]}"
       end
+
       logger.info "User authentication passed due to existing session: #{session[:auth_via]}, #{session[:user_id]}, #{Authorization.current_user}"
       return
     end
@@ -50,7 +56,7 @@ module Authentication
     #   session[:user_id] = request.remote_ip
     #   session[:auth_via] = :whitelisted_ip
     #   Authorization.current_user = @whitelisted_user
-    #   
+    #
     #   Authorization.ignore_access_control(true)
     #   @whitelisted_user.logged_in_at = DateTime.now()
     #   @whitelisted_user.save
@@ -63,7 +69,7 @@ module Authentication
     # # Check if HTTP Auth is being attempted.
     # authenticate_with_http_basic { |name, secret|
     #   @api_user = ApiKeyUser.find_by_name_and_secret(name, secret)
-    # 
+    #
     #   if @api_user
     #     logger.info "API authenticated via application key"
     #     session[:user_id] = name
@@ -75,13 +81,13 @@ module Authentication
     #     Authorization.ignore_access_control(false)
     #     return
     #   end
-    # 
+    #
     #   logger.info "API authentication failed. Application key is wrong."
     #   # Note that they will only get 'access denied' if they supplied a name and
     #   # failed. If they supplied nothing for HTTP Auth, this block will get passed
     #   # over.
     #   render :text => "Invalid API key.", :status => 401
-    # 
+    #
     #   return
     # }
 
@@ -102,9 +108,9 @@ module Authentication
 
       # Valid user found through CAS.
       session[:user_id] = @user.id
-      session[:auth_via] = :cas
+      session[:auth_via] = 'cas'
       Authorization.current_user = @user
-      
+
       @user.save!
 
       Authorization.ignore_access_control(false)
