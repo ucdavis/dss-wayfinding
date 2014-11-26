@@ -38,6 +38,29 @@ class DirectoryObjectsController < ApplicationController
 
       @directory_objects = @directory_objects.uniq
 
+      if @directory_objects.first == nil
+      # remove white space, punctuation
+        terms_list = params[:q].strip.split(/\s+/)
+
+        terms_list.each do |term|
+          term_log = SearchTermLog.where(term: term).first_or_create
+          term_log.count = term_log.count + 1
+          term_log.save
+        end
+
+        UnmatchedSearchQuery.where(query: terms_list).first_or_create
+        
+
+        #Find pre-existing records of search terms and increment their count
+        #SearchTermLog.where(name: name).first_or_create
+
+        # No results were returned
+        #if @directory_objects.first == nil
+
+        #UnmatchedQueryLog.where(query: query).first_or_create
+
+      end
+
       respond_to do |format|
         format.json
       end

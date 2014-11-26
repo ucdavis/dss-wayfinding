@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125195821) do
+ActiveRecord::Schema.define(version: 20141125231731) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20141125195821) do
 
   create_table "search_term_logs", force: true do |t|
     t.string   "term"
-    t.integer  "count"
+    t.integer  "count",      default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
