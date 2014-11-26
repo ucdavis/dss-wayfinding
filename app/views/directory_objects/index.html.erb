@@ -2,7 +2,7 @@
 <div class="directory-list">
         <div id="scrubber-view" >
             <ul class="nav nav-list affix" id="slider-vertical">
-                <% if ( ( @directory_objects.count > 0 )  && ( (['Room', 'Person', 'Department']).includes? @directory_objects.first.type ) ) %>
+                <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) %>
                     <% @scrubber_categories.each_with_index do |category, index| %>
                         <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
                             <%= category %>
@@ -17,8 +17,10 @@
 
         <% initial_category = false %>
         <% scrubber_category_index = 0 %>
+
         <% @directory_objects.each_with_index do |directory_object, index| %>
-    <!-- People -->
+
+            <!-- People -->
             <% if directory_object.type == "Person" %>
 
                 <!-- Generate Initial Anchor -->
@@ -36,22 +38,28 @@
                 <!-- Generate a row for a person -->
                 <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
                   <h3><%= directory_object.first + " " + directory_object.last %></h3>
+
                   <!-- Room number -->
                   <% if directory_object.rooms.length > 0 %>
                     <span class="people-row-field"><%= directory_object.rooms.first.room_number %></span>
                   <% end %>
+
                   <!-- Department -->
                   <% if directory_object.department  %>
                     <span class="people-row-field"><%= directory_object.department.title %></span>
                   <% end %>&nbsp;
+
                   <!-- Email -->
                   <span class="people-row-field"><%= directory_object.email %></span>
+
                   <!-- Phone -->
                   <span class="people-row-field"><%= directory_object.phone %></span>
                   </td>
                 </tr>
             <% end %>
-    <!-- Events -->
+
+            <!-- Events -->
+
             <% if directory_object.type == "Event" %>
               <li>
                 <a href="/directory/<%= directory_object.id %>" class="events-card">
@@ -80,7 +88,7 @@
               </li>
             <% end %>
 
-    <!-- Departments -->
+            <!-- Departments -->
             <% if directory_object.type == "Department" %>
 
                 <!-- Generate Initial Anchor -->
@@ -106,7 +114,7 @@
                 </tr>
             <% end %>
 
-    <!-- Rooms -->
+            <!-- Rooms -->
             <% if directory_object.type == "Room" %>
                 <!-- Generate Initial Anchor -->
                 <% if initial_category == false %>
