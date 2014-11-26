@@ -48,9 +48,10 @@ body {
 
 /* Used on every page except 'landing' */
 .main-content {
-  position: absolute;
-  left: $vertical-nav-width;
-  width: unquote("calc(100vw - ") $vertical-nav-width unquote(" - ") $right-btn-container-width + $right-btn-container-right-offset unquote(")");
+  // position: absolute;
+  // left: $vertical-nav-width;
+  // width: unquote("calc(100vw - ") $vertical-nav-width unquote(" - ") $right-btn-container-width + $right-btn-container-right-offset unquote(")");
+  width: 100%;
 }
 
 #map>div {
@@ -322,11 +323,12 @@ ul.horizontal-nav {
 }
 
 ul.vertical-nav {
-  position: fixed;
+  float: left;
+  // position: fixed;
   list-style: none;
   text-align: center;
   padding: 2vh 15px 0;
-  left: 0;
+  // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
 

@@ -48,9 +48,14 @@
     <% end %>
 
     <div class="row">
-      <%= render "vertical_navigation" unless (["landing"].include?(action_name) || ["administration","site"].include?(controller_name)) %>
+      <% if ["landing"].include?(action_name) || ["administration", "site"].include?(controller_name) %>
+        <% col_xs_12_width = "100%" %>
+      <% else %>
+        <% col_xs_12_width = "calc(100% - 130px)" %>
+        <%= render "vertical_navigation" unless (["landing"].include?(action_name) || ["administration","site"].include?(controller_name)) %>
+      <% end %>
 
-      <div class="col-xs-12">
+      <div class="col-xs-12" style="width: <%= col_xs_12_width %>;">
         <% if action_name == "landing" %>
           <%= yield :javascript %>
           <%= yield %>
