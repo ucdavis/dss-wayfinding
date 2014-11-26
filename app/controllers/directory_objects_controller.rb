@@ -51,7 +51,7 @@ class DirectoryObjectsController < ApplicationController
 
       # No results were found, log the query
       if @directory_objects.first == nil
-        UnmatchedQueryLog.where(query: params[:q]).first_or_create
+        UnmatchedQueryLog.where(query: clean_query).first_or_create
       end
 
       respond_to do |format|
