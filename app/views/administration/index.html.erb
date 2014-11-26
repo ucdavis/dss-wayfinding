@@ -170,5 +170,53 @@
       </div> <!-- #collapseFour -->
     </div> <!-- .panel -->
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+            Unmatched Search Query Logs
+          </a>
+        </h4>
+      </div>
+
+      <div id="collapseFive" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div class="row" style="margin-top: 1em;">
+            <% @unmatched_queries.each do |query| %>
+              <div class="col-sm-2">
+                <%= query.query %>
+              </div>
+            <% end %>
+          </div> <!-- .row -->
+        </div>
+      </div> <!-- #collapseFour -->
+    </div> <!-- .panel -->
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+            Search Term Logs
+          </a>
+        </h4>
+      </div>
+
+      <div id="collapseSix" class="panel-collapse collapse">
+        <div class="panel-body">
+          <div class="row" style="margin-top: 1em;">
+            <div class="col-sm-2">
+              Search Term - Number of occurences (Top 30)
+            </div>
+            <% @search_terms.each do |search_term| %>
+              <div class="col-sm-2">
+                <%= search_term.term %> - <%= search_term.count %>
+              </div>
+            <% end %>
+          </div> <!-- .row -->
+        </div>
+      </div> <!-- #collapseFour -->
+    </div> <!-- .panel -->
+
+
   </div> <!-- #accordion -->
 </div> <!-- .admin-view -->

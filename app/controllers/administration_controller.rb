@@ -9,6 +9,8 @@ class AdministrationController < ApplicationController
     @departments = Department.all
     @rss_feeds = RssFeed.all
     @rss_feed = RssFeed.new # for adding new RSS feeds
+    @unmatched_queries = UnmatchedQueryLog.all
+    @search_terms = SearchTermLog.all.order(:count).limit(30)
   end
 
   # POST
