@@ -356,7 +356,6 @@
 								// SVGs are loaded, dataStore is set, ready the DOM
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
-								if(options.pinchToZoom) setupPinchToZoom();
 								replaceLoadScreen(obj);
 							});
 						}
@@ -364,12 +363,6 @@
 				);
 			});
 		} // function initialize
-
-		function setupPinchToZoom() {
-			console.debug("Setting up custom pinch-to-zoom ...");
-
-
-		}
 
 		// Ensure a dataStore exists and is set, whether from a cache
 		// or by building it.
@@ -540,6 +533,9 @@
 
       var steps = 35;
       var duration = 600; // Zoom animation in milliseconds
+
+			// FIXME: Zooming logic needs to use jQuery.panzoom() is pinch-to-zoom is
+			//        enabled, _not_ viewBox.
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
