@@ -309,18 +309,7 @@
 
 			// Enable pinch-to-zoom
 			if(options.pinchToZoom) {
-				console.debug("replacing load screen ...");
-
-				$('#' + maps[displayNum].id + ">svg", el).panzoom({
-					minScale: 1.0,
-					contain: 'invert',
-					cursor: "pointer"
-				});
-
-				// Allow clicking on links within the SVG despite $.panZoom()
-				$('#' + maps[displayNum].id + '>svg a', el).on('mousedown touchstart', function( e ) {
-					e.stopImmediatePropagation();
-				});
+				initializePanZoom($('#' + maps[displayNum].id, el));
 			}
 
 			// if endpoint was specified, route to there.
@@ -367,7 +356,6 @@
 								// SVGs are loaded, dataStore is set, ready the DOM
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
-								if(options.pinchToZoom) setupPinchToZoom();
 								replaceLoadScreen(obj);
 							});
 						}
@@ -375,12 +363,6 @@
 				);
 			});
 		} // function initialize
-
-		function setupPinchToZoom() {
-			console.debug("Setting up custom pinch-to-zoom ...");
-
-
-		}
 
 		// Ensure a dataStore exists and is set, whether from a cache
 		// or by building it.
@@ -433,11 +415,10 @@
 
 					// Destroy .panzoom() on all SVGs
 					for (i = 0; i < maps.length; i++) {
-						$('#' + i, el).panzoom("destroy");
+						$('#floor' + i, el).panzoom("destroy");
 					}
 
-					// Enable .panzoom() on the newly displayed floor specific floor
-					$('#' + floor, el).panzoom({minScale: 1.0, contain: 'invert', cursor: "pointer"});
+					initializePanZoom($('#' + floor, el));
 				}
 			});
 
@@ -516,7 +497,6 @@
 			// Handle pinch-to-zoom
 			if(options.pinchToZoom) {
 				svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
-				console.log("resetting zoom");
 				$(svg).parent().panzoom("resetZoom");
 			}
 
@@ -553,6 +533,9 @@
 
       var steps = 35;
       var duration = 600; // Zoom animation in milliseconds
+
+			// FIXME: Zooming logic needs to use jQuery.panzoom() is pinch-to-zoom is
+			//        enabled, _not_ viewBox.
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
@@ -612,6 +595,20 @@
 				}
 			}, animationDuration + options.floorChangeAnimationDelay);
 		} //function animatePath
+
+		// Ensures '$el' has a valid jQuery.panzoom object
+		function initializePanZoom($el) {
+			$el.panzoom({
+				minScale: 1.0,
+				contain: 'invert',
+				cursor: "pointer"
+			});
+
+			// Allow clicking on links within the SVG despite $.panZoom()
+			$el.find('a').on('mousedown touchstart', function( e ) {
+				e.stopImmediatePropagation();
+			});
+		} //function initializePanZoom
 
 		// The combined routing function
 		// revise to only interate if startpoint has changed since last time?
