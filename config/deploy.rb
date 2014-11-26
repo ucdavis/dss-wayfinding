@@ -4,9 +4,6 @@ require "delayed_job_active_record"
 # 'delayed_job' setup
 require "delayed/recipes"
 
-# npm support for Capistrano
-require 'capistrano/npm'
-
 # Use 10 background workers (the same value should be set in config/schedule.rb)
 set :delayed_job_args, "-n 1"
 
@@ -27,8 +24,6 @@ set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
-
-set :npm_target_path, -> { release_path.join('nodejs') } # default not set
 
 set :scm, "git"
 set :repository, "https://github.com/dssit/#{application}.git"
@@ -63,6 +58,8 @@ namespace :deploy do
   desc "First-time config setup"
   task :setup_config, roles: :app do
     run "mkdir -p #{shared_path}/config"
+    run "mkdir -p #{shared_path}/maps"
+    run "mkdir -p #{shared_path}/dataStore"
     put File.read("config/database.example.yml"), "#{shared_path}/config/database.yml"
     put File.read("config/auth_config.example.yml"), "#{shared_path}/config/auth_config.yml"
     put File.read("config/secret_token.example.yml"), "#{shared_path}/config/secret_token.yml"
@@ -76,13 +73,17 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/auth_config.yml #{release_path}/config/auth_config.yml"
     run "ln -nfs #{shared_path}/config/secret_token.yml #{release_path}/config/secret_token.yml"
     run "ln -nfs #{shared_path}/config/dss_rm.yml #{release_path}/config/dss_rm.yml"
+    run "ln -nfs #{shared_path}/maps #{release_path}/public/maps"
+    run "ln -nfs #{shared_path}/dataStore #{release_path}/public/dataStore"
     run "mkdir -p #{release_path}/tmp/sessions/"
-
-    # this creates public/maps and public/dataStore in the shared folder and creates symlinks to them.
-    set :shared_children, shared_children + %w{public/maps}
-    set :shared_children, shared_children + %w{public/dataStore}
   end
   after "deploy:finalize_update", "deploy:symlink_config"
+
+  desc "Run npm install to rebuild node_modules"
+  task :node_config, roles: :app do
+    run "cd nodejs && npm install"
+  end
+  after "deploy:finalize_update", "deploy:node_config"
 
   desc "Make sure local git is in sync with remote."
   task :check_revision, roles: :web do

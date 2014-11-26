@@ -46,7 +46,6 @@ gem 'spring',        group: :development
 # Use Capistrano for deployment
 group :development do
   gem 'capistrano', '< 3.0.0'
-  gem 'capistrano-npm'
 end
 
 # Use debugger
