@@ -45,9 +45,9 @@ gem 'spring',        group: :development
 
 # Use Capistrano for deployment
 group :development do
-  gem 'capistrano', '~> 3.0'
-  gem 'capistrano-rails', '~> 1.1.1'
-  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano', '~> 3.0', require: false
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-npm'
 end
 
