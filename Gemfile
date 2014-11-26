@@ -44,7 +44,12 @@ gem 'declarative_authorization'
 gem 'spring',        group: :development
 
 # Use Capistrano for deployment
-gem 'capistrano', '< 3.0.0', group: :development
+group :development do
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-rails', '~> 1.1.1'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-npm'
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
