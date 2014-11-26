@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125231731) do
+ActiveRecord::Schema.define(version: 20141126203443) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 20141125231731) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "search_term_logs", ["term"], name: "index_search_term_logs_on_term"
 
   create_table "unmatched_query_logs", force: true do |t|
     t.string   "query"
