@@ -7,5 +7,5 @@ class DirectoryObject < ActiveRecord::Base
   TYPES = %w( Person Event Department Room )
   validates :type, presence: true, :inclusion => { :in => TYPES }
 
-  validates_uniqueness_of :room_number
+  validates_uniqueness_of :room_number, :allow_blank => true, :allow_nil => true
 end
