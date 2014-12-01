@@ -101,6 +101,28 @@ var buildDataStores = function (shared_md5) {
   });
 }
 
+var copyNonExistingMaps = function() {
+  fs.mkdir("public/maps", '0777', function(err) {
+    if (err && (err.code != 'EEXIST')) {
+      console.log("Failed to create directory 'public/maps'.\n" + err);
+    } else {
+      $.each(oldMaps, function (i, map) {
+        console.log("Checking if map " + i + " exists. old: " + oldMaps[i].path + ", New: " + maps[i].path);
+        fs.exists(oldMaps[i].path, function(exists) {
+          console.log(exists);
+          if (!exists) {
+            // Copy map if does not exist
+            fs.copy(maps[i].path, oldMaps[i].path, function(err) {
+              if (err) return console.error("Error copying new map file: " + err);
+              console.log("Copied new map " + i + " to /public/maps");
+            });
+          }
+        });
+      });
+    }
+  });
+}
+
 var prepareData = function() {
   processed = processed + 1;
 
@@ -123,13 +145,13 @@ var prepareData = function() {
     // Ensures dataStore directory exists
     fs.mkdir("public/dataStore", '0777', function(err) {
       if (err && (err.code != 'EEXIST')) {
-        console.log("Failed to create directory 'public/dataStore'. Aborting ...");
+        console.log("Failed to create directory 'public/dataStore'. Aborting ... \n" + err);
         process.exit(-1);
       }
     });
     fs.mkdir("public/dataStore/" + shared_md5, '0777', function(err) {
       if (err && (err.code != 'EEXIST')) {
-        console.log("Failed to create directory 'public/dataStore/'" + shared_md5 + ". Aborting ...");
+        console.log("Failed to create directory 'public/dataStore/" + shared_md5 + "'. Aborting ...\n" + err);
         process.exit(-1);
       }
     });
@@ -146,6 +168,7 @@ var prepareData = function() {
         console.log("Caches are already up to date.");
       } else {
         console.log("Starting build");
+        copyNonExistingMaps();
         buildDataStores(shared_md5);
       }
     });
