@@ -9,7 +9,7 @@
  * Licensed under GNU General Public License v2
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Date: 2014-12-01
+ * Date: 2014-12-02
  *
  */
 
@@ -42,17 +42,17 @@
 		'defaultMap': function () {
 			return 'map.1';
 		},
-		'dataStoreCache' : null,
-		'accessibleDataStoreCache' : null,
-		'showLocation' : false,
-		'locationIndicator' : {
+		'dataStoreCache': null,
+		'accessibleDataStoreCache': null,
+		'showLocation': false,
+		'locationIndicator': {
 			fill: 'red',
 			height: 40
 		},
-		'pinchToZoom' : false, // requires jquery.panzoom
-		'zoomToRoute' : true,
-		'zoomPadding' : 85,
-		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
+		'pinchToZoom': false, // requires jquery.panzoom
+		'zoomToRoute': true,
+		'zoomPadding': 85,
+		'floorChangeAnimationDelay': 1250 // milliseconds to wait during animation when a floor change occurs
 	};
 
 	$.fn.wayfinding = function (action, options, callback) {
@@ -349,8 +349,6 @@
 						mapsProcessed = mapsProcessed + 1;
 
 						if(mapsProcessed == maps.length) {
-							console.debug("SVGs finished loading.");
-
 							// All SVGs have finished loading
 							establishDataStore(options.accessibleRoute, function() {
 								// SVGs are loaded, dataStore is set, ready the DOM
@@ -559,7 +557,7 @@
 								panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
 							} else {
 								// Use SVG viewBox-based zooming
-								svg.setAttribute('viewBox', zoomInX  + ' ' + zoomInY +
+								svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY +
 	                ' ' + zoomInW + ' ' + zoomInH);
 							}
             }, i * (duration / steps));
@@ -589,7 +587,7 @@
 									// Use CSS 3-based zooming
 									panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomOutX, zoomOutY, zoomOutW, zoomOutH);
 								} else {
-									svg.setAttribute('viewBox', zoomOutX  + ' ' + zoomOutY +
+									svg.setAttribute('viewBox', zoomOutX + ' ' + zoomOutY +
 	                  ' ' + zoomOutW + ' ' + zoomOutH);
 								}
 
@@ -949,6 +947,10 @@
 				}
 			}
 		} //RouteTo
+
+		if (WayfindingDataStore == null) {
+			console.error("Please include wayfinding.datastore.js before jquery.wayfinding.js.");
+		}
 
 		if (action && typeof (action) === 'object') {
 			options = action;

@@ -1,8 +1,31 @@
+/*jslint devel: true, browser: true, windows: true, plusplus: true, maxerr: 50, indent: 4 */
+
+/**
+ * @preserve
+ * Wayfinding Datastore v0.4.0
+ * https://github.com/ucdavis/wayfinding
+ *
+ * Copyright (c) 2010-2014 University of California Regents
+ * Licensed under GNU General Public License v2
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * Date: 2014-12-02
+ *
+ * The purpose of separating these functions from jquery.wayfinding.js
+ * is to allow their reuse in situations where a DOM is not present such
+ * as in NodeJS cache building / analysis scripts.
+ *
+ */
+
+//  <![CDATA[
+
 WayfindingDataStore = {
   dataStore: null,
   portalSegments: [],
   accessible: false,
 
+  // Needs to be here in WayfindingDataStore and not in jQuery.Wayfinding as it
+  // can be used by NodeJS scripts to clean up rooms and generate routes as well.
   cleanupSVG: function (el) {
   	// clean up after illustrator -> svg issues
   	$('#Rooms a, #Doors line', el).each(function () {
@@ -29,8 +52,6 @@ WayfindingDataStore = {
 
   	WayfindingDataStore.dataStore.paths[mapNum] = [];
 
-    //console.debug("Map #" + mapNum + " has " + $('#Paths line', el).length + " paths");
-
   	$('#Paths line', el).each(function (i, line) {
   		path = {};
   		path.floor = map.id; // floor_1
@@ -55,8 +76,6 @@ WayfindingDataStore = {
   	//Doors and starting points
   	//roomId or POI_Id
 
-    //console.debug("Map #" + mapNum + " has " + $('#Doors line', el).length + " doors");
-
   	$('#Doors line', el).each(function () { // index, line
   		x1 = $(this).attr('x1');
   		y1 = $(this).attr('y1');
@@ -75,8 +94,6 @@ WayfindingDataStore = {
   	});
 
   	//Portal Segments -- string theory says unmatched portal segment useless -- no wormhole
-
-    //console.debug("Map #" + mapNum + " has " + $('#Portals line', el).length + " portals");
 
   	$('#Portals line', el).each(function () { // index, line
   		portal = {};
@@ -534,3 +551,5 @@ WayfindingDataStore = {
     return WayfindingDataStore.dataStore;
   } // function build
 }
+
+//  ]]>
