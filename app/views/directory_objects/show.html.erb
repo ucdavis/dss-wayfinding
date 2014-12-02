@@ -20,6 +20,8 @@
         $("a.btn-floor").removeClass('destination');
         $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
 
+        $('.replay').addClass('disabled');
+
         setRedirectToHome(); // reset the home page return timer
 
         $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
@@ -28,7 +30,6 @@
       });
 
       $(document).on("wayfinding:animationComplete", function() {
-        console.debug("Wayfinding indicates animation is complete.");
         $('.replay').removeClass('disabled');
       });
 

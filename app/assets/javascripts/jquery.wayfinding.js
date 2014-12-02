@@ -411,8 +411,6 @@
 				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
 
 				if(options.pinchToZoom) {
-					console.debug("switchFloor called");
-
 					// Destroy .panzoom() on all SVGs
 					for (i = 0; i < maps.length; i++) {
 						$('#floor' + i, el).panzoom("destroy");
@@ -497,12 +495,6 @@
 			var mapIdx = drawing[drawingSegment][0].floor;
 			svg = $('#' + maps[mapIdx].id + ' svg')[0];
 
-			// Handle pinch-to-zoom
-			if(options.pinchToZoom) {
-				//svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
-				//$(svg).parent().panzoom("resetZoom");
-			}
-
 			drawLength = drawing[drawingSegment].routeLength;
 			animationDuration = drawLength * options.path.speed;
 
@@ -524,18 +516,18 @@
 
 			// If this is the last segment, trigger the 'wayfinding:animationComplete' event
 			// when it finishes drawing.
-			if(drawingSegment == (drawing.length - 1)) {
-				$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
-					$(obj).trigger('wayfinding:animationComplete');
-				});
+			// If we're using zoomToRoute however, don't trigger here, trigger when zoomOut is complete (see below)
+			if(options.zoomToRoute == false) {
+				if(drawingSegment == (drawing.length - 1)) {
+					$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
+						$(obj).trigger('wayfinding:animationComplete');
+					});
+				}
 			}
 
 			// Zooming logic...
       var steps = 35;
       var duration = 650; // Zoom animation in milliseconds
-
-			// FIXME: Zooming logic needs to use jQuery.panzoom() is pinch-to-zoom is
-			//        enabled, _not_ viewBox.
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
@@ -600,6 +592,12 @@
 									svg.setAttribute('viewBox', zoomOutX  + ' ' + zoomOutY +
 	                  ' ' + zoomOutW + ' ' + zoomOutH);
 								}
+
+								if(i == steps) {
+									if(drawingSegment == drawing.length) {
+										$(obj).trigger('wayfinding:animationComplete');
+									}
+								}
               }, i * (duration / steps));
             }(i));
           }
@@ -623,7 +621,6 @@
 
 		// Uses jQuery.panzoom to pan/zoom to the SVG viewbox coordinate equivalent of (x, y, w, h)
 		function panzoomWithViewBoxCoords(cssDiv, svg, x, y, w, h) {
-			console.debug("panzoomWithViewBoxCoords called: " + x + ", " + y + ", " + w + ", " + h);
 			x = parseFloat(x);
 			y = parseFloat(y);
 			w = parseFloat(w);
@@ -635,20 +632,11 @@
 			var viewW = parseFloat(viewBox.split(/\s+|,/)[2]);
 			var viewH = parseFloat(viewBox.split(/\s+|,/)[3]);
 
-			// console.debug("viewX: " + viewX);
-			// console.debug("viewY: " + viewY);
-			// console.debug("viewW: " + viewW);
-			// console.debug("viewH: " + viewH);
-
 			var cssW = $(cssDiv).width();
 			var cssH = $(cssDiv).height();
 
-			// console.debug("cssW: " + cssW);
-			// console.debug("cssH: " + cssH);
-
 			// Step 1, determine the scale
 			var scale = Math.max(( viewW / w ), ( viewH / h ));
-			// console.debug("Scale is: " + scale);
 
 			$(cssDiv).panzoom("zoom", parseFloat(scale));
 
@@ -656,17 +644,12 @@
 			var bcX = cssW / viewW;
 			var bcY = cssH / viewH;
 
-			// console.debug("Box->CSS X factor: " + bcX);
-			// console.debug("Box->CSS Y factor: " + bcY);
-
 			// Step 2, determine the focal
 			var bcx = viewX + (viewW / 2); // box center
 			var bcy = viewY + (viewH / 2);
 
 			var fx = (bcx - (x + (w / 2))) * bcX;
 			var fy = (bcy - (y + (h / 2))) * bcY;
-
-			// console.debug("Focal (x,y) is: (" + fx + ", " + fy + ")");
 
 			// Step 3, apply $.panzoom()
 			$(cssDiv).panzoom("pan", fx * scale, fy * scale);
