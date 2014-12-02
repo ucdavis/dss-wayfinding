@@ -71,7 +71,7 @@ ready = function() {
         percentage = '100%';
       } else {
         // Expand the SVG Management section once
-        if (!progress) $('#collapseMaps').collapse('toggle');
+        if (!progress) $('#admin-menu a[href="#svg"]').tab('show');
 
         // Update values if process is not completed
         progress = data.progress;
