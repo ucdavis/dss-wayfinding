@@ -9,7 +9,7 @@
  * Licensed under GNU General Public License v2
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Date: 2014-11-21
+ * Date: 2014-12-01
  *
  */
 
@@ -51,7 +51,7 @@
 		},
 		'pinchToZoom' : false, // requires jquery.panzoom
 		'zoomToRoute' : true,
-		'zoomPadding' : 50,
+		'zoomPadding' : 85,
 		'floorChangeAnimationDelay' : 1250 // milliseconds to wait during animation when a floor change occurs
 	};
 
@@ -494,10 +494,13 @@
 				return;
 			}
 
+			var mapIdx = drawing[drawingSegment][0].floor;
+			svg = $('#' + maps[mapIdx].id + ' svg')[0];
+
 			// Handle pinch-to-zoom
 			if(options.pinchToZoom) {
-				svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
-				$(svg).parent().panzoom("resetZoom");
+				//svg = $('#' + maps[drawing[drawingSegment][0].floor].id + ' svg')[0];
+				//$(svg).parent().panzoom("resetZoom");
 			}
 
 			drawLength = drawing[drawingSegment].routeLength;
@@ -528,11 +531,8 @@
 			}
 
 			// Zooming logic...
-			var mapIdx = drawing[drawingSegment][0].floor;
-			svg = $('#' + maps[mapIdx].id + ' svg')[0];
-
       var steps = 35;
-      var duration = 600; // Zoom animation in milliseconds
+      var duration = 650; // Zoom animation in milliseconds
 
 			// FIXME: Zooming logic needs to use jQuery.panzoom() is pinch-to-zoom is
 			//        enabled, _not_ viewBox.
@@ -562,8 +562,14 @@
 							var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
 							var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
 
-							svg.setAttribute('viewBox', zoomInX  + ' ' + zoomInY +
-                ' ' + zoomInW + ' ' + zoomInH);
+							if(options.pinchToZoom) {
+								// Use CSS 3-based zooming
+								panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
+							} else {
+								// Use SVG viewBox-based zooming
+								svg.setAttribute('viewBox', zoomInX  + ' ' + zoomInY +
+	                ' ' + zoomInW + ' ' + zoomInH);
+							}
             }, i * (duration / steps));
           }(i));
         }
@@ -587,8 +593,13 @@
 								var zoomOutW = interpolateValue(newViewW, oldViewW, i, steps);
 								var zoomOutH = interpolateValue(newViewH, oldViewH, i, steps);
 
-								svg.setAttribute('viewBox', zoomOutX  + ' ' + zoomOutY +
-                  ' ' + zoomOutW + ' ' + zoomOutH);
+								if(options.pinchToZoom) {
+									// Use CSS 3-based zooming
+									panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomOutX, zoomOutY, zoomOutW, zoomOutH);
+								} else {
+									svg.setAttribute('viewBox', zoomOutX  + ' ' + zoomOutY +
+	                  ' ' + zoomOutW + ' ' + zoomOutH);
+								}
               }, i * (duration / steps));
             }(i));
           }
@@ -609,6 +620,57 @@
 				e.stopImmediatePropagation();
 			});
 		} //function initializePanZoom
+
+		// Uses jQuery.panzoom to pan/zoom to the SVG viewbox coordinate equivalent of (x, y, w, h)
+		function panzoomWithViewBoxCoords(cssDiv, svg, x, y, w, h) {
+			console.debug("panzoomWithViewBoxCoords called: " + x + ", " + y + ", " + w + ", " + h);
+			x = parseFloat(x);
+			y = parseFloat(y);
+			w = parseFloat(w);
+			h = parseFloat(h);
+
+			var viewBox = svg.getAttribute('viewBox');
+			var viewX = parseFloat(viewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
+			var viewY = parseFloat(viewBox.split(/\s+|,/)[1]);
+			var viewW = parseFloat(viewBox.split(/\s+|,/)[2]);
+			var viewH = parseFloat(viewBox.split(/\s+|,/)[3]);
+
+			// console.debug("viewX: " + viewX);
+			// console.debug("viewY: " + viewY);
+			// console.debug("viewW: " + viewW);
+			// console.debug("viewH: " + viewH);
+
+			var cssW = $(cssDiv).width();
+			var cssH = $(cssDiv).height();
+
+			// console.debug("cssW: " + cssW);
+			// console.debug("cssH: " + cssH);
+
+			// Step 1, determine the scale
+			var scale = Math.max(( viewW / w ), ( viewH / h ));
+			// console.debug("Scale is: " + scale);
+
+			$(cssDiv).panzoom("zoom", parseFloat(scale));
+
+			// Determine bounding box -> CSS coordinate conversion factor
+			var bcX = cssW / viewW;
+			var bcY = cssH / viewH;
+
+			// console.debug("Box->CSS X factor: " + bcX);
+			// console.debug("Box->CSS Y factor: " + bcY);
+
+			// Step 2, determine the focal
+			var bcx = viewX + (viewW / 2); // box center
+			var bcy = viewY + (viewH / 2);
+
+			var fx = (bcx - (x + (w / 2))) * bcX;
+			var fy = (bcy - (y + (h / 2))) * bcY;
+
+			// console.debug("Focal (x,y) is: (" + fx + ", " + fy + ")");
+
+			// Step 3, apply $.panzoom()
+			$(cssDiv).panzoom("pan", fx * scale, fy * scale);
+		}
 
 		// The combined routing function
 		// revise to only interate if startpoint has changed since last time?
