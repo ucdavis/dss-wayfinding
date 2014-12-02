@@ -69,17 +69,26 @@ ready = function() {
           + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
         progress = "No cache building in porgress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
         percentage = '100%';
+
+        // Update DOM
+        $(".cache-building").addClass('hidden');
+        $('.cache-stats').text(progress);
+        $("#svg-upload-form :input").attr("disabled", false);
       } else {
-        // Expand the SVG Management section once
-        if (!progress) $('#admin-menu a[href="#svg"]').tab('show');
+        // Apply the following only once, on page load if caches are being built
+        if (!progress) {
+          $(".cache-building").removeClass('hidden');
+          $('.cache-stats').text("Cache building in progress...").addClass('text-danger');
+          $("#svg-upload-form :input").attr("disabled", true);
+        }
 
         // Update values if process is not completed
         progress = data.progress;
         percentage = data.progress;
       }
 
-      $('#cacheStats').css('width', percentage);
-      $('#cacheStats').text(progress);
+      $('#cache-progress').css('width', percentage);
+      $('#cache-progress').text(progress);
     }).fail(function() {
       console.error("Could not fetch cache building progress");
       clearInterval(statsInterval);
