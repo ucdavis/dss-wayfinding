@@ -1,3 +1,4 @@
+/*global document*/
 /*jslint devel: true, browser: true, windows: true, plusplus: true, maxerr: 50, indent: 4 */
 
 /**
@@ -37,14 +38,25 @@
 		// as a function or a string (for consistency with startpoint)
 		'endpoint': false,
 		// Controls routing through stairs
+		// if true return an accessible route
+		// if false return the shortest route possible
 		'accessibleRoute': false,
-		// Provides the identifier for the map that should be show at startup, if not given will default to showing first map in the array
+		// Provides the identifier for the map that should be show at startup,
+		// if not given will default to showing first map in the array
 		'defaultMap': function () {
 			return 'map.1';
 		},
+		// should dataStoreCache should be used
+		// null is cache should not be used
+		// string representing url if it should be used
+		// object if cache is being passed
 		'dataStoreCache': null,
+		// if dataStoreCache is string, this is string
+		// of url to accessible cache
 		'accessibleDataStoreCache': null,
+		// place marker for "you are here"
 		'showLocation': false,
+		//styling for the "you are here pin"
 		'locationIndicator': {
 			fill: 'red',
 			height: 40
@@ -52,97 +64,20 @@
 		'pinchToZoom': false, // requires jquery.panzoom
 		'zoomToRoute': true,
 		'zoomPadding': 85,
-		'floorChangeAnimationDelay': 1250 // milliseconds to wait during animation when a floor change occurs
+		// milliseconds to wait during animation when a floor change occurs
+		'floorChangeAnimationDelay': 1250
+		// load callback?
 	};
 
 	$.fn.wayfinding = function (action, options, callback) {
 		var passed = options,
-			           obj, // the jQuery object being worked with;
-			           maps, // the array of maps populated from options each time
-			           defaultMap, // the floor to show at start propulated from options
-			           startpoint, // the result of either the options.startpoint value or the value of the function
-			           portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped.
-			           result, // used to return non jQuery results
-								 drawing;
-
-		// Set options based on either provided options or defaults
-		function getOptions(el) {
-			var optionsPrior = el.data('wayfinding:options');
-
-			drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
-
-			options = $.extend(true, {}, defaults, options);
-
-			// check for settings attached to the current object
-			if (optionsPrior !== undefined) {
-				options = optionsPrior;
-			} else {
-				options = $.extend(true, {}, defaults, options);
-			}
-
-			// check for settings attached to the current object
-			options = $.metadata ? $.extend(true, {}, options, el.metadata()) : options;
-
-			// Create references to the options
-			maps = options.maps;
-
-			// set defaultMap correctly, handle both function and value being passed
-			if (typeof(options.defaultMap) === 'function') {
-				defaultMap = options.defaultMap();
-			} else {
-				defaultMap = options.defaultMap;
-			}
-
-			// Set startpoint correctly
-			if (typeof(options.startpoint) === 'function') {
-				setStartPoint(options.startpoint(), el);
-			} else {
-				startpoint = options.startpoint;
-			}
-		} //function getOptions
-
-		function setOptions(el) {
-			el.data('wayfinding:options', options);
-			el.data('wayfinding:drawing', drawing);
-			el.data('wayfinding:data', WayfindingDataStore.dataStore);
-		}
-
-		// Ensure floor ids are unique.
-		function checkIds() {
-			var mapNum,
-				checkNum,
-				reassign = false,
-				defaultMapValid = false;
-
-			if (maps.length > 0) {
-				for (mapNum = 0; mapNum < maps.length; mapNum++) {
-					for (checkNum = mapNum; checkNum < maps.length; checkNum++) {
-						if (mapNum !== checkNum && maps[mapNum].id === maps[checkNum].id) {
-							reassign = true;
-						}
-					}
-				}
-
-				if (reassign === true) {
-					for (mapNum = 0; mapNum < maps.length; mapNum++) {
-						maps[mapNum].id = 'map_' + mapNum;
-					}
-				}
-				//check that defaultMap is valid as well
-
-				for (mapNum = 0; mapNum < maps.length; mapNum++) {
-					if (maps[mapNum].id === defaultMap) {
-						defaultMapValid = true;
-					}
-				}
-
-				if (defaultMapValid === false) {
-					defaultMap = maps[0].id;
-				}
-			} /* else {
-				// raise exception about no maps being found
-			} */
-		} //function checkIds
+			obj, // the jQuery object being worked with;
+			maps, // the array of maps populated from options each time
+			defaultMap, // the floor to show at start propulated from options
+			startpoint, // the result of either the options.startpoint value or the value of the function
+			portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to datastore
+			result, // used to return non jQuery results
+			drawing;
 
 		//Takes x and y coordinates and makes a location indicating pin for those
 		//coordinates. Returns the pin element, not yet attached to the DOM.
@@ -227,6 +162,86 @@
 			}
 		} //function setStartPoint
 
+		// Set options based on either provided options or defaults
+		function getOptions(el) {
+			var optionsPrior = el.data('wayfinding:options');
+
+			drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
+
+			options = $.extend(true, {}, defaults, options);
+
+			// check for settings attached to the current object
+			if (optionsPrior !== undefined) {
+				options = optionsPrior;
+			} else {
+				options = $.extend(true, {}, defaults, options);
+			}
+
+			// check for settings attached to the current object
+			options = $.metadata ? $.extend(true, {}, options, el.metadata()) : options;
+
+			// Create references to the options
+			maps = options.maps;
+
+			// set defaultMap correctly, handle both function and value being passed
+			if (typeof(options.defaultMap) === 'function') {
+				defaultMap = options.defaultMap();
+			} else {
+				defaultMap = options.defaultMap;
+			}
+
+			// Set startpoint correctly
+			if (typeof(options.startpoint) === 'function') {
+				setStartPoint(options.startpoint(), el);
+			} else {
+				startpoint = options.startpoint;
+			}
+		} //function getOptions
+
+		function setOptions(el) {
+			el.data('wayfinding:options', options);
+			el.data('wayfinding:drawing', drawing);
+			// need to handle cases where WayfindingDataStore isn't loaded if we are separating these out
+			el.data('wayfinding:data', WayfindingDataStore.dataStore);
+		}
+
+		// Ensure floor ids are unique.
+		function checkIds() {
+			var mapNum,
+				checkNum,
+				reassign = false,
+				defaultMapValid = false;
+
+			if (maps.length > 0) {
+				for (mapNum = 0; mapNum < maps.length; mapNum++) {
+					for (checkNum = mapNum; checkNum < maps.length; checkNum++) {
+						if (mapNum !== checkNum && maps[mapNum].id === maps[checkNum].id) {
+							reassign = true;
+						}
+					}
+				}
+
+				if (reassign === true) {
+					for (mapNum = 0; mapNum < maps.length; mapNum++) {
+						maps[mapNum].id = 'map_' + mapNum;
+					}
+				}
+				//check that defaultMap is valid as well
+
+				for (mapNum = 0; mapNum < maps.length; mapNum++) {
+					if (maps[mapNum].id === defaultMap) {
+						defaultMapValid = true;
+					}
+				}
+
+				if (defaultMapValid === false) {
+					defaultMap = maps[0].id;
+				}
+			} /* else {
+				// raise exception about no maps being found
+			} */
+		} //function checkIds
+
 		function setEndPoint(passed, el) {
 			var end, endpoint, attachPinLocation,
 			x, y,
@@ -235,13 +250,13 @@
 			//clears locationIndicators from the maps
 			$('path.destinationPin', el).remove();
 
-      // Set endpoint
+			// Set endpoint
 			endpoint = passed;
 
 			if (options.showLocation) {
 				end = $('#Doors #' + endpoint, el);
 
-			  attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
+			attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
 				if (end.length) {
 					x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
 					y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
@@ -274,13 +289,14 @@
 				event.preventDefault();
 			});
 
-			// Ensure text labels won't prevent room clicks
-			$('text', svgDiv).css("pointer-events", "none");
-
-			// Ensure path lines won't prevent room clicks
-			$('line', svgDiv).css("pointer-events", "none");
+			// Disable clicking on every SVG element except rooms
+			$(svgDiv).find('*').css("pointer-events", "none");
+			$('#Rooms a', svgDiv).find('*').css("pointer-events", "auto");
 
 			$(obj).append(svgDiv);
+
+			// jQuery.panzoom() only works after element is attached to DOM
+			if(options.pinchToZoom) initializePanZoom($(svgDiv));
 		} //function activateSVG
 
 		function replaceLoadScreen(el) {
@@ -303,14 +319,9 @@
 			$(this).trigger('wayfinding:mapsVisible');
 
 			// Ensure SVG w/h are divisble by 2 (to avoid webkit blurriness bug on pan/zoom)
-			var elem = $('#' + maps[displayNum].id + ">svg", el)[0];
-			elem.style.height = (Math.ceil(elem.offsetHeight / 2) * 2) + "px";
-			elem.style.width = (Math.ceil(elem.offsetWidth / 2) * 2) + "px";
-
-			// Enable pinch-to-zoom
-			if(options.pinchToZoom) {
-				initializePanZoom($('#' + maps[displayNum].id, el));
-			}
+			var elem = $('#' + maps[displayNum].id + '>svg', el)[0];
+			elem.style.height = (Math.ceil(elem.offsetHeight / 2) * 2) + 'px';
+			elem.style.width = (Math.ceil(elem.offsetWidth / 2) * 2) + 'px';
 
 			// if endpoint was specified, route to there.
 			if (typeof(options.endpoint) === 'function') {
@@ -319,7 +330,7 @@
 				routeTo(options.endpoint);
 			}
 
-			$.event.trigger("wayfinding:ready");
+			$.event.trigger('wayfinding:ready');
 		} //function replaceLoadScreen
 
 		// Initialize the jQuery target object
@@ -334,7 +345,7 @@
 				svgDiv.load(
 					map.path,
 					function (svg, status, xhr) {
-						if (status == "error") {
+						if (status === 'error') {
 							svgDiv.html("<p class='text-center text-danger'>Map " + i + " Was not found at "
 								+ map.path + "<br />Please upload it in the administration section</p>");
 							maps[i].el = svgDiv;
@@ -348,7 +359,7 @@
 
 						mapsProcessed = mapsProcessed + 1;
 
-						if(mapsProcessed == maps.length) {
+						if(mapsProcessed === maps.length) {
 							// All SVGs have finished loading
 							establishDataStore(options.accessibleRoute, function() {
 								// SVGs are loaded, dataStore is set, ready the DOM
@@ -365,7 +376,9 @@
 		// Ensure a dataStore exists and is set, whether from a cache
 		// or by building it.
 		function establishDataStore(accessible, onReadyCallback) {
-			if(accessible == undefined) accessible = false;
+			if(accessible === undefined) {
+				accessible = false;
+			}
 
 			if (options.dataStoreCache) {
 				if (typeof(options.dataStoreCache) === 'object') {
@@ -373,7 +386,9 @@
 
 					WayfindingDataStore.dataStore = options.dataStoreCache;
 
-					if(typeof(onReadyCallback) == "function") onReadyCallback();
+					if(typeof(onReadyCallback) === 'function') {
+						onReadyCallback();
+					}
 				} else if (typeof(options.dataStoreCache) === 'string') {
 					console.debug("Attempting to load dataStoreCache from URL ...");
 					var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
@@ -383,13 +398,17 @@
 
 						WayfindingDataStore.dataStore = result;
 
-						if(typeof(onReadyCallback) == "function") onReadyCallback();
+						if(typeof(onReadyCallback) === 'function') {
+							onReadyCallback();
+						}
 					}).fail(function () {
 						console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
 
 						WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
 
-						if(typeof(onReadyCallback) == "function") onReadyCallback();
+						if(typeof(onReadyCallback) === 'function') {
+							onReadyCallback();
+						}
 					});
 				}
 			} else {
@@ -397,7 +416,9 @@
 
 				WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
 
-				if(typeof(onReadyCallback) == "function") onReadyCallback();
+				if(typeof(onReadyCallback) === 'function') {
+					onReadyCallback();
+				}
 			}
 		}
 
@@ -407,15 +428,6 @@
 
 			$('#' + floor, el).show(0, function() {
 				$(el).trigger('wayfinding:floorChanged', { map_id: floor });
-
-				if(options.pinchToZoom) {
-					// Destroy .panzoom() on all SVGs
-					for (i = 0; i < maps.length; i++) {
-						$('#floor' + i, el).panzoom("destroy");
-					}
-
-					initializePanZoom($('#' + floor, el));
-				}
 			});
 
 			//turn floor into mapNum, look for that in drawing
@@ -524,8 +536,8 @@
 			}
 
 			// Zooming logic...
-      var steps = 35;
-      var duration = 650; // Zoom animation in milliseconds
+			var steps = 35;
+			var duration = 650; // Zoom animation in milliseconds
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
@@ -534,19 +546,19 @@
 			var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
 			var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
 
-      // Calculate single step size from each direction
-      var newViewX = pathRect.x - pad;
+			// Calculate single step size from each direction
+			var newViewX = pathRect.x - pad;
 					newViewX = newViewX > 0 ? newViewX : 0;
-      var newViewW = pathRect.width + (2 * pad);
-      var newViewY = pathRect.y - pad;
+			var newViewW = pathRect.width + (2 * pad);
+			var newViewY = pathRect.y - pad;
 					newViewY = newViewY > 0 ? newViewY : 0;
-      var newViewH = pathRect.height + (2 * pad);
+			var newViewH = pathRect.height + (2 * pad);
 
 			if (options.zoomToRoute) {
-        // Loop the specified number of steps to create the zoom in animation
-        for (var i = 0; i <= steps; i++) {
-          (function(i) {
-            setTimeout(function() {
+				// Loop the specified number of steps to create the zoom in animation
+				for (var i = 0; i <= steps; i++) {
+					(function(i) {
+						setTimeout(function() {
 							var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
 							var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
 							var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
@@ -557,12 +569,11 @@
 								panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
 							} else {
 								// Use SVG viewBox-based zooming
-								svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY +
-	                ' ' + zoomInW + ' ' + zoomInH);
+								svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY + ' ' + zoomInW + ' ' + zoomInH);
 							}
-            }, i * (duration / steps));
-          }(i));
-        }
+						}, i * (duration / steps));
+					}(i));
+				}
 			}
 
 			// Call animatePath after 'animationDuration' milliseconds to animate the next segment of the path,
@@ -573,11 +584,22 @@
 				animatePath(drawing, ++drawingSegment);
 
 				if (options.zoomToRoute) {
-          // Loop the specified number of steps to create the zoom out animation
-          for (var i = 0; i <= steps; i++) {
-            (function(i) {
-              setTimeout(function() {
-								var interpolateFactor = steps - i;
+					// Loop the specified number of steps to create the zoom out animation
+					// or set i = steps to force the zoom out immediately (used on floors
+					// no longer visible to the user due to floor changes)
+					var i;
+
+					// Animate zoom out if we're on the last drawing segment, else
+					// we can just reset the zoom out (improves performance, user will never notice)
+					if((drawing.length == 1) || ((drawing.length > 1) && (drawingSegment == drawing.length))) {
+						i = 0; // apply full animation
+					} else {
+						i = steps; // effectively removes animation and resets the zoom out (only triggered on floors where the user
+					}
+
+					for ( ; i <= steps; i++) {
+						(function(i) {
+							setTimeout(function() {
 								var zoomOutX = interpolateValue(newViewX, oldViewX, i, steps);
 								var zoomOutY = interpolateValue(newViewY, oldViewY, i, steps);
 								var zoomOutW = interpolateValue(newViewW, oldViewW, i, steps);
@@ -587,18 +609,17 @@
 									// Use CSS 3-based zooming
 									panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomOutX, zoomOutY, zoomOutW, zoomOutH);
 								} else {
-									svg.setAttribute('viewBox', zoomOutX + ' ' + zoomOutY +
-	                  ' ' + zoomOutW + ' ' + zoomOutH);
+									svg.setAttribute('viewBox', zoomOutX + ' ' + zoomOutY + ' ' + zoomOutW + ' ' + zoomOutH);
 								}
 
-								if(i == steps) {
-									if(drawingSegment == drawing.length) {
+								if(i === steps) {
+									if(drawingSegment === drawing.length) {
 										$(obj).trigger('wayfinding:animationComplete');
 									}
 								}
-              }, i * (duration / steps));
-            }(i));
-          }
+							}, i * (duration / steps));
+						}(i));
+					}
 				}
 			}, animationDuration + options.floorChangeAnimationDelay);
 		} //function animatePath
@@ -608,7 +629,7 @@
 			$el.panzoom({
 				minScale: 1.0,
 				contain: 'invert',
-				cursor: "pointer"
+				cursor: 'pointer'
 			});
 
 			// Allow clicking on links within the SVG despite $.panZoom()
@@ -636,7 +657,7 @@
 			// Step 1, determine the scale
 			var scale = Math.max(( viewW / w ), ( viewH / h ));
 
-			$(cssDiv).panzoom("zoom", parseFloat(scale));
+			$(cssDiv).panzoom('zoom', parseFloat(scale));
 
 			// Determine bounding box -> CSS coordinate conversion factor
 			var bcX = cssW / viewW;
@@ -650,7 +671,7 @@
 			var fy = (bcy - (y + (h / 2))) * bcY;
 
 			// Step 3, apply $.panzoom()
-			$(cssDiv).panzoom("pan", fx * scale, fy * scale);
+			$(cssDiv).panzoom('pan', fx * scale, fy * scale);
 		}
 
 		// The combined routing function
@@ -698,7 +719,7 @@
 
 				//highlight the destination room
 				$('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
-                setEndPoint(options.endpoint);
+				setEndPoint(options.endpoint);
 				solution = WayfindingDataStore.getShortestRoute(maps, destination, startpoint).solution;
 
 				if (reversePathStart !== -1) {
@@ -720,8 +741,8 @@
 
 					draw = {};
 
-					if(solution.length == 0) {
-						console.warn("Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: " + destination);
+					if(solution.length === 0) {
+						console.warn('Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: ' + destination);
 						return;
 					}
 
@@ -917,7 +938,7 @@
 						}
 
 
-                        // Attach the newpath to the startpin or endpin if they exist on this floor
+						// Attach the newpath to the startpin or endpin if they exist on this floor
 						var attachPointSvg = $('#' + maps[level[0].floor].id + ' svg');
 						var startPin = $('.startPin', attachPointSvg);
 						var destinationPin = $('.destinationPin', attachPointSvg);
@@ -925,12 +946,12 @@
 						if (startPin.length) {
 							startPin.before(newPath);
 						}
-                        else if (destinationPin.length) {
-                            destinationPin.before(newPath);
-                        }
-                        else {
-                            attachPointSvg.append(newPath);
-                        }
+						else if (destinationPin.length) {
+							destinationPin.before(newPath);
+						}
+						else {
+							attachPointSvg.append(newPath);
+						}
 
 						thisPath = $('#' + maps[level[0].floor].id + ' svg .directionPath' + i);
 
@@ -949,7 +970,7 @@
 		} //RouteTo
 
 		if (WayfindingDataStore == null) {
-			console.error("Please include wayfinding.datastore.js before jquery.wayfinding.js.");
+			console.error('Please include wayfinding.datastore.js before jquery.wayfinding.js.');
 		}
 
 		if (action && typeof (action) === 'object') {

@@ -9,12 +9,12 @@ window 	= jsdom.jsdom().createWindow();
 $ = require('jquery');
 
 var maps = [
-  {'path': 'public/maps/floor0.svg', 'id': 'floor0'},
-  {'path': 'public/maps/floor1.svg', 'id': 'floor1'},
-  {'path': 'public/maps/floor2.svg', 'id': 'floor2'},
-  {'path': 'public/maps/floor3.svg', 'id': 'floor3'},
-  {'path': 'public/maps/floor4.svg', 'id': 'floor4'},
-  {'path': 'public/maps/floor5.svg', 'id': 'floor5'}
+  {'path': '../public/maps/floor0.svg', 'id': 'floor0'},
+  {'path': '../public/maps/floor1.svg', 'id': 'floor1'},
+  {'path': '../public/maps/floor2.svg', 'id': 'floor2'},
+  {'path': '../public/maps/floor3.svg', 'id': 'floor3'},
+  {'path': '../public/maps/floor4.svg', 'id': 'floor4'},
+  {'path': '../public/maps/floor5.svg', 'id': 'floor5'}
 ];
 
 require('../app/assets/javascripts/wayfinding.datastore.js');

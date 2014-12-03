@@ -429,7 +429,7 @@ WayfindingDataStore = {
   checkMaps: function (maps, startpoint) {
     var mapNum,
       pathNum,
-      //debugLine,
+      debugLine,
       report = [],
       i = 0;
 
@@ -442,28 +442,33 @@ WayfindingDataStore = {
       for (pathNum = 0; pathNum < WayfindingDataStore.dataStore.paths[mapNum].length; pathNum++) {
         if (WayfindingDataStore.dataStore.paths[mapNum][pathNum].route === Infinity || WayfindingDataStore.dataStore.paths[mapNum][pathNum].prior === -1) {
           report[i++] = 'Unreachable path: ' + pathNum;
+
           //Show where paths that are unreachable from the given start point are.
-          //debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          //debugLine.setAttribute('class', 'debugPath');
-          //debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
-          //debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
-          //debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
-          //debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
-          //$('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', el).append(debugLine);
+          debugLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          debugLine.setAttribute('class', 'debugPath');
+          debugLine.setAttribute('x1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ax);
+          debugLine.setAttribute('y1', WayfindingDataStore.dataStore.paths[mapNum][pathNum].ay);
+          debugLine.setAttribute('x2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].bx);
+          debugLine.setAttribute('y2', WayfindingDataStore.dataStore.paths[mapNum][pathNum].by);
+
+          // $('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths', maps[mapNum].el).append(debugLine);
+          $('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + ' #Paths').append(debugLine);
         }
       }
       report[i++] = '\n';
 
       /* jshint ignore:start */
-      $('#Rooms a', maps[mapNum].el).each(function (_i, room) {
-        var doorPaths = WayfindingDataStore.getShortestRoute(maps, $(room).attr('id'), startpoint);
+      if($('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum]).length > 0) {
+        $('#' + WayfindingDataStore.dataStore.paths[mapNum][pathNum].floor + '#Rooms a').each(function (_i, room) {
+          var doorPaths = WayfindingDataStore.getShortestRoute(maps, $(room).attr('id'), startpoint);
 
-        if (doorPaths.solution.length === 0) {
-          report[i++] = 'Unreachable room: ' + $(room).attr('id');
-          //highlight unreachable rooms
-          //$(room).attr('class', 'debugRoom');
-        }
-      }); //
+          if (doorPaths.solution.length === 0) {
+            report[i++] = 'Unreachable room: ' + $(room).attr('id');
+            //highlight unreachable rooms
+            $(room).attr('class', 'debugRoom');
+          }
+        }); //
+      }
       /* jshint ignore:end */
       report[i++] = '\n';
     }

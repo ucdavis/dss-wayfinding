@@ -769,3 +769,15 @@ table {
     }
   }
 }
+
+/* For Wayfinding debug */
+.debugPath {
+  stroke: orange;
+  stroke-width: 1;
+}
+
+.debugRoom {
+  fill: red;
+  stroke: red;
+  stroke-width: 3;
+}
