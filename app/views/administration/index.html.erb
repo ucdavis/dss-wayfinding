@@ -41,18 +41,24 @@
         <a href="#rss" aria-controls="rss" role="tab" data-toggle="tab">Manage RSS Fetching</a>
       </li>
       <li role="presentation">
-        <a href="#dept" aria-controls="dept" role="tab" data-toggle="tab">Edit Department Locations</a>
-      </li>
-      <li role="presentation">
         <a href="#unmatched" aria-controls="unmatched" role="tab" data-toggle="tab">Unmatched Search Query Logs</a>
       </li>
       <li role="presentation">
         <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab">Search Term Logs</a>
       </li>
+      <li role="presentation">
+        <a href="#dept" aria-controls="dept" role="tab" data-toggle="tab">Edit Department Locations</a>
+      </li>
+      <li role="presentation">
+        <a href="#people" aria-controls="people" role="tab" data-toggle="tab">Edit People Directory</a>
+      </li>
+      <li role="presentation">
+        <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">Edit Rooms Directory</a>
+      </li>
     </ul>
 
     <!-- Tab panes -->
-    <div class="tab-content col-sm-9">
+    <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="kiosk">
         <%= form_tag(origin_administration_index_path, id: "originform", remote: true, class: 'form-inline') do %>
           <div class="form-group">
@@ -128,6 +134,27 @@
         </table>
       </div>
 
+      <div role="tabpanel" class="tab-pane" id="unmatched">
+        <% @unmatched_queries.each do |query| %>
+          <div class="col-sm-2">
+            <%= query.query %>
+          </div>
+        <% end %>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="search-logs">
+        <div class="row" style="margin-top: 1em;">
+          <div class="col-sm-2">
+            Search Term - Number of occurences (Top 30)
+          </div>
+          <% @search_terms.each do |search_term| %>
+            <div class="col-sm-2">
+              <%= search_term.term %> - <%= search_term.count %>
+            </div>
+          <% end %>
+        </div> <!-- .row -->
+      </div>
+
       <div role="tabpanel" class="tab-pane" id="dept">
         <% @departments.each do |department| %>
           <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
@@ -150,25 +177,81 @@
         <% end %>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="unmatched">
-        <% @unmatched_queries.each do |query| %>
-          <div class="col-sm-2">
-            <%= query.query %>
+      <div role="tabpanel" class="tab-pane" id="people">
+        <div class="list-group col-sm-3 admin-directory-list">
+          <%= search_field_tag "search-people", nil, placeholder: 'Search People', class: 'form-control' %>
+          <a href="#" class="list-group-item list-group-item-success active" id="new-person">New Person</a>
+          <% @people.each do |person| %>
+            <a href="#" class="list-group-item person-item" id="person_<%= person.id %>">
+              <%= person.first + " " + person.last %></a>
+          <% end %>
+        </div>
+        <div class="col-sm-9">
+        <%= form_tag directory_object_administration_index_path,
+        remote: true, class: 'form-horizontal', id: 'people-form' do %>
+          <%= hidden_field_tag 'id' %>
+          <div class="form-group">
+            <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-5">
+              <%= text_field_tag "first", nil, placeholder: 'First Name', class: 'form-control' %>
+            </div>
+            <div class="col-sm-5">
+              <%= text_field_tag "last", nil, placeholder: 'Last Name', class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Email', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "email", nil, placeholder: 'Email', class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Phone', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "phone", nil, placeholder: 'Phone', class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Department', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= select_tag "department", options_from_collection_for_select(@departments, "id", "title"), include_blank: true, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= label_tag 'Rooms', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= select_tag "rooms", options_from_collection_for_select(@rooms, "id", "room_number"), multiple: true, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-1">
+              <%= submit_tag 'Create', class: 'btn btn-default' %>
+            </div>
           </div>
         <% end %>
       </div>
+      </div>
 
-      <div role="tabpanel" class="tab-pane" id="search-logs">
-        <div class="row" style="margin-top: 1em;">
-          <div class="col-sm-2">
-            Search Term - Number of occurences (Top 30)
-          </div>
-          <% @search_terms.each do |search_term| %>
+      <div role="tabpanel" class="tab-pane" id="rooms">
+        <% @departments.each do |department| %>
+          <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
+          <div class="form-group">
+
+            <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
             <div class="col-sm-2">
-              <%= search_term.term %> - <%= search_term.count %>
+            <% if department.room %>
+            <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
+            <% else %>
+            <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
+            <% end %>
+            <%= hidden_field_tag :department_id, department.id %>
             </div>
+            <div class="col-sm-2">
+            <%= submit_tag 'Save Location', class: 'btn btn-default' %>
+            </div>
+          </div>
           <% end %>
-        </div> <!-- .row -->
+        <% end %>
       </div>
 
     </div>

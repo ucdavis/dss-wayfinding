@@ -7,6 +7,8 @@ class AdministrationController < ApplicationController
   def index
     @origin = cookies[:origin]
     @departments = Department.all
+    @people = Person.all
+    @rooms = Room.all
     @rss_feeds = RssFeed.all
     @rss_feed = RssFeed.new # for adding new RSS feeds
     @unmatched_queries = UnmatchedQueryLog.all
@@ -222,6 +224,19 @@ class AdministrationController < ApplicationController
         redirect_to action: "index",
         error: error,
         notice: notice
+      }
+    end
+  end
+
+  # POST
+  # Create Directory Object
+  def directory_object
+
+    respond_to do |format|
+      format.json {
+        render :json => {
+          notice: "Got it!"
+        }
       }
     end
   end

@@ -785,7 +785,10 @@ table {
 .pill-content > .active {
   display: block;
   float: left;
-  width: 100%;
+  padding: 5px 20px;
+  width: 80%;
+  height: 75vh;
+  overflow: auto;
 }
 
 .tabs-left > .nav-tabs > li {
@@ -800,9 +803,9 @@ table {
 
 .tabs-left > .nav-tabs {
   float: left;
-  margin-right: 19px;
   border-right: 1px solid #ddd;
-  height: 70vh;
+  height: 75vh;
+  width: 20%;
 }
 
 .tabs-left > .nav-tabs > li > a {
@@ -810,6 +813,7 @@ table {
   -webkit-border-radius: 4px 0 0 4px;
      -moz-border-radius: 4px 0 0 4px;
           border-radius: 4px 0 0 4px;
+  padding: 5px;
 }
 
 .tabs-left > .nav-tabs > li > a:hover,
@@ -822,4 +826,9 @@ table {
 .tabs-left > .nav-tabs .active > a:focus {
   border-color: #ddd transparent #ddd #ddd;
   *border-right-color: #ffffff;
+}
+
+.admin-directory-list {
+  height: 70vh;
+  overflow: auto;
 }
