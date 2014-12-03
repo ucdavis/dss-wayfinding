@@ -680,14 +680,6 @@ input.search:focus {
   }
 }
 
-img.building-pic {
-  padding: 1px;
-  border: 1px solid #021a40;
-  background-color: #eee;
-  width: 100%;
-  margin: 2em 0;
-}
-
 #Rooms {
   opacity: 1;
 }
@@ -780,4 +772,30 @@ table {
   fill: red;
   stroke: red;
   stroke-width: 3;
+}
+
+/* About page */
+.about-page {
+  margin-top: 2em;
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.75em;
+
+  img.building-pic-1 {
+    width: 60%;
+    padding: 0 0 1em 1em;
+    float: right;
+  }
+
+  img.building-pic-2 {
+    width: 60%;
+    padding: 1em 1em 1em 0;
+    float: left;
+  }
+
+  .legal {
+    color: #aaa;
+    font-size: 0.7em;
+    line-height: 1.3em;
+  }
 }
