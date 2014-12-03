@@ -113,6 +113,9 @@ ready = function() {
   $('.admin-directory-list').on('click', 'a#new-person', function (e) {
     e.preventDefault();
 
+    $('.admin-directory-list a').removeClass('active');
+    $(this).addClass('active');
+
     // Change form method to post
     $('#directory-form').attr('method','post');
     $('#directory-form button#submit').text('Create');
@@ -128,6 +131,9 @@ ready = function() {
   $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
     e.preventDefault();
 
+    $('.admin-directory-list a').removeClass('active');
+    $(this).addClass('active');
+
     // Change form method to put
     $('#directory-form').attr('method','put');
     $('#directory-form button#submit').text('Update');
@@ -135,7 +141,7 @@ ready = function() {
     // Set form elements
     var item = $(this).data('item');
     for (var key in item) {
-      $("#directory-form input[name = '" + key + "']").val(item[key]);
+      $("#directory-form #" + key).val(item[key]);
     }
   });
 };
