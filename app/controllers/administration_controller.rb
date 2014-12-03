@@ -228,15 +228,39 @@ class AdministrationController < ApplicationController
     end
   end
 
-  # POST
+  # POST/PUT
   # Create Directory Object
   def directory_object
+    if params[:id].present?
+      # Find existing object
+      @object = DirectoryObject.find_or_create_by(id: params[:id])
+    else
+      case params[:type]
+      when 'Person'
+        @object = Person.new
+      when 'Department'
+        @object = Department.new
+      else
+        @object = Room.new
+      end
+    end
 
+    @object.first = params[:first] unless params[:first].blank?
+    @object.last = params[:last] unless params[:last].blank?
+    @object.email = params[:email] unless params[:email].blank?
+    @object.phone = params[:phone] unless params[:phone].blank?
+    @object.department = Department.find(params[:department]) unless params[:department].blank?
+    if params[:type] == 'Person'
+      @object.rooms = []
+      params[:rooms].each do |room|
+        @object.rooms << Room.find(room)
+      end unless params[:rooms].blank?
+    end
+
+    @object.save
     respond_to do |format|
       format.json {
-        render :json => {
-          notice: "Got it!"
-        }
+        render :json => @object
       }
     end
   end

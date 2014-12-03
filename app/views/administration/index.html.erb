@@ -179,17 +179,18 @@
 
       <div role="tabpanel" class="tab-pane" id="people">
         <div class="list-group col-sm-3 admin-directory-list">
-          <%= search_field_tag "search-people", nil, placeholder: 'Search People', class: 'form-control' %>
+          <%= search_field_tag "search-directory", nil, placeholder: 'Search People', class: 'form-control' %>
           <a href="#" class="list-group-item list-group-item-success active" id="new-person">New Person</a>
           <% @people.each do |person| %>
-            <a href="#" class="list-group-item person-item" id="person_<%= person.id %>">
+            <a href="#" class="list-group-item directory-item" data-item="<%= person.to_json %>">
               <%= person.first + " " + person.last %></a>
           <% end %>
         </div>
         <div class="col-sm-9">
         <%= form_tag directory_object_administration_index_path,
-        remote: true, class: 'form-horizontal', id: 'people-form' do %>
+        remote: true, class: 'form-horizontal', id: 'directory-form' do %>
           <%= hidden_field_tag 'id' %>
+          <%= hidden_field_tag 'type', 'Person' %>
           <div class="form-group">
             <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-5">
@@ -225,7 +226,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-1">
-              <%= submit_tag 'Create', class: 'btn btn-default' %>
+              <%= button_tag 'Create', class: 'btn btn-default', id: 'submit' %>
             </div>
           </div>
         <% end %>

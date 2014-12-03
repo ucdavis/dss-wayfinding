@@ -95,8 +95,49 @@ ready = function() {
     });
   }
 
+  // Get cache stats on page load
   getCacheStats();
 
+  // Directory search
+  $('.admin-directory-list').on('keyup', 'input#search-directory', function (e) {
+    var query = $(this).val();
+    $('a.directory-item').show();
+    if (query.length > 2) {
+      $('a.directory-item').each(function () {
+        if ($(this).text().toLowerCase().indexOf(query.toLowerCase()) == -1) $(this).hide();
+      });
+    }
+  });
+
+  // Directory form
+  $('.admin-directory-list').on('click', 'a#new-person', function (e) {
+    e.preventDefault();
+
+    // Change form method to post
+    $('#directory-form').attr('method','post');
+    $('#directory-form button#submit').text('Create');
+
+    // Reset form
+    $("#directory-form input[name = 'id']").val('');
+    $(':input','#directory-form')
+     .not(':button, :submit, :reset, :hidden')
+     .val('')
+     .removeAttr('checked')
+     .removeAttr('selected');
+  });
+  $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
+    e.preventDefault();
+
+    // Change form method to put
+    $('#directory-form').attr('method','put');
+    $('#directory-form button#submit').text('Update');
+
+    // Set form elements
+    var item = $(this).data('item');
+    for (var key in item) {
+      $("#directory-form input[name = '" + key + "']").val(item[key]);
+    }
+  });
 };
 
 $(document).ready(ready);
