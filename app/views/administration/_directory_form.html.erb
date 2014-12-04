@@ -15,7 +15,7 @@
           <% @departments.each do |department| %>
             <a href="#" class="list-group-item directory-item"
               data-item="<%= department.to_json %>"
-              data-room="<%= department.room.room_number %>">
+              data-room="<%= department.room.room_number if department.room.present? %>">
               <%= department.title %></a>
           <% end if type == 'Department' %>
 
