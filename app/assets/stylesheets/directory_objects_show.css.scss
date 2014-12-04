@@ -95,7 +95,7 @@ body {
 }
 
 /* map target information pane */
-#destination-view, #scrubber-view {
+#destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
   width: 19vw;
@@ -723,26 +723,32 @@ ul li.room {
 }
 
 #scrubber-view {
-    right: 3vw;
-    width: 2vw;
-    box-shadow: none;
-    position: fixed;
-    height: 100vh;
-    top: 0px;
-    right: 0px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
 
-    .nav > li > a {
-      padding: 0;
-    }
+  ul.nav {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin-right: 10px;
+  }
+  ul.nav > li > a {
+    padding: 0;
+  }
 }
 
 .clickable-row {
-    width: 50%;
+  cursor: pointer;
+  width: 50%;
 }
 
 table {
-  .content {
-    width: 80%;
+  &.directory-table {
+    width: 95%;
   }
 
   tbody {

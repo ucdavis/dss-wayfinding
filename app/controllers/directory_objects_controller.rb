@@ -15,7 +15,7 @@ class DirectoryObjectsController < ApplicationController
       @directory_objects = Event.all.order(:title)
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
-      @scrubber_categories = [0,1,2,3,4,5]
+      @scrubber_categories = ['L',1,2,3,4,5]
     else
       @directory_objects = DirectoryObject.all
     end
