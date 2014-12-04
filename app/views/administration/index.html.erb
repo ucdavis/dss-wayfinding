@@ -47,13 +47,13 @@
         <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab">Search Term Logs</a>
       </li>
       <li role="presentation">
-        <a href="#dept" aria-controls="dept" role="tab" data-toggle="tab">Edit Department Locations</a>
+        <a href="#dir_dept" aria-controls="dir_dept" role="tab" data-toggle="tab">Edit Department Locations</a>
       </li>
       <li role="presentation">
-        <a href="#people" aria-controls="people" role="tab" data-toggle="tab">Edit People Directory</a>
+        <a href="#dir_people" aria-controls="dir_people" role="tab" data-toggle="tab">Edit People Directory</a>
       </li>
       <li role="presentation">
-        <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">Edit Rooms Directory</a>
+        <a href="#dir_rooms" aria-controls="dir_rooms" role="tab" data-toggle="tab">Edit Rooms Directory</a>
       </li>
     </ul>
 
@@ -155,104 +155,16 @@
         </div> <!-- .row -->
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="dept">
-        <% @departments.each do |department| %>
-          <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
-          <div class="form-group">
-
-            <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
-            <div class="col-sm-2">
-            <% if department.room %>
-            <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
-            <% else %>
-            <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
-            <% end %>
-            <%= hidden_field_tag :department_id, department.id %>
-            </div>
-            <div class="col-sm-2">
-            <%= submit_tag 'Save Location', class: 'btn btn-default' %>
-            </div>
-          </div>
-          <% end %>
-        <% end %>
+      <div role="tabpanel" class="tab-pane" id="dir_dept">
+         <%= render "directory_form", type: 'Department' %>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="people">
-        <div class="list-group col-sm-3 admin-directory-list">
-          <%= search_field_tag "search-directory", nil, placeholder: 'Search People', class: 'form-control' %>
-          <a href="#" class="list-group-item list-group-item-success active" id="new-person">New Person</a>
-          <% @people.each do |person| %>
-            <a href="#" class="list-group-item directory-item" data-item="<%= person.to_json %>">
-              <%= person.first + " " + person.last %></a>
-          <% end %>
-        </div>
-        <div class="col-sm-9">
-        <%= form_tag directory_object_administration_index_path,
-        remote: true, class: 'form-horizontal', id: 'directory-form' do %>
-          <%= hidden_field_tag 'id' %>
-          <%= hidden_field_tag 'type', 'Person' %>
-          <div class="form-group">
-            <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-5">
-              <%= text_field_tag "first", nil, placeholder: 'First Name', class: 'form-control' %>
-            </div>
-            <div class="col-sm-5">
-              <%= text_field_tag "last", nil, placeholder: 'Last Name', class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag 'Email', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-10">
-              <%= text_field_tag "email", nil, placeholder: 'Email', class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag 'Phone', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-10">
-              <%= text_field_tag "phone", nil, placeholder: 'Phone', class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag 'Department', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-10">
-              <%= select_tag "department", options_from_collection_for_select(@departments, "id", "title"), include_blank: true, class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag 'Rooms', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-10">
-              <%= select_tag "rooms", options_from_collection_for_select(@rooms, "id", "room_number"), multiple: true, class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-1">
-              <%= button_tag 'Create', class: 'btn btn-default', id: 'submit' %>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <div role="tabpanel" class="tab-pane" id="dir_people">
+         <%= render "directory_form", type: 'Person' %>
       </div>
 
-      <div role="tabpanel" class="tab-pane" id="rooms">
-        <% @departments.each do |department| %>
-          <%= form_tag(department_location_administration_index_path, class: "deptform form-horizontal", remote: true) do %>
-          <div class="form-group">
-
-            <label for="department" class="col-sm-3 control-label"><%= department.title %></label>
-            <div class="col-sm-2">
-            <% if department.room %>
-            <%= text_field_tag :department_room_number, department.room.room_number, placeholder: department.inspect, class: 'form-control' %>
-            <% else %>
-            <%= text_field_tag :department_room_number, nil, placeholder: 'Room Number', class: 'form-control' %>
-            <% end %>
-            <%= hidden_field_tag :department_id, department.id %>
-            </div>
-            <div class="col-sm-2">
-            <%= submit_tag 'Save Location', class: 'btn btn-default' %>
-            </div>
-          </div>
-          <% end %>
-        <% end %>
+      <div role="tabpanel" class="tab-pane" id="dir_rooms">
+         <%= render "directory_form", type: 'Room' %>
       </div>
 
     </div>

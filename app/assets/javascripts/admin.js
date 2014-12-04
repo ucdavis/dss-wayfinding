@@ -110,7 +110,7 @@ ready = function() {
   });
 
   // Directory form
-  $('.admin-directory-list').on('click', 'a#new-person', function (e) {
+  $('.admin-directory-list').on('click', 'a#new-object', function (e) {
     e.preventDefault();
 
     $('.admin-directory-list a').removeClass('active');
@@ -140,6 +140,10 @@ ready = function() {
 
     // Set form elements
     var item = $(this).data('item');
+    item.room = $(this).data('room');
+    item.rooms = $(this).data('rooms');
+    item.department = $(this).data('department');
+
     for (var key in item) {
       $("#directory-form #" + key).val(item[key]);
     }
