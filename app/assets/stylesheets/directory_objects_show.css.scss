@@ -734,6 +734,7 @@ ul li.room {
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    margin-right: 10px;
   }
   ul.nav > li > a {
     padding: 0;
@@ -746,8 +747,8 @@ ul li.room {
 }
 
 table {
-  .content {
-    width: 80%;
+  &.directory-table {
+    width: 95%;
   }
 
   tbody {

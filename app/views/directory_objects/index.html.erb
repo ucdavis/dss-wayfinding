@@ -5,14 +5,14 @@
                 <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) %>
                     <% @scrubber_categories.each_with_index do |category, index| %>
                         <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                            <%= category %>d
+                            <%= category %>
                         </a></li>
                     <% end %>
                 <% end %>
             </ul>
         </div>
 
-    <table class="table content">
+    <table class="table directory-table">
     <tbody>
 
         <% initial_category = false %>
