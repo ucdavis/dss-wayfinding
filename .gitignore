@@ -31,3 +31,6 @@ public/dataStore/*
 
 # Ignore node_modules (may vary from architecture to architecture, just use 'npm install')
 node_modules
+
+# Don't assume Capistrano's privacy options apply to everyone
+.capistrano
