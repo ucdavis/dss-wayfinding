@@ -1,0 +1,126 @@
+        <div class="list-group col-sm-3 admin-directory-list">
+          <%= search_field_tag "search-directory", nil, placeholder: "Search #{type.pluralize}", class: 'form-control' %>
+          <a href="#" class="list-group-item list-group-item-success active" id="new-object">New <%= type %></a>
+
+          <!-- People -->
+          <% @people.each do |person| %>
+            <a href="#" class="list-group-item directory-item"
+              data-item="<%= person.to_json %>"
+              data-department="<%= person.department.id if person.department %>"
+              data-rooms="<%= person.rooms.pluck(:id) %>">
+              <%= person.first + " " + person.last %></a>
+          <% end if type == 'Person' %>
+
+          <!-- Departments -->
+          <% @departments.each do |department| %>
+            <a href="#" class="list-group-item directory-item"
+              data-item="<%= department.to_json %>"
+              data-room="<%= department.room.room_number %>">
+              <%= department.title %></a>
+          <% end if type == 'Department' %>
+
+          <!-- Rooms -->
+          <% @rooms.each do |room| %>
+            <a href="#" class="list-group-item directory-item"
+              data-item="<%= room.to_json %>" >
+              <%= room.room_number %></a>
+          <% end if type == 'Room' %>
+        </div>
+
+        <div class="col-sm-9">
+        <%= form_tag directory_object_administration_index_path,
+        remote: true, class: 'form-horizontal', id: 'directory-form' do %>
+          <%= hidden_field_tag 'id' %>
+          <%= hidden_field_tag 'type', type %>
+
+          <% if type == "Person" %>
+          <div class="form-group">
+            <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-5">
+              <%= text_field_tag "first", nil, placeholder: 'First Name', class: 'form-control' %>
+            </div>
+            <div class="col-sm-5">
+              <%= text_field_tag "last", nil, placeholder: 'Last Name', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Person" %>
+          <div class="form-group">
+            <%= label_tag 'Email', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "email", nil, placeholder: 'Email', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Person" %>
+          <div class="form-group">
+            <%= label_tag 'Phone', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "phone", nil, placeholder: 'Phone', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Person" %>
+          <div class="form-group">
+            <%= label_tag 'Department', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= select_tag "department", options_from_collection_for_select(@departments, "id", "title"), include_blank: true, class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Person" %>
+          <div class="form-group">
+            <%= label_tag 'Rooms', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= select_tag "rooms", options_from_collection_for_select(@rooms, "id", "room_number"), multiple: true, class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Room" %>
+          <div class="form-group">
+            <%= label_tag 'Room Number', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "room_number", nil, placeholder: 'Room Number', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Room" %>
+          <div class="form-group">
+            <%= label_tag 'Room Name', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "name", nil, placeholder: 'Room Name', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Department" %>
+          <div class="form-group">
+            <%= label_tag 'Title', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "title", nil, placeholder: 'Title', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <% if type == "Department" %>
+          <div class="form-group">
+            <%= label_tag 'Room Number', nil, class: 'col-sm-2 control-label' %>
+            <div class="col-sm-10">
+              <%= text_field_tag "room", nil, placeholder: 'Room Number', class: 'form-control' %>
+            </div>
+          </div>
+          <% end %>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-1">
+              <%= button_tag 'Create', class: 'btn btn-default', id: 'submit' %>
+            </div>
+          </div>
+        <% end %>
+        </div>

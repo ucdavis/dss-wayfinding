@@ -7,6 +7,8 @@ class AdministrationController < ApplicationController
   def index
     @origin = cookies[:origin]
     @departments = Department.all
+    @people = Person.all
+    @rooms = Room.all
     @rss_feeds = RssFeed.all
     @rss_feed = RssFeed.new # for adding new RSS feeds
     @unmatched_queries = UnmatchedQueryLog.all
@@ -222,6 +224,49 @@ class AdministrationController < ApplicationController
         redirect_to action: "index",
         error: error,
         notice: notice
+      }
+    end
+  end
+
+  # POST/PUT
+  # Create Directory Object
+  def directory_object
+    if params[:id].present?
+      # Find existing object
+      @object = DirectoryObject.find_or_create_by(id: params[:id])
+    else
+      case params[:type]
+      when 'Person'
+        @object = Person.new
+      when 'Department'
+        @object = Department.new
+      else
+        @object = Room.new
+      end
+    end
+
+    @object.first = params[:first] unless params[:first].blank?
+    @object.last = params[:last] unless params[:last].blank?
+    @object.email = params[:email] unless params[:email].blank?
+    @object.phone = params[:phone] unless params[:phone].blank?
+    @object.room_number = params[:room_number] unless params[:room_number].blank?
+    @object.name = params[:name] unless params[:name].blank?
+    @object.title = params[:title] unless params[:title].blank?
+    @object.department = Department.find(params[:department]) unless params[:department].blank?
+    if params[:type] == 'Person'
+      @object.rooms = []
+      params[:rooms].each do |room|
+        @object.rooms << Room.find(room)
+      end unless params[:rooms].blank?
+    end
+    if params[:type] == 'Department'
+      @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
+    end
+
+    @object.save
+    respond_to do |format|
+      format.json {
+        render :json => @object
       }
     end
   end

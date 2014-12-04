@@ -69,25 +69,85 @@ ready = function() {
           + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
         progress = "No cache building in porgress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
         percentage = '100%';
+
+        // Update DOM
+        $(".cache-building").addClass('hidden');
+        $('.cache-stats').text(progress);
+        $("#svg-upload-form :input").attr("disabled", false);
       } else {
-        // Expand the SVG Management section once
-        if (!progress) $('#collapseMaps').collapse('toggle');
+        // Apply the following only once, on page load if caches are being built
+        if (!progress) {
+          $(".cache-building").removeClass('hidden');
+          $('.cache-stats').text("Cache building in progress...").addClass('text-danger');
+          $("#svg-upload-form :input").attr("disabled", true);
+        }
 
         // Update values if process is not completed
         progress = data.progress;
         percentage = data.progress;
       }
 
-      $('#cacheStats').css('width', percentage);
-      $('#cacheStats').text(progress);
+      $('#cache-progress').css('width', percentage);
+      $('#cache-progress').text(progress);
     }).fail(function() {
       console.error("Could not fetch cache building progress");
       clearInterval(statsInterval);
     });
   }
 
+  // Get cache stats on page load
   getCacheStats();
 
+  // Directory search
+  $('.admin-directory-list').on('keyup', 'input#search-directory', function (e) {
+    var query = $(this).val();
+    $('a.directory-item').show();
+    if (query.length > 2) {
+      $('a.directory-item').each(function () {
+        if ($(this).text().toLowerCase().indexOf(query.toLowerCase()) == -1) $(this).hide();
+      });
+    }
+  });
+
+  // Directory form
+  $('.admin-directory-list').on('click', 'a#new-object', function (e) {
+    e.preventDefault();
+
+    $('.admin-directory-list a').removeClass('active');
+    $(this).addClass('active');
+
+    // Change form method to post
+    $('#directory-form').attr('method','post');
+    $('#directory-form button#submit').text('Create');
+
+    // Reset form
+    $("#directory-form input[name = 'id']").val('');
+    $(':input','#directory-form')
+     .not(':button, :submit, :reset, :hidden')
+     .val('')
+     .removeAttr('checked')
+     .removeAttr('selected');
+  });
+  $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
+    e.preventDefault();
+
+    $('.admin-directory-list a').removeClass('active');
+    $(this).addClass('active');
+
+    // Change form method to put
+    $('#directory-form').attr('method','put');
+    $('#directory-form button#submit').text('Update');
+
+    // Set form elements
+    var item = $(this).data('item');
+    item.room = $(this).data('room');
+    item.rooms = $(this).data('rooms');
+    item.department = $(this).data('department');
+
+    for (var key in item) {
+      $("#directory-form #" + key).val(item[key]);
+    }
+  });
 };
 
 $(document).ready(ready);

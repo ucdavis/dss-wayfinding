@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       post 'csv'
       post 'map_upload'
       post 'department_location'
+      post 'directory_object'
+      put 'directory_object'
       get 'start'
 
       resources :rss_feeds
