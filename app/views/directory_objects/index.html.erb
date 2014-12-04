@@ -123,7 +123,7 @@
                 <% end %>
 
                 <!-- Generate Category Anchors -->
-                <% while (scrubber_category_index < @scrubber_categories.count) && (directory_object.room_number.to_s.first.to_i != @scrubber_categories[scrubber_category_index]) do %>
+                <% while (scrubber_category_index < @scrubber_categories.count) && (directory_object.room_number.to_s.first.to_i != @scrubber_categories[scrubber_category_index].to_i) do %>
                     <% scrubber_category_index += 1 %>
                     <tr><td id="category_<%= scrubber_category_index %>" class="category-header">Floor <%= scrubber_category_index %>
                     </td></tr>
