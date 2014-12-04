@@ -1,11 +1,11 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 <div class="directory-list">
         <div id="scrubber-view" >
-            <ul class="nav nav-list affix" id="slider-vertical">
+            <ul class="nav nav-list" id="slider-vertical">
                 <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) %>
                     <% @scrubber_categories.each_with_index do |category, index| %>
                         <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                            <%= category %>
+                            <%= category %>d
                         </a></li>
                     <% end %>
                 <% end %>
