@@ -2,7 +2,6 @@ var jsdom = require('jsdom');
 var fs = require('fs-extra');
 require('json');
 var md5 = require('MD5');
-var ncp = require('ncp').ncp;
 
 window 	= jsdom.jsdom().defaultView;
 
