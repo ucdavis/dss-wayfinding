@@ -85,9 +85,14 @@ $(function() {
           tmpl = tmpl + '</td></tr>';
         }
         $('#result table tr#category_' + directory_object.type).after(tmpl);
+
+        // Add click listener
+        $(".clickable-row").on('click', function() {
+          window.document.location = $(this).data("url");
+        });
       })
     }).fail(function() {
       console.error("Could not complete search");
     });
-  })
+  });
 });
