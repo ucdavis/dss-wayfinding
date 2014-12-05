@@ -6,4 +6,14 @@ class Person < DirectoryObject
 
   has_and_belongs_to_many :rooms, join_table: 'person_room_join_requirements'
   belongs_to :department
+
+  def as_json(options={})
+    {
+      :room_number => rooms.present? ? rooms.first.room_number : '',
+      :name => first + ' ' + last,
+      :department => department ? department.title : '',
+      :email => email,
+      :phone => phone
+    }
+  end
 end

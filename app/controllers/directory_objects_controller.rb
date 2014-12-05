@@ -61,55 +61,20 @@ class DirectoryObjectsController < ApplicationController
   end
 
   # GET /directory_objects/1
-  # 'show' is also used for the generic map in which case params[:id] is unset
   def show
-    @directory_object = DirectoryObject.find(params[:id]) if params[:id]
+    @directory_object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
+    @directory_object = DirectoryObject.find(params[:id]) if params[:id] && @directory_object.nil?
 
-    if @directory_object
-      case @directory_object.type
-      when "Room"
-        @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
-      when "Person"
-        p = Person.find(params[:id])
-
-        @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
-
-        @directory_object.room_number = @destination
-        @directory_object.name = @directory_object.first + ' ' + @directory_object.last
-        @department = @directory_object.department.title
-      when "Department"
-        d = Department.find(params[:id])
-
-        @destination = 'R' + d.room.room_number if d.room.present?
-        @department = @directory_object.title
-      when "Event"
-        e = Event.find(params[:id])
-
-        @destination = 'R' + e.room.room_number if e.room.present?
-        @department = @directory_object.department.title
-      end
+    respond_to do |format|
+      format.html
+      format.json
     end
   end
 
   def landing
-    #render :layout => "landing"
   end
 
   def about
-  end
-
-  def room
-    @found = DirectoryObject.where(room_number: params[:number]).first
-    if @found
-      @room = {
-          room_number: @found.room_number,
-          name: @found.name
-        }
-    end
-
-    respond_to do |format|
-      format.json { render :json => @room }
-    end
   end
 
   private
