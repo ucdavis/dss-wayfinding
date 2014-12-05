@@ -1,12 +1,17 @@
 //= require redirect
 
+var pluralize = function (word) {
+  if (word == 'Person') return 'People';
+  else return word + 's';
+}
+
 var categories = [];
 var addCategoryIfDoesNotExist = function (category) {
   if ( categories.indexOf(category) > -1 ) return;
 
   categories.push(category);
-  $('ul#slider-vertical').append("<li><a href='#category_" + category + "'>" + category + "</a></li>");
-  $('#result table').append("<tr class='category-header' id='category_" + category + "'><td>" + category + "</td></tr>");
+  $('ul#slider-vertical').append("<li><a href='#category_" + category + "'>" + pluralize(category) + "</a></li>");
+  $('#result table').append("<tr class='category-header' id='category_" + category + "'><td>" + pluralize(category) + "</td></tr>");
 }
 
 $(function() {
