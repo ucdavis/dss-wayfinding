@@ -63,7 +63,7 @@
 		},
 		'pinchToZoom': false, // requires jquery.panzoom
 		'zoomToRoute': true,
-		'zoomPadding': 85,
+		'zoomPadding': 25,
 		// milliseconds to wait during animation when a floor change occurs
 		'floorChangeAnimationDelay': 1250
 		// load callback?
@@ -655,7 +655,7 @@
 			var cssH = $(cssDiv).height();
 
 			// Step 1, determine the scale
-			var scale = Math.max(( viewW / w ), ( viewH / h ));
+			var scale = Math.min(( viewW / w ), ( viewH / h ));
 
 			$(cssDiv).panzoom('zoom', parseFloat(scale));
 
