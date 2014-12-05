@@ -55,7 +55,7 @@ ready = function() {
   var percantage = '100%';
   var statsInterval;
   var getCacheStats = function () {
-    $.get( "/dataStore/stats.json", function( data ) {
+    $.get( "/map_stats.json", function( data ) {
       if ( progress == null ) {
         // Set interval to keep checking stats
         statsInterval = setInterval(function(){getCacheStats();}, 10000);
