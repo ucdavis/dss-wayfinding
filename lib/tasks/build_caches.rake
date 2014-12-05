@@ -11,7 +11,7 @@ namespace :caches do
       Rails.logger.info "Beginning task at #{Time.now}"
 
       # Run the nodejs script as a shell command
-      node_output = `node nodejs/buildCaches.js`
+      node_output = `node #{Rails.root}/nodejs/buildCaches.js`
 
       Rails.logger.info "Node command output:"
       Rails.logger.info node_output
@@ -22,7 +22,7 @@ namespace :caches do
       mapsDirContents = Dir.entries(File.join(Rails.root, "public", "maps")).delete_if {|f| f[0] == '.'}
 
       if mapsDirContents.length == 0
-        Rails.logger.error "Cannot find a maps cache directory in #{File.join(Rails.root, "public", "maps")}."
+        Rails.logger.error "Cannot find a maps cache directory in #{File.join(Rails.root, "public", "maps")} or directory is empty."
         exit
       end
 
