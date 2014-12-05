@@ -7,7 +7,7 @@ namespace :caches do
   desc 'Rebuilds map caches'
   task :build => :environment do
     # Run the nodejs script as a shell command
-    `node nodejs/buildCaches.js &`
+    `node nodejs/buildCaches.js >& /tmp/nodejs-buildCaches.log`
 
     # Populate rooms from new maps once the cache build is done
 
