@@ -1,10 +1,13 @@
-        <div class="list-group col-sm-3 admin-directory-list">
+        <div class="list-group col-sm-3 admin-directory-list" id="<%= type %>-admin-list">
           <%= search_field_tag "search-directory", nil, placeholder: "Search #{type.pluralize}", class: 'form-control' %>
+          <% unless type == 'Room' %>
           <a href="#" class="list-group-item list-group-item-success active" id="new-object">New <%= type %></a>
+          <% end %>
 
           <!-- People -->
           <% @people.each do |person| %>
             <a href="#" class="list-group-item directory-item"
+              id="directory_<%= person.id %>"
               data-item="<%= person.to_json %>"
               data-department="<%= person.department.id if person.department %>"
               data-rooms="<%= person.rooms.pluck(:id) %>">
@@ -14,6 +17,7 @@
           <!-- Departments -->
           <% @departments.each do |department| %>
             <a href="#" class="list-group-item directory-item"
+              id="directory_<%= department.id %>"
               data-item="<%= department.to_json %>"
               data-room="<%= department.room.room_number if department.room.present? %>">
               <%= department.title %></a>
@@ -22,6 +26,7 @@
           <!-- Rooms -->
           <% @rooms.each do |room| %>
             <a href="#" class="list-group-item directory-item"
+              id="directory_<%= room.id %>"
               data-item="<%= room.to_json %>" >
               <%= room.room_number %></a>
           <% end if type == 'Room' %>
@@ -77,15 +82,6 @@
             <%= label_tag 'Rooms', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
               <%= select_tag "rooms", options_from_collection_for_select(@rooms, "id", "room_number"), multiple: true, class: 'form-control' %>
-            </div>
-          </div>
-          <% end %>
-
-          <% if type == "Room" %>
-          <div class="form-group">
-            <%= label_tag 'Room Number', nil, class: 'col-sm-2 control-label' %>
-            <div class="col-sm-10">
-              <%= text_field_tag "room_number", nil, placeholder: 'Room Number', class: 'form-control' %>
             </div>
           </div>
           <% end %>

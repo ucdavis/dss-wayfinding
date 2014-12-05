@@ -3,19 +3,19 @@
 var ready;
 ready = function() {
   if ( typeof notice !== 'undefined' && notice ) {
-    $(".alert").addClass("alert-success").css('visibility','visible');
+    $(".alert").addClass("alert-success").css('display','block');
     $(".alert span.notice").text(notice);
   } else if ( typeof error !== 'undefined' && error ) {
-    $(".alert").addClass("alert-danger").css('visibility','visible');
+    $(".alert").addClass("alert-danger").css('display','block');
     $(".alert span.notice").text(error);
   }
 
   $("#originform").on('ajax:success',function(event, data){
     if (typeof data.notice !== 'undefined' ) {
-      $(".alert").addClass("alert-success").css('visibility','visible');
+      $(".alert").addClass("alert-success").css('display','block');
       $(".alert span.notice").text(data.notice);
     } else if (typeof data.error !== 'undefined' ) {
-      $(".alert").addClass("alert-danger").css('visibility','visible');
+      $(".alert").addClass("alert-danger").css('display','block');
       $(".alert span.notice").text(data.error);
     }
     if (typeof data.origin !== 'undefined' ) $("input#origin").val(data.origin);
@@ -109,7 +109,7 @@ ready = function() {
     }
   });
 
-  // Directory form
+  // Directory List
   $('.admin-directory-list').on('click', 'a#new-object', function (e) {
     e.preventDefault();
 
@@ -128,6 +128,8 @@ ready = function() {
      .removeAttr('checked')
      .removeAttr('selected');
   });
+
+  // Directory Form
   $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
     e.preventDefault();
 
@@ -148,6 +150,60 @@ ready = function() {
       $("#directory-form #" + key).val(item[key]);
     }
   });
+
+  // Directory Form Callbacks
+  $('#directory-form').on('ajax:success',function(event, data, xhr){
+    var type = $('input#type', this).val();
+    var el = $('#directory_' + data.id);
+
+    $(".alert").addClass("alert-success").css('display','block');
+
+    switch (type) {
+    case "Department":
+      $(".alert span.notice").text(type + " " + data.title + " was saved successfully");
+
+      if (el.length) {
+        el.text(data.title);
+      } else {
+        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
+        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
+        + 'data-room="' + $('input#room').val() + '"'
+        + data.title + '</a>');
+      }
+      break;
+    case "Person":
+      $(".alert span.notice").text(type + " " + data.first + " " + data.last + " was saved successfully");
+
+      if (el.length) {
+        el.text(data.first + " " + data.last);
+      } else {
+        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
+        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
+        + 'data-department="' + $('select#department').val() + '"'
+        + 'data-rooms="' + $('select#rooms').val() + '"'
+        + data.first + " " + data.last + '</a>');
+      }
+      break;
+    case "Room":
+      $(".alert span.notice").text(type + " " + data.room_number + " was saved successfully");
+
+      if (el.length) {
+        el.text(data.room_number);
+      } else {
+        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
+        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
+        + data.room_number + '</a>');
+      }
+      break;
+    }
+
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 2500);
+  }).on('ajax:error',function(xhr, status, error){
+    console.error('Error submitting form', error);
+  });
+
 };
 
 $(document).ready(ready);
