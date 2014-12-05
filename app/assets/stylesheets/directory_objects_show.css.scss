@@ -739,11 +739,6 @@ ul li.room {
   }
 }
 
-.clickable-row {
-  cursor: pointer;
-  width: 50%;
-}
-
 table {
   &.directory-table {
     width: 95%;
@@ -762,6 +757,12 @@ table {
 
     tr.clickable-row > td {
       padding-left: 50px;
+      cursor: pointer;
+      width: 50%;
+    }
+
+    span.dir-row-field {
+      margin: 0 0.5em;
     }
   }
 }
