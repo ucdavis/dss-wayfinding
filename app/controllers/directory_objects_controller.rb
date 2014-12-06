@@ -26,6 +26,7 @@ class DirectoryObjectsController < ApplicationController
   # POST /directory/search
   def search
     if params[:q] && params[:q].length > 0
+      @query = params[:q]
       objects = DirectoryObject.arel_table
       query = "%#{params[:q]}%"
 
@@ -56,6 +57,7 @@ class DirectoryObjectsController < ApplicationController
 
       respond_to do |format|
         format.json
+        format.html
       end
     end
   end
@@ -76,7 +78,7 @@ class DirectoryObjectsController < ApplicationController
 
         @directory_object.room_number = @destination
         @directory_object.name = @directory_object.first + ' ' + @directory_object.last
-        @department = @directory_object.department.title
+        @department = @directory_object.department.title unless @directory_object.department.blank?
       when "Department"
         d = Department.find(params[:id])
 

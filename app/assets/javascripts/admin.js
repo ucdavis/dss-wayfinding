@@ -166,8 +166,8 @@ ready = function() {
         el.text(data.title);
       } else {
         $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
-        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
-        + 'data-room="' + $('input#room').val() + '"'
+        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
+        + 'data-room="' + $('input#room').val() + '">'
         + data.title + '</a>');
       }
       break;
@@ -178,9 +178,9 @@ ready = function() {
         el.text(data.first + " " + data.last);
       } else {
         $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
-        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
+        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
         + 'data-department="' + $('select#department').val() + '"'
-        + 'data-rooms="' + $('select#rooms').val() + '"'
+        + 'data-rooms="' + $('select#rooms').val() + '">'
         + data.first + " " + data.last + '</a>');
       }
       break;
