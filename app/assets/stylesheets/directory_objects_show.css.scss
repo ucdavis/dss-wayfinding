@@ -333,7 +333,7 @@ ul.horizontal-nav {
 ul.vertical-nav {
   float: left;
   // Do _NOT_ use "position: fixed;". Causes SVG blurriness on zoom in Safari
-  position: absolute;
+  position: fixed;
   list-style: none;
   text-align: center;
   padding: 2vh 15px 0;
@@ -877,4 +877,11 @@ table {
 .admin-directory-list {
   height: 70vh;
   overflow: auto;
+}
+
+/* Fix for panzoom blurriness on Chrome
+   https://github.com/timmywil/jquery.panzoom/issues/84 */
+#floor0, #floor1, #floor2, #floor3, #floor4, #floor5 {
+  -webkit-backface-visibility: initial !important;
+  -webkit-transform-origin: 50% 50%;
 }
