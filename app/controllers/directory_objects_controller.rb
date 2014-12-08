@@ -3,6 +3,8 @@ class DirectoryObjectsController < ApplicationController
   skip_before_filter :require_login
   skip_before_filter :authenticate
 
+  respond_to :html, :json
+
   # GET /directory_objects
   def index
     if params[:type] == "Person"
@@ -13,11 +15,15 @@ class DirectoryObjectsController < ApplicationController
       @scrubber_categories = ("A".."Z").to_a
     elsif params[:type] == "Event"
       @directory_objects = Event.all.order(:title)
+      @scrubber_categories = []
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
       @scrubber_categories = ['L',1,2,3,4,5]
+      @scrubber_categories = []
     else
-      @directory_objects = DirectoryObject.all
+      # Unsupported behavior
+      @directory_objects = []
+      @scrubber_categories = []
     end
 
     @directory_objects = @directory_objects.uniq
@@ -61,20 +67,12 @@ class DirectoryObjectsController < ApplicationController
   end
 
   # GET /directory_objects/1
+  # GET /room/1
   def show
     @directory_object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
     @directory_object = DirectoryObject.find(params[:id]) if params[:id] && @directory_object.nil?
 
-    respond_to do |format|
-      format.html
-      format.json
-    end
-  end
-
-  def landing
-  end
-
-  def about
+    respond_with @directory_object
   end
 
   private

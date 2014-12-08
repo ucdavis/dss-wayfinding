@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  root 'directory_objects#landing'
+  root 'site#landing'
 
   get 'search', to: 'directory_objects#search'
   post 'search', to: 'directory_objects#search'
   get 'map', to: 'directory_objects#show'
-  get 'about', to: 'directory_objects#about'
+  get 'about', to: 'site#about'
   get 'room/:number', to: 'directory_objects#show'
   get "/logout" => 'application#logout'
 

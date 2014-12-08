@@ -41,23 +41,24 @@
           directory_object = jQuery.parseJSON('<%= raw @directory_object.to_json %>');
           similar = '<%= @department %>';
           class_suffix = '<%= @directory_object.type.pluralize.downcase if @directory_object.present? %>';
+
           if (directory_object) {
             showInfo(directory_object, similar, class_suffix);
           }
+
+          destination = 'R' + directory_object.room_number;
+          endFloor = destination.substring(1, 2);
+
+          if (destination.length > 0) {
+            console.debug("destination = ", destination);
+            $('#map').wayfinding('routeTo', destination);
+            $('.replay').addClass('disabled');
+
+            $("a.btn-floor").removeClass('destination');
+            $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
+          }
         } catch(e) {
           console.error('Error parsing @directory_object to JSON', e)
-        }
-
-        destination = '<%= @destination %>';
-        endFloor = '<%= @destination %>'.substring(1,2);
-
-        if (destination.length > 0) {
-          console.debug("destination = ",destination);
-          $('#map').wayfinding('routeTo', destination);
-          $('.replay').addClass('disabled');
-
-          $("a.btn-floor").removeClass('destination');
-          $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
         }
 
         $('.replay').click(function(e) {
