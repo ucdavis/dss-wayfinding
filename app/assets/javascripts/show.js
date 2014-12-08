@@ -23,8 +23,8 @@ var minMaxInfo = function (el) {
   }
 }
 
-var showInfo = function (data, similar, class_suffix) {
-  class_suffix = class_suffix || 'rooms'
+var showInfo = function (data) {
+  class_suffix = data.type || 'rooms'
 
   $('#destination-view h2, #destination-view span').remove();
   $('#destination-view h1').addClass('btn-' + class_suffix);
@@ -41,8 +41,8 @@ var showInfo = function (data, similar, class_suffix) {
       }
     }
 
-    if (similar) {
-      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + similar + "'><span class='label label-default btn-departments'>" + similar + "</span></a>");
+    if (data.department) {
+      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
     }
 
     $('#destination-view').css('right', 0);

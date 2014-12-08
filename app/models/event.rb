@@ -15,7 +15,8 @@ class Event < DirectoryObject
       :name => '',
       :department => department ? department.title : '',
       :email => '',
-      :phone => ''
+      :phone => '',
+      :type => type.pluralize.downcase
     }
   end
 end

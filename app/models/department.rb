@@ -12,7 +12,8 @@ class Department < DirectoryObject
       :name => '',
       :department => title,
       :email => '',
-      :phone => ''
+      :phone => '',
+      :type => type.pluralize.downcase
     }
   end
 end

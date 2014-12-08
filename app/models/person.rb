@@ -13,7 +13,8 @@ class Person < DirectoryObject
       :name => first + ' ' + last,
       :department => department ? department.title : '',
       :email => email,
-      :phone => phone
+      :phone => phone,
+      :type => type.pluralize.downcase
     }
   end
 end
