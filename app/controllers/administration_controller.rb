@@ -1,6 +1,6 @@
 class AdministrationController < ApplicationController
-  skip_before_filter :require_login, only: :start
-  skip_before_filter :authenticate, only: :start
+  before_filter :require_login, except: :start
+  before_action :authenticate, except: :start
 
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 

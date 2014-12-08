@@ -3,6 +3,8 @@ class DirectoryObjectsController < ApplicationController
   skip_before_filter :require_login
   skip_before_filter :authenticate
 
+  respond_to :html, :json
+
   # GET /directory_objects
   def index
     if params[:type] == "Person"
@@ -13,11 +15,15 @@ class DirectoryObjectsController < ApplicationController
       @scrubber_categories = ("A".."Z").to_a
     elsif params[:type] == "Event"
       @directory_objects = Event.all.order(:title)
+      @scrubber_categories = []
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
       @scrubber_categories = ['L',1,2,3,4,5]
+      @scrubber_categories = []
     else
-      @directory_objects = DirectoryObject.all
+      # Unsupported behavior
+      @directory_objects = []
+      @scrubber_categories = []
     end
 
     @directory_objects = @directory_objects.uniq
@@ -63,55 +69,12 @@ class DirectoryObjectsController < ApplicationController
   end
 
   # GET /directory_objects/1
-  # 'show' is also used for the generic map in which case params[:id] is unset
+  # GET /room/1
   def show
-    @directory_object = DirectoryObject.find(params[:id]) if params[:id]
+    @directory_object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
+    @directory_object = DirectoryObject.find(params[:id]) if params[:id] && @directory_object.nil?
 
-    if @directory_object
-      case @directory_object.type
-      when "Room"
-        @destination = 'R' + @directory_object.room_number unless @directory_object.room_number.blank?
-      when "Person"
-        p = Person.find(params[:id])
-
-        @destination = 'R' + p.rooms.first.room_number if p.rooms.present?
-
-        @directory_object.room_number = @destination
-        @directory_object.name = @directory_object.first + ' ' + @directory_object.last
-        @department = @directory_object.department.title unless @directory_object.department.blank?
-      when "Department"
-        d = Department.find(params[:id])
-
-        @destination = 'R' + d.room.room_number if d.room.present?
-        @department = @directory_object.title
-      when "Event"
-        e = Event.find(params[:id])
-
-        @destination = 'R' + e.room.room_number if e.room.present?
-        @department = @directory_object.department.title
-      end
-    end
-  end
-
-  def landing
-    #render :layout => "landing"
-  end
-
-  def about
-  end
-
-  def room
-    @found = DirectoryObject.where(room_number: params[:number]).first
-    if @found
-      @room = {
-          room_number: @found.room_number,
-          name: @found.name
-        }
-    end
-
-    respond_to do |format|
-      format.json { render :json => @room }
-    end
+    respond_with @directory_object
   end
 
   private

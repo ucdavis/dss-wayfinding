@@ -1,20 +1,20 @@
 <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
+
 <div class="directory-list">
-        <div id="scrubber-view" >
-            <ul class="nav nav-list" id="slider-vertical">
-                <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) %>
-                    <% @scrubber_categories.each_with_index do |category, index| %>
-                        <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
-                            <%= category %>
-                        </a></li>
-                    <% end %>
+    <div id="scrubber-view">
+        <ul class="nav nav-list" id="slider-vertical">
+            <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) && @scrubber_categories %>
+                <% @scrubber_categories.each_with_index do |category, index| %>
+                    <li  id="scrubber-category_<%= index %>"><a href="#category_<%= index %>">
+                        <%= category %>
+                    </a></li>
                 <% end %>
-            </ul>
-        </div>
+            <% end %>
+        </ul>
+    </div> <!-- #scrubber-view -->
 
     <table class="table directory-table">
-    <tbody>
-
+      <tbody>
         <% initial_category = false %>
         <% scrubber_category_index = 0 %>
 
@@ -59,7 +59,6 @@
             <% end %>
 
             <!-- Events -->
-
             <% if directory_object.type == "Event" %>
               <li>
                 <a href="/directory/<%= directory_object.id %>" class="events-card">
@@ -140,6 +139,6 @@
                 </tr>
             <% end %>
         <% end %>
-    </tbody>
+      </tbody>
     </table>
 </div> <!-- .directory-list.spy-container -->
