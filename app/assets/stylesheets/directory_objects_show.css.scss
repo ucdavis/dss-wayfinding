@@ -24,6 +24,8 @@ $vertical-slider-element-height: 15px;
 .icon-accessible:after { content: "\E807"; }
 .icon-repeat:after { content: "\E808"; }
 .icon-logout:after { content: "\E80A"; }
+.icon-left-arrow:before { content: '\e80b'; }
+.icon-right-arrow:before { content: '\e80c'; }
 
 @font-face {
   font-family: 'fontello';
@@ -145,14 +147,10 @@ body {
 
   .min-max {
     position: absolute;
-    top: 40%;
+    top: 50%;
+    transform: translateY(-50%);
     left: 3px;
-    font-size: 2em;
     cursor: pointer;
-    opacity: 0.5;
-    &:hover {
-      opacity: 1;
-    }
   }
 }
 
@@ -405,6 +403,14 @@ ul.vertical-nav {
 .btn-home {
   background-color: $home-color;
   color: white;
+}
+
+.btn-min-max {
+  font-size: 2em;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .btn-people {

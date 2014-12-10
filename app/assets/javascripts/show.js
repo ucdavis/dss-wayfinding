@@ -16,10 +16,10 @@ var minMaxInfo = function (el) {
   var width = $('#destination-view').outerWidth();
   if ($('#destination-view').css('right') == '0px') {
     $('#destination-view').css('right', -width+20);
-    $(el).removeClass('glyphicon-circle-arrow-right').addClass('glyphicon-circle-arrow-left');
+    $(el).removeClass('icon-right-arrow').addClass('icon-left-arrow');
   } else {
     $('#destination-view').css('right', 0);
-    $(el).removeClass('glyphicon-circle-arrow-left').addClass('glyphicon-circle-arrow-right');
+    $(el).removeClass('icon-left-arrow').addClass('icon-right-arrow');
   }
 }
 
