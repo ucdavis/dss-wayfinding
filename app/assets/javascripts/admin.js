@@ -10,6 +10,8 @@ ready = function() {
     $(".alert span.notice").text(error);
   }
 
+  $('#admin-menu ul.nav-tabs li:first-child, #admin-menu .tab-content .tab-pane:first-child').addClass('active');
+
   $("#originform").on('ajax:success',function(event, data){
     if (typeof data.notice !== 'undefined' ) {
       $(".alert").addClass("alert-success").css('display','block');

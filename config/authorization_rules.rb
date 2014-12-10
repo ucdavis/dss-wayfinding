@@ -6,6 +6,7 @@ authorization do
   role :directoryadmin do
     includes :guest
     has_permission_on :directory_objects, :to => :manage
+    has_permission_on :administration, :to => [:administer_directory]
   end
   role :superadmin do
     includes :directoryadmin
@@ -20,5 +21,6 @@ privileges do
   privilege :create, :includes => :new
   privilege :update, :includes => :edit
   privilege :delete, :includes => :destroy
-  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload]
+  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload, :csv]
+  privilege :administer_directory, :includes => [:directory_object, :del_directory_object]
 end
