@@ -49,6 +49,8 @@ var showInfo = function (data) {
     $('#destination-view .min-max').on('click', function() {
       minMaxInfo(this);
     });
+
+    handleLinksWithJS();
   } else {
     console.warn('Object not found in directory');
     $('#destination-view').css('right', '-1000px');
