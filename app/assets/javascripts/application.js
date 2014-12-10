@@ -5,7 +5,7 @@
 $(function() {
 
   // Handle left nav links using javascript (fixes guided mode issue on iPad)
-  var a=$('ul.vertical-nav a');
+  var a=$('ul.vertical-nav a, .home a, .search a');
 
   for(var i=0;i<a.length;i++)
   {
