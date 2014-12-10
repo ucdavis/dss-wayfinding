@@ -7,10 +7,16 @@ class Room < DirectoryObject
 
   has_many :events
 
+  def calculated_name
+    return self.name if self.name.present?
+    people.count > 0 ? people[0].first + ' ' + people[0].last : ''
+  end
+
   def as_json(options={})
     {
+      :id => id,
       :room_number => room_number,
-      :name => people.count > 0 ? people[0].first + ' ' + people[0].last : '',
+      :name => self.calculated_name,
       :department => (people.count > 0) && people[0].department ? people[0].department.title : '',
       :email => people.count > 0 ? people[0].email : '',
       :phone => people.count > 0 ? people[0].phone : '',

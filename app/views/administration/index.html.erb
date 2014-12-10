@@ -29,31 +29,31 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active">
-        <a href="#kiosk" aria-controls="kiosk" role="tab" data-toggle="tab">Set Kiosk Location</a>
+        <a href="#kiosk" aria-controls="kiosk" role="tab" data-toggle="tab" class="tab-link">Set Kiosk Location</a>
       </li>
       <li role="presentation">
-        <a href="#svg" aria-controls="svg" role="tab" data-toggle="tab">Manage SVG Maps</a>
+        <a href="#svg" aria-controls="svg" role="tab" data-toggle="tab" class="tab-link">Manage SVG Maps</a>
       </li>
       <li role="presentation">
-        <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab">Upload New Facilities CSV</a>
+        <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab" class="tab-link">Upload New Facilities CSV</a>
       </li>
       <li role="presentation">
-        <a href="#rss" aria-controls="rss" role="tab" data-toggle="tab">Manage RSS Fetching</a>
+        <a href="#rss" aria-controls="rss" role="tab" data-toggle="tab" class="tab-link">Manage RSS Fetching</a>
       </li>
       <li role="presentation">
-        <a href="#unmatched" aria-controls="unmatched" role="tab" data-toggle="tab">Unmatched Search Query Logs</a>
+        <a href="#unmatched" aria-controls="unmatched" role="tab" data-toggle="tab" class="tab-link">Unmatched Search Query Logs</a>
       </li>
       <li role="presentation">
-        <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab">Search Term Logs</a>
+        <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab" class="tab-link">Search Term Logs</a>
       </li>
       <li role="presentation">
-        <a href="#dir_dept" aria-controls="dir_dept" role="tab" data-toggle="tab">Edit Department Locations</a>
+        <a href="#dir_dept" aria-controls="dir_dept" role="tab" data-toggle="tab" class="tab-link">Edit Department Locations</a>
       </li>
       <li role="presentation">
-        <a href="#dir_people" aria-controls="dir_people" role="tab" data-toggle="tab">Edit People Directory</a>
+        <a href="#dir_people" aria-controls="dir_people" role="tab" data-toggle="tab" class="tab-link">Edit People Directory</a>
       </li>
       <li role="presentation">
-        <a href="#dir_rooms" aria-controls="dir_rooms" role="tab" data-toggle="tab">Edit Rooms Directory</a>
+        <a href="#dir_rooms" aria-controls="dir_rooms" role="tab" data-toggle="tab" class="tab-link rooms">Edit Rooms Directory</a>
       </li>
     </ul>
 
@@ -156,15 +156,15 @@
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_dept">
-         <%= render "directory_form", type: 'Department' %>
+         <%= render "directory_form", type: 'departments' %>
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_people">
-         <%= render "directory_form", type: 'Person' %>
+         <%= render "directory_form", type: 'people' %>
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_rooms">
-         <%= render "directory_form", type: 'Room' %>
+         <%= render "directory_form", type: 'rooms' %>
       </div>
 
     </div>

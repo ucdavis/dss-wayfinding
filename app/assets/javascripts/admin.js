@@ -109,12 +109,12 @@ ready = function() {
     }
   });
 
-  // Directory List
-  $('.admin-directory-list').on('click', 'a#new-object', function (e) {
-    e.preventDefault();
 
+  // Directory List
+  var resetDirectoryForm = function() {
     $('.admin-directory-list a').removeClass('active');
-    $(this).addClass('active');
+    $('#directory-form button#delete').addClass('hidden');
+    $('.admin-directory-list a#new-object').addClass('active');
 
     // Change form method to post
     $('#directory-form').attr('method','post');
@@ -127,11 +127,27 @@ ready = function() {
      .val('')
      .removeAttr('checked')
      .removeAttr('selected');
+  }
+
+  // When 'New Item' button in the directory list is clicked
+  $('.admin-directory-list').on('click', 'a#new-object', function (e) {
+    e.preventDefault();
+    $('#directory-form').show();
+    resetDirectoryForm();
+  });
+
+  // When switching between tabs
+  $('#admin-menu a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    resetDirectoryForm();
+
+    // Hide the form for rooms (Cannot create rooms)
+    if ($(this).hasClass('rooms')) $('#directory-form').hide();
   });
 
   // Directory Form
   $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
     e.preventDefault();
+    $('#directory-form').show();
 
     $('.admin-directory-list a').removeClass('active');
     $(this).addClass('active');
@@ -146,7 +162,14 @@ ready = function() {
     item.rooms = $(this).data('rooms');
     item.department = $(this).data('department');
 
+    if (item.type == 'rooms') {
+      $('#directory-form button#delete').addClass('hidden');
+    } else {
+      $('#directory-form button#delete').removeClass('hidden');
+    }
+
     for (var key in item) {
+      console.log(key,$("#directory-form #" + key), item[key]);
       $("#directory-form #" + key).val(item[key]);
     }
   });
@@ -159,41 +182,40 @@ ready = function() {
     $(".alert").addClass("alert-success").css('display','block');
 
     switch (type) {
-    case "Department":
-      $(".alert span.notice").text(type + " " + data.title + " was saved successfully");
+    case "departments":
+      $(".alert span.notice").text(type + " " + data.department + " was saved successfully");
 
       if (el.length) {
-        el.text(data.title);
+        el.text(data.department);
+        el.data('item',data);
+        el.data('room',$('input#room').val());
       } else {
         $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
         + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
         + 'data-room="' + $('input#room').val() + '">'
-        + data.title + '</a>');
+        + data.department + '</a>');
       }
       break;
-    case "Person":
-      $(".alert span.notice").text(type + " " + data.first + " " + data.last + " was saved successfully");
+    case "people":
+      $(".alert span.notice").text(type + " " + data.name + " was saved successfully");
 
       if (el.length) {
-        el.text(data.first + " " + data.last);
+        el.text(data.name);
+        el.data('item',data);
+        el.data('department',$('select#department').val());
+        el.data('rooms',$('select#rooms').val());
       } else {
         $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
         + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
         + 'data-department="' + $('select#department').val() + '"'
         + 'data-rooms="' + $('select#rooms').val() + '">'
-        + data.first + " " + data.last + '</a>');
+        + data.name + '</a>');
       }
       break;
-    case "Room":
+    case "rooms":
       $(".alert span.notice").text(type + " " + data.room_number + " was saved successfully");
+      el.data('item',data);
 
-      if (el.length) {
-        el.text(data.room_number);
-      } else {
-        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
-        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '">'
-        + data.room_number + '</a>');
-      }
       break;
     }
 
@@ -202,6 +224,35 @@ ready = function() {
     }, 2500);
   }).on('ajax:error',function(xhr, status, error){
     console.error('Error submitting form', error);
+  });
+
+  $('#directory-form').on('click', 'button#delete', function (e) {
+    if ($(this).text() == 'Delete') {
+      $(this).text('Are you sure?')
+    } else {
+      var id = $('#directory-form input#id').val();
+      $.ajax({
+        url: '/administration/del_directory_object',
+        type: 'DELETE',
+        complete: function(jqXHR) {
+          if(jqXHR.readyState === 4) {
+            console.log('Object deleted successfully')
+
+            var el = $('#directory_' + jqXHR.responseJSON.id);
+            el.remove();
+            $('.admin-directory-list a#new-object').addClass('active');
+            resetDirectoryForm();
+
+            $(".alert").addClass("alert-success").css('display','block');
+            $(".alert span.notice").text("Object was deleted successfully");
+            setTimeout(function() {
+              $('.alert').fadeOut();
+            }, 2500);
+          }
+        },
+        data: {id: id}
+      });
+    }
   });
 
 };

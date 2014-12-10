@@ -2,7 +2,7 @@ class RolesManagement
   def self.fetch_id_by_loginid(loginid)
     result = fetch_json_by_loginid(loginid)
     
-    return result["id"]
+    return result["id"] if result
   end
   
   def self.fetch_role_symbols_by_loginid(loginid)

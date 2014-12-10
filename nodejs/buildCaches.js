@@ -117,15 +117,14 @@ $.each(maps, function (i, map) {
   fs.readFile(map.path, 'utf8', function (err, data) {
     if (err) {
       console.log("Could not load " + map.path,err);
-      process.exit(-1);
-    } else {
-      maps[i].svgHandle = data;
-      maps[i].el = svgDiv;
-      svgDiv.append(data);
-
-      maps[i].md5 = md5(data);
-
-      prepareData();
     }
+
+    maps[i].svgHandle = data;
+    maps[i].el = svgDiv;
+    svgDiv.append(data);
+
+    maps[i].md5 = md5(data);
+
+    prepareData();
   });
 });

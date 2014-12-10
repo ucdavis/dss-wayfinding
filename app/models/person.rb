@@ -9,8 +9,11 @@ class Person < DirectoryObject
 
   def as_json(options={})
     {
+      :id => id,
       :room_number => rooms.present? ? rooms.first.room_number : '',
       :name => first + ' ' + last,
+      :first => first,
+      :last => last,
       :department => department ? department.title : '',
       :email => email,
       :phone => phone,

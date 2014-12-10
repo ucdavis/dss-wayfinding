@@ -1,7 +1,7 @@
         <div class="list-group col-sm-3 admin-directory-list" id="<%= type %>-admin-list">
-          <%= search_field_tag "search-directory", nil, placeholder: "Search #{type.pluralize}", class: 'form-control' %>
-          <% unless type == 'Room' %>
-          <a href="#" class="list-group-item list-group-item-success active" id="new-object">New <%= type %></a>
+          <%= search_field_tag "search-directory", nil, placeholder: "Search #{type.capitalize}", class: 'form-control' %>
+          <% unless type == 'rooms' %>
+          <a href="#" class="list-group-item list-group-item-success active" id="new-object">New <%= type.singularize.capitalize %></a>
           <% end %>
 
           <!-- People -->
@@ -12,7 +12,7 @@
               data-department="<%= person.department.id if person.department %>"
               data-rooms="<%= person.rooms.pluck(:id) %>">
               <%= person.first + " " + person.last %></a>
-          <% end if type == 'Person' %>
+          <% end if type == 'people' %>
 
           <!-- Departments -->
           <% @departments.each do |department| %>
@@ -21,7 +21,7 @@
               data-item="<%= department.to_json %>"
               data-room="<%= department.room.room_number if department.room.present? %>">
               <%= department.title %></a>
-          <% end if type == 'Department' %>
+          <% end if type == 'departments' %>
 
           <!-- Rooms -->
           <% @rooms.each do |room| %>
@@ -29,7 +29,7 @@
               id="directory_<%= room.id %>"
               data-item="<%= room.to_json %>" >
               <%= room.room_number %></a>
-          <% end if type == 'Room' %>
+          <% end if type == 'rooms' %>
         </div>
 
         <div class="col-sm-9">
@@ -38,7 +38,7 @@
           <%= hidden_field_tag 'id' %>
           <%= hidden_field_tag 'type', type %>
 
-          <% if type == "Person" %>
+          <% if type == "people" %>
           <div class="form-group">
             <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-5">
@@ -50,7 +50,7 @@
           </div>
           <% end %>
 
-          <% if type == "Person" %>
+          <% if type == "people" %>
           <div class="form-group">
             <%= label_tag 'Email', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -59,7 +59,7 @@
           </div>
           <% end %>
 
-          <% if type == "Person" %>
+          <% if type == "people" %>
           <div class="form-group">
             <%= label_tag 'Phone', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -68,7 +68,7 @@
           </div>
           <% end %>
 
-          <% if type == "Person" %>
+          <% if type == "people" %>
           <div class="form-group">
             <%= label_tag 'Department', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -77,7 +77,7 @@
           </div>
           <% end %>
 
-          <% if type == "Person" %>
+          <% if type == "people" %>
           <div class="form-group">
             <%= label_tag 'Rooms', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -86,7 +86,7 @@
           </div>
           <% end %>
 
-          <% if type == "Room" %>
+          <% if type == "rooms" %>
           <div class="form-group">
             <%= label_tag 'Room Name', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -95,7 +95,7 @@
           </div>
           <% end %>
 
-          <% if type == "Department" %>
+          <% if type == "departments" %>
           <div class="form-group">
             <%= label_tag 'Title', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -104,7 +104,7 @@
           </div>
           <% end %>
 
-          <% if type == "Department" %>
+          <% if type == "departments" %>
           <div class="form-group">
             <%= label_tag 'Room Number', nil, class: 'col-sm-2 control-label' %>
             <div class="col-sm-10">
@@ -114,8 +114,9 @@
           <% end %>
 
           <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-1">
+            <div class="col-sm-offset-2 col-sm-10">
               <%= button_tag 'Create', class: 'btn btn-default', id: 'submit' %>
+              <%= button_tag 'Delete', class: 'btn btn-danger pull-right hidden', id: 'delete', type: 'button' %>
             </div>
           </div>
         <% end %>

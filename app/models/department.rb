@@ -8,9 +8,11 @@ class Department < DirectoryObject
 
   def as_json(options={})
     {
+      :id => id,
       :room_number => room.present? ? room.room_number : '',
       :name => '',
       :department => title,
+      :title => title,
       :email => '',
       :phone => '',
       :type => type.pluralize.downcase

@@ -236,39 +236,66 @@ class AdministrationController < ApplicationController
       @object = DirectoryObject.find_or_create_by(id: params[:id])
     else
       case params[:type]
-      when 'Person'
+      when 'people'
         @object = Person.new
-      when 'Department'
+      when 'departments'
         @object = Department.new
-      else
-        @object = Room.new
       end
     end
 
-    @object.first = params[:first] unless params[:first].blank?
-    @object.last = params[:last] unless params[:last].blank?
-    @object.email = params[:email] unless params[:email].blank?
-    @object.phone = params[:phone] unless params[:phone].blank?
-    @object.room_number = params[:room_number] unless params[:room_number].blank?
-    @object.name = params[:name] unless params[:name].blank?
-    @object.title = params[:title] unless params[:title].blank?
-    @object.department = Department.find(params[:department]) unless params[:department].blank?
-    if params[:type] == 'Person'
-      @object.rooms = []
-      params[:rooms].each do |room|
-        @object.rooms << Room.find(room)
-      end unless params[:rooms].blank?
-    end
-    if params[:type] == 'Department'
-      @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
-    end
+    if @object.present?
+      @object.first = params[:first] unless params[:first].blank?
+      @object.last = params[:last] unless params[:last].blank?
+      @object.email = params[:email] unless params[:email].blank?
+      @object.phone = params[:phone] unless params[:phone].blank?
+      @object.room_number = params[:room_number] unless params[:room_number].blank?
+      @object.name = params[:name] unless params[:name].blank?
+      @object.title = params[:title] unless params[:title].blank?
+      @object.department = Department.find(params[:department]) unless params[:department].blank?
+      if params[:type] == 'Person'
+        @object.rooms = []
+        params[:rooms].each do |room|
+          @object.rooms << Room.find(room)
+        end unless params[:rooms].blank?
+      end
+      if params[:type] == 'Department'
+        @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
+      end
 
-    @object.save
-    respond_to do |format|
-      format.json {
-        render :json => @object
-      }
+      @object.save
+      respond_to do |format|
+        format.json {
+          render :json => @object
+        }
+      end
+
+    else
+
+      respond_to do |format|
+        format.json {render json: { error: "Error finding directory object" }, status: 405 }
+      end
+
     end
+  end
+
+  # DEL
+  # Delete Directory Object
+  def del_directory_object
+    if params[:id].present?
+      # Find existing object
+      @object = DirectoryObject.find(params[:id])
+    end
+    if @object.present? and @object.type != 'Room'
+      @object.destroy
+      respond_to do |format|
+        format.json {render json: { notice: "Object deleted successfully", id: @object.id }, status: 302 }
+      end
+    else
+      respond_to do |format|
+        format.json {render json: { error: "Error deleting directory object" }, status: 405 }
+      end
+    end
+    
   end
 
 end
