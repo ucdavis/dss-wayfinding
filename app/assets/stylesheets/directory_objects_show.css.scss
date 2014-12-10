@@ -145,8 +145,9 @@ body {
 
   .min-max {
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: 40%;
+    left: 3px;
+    font-size: 2em;
     cursor: pointer;
     opacity: 0.5;
     &:hover {
