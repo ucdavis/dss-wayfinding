@@ -10,7 +10,6 @@ var handleLinksWithJS = function () {
   {
     a[i].onclick=function()
     {
-      debugger;
       window.location=this.getAttribute("href");
       return false;
     }
@@ -19,4 +18,5 @@ var handleLinksWithJS = function () {
 
 $(function() {
   handleLinksWithJS();
+  document.csrf = $('meta[name="csrf-token"]')[0].content;
 });

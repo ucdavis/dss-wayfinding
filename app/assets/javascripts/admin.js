@@ -241,6 +241,7 @@ ready = function() {
       var id = $(this).closest('form').children('input#id').val();
       $.ajax({
         url: '/directory/' + id,
+        data: { authenticity_token: document.csrf },
         type: 'DELETE',
         complete: function(jqXHR) {
           if(jqXHR.readyState === 4) {

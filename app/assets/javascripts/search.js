@@ -29,7 +29,7 @@ var displayResults = function () {
     return;
   }
 
-  $.post( "/search", {q: query}, function( data ) {
+  $.post( "/search", {q: query, authenticity_token: document.csrf}, function( data ) {
     if(data.directory_objects.length) {
       $('#result').html('<table class="table directory-table"></table>');
       categories.length = 0;
