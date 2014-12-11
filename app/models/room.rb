@@ -20,7 +20,7 @@ class Room < DirectoryObject
       :department => (people.count > 0) && people[0].department ? people[0].department.title : '',
       :email => people.count > 0 ? people[0].email : '',
       :phone => people.count > 0 ? people[0].phone : '',
-      :type => type.pluralize.downcase
+      :type => type
     }
   end
 end

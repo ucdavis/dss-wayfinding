@@ -184,15 +184,15 @@
 
       <% permitted_to? :administer_directory, :administration do %>
       <div role="tabpanel" class="tab-pane" id="dir_dept">
-         <%= render "directory_form", type: 'departments' %>
+         <%= render "directory_form", type: 'Department' %>
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_people">
-         <%= render "directory_form", type: 'people' %>
+         <%= render "directory_form", type: 'Person' %>
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_rooms">
-         <%= render "directory_form", type: 'rooms' %>
+         <%= render "directory_form", type: 'Room' %>
       </div>
       <% end %>
 

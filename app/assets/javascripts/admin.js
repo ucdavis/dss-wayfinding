@@ -115,16 +115,24 @@ ready = function() {
   // Directory List
   var resetDirectoryForm = function() {
     $('.admin-directory-list a').removeClass('active');
-    $('#directory-form button#delete').addClass('hidden');
+    $('.directory-form button#delete').addClass('hidden');
     $('.admin-directory-list a#new-object').addClass('active');
 
     // Change form method to post
-    $('#directory-form').attr('method','post');
-    $('#directory-form button#submit').text('Create');
+    $('.directory-form').attr('method','post');
+
+    // Reset action urls
+    $('.directory-form').each(function(i,f){
+      var action = $(f).attr('action');
+      $(f).attr('action', action.split('/').slice(0,2).join('/'));
+    });
+
+    $('.directory-form button#submit').text('Create');
+    $('.directory-form button#delete').text('Delete');
 
     // Reset form
-    $("#directory-form input[name = 'id']").val('');
-    $(':input','#directory-form')
+    $(".directory-form input[name = 'id']").val('');
+    $(':input','.directory-form')
      .not(':button, :submit, :reset, :hidden')
      .val('')
      .removeAttr('checked')
@@ -134,107 +142,105 @@ ready = function() {
   // When 'New Item' button in the directory list is clicked
   $('.admin-directory-list').on('click', 'a#new-object', function (e) {
     e.preventDefault();
-    $('#directory-form').show();
+    $('.directory-form').show();
     resetDirectoryForm();
   });
 
   // When switching between tabs
   $('#admin-menu a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     resetDirectoryForm();
-
-    // Hide the form for rooms (Cannot create rooms)
-    if ($(this).hasClass('rooms')) $('#directory-form').hide();
   });
 
   // Directory Form
   $('.admin-directory-list').on('click', 'a.directory-item', function (e) {
     e.preventDefault();
-    $('#directory-form').show();
+    var item = $(this).data('item');
+
+    $('#' + item.type + '-form').show();
 
     $('.admin-directory-list a').removeClass('active');
     $(this).addClass('active');
 
     // Change form method to put
-    $('#directory-form').attr('method','put');
-    $('#directory-form button#submit').text('Update');
+    $('#' + item.type + '-form').attr('method','put');
+    $('#' + item.type + '-form').attr('action',$(this).data('action'));
+    $('#' + item.type + '-form button#submit').text('Update');
+    $('#' + item.type + '-form button#delete').removeClass('hidden');
 
     // Set form elements
-    var item = $(this).data('item');
     item.room = $(this).data('room');
     item.rooms = $(this).data('rooms');
     item.department = $(this).data('department');
 
-    if (item.type == 'rooms') {
-      $('#directory-form button#delete').addClass('hidden');
-    } else {
-      $('#directory-form button#delete').removeClass('hidden');
-    }
-
     for (var key in item) {
-      console.log(key,$("#directory-form #" + key), item[key]);
-      $("#directory-form #" + key).val(item[key]);
+      $("#" + item.type + "-form #" + key).val(item[key]);
     }
   });
 
   // Directory Form Callbacks
-  $('#directory-form').on('ajax:success',function(event, data, xhr){
+  $('.directory-form').on('ajax:success',function(event, data, xhr){
     var type = $('input#type', this).val();
     var el = $('#directory_' + data.id);
 
-    $(".alert").addClass("alert-success").css('display','block');
-
     switch (type) {
-    case "departments":
-      $(".alert span.notice").text(type + " " + data.department + " was saved successfully");
-
+    case "Department":
       if (el.length) {
         el.text(data.department);
-        el.data('item',data);
-        el.data('room',$('input#room').val());
       } else {
-        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
-        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
-        + 'data-room="' + $('input#room').val() + '">'
-        + data.department + '</a>');
+        el = $('<a href="#" class="list-group-item directory-item"'
+        + 'id="directory_' + data.id + '">'
+        + data.department + '</a>')
+        $('#' + type + '-admin-list').append(el);
       }
-      break;
-    case "people":
-      $(".alert span.notice").text(type + " " + data.name + " was saved successfully");
 
+      el.data('type',type);
+      el.data('item',data);
+      el.data('room',$('input#room').val());
+      break;
+    case "Person":
       if (el.length) {
         el.text(data.name);
-        el.data('item',data);
-        el.data('department',$('select#department').val());
-        el.data('rooms',$('select#rooms').val());
       } else {
-        $('#' + type + '-admin-list').append('<a href="#" class="list-group-item directory-item"'
-        + 'id="directory_' + data.id + '" data-type="' + type + '" data-item="' + data + '"'
-        + 'data-department="' + $('select#department').val() + '"'
-        + 'data-rooms="' + $('select#rooms').val() + '">'
-        + data.name + '</a>');
+        el = $('<a href="#" class="list-group-item directory-item"'
+        + 'id="directory_' + data.id + '">'
+        + data.name + '</a>')
+        $('#' + type + '-admin-list').append(el);
       }
+
+      el.data('type',type);
+      el.data('item',data);
+      el.data('department',$('select#department').val());
+      el.data('rooms',$('select#rooms').val());
       break;
-    case "rooms":
-      $(".alert span.notice").text(type + " " + data.room_number + " was saved successfully");
+    case "Room":
       el.data('item',data);
 
       break;
     }
 
+    resetDirectoryForm();
+
+    $(".alert").addClass("alert-success").css('display','block');
+    $(".alert span.notice").text(type + ' ' + data.name + ' was created successfully');
     setTimeout(function() {
       $('.alert').fadeOut();
     }, 2500);
+
   }).on('ajax:error',function(xhr, status, error){
-    console.error('Error submitting form', error);
+    $(".alert").addClass("alert-danger").css('display','block');
+    $(".alert span.notice").text(status.responseJSON.message);
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 2500);
   });
 
-  $('#directory-form').on('click', 'button#delete', function (e) {
+  $('.directory-form').on('click', 'button#delete', function (e) {
     if ($(this).text() == 'Delete') {
       $(this).text('Are you sure?')
     } else {
-      var id = $('#directory-form input#id').val();
+      var id = $(this).closest('form').children('input#id').val();
       $.ajax({
-        url: '/administration/del_directory_object',
+        url: '/directory/' + id,
         type: 'DELETE',
         complete: function(jqXHR) {
           if(jqXHR.readyState === 4) {
@@ -246,13 +252,12 @@ ready = function() {
             resetDirectoryForm();
 
             $(".alert").addClass("alert-success").css('display','block');
-            $(".alert span.notice").text("Object was deleted successfully");
+            $(".alert span.notice").text(jqXHR.responseJSON.message);
             setTimeout(function() {
               $('.alert').fadeOut();
             }, 2500);
           }
-        },
-        data: {id: id}
+        }
       });
     }
   });

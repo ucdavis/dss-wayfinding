@@ -29,6 +29,111 @@ class DirectoryObjectsController < ApplicationController
     @directory_objects = @directory_objects.uniq
   end
 
+  def create
+    type = params[:type].singularize.capitalize
+
+    case type
+    when 'Person'
+      @object = Person.new
+    when 'Department'
+      @object = Department.new
+    end
+
+    if @object.present?
+      @object.first = params[:first] unless params[:first].blank?
+      @object.last = params[:last] unless params[:last].blank?
+      @object.email = params[:email] unless params[:email].blank?
+      @object.phone = params[:phone] unless params[:phone].blank?
+      @object.room_number = params[:room_number] unless params[:room_number].blank?
+      @object.name = params[:name] unless params[:name].blank?
+      @object.title = params[:title] unless params[:title].blank?
+      @object.department = Department.find(params[:department]) unless params[:department].blank?
+      if type == 'Person'
+        @object.rooms = []
+        params[:rooms].each do |room|
+          @object.rooms << Room.find(room)
+        end unless params[:rooms].blank?
+      end
+      if type == 'Department'
+        @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
+      end
+
+      if @object.save
+        respond_to do |format|
+          format.json { render json: @object }
+        end
+      else
+        respond_to do |format|
+          format.json {render json: { message: "Error Creating " + type + ".. Duplicate?" }, status: 405 }
+        end
+      end
+
+    else
+
+      respond_to do |format|
+        format.json {render json: { message: "Error identifying type of object" }, status: 405 }
+      end
+
+    end
+  end
+
+  def update
+    # Find existing object
+    @object = DirectoryObject.find_by(id: params[:id])
+    type = params[:type].singularize.capitalize
+
+    if @object.present?
+      @object.first = params[:first] unless params[:first].blank?
+      @object.last = params[:last] unless params[:last].blank?
+      @object.email = params[:email] unless params[:email].blank?
+      @object.phone = params[:phone] unless params[:phone].blank?
+      @object.room_number = params[:room_number] unless params[:room_number].blank?
+      @object.name = params[:name] unless params[:name].blank?
+      @object.title = params[:title] unless params[:title].blank?
+      @object.department = Department.find(params[:department]) unless params[:department].blank?
+      if type == 'Person'
+        @object.rooms = []
+        params[:rooms].each do |room|
+          @object.rooms << Room.find(room)
+        end unless params[:rooms].blank?
+      end
+      if type == 'Department'
+        @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
+      end
+
+      @object.save
+      respond_to do |format|
+        format.json {
+          render :json => @object
+        }
+      end
+
+    else
+
+      respond_to do |format|
+        format.json {render json: { message: "Error finding directory object" }, status: 405 }
+      end
+
+    end
+  end
+
+  def destroy
+    if params[:id].present?
+      # Find existing object
+      @object = DirectoryObject.find(params[:id])
+    end
+    if @object.present? and @object.type != 'Room'
+      @object.destroy
+      respond_to do |format|
+        format.json {render json: { message: "Object deleted successfully", id: @object.id }, status: 302 }
+      end
+    else
+      respond_to do |format|
+        format.json {render json: { message: "Error deleting directory object" }, status: 405 }
+      end
+    end
+  end
+
   # POST /directory/search
   def search
     if params[:q] && params[:q].length > 0

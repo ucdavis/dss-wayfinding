@@ -1,7 +1,7 @@
 class Person < DirectoryObject
   validates :first, uniqueness: false, presence: true
   validates :last, uniqueness: false, presence: true
-  validates :email, uniqueness: true, presence: true
+  validates :email, uniqueness: true, :allow_blank => true, :allow_nil => true
   validates :phone, uniqueness: false, presence: false
 
   has_and_belongs_to_many :rooms, join_table: 'person_room_join_requirements'
@@ -17,7 +17,7 @@ class Person < DirectoryObject
       :department => department ? department.title : '',
       :email => email,
       :phone => phone,
-      :type => type.pluralize.downcase
+      :type => type
     }
   end
 end
