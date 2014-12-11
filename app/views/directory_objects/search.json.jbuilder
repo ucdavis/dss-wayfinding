@@ -2,7 +2,7 @@ json.directory_objects @directory_objects do |directory_object|
   json.extract! directory_object, :id, :first, :last, :email, :phone, :type, :title, :time, :link, :name, :room_number, :is_bathroom, :rss_feed
 
   if ['Person','Event'].include? directory_object.type
-    json.department directory_object.department, :id, :title
+    json.department directory_object.department, :id, :title if directory_object.department.present?
   end
 
   if directory_object.type == "Person"
@@ -12,6 +12,6 @@ json.directory_objects @directory_objects do |directory_object|
   end
 
   if directory_object.type == "Event"
-    json.room directory_object.room, :id, :room_number, :name
+    json.room directory_object.room, :id, :room_number, :name if directory_object.room.present?
   end
 end
