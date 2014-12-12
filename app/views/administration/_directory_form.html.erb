@@ -40,6 +40,7 @@
           <%= form_for(@person, remote: true, html: {class: 'form-horizontal directory-form', id: 'Person-form'}) do |f| %>
             <%= hidden_field_tag 'id' %>
             <%= hidden_field_tag 'type', type %>
+            <%= hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
 
             <div class="form-group">
               <%= label_tag 'Name', nil, class: 'col-sm-2 control-label' %>
@@ -92,6 +93,7 @@
           <%= form_for(@room, remote: true, html: {class: 'form-horizontal directory-form', id: 'Room-form'}) do |f| %>
             <%= hidden_field_tag 'id' %>
             <%= hidden_field_tag 'type', type %>
+            <%= hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
 
             <div class="form-group">
               <%= label_tag 'Room Name', nil, class: 'col-sm-2 control-label' %>
@@ -112,6 +114,7 @@
           <%= form_for(@department, remote: true, html: {class: 'form-horizontal directory-form', id: 'Department-form'}) do |f| %>
             <%= hidden_field_tag 'id' %>
             <%= hidden_field_tag 'type', type %>
+            <%= hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
 
             <div class="form-group">
               <%= label_tag 'Title', nil, class: 'col-sm-2 control-label' %>
