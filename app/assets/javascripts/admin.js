@@ -120,6 +120,7 @@ ready = function() {
 
     // Change form method to post
     $('.directory-form').attr('method','post');
+    $('.directory-form').show();
 
     // Reset action urls
     $('.directory-form').each(function(i,f){
@@ -149,6 +150,11 @@ ready = function() {
   // When switching between tabs
   $('#admin-menu a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     resetDirectoryForm();
+
+    // Hide the form for rooms (Can't create rooms)
+    if ($(this).hasClass('rooms')) {
+      $('.directory-form').hide();
+    }
   });
 
   // Directory Form
