@@ -66,7 +66,6 @@
 		'zoomPadding': 25,
 		// milliseconds to wait during animation when a floor change occurs
 		'floorChangeAnimationDelay': 1250
-		// load callback?
 	};
 
 	$.fn.wayfinding = function (action, options, callback) {
@@ -280,6 +279,15 @@
 			$('#Doors line', svgDiv).attr('stroke-opacity', 0);
 			$('#Portals line', svgDiv).attr('stroke-opacity', 0);
 
+			// If #Paths, #Doors, etc. are in a group, ensure that group does _not_
+			// have display: none; (commonly set by Illustrator when hiding a layer)
+			// and instead add opacity: 0; (which allows for events, unlike display: none;)
+			// (A group tag 'g' is used by Illustrator for layers.)
+			var $dataGroup = $('#Paths', svgDiv).parent();
+			if($dataGroup.is("g")) {
+				$dataGroup.attr('opacity', 0).attr('display', 'inline');
+			}
+
 			// The following need to use the el variable to scope their calls: el is jquery element
 
 			// Make rooms clickable
@@ -320,8 +328,8 @@
 
 			// Ensure SVG w/h are divisble by 2 (to avoid webkit blurriness bug on pan/zoom)
 			var elem = $('#' + maps[displayNum].id + '>svg', el)[0];
-			elem.style.height = (Math.ceil(elem.offsetHeight / 2) * 2) + 'px';
-			elem.style.width = (Math.ceil(elem.offsetWidth / 2) * 2) + 'px';
+			$(elem).attr('height', (Math.ceil($(elem).outerHeight() / 2) * 2) + 'px');
+			$(elem).attr('width', (Math.ceil($(elem).outerWidth() / 2) * 2) + 'px');
 
 			// if endpoint was specified, route to there.
 			if (typeof(options.endpoint) === 'function') {
@@ -334,7 +342,7 @@
 		} //function replaceLoadScreen
 
 		// Initialize the jQuery target object
-		function initialize(obj) {
+		function initialize(obj, callback) {
 			var mapsProcessed = 0;
 
 			// Load SVGs off the network
@@ -366,6 +374,9 @@
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
 								replaceLoadScreen(obj);
+								if (typeof callback === 'function') {
+									callback();
+								}
 							});
 						}
 					}
@@ -974,6 +985,9 @@
 		}
 
 		if (action && typeof (action) === 'object') {
+			if (typeof options === 'function') {
+				callback = options;
+			}
 			options = action;
 			action = 'initialize';
 		}
@@ -990,7 +1004,7 @@
 				switch (action) {
 				case 'initialize':
 					checkIds();
-					initialize(obj);
+					initialize(obj, callback);
 					break;
 				case 'routeTo':
 					// call method
@@ -1032,6 +1046,19 @@
 						result = options.path;
 					} else {
 						options.path = $.extend(true, {}, options.path, passed);
+					}
+					break;
+				case 'zoom':
+					if (passed === undefined) {
+						result = {x: 0, y: 0, z: 0};
+					} else {
+						if (passed === 'reset') {
+							// reset zoom
+							alert('reset zoom');
+						} else {
+							// accept object and set zoom
+							alert('zoom to');
+						}
 					}
 					break;
 				case 'checkMap':
