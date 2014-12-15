@@ -199,9 +199,17 @@ class AdministrationController < ApplicationController
       require 'fileutils'
 
       directory = "public/maps.tmp"
-      # Create directory if does not exist
+      # Ensure a blank maps.tmp directory exists
+      FileUtils.rm_rf directory
       FileUtils::mkdir_p directory
 
+      # Copy the existing maps into that directory
+      # (to support the case where the user is updating maps and doesn't specify
+      # all of the existing maps.)
+      FileUtils.cp_r 'public/maps/.', directory
+
+      # Copy uploaded files to maps.tmp, overriding any old maps that were
+      # just copied in the line above.
       params[:uploaded_map].each do |map|
         path = File.join(directory, "floor" + map[0].to_s + ".svg")
         File.open(path, "wb") { |f| f.write(map[1].read) }
