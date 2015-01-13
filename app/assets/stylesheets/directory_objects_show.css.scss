@@ -149,7 +149,6 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 3px;
     cursor: pointer;
   }
 }
@@ -407,28 +406,30 @@ ul.vertical-nav {
 
 .btn-min-max {
   font-size: 2em;
-  opacity: 0.5;
-  &:hover {
-    opacity: 1;
-  }
+  line-height: 1.4em;
+  height:1.4em;
+  width:0.7em;
+  border-radius: 0 1.4em 1.4em 0;
+  -moz-border-radius: 0 1.4em 1.4em 0;
+  -webkit-border-radius: 0 1.4em 1.4em 0;
 }
 
-.btn-people {
+.btn-people, .btn-Person {
   background-color: $people-color;
   color: white;
 }
 
-.btn-events {
+.btn-events, .btn-Event {
   background-color: $events-color;
   color: white;
 }
 
-.btn-rooms {
+.btn-rooms, .btn-Room {
   background-color: $rooms-color;
   color: white;
 }
 
-.btn-departments {
+.btn-departments, .btn-Department {
   background-color: $departments-color;
   color: white;
 }

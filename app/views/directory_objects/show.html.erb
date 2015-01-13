@@ -21,6 +21,7 @@
         $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
 
         $('.replay').addClass('disabled');
+        minMaxInfo('min');
 
         setRedirectToHome(); // reset the home page return timer
 
@@ -31,6 +32,7 @@
 
       $(document).on("wayfinding:animationComplete", function() {
         $('.replay').removeClass('disabled');
+        minMaxInfo();
       });
 
       $(document).on("wayfinding:ready", function(e, data) {
@@ -42,18 +44,18 @@
 
           if (directory_object) {
             showInfo(directory_object);
-          }
 
-          destination = 'R' + directory_object.room_number;
-          endFloor = destination.substring(1, 2);
+            destination = 'R' + directory_object.room_number;
+            endFloor = destination.substring(1, 2);
 
-          if (destination.length > 0) {
-            console.debug("destination = ", destination);
-            $('#map').wayfinding('routeTo', destination);
-            $('.replay').addClass('disabled');
+            if (destination.length > 0) {
+              console.debug("destination = ", destination);
+              $('#map').wayfinding('routeTo', destination);
+              $('.replay').addClass('disabled');
 
-            $("a.btn-floor").removeClass('destination');
-            $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
+              $("a.btn-floor").removeClass('destination');
+              $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
+            }
           }
         } catch(e) {
           console.error('Error parsing @directory_object to JSON', e)
@@ -64,6 +66,7 @@
           if (destination.length > 0 && !$(this).hasClass('disabled')) {
             $('#map').wayfinding('routeTo', destination);
             $(this).addClass('disabled');
+            minMaxInfo('min');
           }
         });
 
@@ -76,8 +79,9 @@
             $('#map').wayfinding('accessibleRoute', !$('#map').wayfinding('accessibleRoute'), function() {
               if($('.replay').hasClass("disabled") == false) {
                 // Route was alredy shown, so redraw with accessibility enabled
-                $('.replay').addClass('disabled');
                 $('#map').wayfinding('routeTo', destination);
+                $('.replay').addClass('disabled');
+                minMaxInfo('min');
               }
             });
          })

@@ -12,14 +12,15 @@ $(function() {
   });
 });
 
-var minMaxInfo = function (el) {
+var minMaxInfo = function (state) {
+  state = state || 'toggle';
   var width = $('#destination-view').outerWidth();
-  if ($('#destination-view').css('right') == '0px') {
+  if (state == 'min' || $('#destination-view').css('right') == '0px') {
     $('#destination-view').css('right', -width+20);
-    $(el).removeClass('icon-right-arrow').addClass('icon-left-arrow');
+    $('i.btn-min-max').removeClass('icon-right-arrow').addClass('icon-left-arrow');
   } else {
     $('#destination-view').css('right', 0);
-    $(el).removeClass('icon-left-arrow').addClass('icon-right-arrow');
+    $('i.btn-min-max').removeClass('icon-left-arrow').addClass('icon-right-arrow');
   }
 }
 
@@ -28,6 +29,7 @@ var showInfo = function (data) {
 
   $('#destination-view h2, #destination-view span').remove();
   $('#destination-view h1').addClass('btn-' + class_suffix);
+  $('#destination-view i.btn-min-max').addClass('btn-' + class_suffix);
   $('#destination-view').addClass('text-' + class_suffix);
 
   var attrs = ['name', 'room_number', 'email', 'phone'];
@@ -45,9 +47,10 @@ var showInfo = function (data) {
       $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
     }
 
-    $('#destination-view').css('right', 0);
+    $('#destination-view').css('right', -9999);
+    minMaxInfo('min');
     $('#destination-view .min-max').on('click', function() {
-      minMaxInfo(this);
+      minMaxInfo();
     });
 
     handleLinksWithJS();
