@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     if request.format.to_s.include? 'json'
       # JSON request
       render :json => "Permission denied.", :status => 403
-    elsif session[:auth_via] == :cas
+    elsif session[:auth_via] == 'cas'
       # Non-JSON, human-facing error
       flash[:error] = "Sorry, you are not allowed to access that page."
       redirect_to access_denied_path

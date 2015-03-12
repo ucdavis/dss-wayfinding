@@ -1,6 +1,7 @@
 class AdministrationController < ApplicationController
   before_filter :require_login, except: :start
   before_action :authenticate, except: :start
+  filter_access_to :all
 
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
@@ -52,7 +53,7 @@ class AdministrationController < ApplicationController
       start_location = params[:location].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
       cookies.permanent[:start_location] = start_location.upcase
     end
-
+    
     redirect_to root_path
   end
 

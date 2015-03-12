@@ -69,7 +69,7 @@ ready = function() {
         lastBuild = new Date(data.startTime);
         lastBuild = lastBuild.getMonth() + '/' + lastBuild.getDate() + '/' + lastBuild.getFullYear()
           + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
-        progress = "No cache building in porgress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
+        progress = "No cache building in progress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
         percentage = '100%';
 
         // Update DOM

@@ -6,7 +6,7 @@ authorization do
   role :directoryadmin do
     includes :guest
     has_permission_on :directory_objects, :to => :manage
-    has_permission_on :administration, :to => [:administer_directory]
+    has_permission_on :administration, :to => [:read, :administer_directory]
   end
   role :superadmin do
     includes :directoryadmin
