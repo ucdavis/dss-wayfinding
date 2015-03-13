@@ -2,6 +2,33 @@
 
 var ready;
 ready = function() {
+
+  //
+  // _notice
+  //
+  //    Displays notices (information about successes and errors) to the user
+  //    that display for about 2.5s.
+  //
+  
+  var _notice = function(type, notice) {
+      cssType = type === 'success' ? 'success' : 'danger';
+
+      $(".alert").addClass("alert-" + cssType).css('display','block');
+      $(".alert span.notice").text(notice);
+      setTimeout(function() {
+          $('.alert').fadeOut();
+      }, 2500);
+  };
+
+  //
+  // success_notice and error_notice
+  //
+  //    Helper functions for _notice
+  //
+  
+  var success_notice = _.partial(_notice, 'success');
+  var error_notice = _.partial(_notice, 'error');
+
   if ( typeof notice !== 'undefined' && notice ) {
     $(".alert").addClass("alert-success").css('display','block');
     $(".alert span.notice").text(notice);
@@ -14,24 +41,13 @@ ready = function() {
 
   $("#originform").on('ajax:success',function(event, data){
     if (typeof data.notice !== 'undefined' ) {
-      $(".alert").addClass("alert-success").css('display','block');
-      $(".alert span.notice").text(data.notice);
+      success_notice(data.notice);
     } else if (typeof data.error !== 'undefined' ) {
-      $(".alert").addClass("alert-danger").css('display','block');
-      $(".alert span.notice").text(data.error);
+      error_notice(data.error);
     }
     if (typeof data.origin !== 'undefined' ) $("input#origin").val(data.origin);
-
-    setTimeout(function() {
-      $('.alert').fadeOut();
-    }, 2500);
   }).on('ajax:error',function(xhr, status, error){
-    $(".alert").addClass("alert-danger").show();
-    $(".alert span.notice").text("Error communicating with server!");
-
-    setTimeout(function() {
-      $('.alert').fadeOut();
-    }, 2500);
+      error_notice("Error communicating with server!");
   });
 
   $(".deptform").on('ajax:success',function(event, data){
@@ -183,6 +199,74 @@ ready = function() {
     }
   });
 
+  // 
+  // validNumber
+  //
+  //    Tests whether or not a phone number is a valid five-, seven-, or
+  //    ten-digit phone number. Compares given number to a version that strips
+  //    everything but valid non-numeric characters.
+  //
+  //    See: http://stackoverflow.com/questions/123559/a-comprehensive-regex-
+  //         for-phone-number-validation#comment13319834_123681
+  //
+  //    Arguments:
+  //        phone: (string) Phone number to test.
+  //
+  //    Returns: Whether or not the given string is a valid phone number.
+  //
+  
+  var validNumber = function(phone) {
+      stripped = phone.trim();
+      trimmedNumber = stripped.replace(/[^\dx]/g, "")
+                              .replace(/x\d*/g, "");
+      trimmedLength = trimmedNumber.length;
+
+      // Double check phone number is five, seven, or ten digits
+      if (trimmedLength !== 5  && trimmedLength !== 7  &&
+          trimmedLength !== 10 && trimmedLength !== 11) {
+              return false;
+      }
+
+      // Allow numbers, +, -, x, (, and ). Anything else renders the number
+      // invalid.
+      if (stripped.replace(/[^\d+-x)( ]/g, "") === stripped)
+          return true;
+
+      return false; 
+  };
+
+  $('.directory-form #submit').on('click', function(event) {
+      var type = $('input#type', this.form).val();
+
+      var stop = function() {
+          event.preventDefault();
+          event.stopPropagation();
+      };
+
+      switch (type) {
+          case "Person":
+              // Names can't be empty
+              if (!(this.form.elements.first.value && this.form.elements.last.value)) {
+                  error_notice("Missing first and/or last name. Please enter both a first and a last name.");
+                  stop();
+                  return false;
+              }
+
+              // Validate phone numbers. They can be empty (empty phone number
+              // evaluates to false and prevents the following if statement from
+              // continuing, preventing it from stopping form submission). 
+              phoneNumber = this.form.elements.phone.value;
+              if (phoneNumber && !validNumber(phoneNumber)) {
+                  error_notice("Please enter a valid phone number.");
+                  stop();
+                  return false;
+              }
+
+              // Rely on browser support for <input type="email"> for now.
+          break;
+      }
+  });
+
   // Directory Form Callbacks
   $('.directory-form').on('ajax:success',function(event, data, xhr){
     var type = $('input#type', this).val();
@@ -226,18 +310,9 @@ ready = function() {
 
     resetDirectoryForm();
 
-    $(".alert").addClass("alert-success").css('display','block');
-    $(".alert span.notice").text(type + ' ' + data.name + ' was created successfully');
-    setTimeout(function() {
-      $('.alert').fadeOut();
-    }, 2500);
-
+    success_notice(type + ' ' + data.name + ' was created successfully');
   }).on('ajax:error',function(xhr, status, error){
-    $(".alert").addClass("alert-danger").css('display','block');
-    $(".alert span.notice").text(status.responseJSON.message);
-    setTimeout(function() {
-      $('.alert').fadeOut();
-    }, 2500);
+    error_notice(status.responseJSON.message);
   });
 
   $('.directory-form').on('click', 'button#delete', function (e) {
@@ -258,11 +333,7 @@ ready = function() {
             $('.admin-directory-list a#new-object').addClass('active');
             resetDirectoryForm();
 
-            $(".alert").addClass("alert-success").css('display','block');
-            $(".alert span.notice").text(jqXHR.responseJSON.message);
-            setTimeout(function() {
-              $('.alert').fadeOut();
-            }, 2500);
+            success_notice(jqXHR.responseJSON.message);
           }
         }
       });
