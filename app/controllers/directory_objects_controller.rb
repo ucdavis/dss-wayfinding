@@ -39,41 +39,45 @@ class DirectoryObjectsController < ApplicationController
       @object = Department.new
     end
 
-    if @object.present?
-      @object.first = params[:first] unless params[:first].blank?
-      @object.last = params[:last] unless params[:last].blank?
-      @object.email = params[:email] unless params[:email].blank?
-      @object.phone = params[:phone] unless params[:phone].blank?
-      @object.room_number = params[:room_number] unless params[:room_number].blank?
-      @object.name = params[:name] unless params[:name].blank?
-      @object.title = params[:title] unless params[:title].blank?
-      @object.department = Department.find(params[:department]) unless params[:department].blank?
-      if type == 'Person'
-        @object.rooms = []
-        params[:rooms].each do |room|
-          @object.rooms << Room.find(room)
-        end unless params[:rooms].blank?
-      end
-      if type == 'Department'
-        @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
-      end
-
-      if @object.save
-        respond_to do |format|
-          format.json { render json: @object }
-        end
-      else
-        respond_to do |format|
-          format.json {render json: { message: "Error Creating " + type + ".. Duplicate?" }, status: 405 }
-        end
-      end
-
-    else
-
+    if !@object.present?
       respond_to do |format|
         format.json {render json: { message: "Error identifying type of object" }, status: 405 }
       end
+    end
 
+    if type == 'Person' && (params[:first].blank? || params[:last].blank?)
+        respond_to do |format|
+            format.json {render json: { message: "Error: both first and last names must be supplied" }, status: 405}
+        end
+    end
+
+    @object.first = params[:first] unless params[:first].blank?
+    @object.last = params[:last] unless params[:last].blank?
+    @object.email = params[:email] unless params[:email].blank?
+    @object.phone = params[:phone] unless params[:phone].blank?
+    @object.room_number = params[:room_number] unless params[:room_number].blank?
+    @object.name = params[:name] unless params[:name].blank?
+    @object.title = params[:title] unless params[:title].blank?
+    @object.department = Department.find(params[:department]) unless params[:department].blank?
+
+    if type == 'Person'
+      @object.rooms = []
+      params[:rooms].each do |room|
+        @object.rooms << Room.find(room)
+      end unless params[:rooms].blank?
+    end
+    if type == 'Department'
+      @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
+    end
+
+    if @object.save
+      respond_to do |format|
+        format.json { render json: @object }
+      end
+    else
+      respond_to do |format|
+        format.json {render json: { message: "Error Creating " + type + ".. Duplicate?" }, status: 405 }
+      end
     end
   end
 
@@ -101,12 +105,15 @@ class DirectoryObjectsController < ApplicationController
         @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
       end
 
-      @object.save
-      respond_to do |format|
-        format.json {
-          render :json => @object
-        }
-      end
+      if @object.save
+          respond_to do |format|
+            format.json { render :json => @object }
+          end
+      else
+          respond_to do |format|
+              format.json { render json: { message: "Error updating " + type + "." }, status: 405 }
+          end
+      end 
 
     else
 

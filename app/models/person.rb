@@ -1,8 +1,8 @@
 class Person < DirectoryObject
   validates :first, uniqueness: false, presence: true
   validates :last, uniqueness: false, presence: true
-  validates :email, uniqueness: true, :allow_blank => true, :allow_nil => true
-  validates :phone, uniqueness: false, presence: false
+  validates :email, uniqueness: true, :allow_blank => true, :allow_nil => true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+  validates :phone, uniqueness: false, presence: false, format: { with: /\A[)(\d\-x+ ]*\z/ }
 
   has_and_belongs_to_many :rooms, join_table: 'person_room_join_requirements'
   belongs_to :department

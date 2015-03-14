@@ -13,6 +13,7 @@ ready = function() {
   var _notice = function(type, notice) {
       cssType = type === 'success' ? 'success' : 'danger';
 
+      $(".alert").removeClass("alert-success alert-danger");
       $(".alert").addClass("alert-" + cssType).css('display','block');
       $(".alert span.notice").text(notice);
       setTimeout(function() {
@@ -293,10 +294,11 @@ ready = function() {
       } else {
         el = $('<a href="#" class="list-group-item directory-item"'
         + 'id="directory_' + data.id + '">'
-        + data.name + '</a>')
+        + data.name + '</a>');
         $('#' + type + '-admin-list').append(el);
       }
 
+      el.data('action', "/people/" + data.id);
       el.data('type',type);
       el.data('item',data);
       el.data('department',$('select#department').val());
@@ -308,9 +310,17 @@ ready = function() {
       break;
     }
 
-    resetDirectoryForm();
+    // Don't redirect when updating a person. And display the right message.
+    console.log($('button#submit', this)[0].textContent);
+    if ($('button#submit', this)[0].textContent !== "Update") {
+        resetDirectoryForm();
+        action_texted = "created"
+    }
+    else {
+        action_texted = "updated" 
+    }
 
-    success_notice(type + ' ' + data.name + ' was created successfully');
+    success_notice(type + ' ' + data.name + ' was ' + action_texted + ' successfully');
   }).on('ajax:error',function(xhr, status, error){
     error_notice(status.responseJSON.message);
   });
