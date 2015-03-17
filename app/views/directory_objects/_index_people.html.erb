@@ -12,7 +12,7 @@
 
 <!-- Generate a row for a person -->
 <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
-  <h3><%= directory_object.first + " " + directory_object.last %></h3>
+  <h3><%= directory_object.last + ", " + directory_object.first %></h3>
 
   <!-- Room number -->
   <% if directory_object.rooms.length > 0 %>
