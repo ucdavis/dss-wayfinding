@@ -1,20 +1,20 @@
-<!-- Generate Initial Anchor -->
+<%# Generate Initial Anchor %>
 <% if @initial_category == false %>
     <tr><td id="category_<%= @scrubber_category_index %>" class="category-header">Floor <%= @scrubber_categories[@scrubber_category_index] %></td></tr>
     <% @initial_category = true %>
 <% end %>
 
-<!-- Generate Category Anchors -->
+<%# Generate Category Anchors %>
 <% while (@scrubber_category_index < @scrubber_categories.count) && (directory_object.room_number.to_s.first.to_i != @scrubber_categories[@scrubber_category_index].to_i) do %>
     <% @scrubber_category_index += 1 %>
     <tr><td id="category_<%= @scrubber_category_index %>" class="category-header">Floor <%= @scrubber_category_index %>
     </td></tr>
 <% end %>
 
-<!-- Generate a row for a Room -->
+<%# Generate a row for a Room %>
 <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
   <h3><%= directory_object.room_number %></h3>
-  <!-- Room Name -->
+  <%# Room Name %>
   <% if directory_object.name %>
     <span class="room-row-field"><%= directory_object.name %></span>
   <% end %>

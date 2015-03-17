@@ -222,7 +222,8 @@ ready = function() {
                               .replace(/x\d*/g, "");
       trimmedLength = trimmedNumber.length;
 
-      // Double check phone number is five, seven, or ten digits
+      // Double check phone number is five, seven, or ten digits without an
+      // extension
       if (trimmedLength !== 5  && trimmedLength !== 7  &&
           trimmedLength !== 10 && trimmedLength !== 11) {
               return false;
@@ -230,7 +231,7 @@ ready = function() {
 
       // Allow numbers, +, -, x, (, and ). Anything else renders the number
       // invalid.
-      if (stripped.replace(/[^\d+-x)( ]/g, "") === stripped)
+      if (stripped.replace(/[^\d\+x)( \-]/g, "") === stripped)
           return true;
 
       return false; 

@@ -19,7 +19,6 @@ class DirectoryObjectsController < ApplicationController
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
       @scrubber_categories = ['L',1,2,3,4,5]
-      @scrubber_categories = []
     else
       # Unsupported behavior
       @directory_objects = []
