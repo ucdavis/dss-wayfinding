@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get "/logout" => 'application#logout'
 
   get 'start/:location', to: redirect('/administration/start?location=%{location}')
+  get 'start/:start_loc/end/:end_loc', to: 'directory_objects#show'
+  get 'start/:start_loc/directory/:id', to: 'directory_objects#show'
 
   get '/access_denied' => 'site#access_denied'
 

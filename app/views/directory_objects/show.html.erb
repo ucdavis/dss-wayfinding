@@ -95,7 +95,7 @@
                     "/maps/floor4.svg",
                     "/maps/floor5.svg"]
     %>
-    <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"), asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin) %>
+    <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"), asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest) %>
     <% else %>
       // Origin is not set
       $("#mapLoadingInner").html('Kiosk location must be set in <%= link_to "administration", administration_index_path %>.');

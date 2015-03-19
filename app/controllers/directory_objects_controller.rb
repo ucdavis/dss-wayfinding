@@ -181,6 +181,8 @@ class DirectoryObjectsController < ApplicationController
 
   # GET /directory_objects/1
   # GET /room/1
+  # GET /start/R0070/end/R2169
+  # GET /start/R0070/directory/1234
   def show
     @directory_object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
     @directory_object = DirectoryObject.find(params[:id]) if params[:id] && @directory_object.nil?
@@ -190,8 +192,31 @@ class DirectoryObjectsController < ApplicationController
 
   private
 
+  #
+  # room
+  #
+  #     Normalizes input for room numbers
+  #
+
+  def normalize_room(number)
+    return nil if number.nil?
+    number.slice!(0) if number[0].upcase == "R"
+    return number.to_s.rjust(4, '0').prepend("R")
+  end
+
+  #
+  # set_origin
+  #
+  #     Called before ev'rything else. Sets @origin and @dest for views, if
+  #     applicable.
+  #
+  
   def set_origin
-    @origin = cookies[:origin] || cookies[:start_location]
+    # Prefer url-specified start locations over set ones when the URL is of
+    # format /start/.../end/...
+    @origin = normalize_room(params[:start_loc]) ||
+               cookies[:origin] || cookies[:start_location]
+    @dest = normalize_room(params[:end_loc])
 
     unless @origin
       logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"

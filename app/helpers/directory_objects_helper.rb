@@ -1,5 +1,6 @@
 module DirectoryObjectsHelper
-  def wayfinding_plugin(svg_paths, dataStoreCacheUrl, accessibleDataStoreCacheUrl, origin)
+  def wayfinding_plugin(svg_paths, dataStoreCacheUrl, accessibleDataStoreCacheUrl, origin, dest = nil)
+    dest = '\'' + dest + '\'' unless dest.nil?
     str = "$('#map').wayfinding({
     'maps': ["
 
@@ -24,6 +25,7 @@ module DirectoryObjectsHelper
       console.debug('Start location is ' + '" + origin + "');
       return '" + origin + "';
     },
+    'endpoint': " + (dest || 'false') + ",
     'locationIndicator' : {
       height: 30
     },
@@ -32,6 +34,11 @@ module DirectoryObjectsHelper
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "
+
+    unless dest.nil?
+        str += "$('#map').trigger('wayfinding:roomClicked',
+                    [ { room_id: " + dest + " } ] );"
+    end
 
     return str.html_safe
   end

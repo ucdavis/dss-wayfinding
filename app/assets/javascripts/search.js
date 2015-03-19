@@ -95,9 +95,12 @@ var displayResults = function () {
 }
 
 $(function() {
+  var searchTimeout;
+
   $(".right-btn-container.search").remove();
   displayResults();
   $("input#search").bind("change paste keyup", function() {
-    displayResults();
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(displayResults, 300);
   });
 });

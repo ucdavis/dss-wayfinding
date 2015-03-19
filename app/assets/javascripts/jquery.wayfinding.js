@@ -354,8 +354,9 @@
 					map.path,
 					function (svg, status, xhr) {
 						if (status === 'error') {
-							svgDiv.html("<p class='text-center text-danger'>Map " + i + " Was not found at "
-								+ map.path + "<br />Please upload it in the administration section</p>");
+							$('#map').html("<div id='mapLoading'><div id='mapLoadingInner'>Map " + i + " was not found. " +
+								"<br />Please upload it in the administration section.</div></div>");
+                                // + map.path +
 							maps[i].el = svgDiv;
 						}
 						maps[i].svgHandle = svg;
@@ -367,7 +368,7 @@
 
 						mapsProcessed = mapsProcessed + 1;
 
-						if(mapsProcessed === maps.length) {
+						if(mapsProcessed === maps.length && status !== 'error') {
 							// All SVGs have finished loading
 							establishDataStore(options.accessibleRoute, function() {
 								// SVGs are loaded, dataStore is set, ready the DOM
