@@ -8,8 +8,8 @@ class AdministrationController < ApplicationController
   def index
     @origin = cookies[:origin]
     @departments = Department.all
-    @people = Person.all
-    @rooms = Room.order(:room_number)
+    @people = Person.includes(:rooms, :department).all
+    @rooms = Room.includes(people: :department).order(:room_number)
     @rss_feeds = RssFeed.all
     @rss_feed = RssFeed.new # for adding new RSS feeds
     @person = Person.new # for adding/editing people

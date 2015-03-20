@@ -9,7 +9,7 @@ class Room < DirectoryObject
 
   def calculated_name
     return self.name if self.name.present?
-    people.count > 0 ? people[0].first + ' ' + people[0].last : ''
+    people.size > 0 ? people[0].first + ' ' + people[0].last : ''
   end
 
   def as_json(options={})
@@ -17,9 +17,9 @@ class Room < DirectoryObject
       :id => id,
       :room_number => room_number,
       :name => self.calculated_name,
-      :department => (people.count > 0) && people[0].department ? people[0].department.title : '',
-      :email => people.count > 0 ? people[0].email : '',
-      :phone => people.count > 0 ? people[0].phone : '',
+      :department => (people.size > 0) && people[0].department ? people[0].department.title : '',
+      :email => people.size > 0 ? people[0].email : '',
+      :phone => people.size > 0 ? people[0].phone : '',
       :type => type
     }
   end
