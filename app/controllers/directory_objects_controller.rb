@@ -145,14 +145,27 @@ class DirectoryObjectsController < ApplicationController
     if params[:q] && params[:q].length > 0
       @query = params[:q]
       objects = DirectoryObject.arel_table
-      query = "%#{params[:q]}%"
 
-      @directory_objects = DirectoryObject.where(objects[:first].matches(query)
-                                             .or(objects[:last].matches(query))
-                                             .or(objects[:title].matches(query))
-                                             .or(objects[:email].matches(query))
-                                             .or(objects[:name].matches(query))
-                                             .or(objects[:room_number].matches(query)))
+      query_objs = params[:q].split(/\s+/).map { |q|
+        "%#{q}%"
+      }
+      query_objs.push("%#{params[:q]}%")
+
+      query = query_objs.reduce("") { |qry,obj|
+        if ! qry.is_a?(Arel::Nodes::Grouping)
+            new_qry = objects[:first].matches(obj)
+        else
+            new_qry = qry.or(objects[:first].matches(obj))
+        end
+
+        new_qry.or(objects[:last].matches(obj))
+           .or(objects[:title].matches(obj))
+           .or(objects[:email].matches(obj))
+           .or(objects[:name].matches(obj))
+           .or(objects[:room_number].matches(obj))
+      }
+
+      @directory_objects = DirectoryObject.where(query)
 
       @directory_objects = @directory_objects.uniq
 
