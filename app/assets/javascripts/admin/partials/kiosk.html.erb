@@ -1,0 +1,12 @@
+<%# Do all authentication/error messages on server, so all angular has to do is
+display an error if there is one (or display nothing). %>
+<%# permitted_to? :origin, :administration do %>
+
+<div id="kiosk" class="tab-pane active" role="tabpanel">
+    <form id="originform" class="form-inline">
+        <div class="form-group">
+            <input type="text" placeholder="Example: R1152" class="form-control start" name="origin" value="" ng-model="origin" />
+        </div>
+        <input type="submit" value="Set Location" class="btn btn-default"/>
+    </form>
+</div>

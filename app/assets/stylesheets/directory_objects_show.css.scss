@@ -898,3 +898,7 @@ table {
   -webkit-backface-visibility: initial !important;
   -webkit-transform-origin: 50% 50%;
 }
+
+#search-directory, .directory-object-search {
+  border-radius: 4px 4px 0 0;
+}

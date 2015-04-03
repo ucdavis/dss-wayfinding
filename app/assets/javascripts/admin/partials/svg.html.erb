@@ -1,0 +1,21 @@
+<div role="tabpanel" class="tab-pane active" id="svg">
+  <form id="svg-upload-form" class="form-horizontal" multipart="true" method="post" enctype="multipart/form-data" action="administration/map_upload" accept-charset="UTF-8">
+  <% (0..5).each do |f| %>
+    <div class="form-group">
+      <label for="uploaded_map_<%= f.to_s %>" class="col-sm-2 control-label">Floor <%= f.to_s %></label>
+      <div class="col-sm-10">
+        <input type="file" id="uploaded_map_<%= f.to_s %>" class="form-control" name="uploaded_map[<%= f.to_s %>]" accept="image/svg+xml" />
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-1">
+      <input type="submit" value="Upload" class="btn btn-default" name="commit" />
+    </div>
+    <div class="col-sm-9">
+      <div class="cache-stats text-right">
+        No cache building in porgress
+      </div>
+    </div>
+  </div>
+</div>

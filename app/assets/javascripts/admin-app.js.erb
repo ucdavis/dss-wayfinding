@@ -1,0 +1,51 @@
+"use strict";
+
+// Support for Rails' CSRF token
+var includeCSRF = function($httpProvider) {
+    $httpProvider.defaults.headers.common["X-CSRF-Token"] = $("meta[name=csrf-token]").attr("content");
+}
+
+var Admin = angular.module("AdminApp", ["ngRoute", "ngSanitize"]);
+Admin.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl: '<%= asset_path("admin/partials/index.html") %>',
+            controller: ""
+        })
+        .when("/kiosk", {
+            templateUrl: '<%= asset_path("admin/partials/kiosk.html") %>',
+            controller: ""
+        })
+        .when("/svg", {
+            templateUrl: '<%= asset_path("admin/partials/svg.html") %>',
+            controller: ""
+        })
+        .when("/csv", {
+            templateUrl: '<%= asset_path("admin/partials/csv.html") %>',
+            controller: ""
+        })
+        .when("/rss", {
+            templateUrl: '<%= asset_path("admin/partials/rss.html") %>',
+            controller: ""
+        })
+        .when("/unmatched", {
+            templateUrl: '<%= asset_path("admin/partials/unmatched.html") %>',
+            controller: ""
+        })
+        .when("/search-logs", {
+            templateUrl: '<%= asset_path("admin/partials/search-logs.html") %>',
+            controller: ""
+        })
+        .when("/dir_dept", {
+            templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
+            controller: ""
+        })
+        .when("/dir_people", {
+            templateUrl: '<%= asset_path("admin/partials/directory-people.html") %>',
+            controller: ""
+        })
+        .when("/dir_rooms", {
+            templateUrl: '<%= asset_path("admin/partials/directory-rooms.html") %>',
+            controller: "RoomsCtrl"
+        });
+}]);

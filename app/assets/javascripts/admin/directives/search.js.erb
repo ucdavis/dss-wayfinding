@@ -1,0 +1,29 @@
+/*
+ * Directive: search (tag)
+ *
+ * Uses the directory-search.html template to display the search box for a
+ * directory object.
+ *
+ * Variables (format for items below is: tag-attribute (internal_variable)):
+ *   search-type (type_p): Pluralized name of type of directory object.
+ *   search-type-singular (type_s): Name of type of directory object.
+ *   search-items (item): Object containing names of all objects to be searched
+ *      (possibly a function in the future).
+ *
+ * Usage example:
+ *   In a partial:
+ *      <search search-type="type" search-items="items"></search>
+*/
+
+Admin.directive("search", function() {
+    return {
+        restrict: "E",
+        templateUrl: '<%= asset_path("admin/partials/directory-search.html") %>',
+        scope: {
+            type_p: "@searchType",
+            type_s: "@searchTypeSingular",
+            item: "@searchItems",
+            no_new: "@noNewItem"
+        }
+    };
+});

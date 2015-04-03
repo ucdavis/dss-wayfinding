@@ -1,0 +1,8 @@
+    <div class="list-group col-sm-3 admin-directory-list" id="admin-list">
+        <input type="text" id="search-directory" placeholder="Search {{type_p}}" class="form-control directory-object-search" ng-model="search" />
+        <a href="#" ng-hide="no_new" class="list-group-item list-group-item-success active" id="new-object">New {{type_s}}</a>
+
+        <a href="#" class="list-group-item directory-item" ng-repeat="item in items | filter: search">
+            {{ item.name }}
+        </a>
+    </div>

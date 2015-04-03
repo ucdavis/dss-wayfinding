@@ -1,0 +1,10 @@
+<div role="tabpanel" class="tab-pane active" id="search-logs">
+<div class="row" style="margin-top: 1em;">
+  <div class="col-sm-2">
+    Search Term - Number of occurences (Top 30)
+  </div>
+    <div class="col-sm-2" ng-repeat="search_term in search_terms">
+      {{ search_term.term }} - {{ search_term.count }}
+    </div>
+</div> <!-- .row -->
+</div>

@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'application', 'admin', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'admin', 'data-turbolinks-track' => true %>
 <script type="text/javascript">
   var notice = "<%= params[:notice] %>";
   var error = "<%= params[:error] %>";
@@ -13,62 +13,62 @@
   <div class="col-sm-7">
     <div class="progress">
       <div id="cache-progress" class="progress-bar" role="progressbar" style="width: 100%;">
-        No cache building in porgress
+        No cache building in progress
       </div>
     </div>
   </div>
 </div>
 
-<div class="admin-view">
+<div class="admin-view" ng-app="AdminApp">
   <div class="alert" role="alert">
     <span class="notice"></span>
   </div> <!-- .alert -->
 
-  <div role="tabpanel" class="tabs-left" id="admin-menu">
+  <div role="tabpanel" class="tabs-left" id="admin-menu" ng-controller="NavigationCtrl">
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
       <% permitted_to? :origin, :administration do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/kiosk')}">
         <a href="#kiosk" aria-controls="kiosk" role="tab" data-toggle="tab" class="tab-link">Set Kiosk Location</a>
       </li>
       <% end %>
 
       <% permitted_to? :map_upload, :administration do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/svg')}">
         <a href="#svg" aria-controls="svg" role="tab" data-toggle="tab" class="tab-link">Manage SVG Maps</a>
       </li>
       <% end %>
 
       <% permitted_to? :csv, :administration do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/csv')}">
         <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab" class="tab-link">Upload New Facilities CSV</a>
       </li>
       <% end %>
 
       <% permitted_to? :manage, :rss_feeds do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/rss')}">
         <a href="#rss" aria-controls="rss" role="tab" data-toggle="tab" class="tab-link">Manage RSS Fetching</a>
       </li>
       <% end %>
 
       <% permitted_to? :administer, :administration do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/unmatched')}">
         <a href="#unmatched" aria-controls="unmatched" role="tab" data-toggle="tab" class="tab-link">Unmatched Search Query Logs</a>
       </li>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/search-logs')}">
         <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab" class="tab-link">Search Term Logs</a>
       </li>
       <% end %>
 
       <% permitted_to? :administer_directory, :administration do %>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/dir_dept')}">
         <a href="#dir_dept" aria-controls="dir_dept" role="tab" data-toggle="tab" class="tab-link">Edit Department Locations</a>
       </li>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/dir_people')}">
         <a href="#dir_people" aria-controls="dir_people" role="tab" data-toggle="tab" class="tab-link">Edit People Directory</a>
       </li>
-      <li role="presentation">
+      <li role="presentation" ng-class="{active: isActive('/dir_rooms')}">
         <a href="#dir_rooms" aria-controls="dir_rooms" role="tab" data-toggle="tab" class="tab-link rooms">Edit Rooms Directory</a>
       </li>
       <% end %>
@@ -76,123 +76,21 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <% permitted_to? :origin, :administration do %>
-      <div role="tabpanel" class="tab-pane" id="kiosk">
-        <%= form_tag(origin_administration_index_path, id: "originform", remote: true, class: 'form-inline') do %>
-          <div class="form-group">
-            <%= text_field_tag :origin, @origin, placeholder: 'Example: R1152', class: 'form-control start' %>
-          </div>
-          <%= submit_tag 'Set Location', class: 'btn btn-default' %>
-        <% end %>
+      <div ng-view role="tabpanel" class="tab-pane active">
       </div>
-      <% end %>
-
-      <% permitted_to? :map_upload, :administration do %>
-      <div role="tabpanel" class="tab-pane" id="svg">
-        <%= form_tag(map_upload_administration_index_path,
-          multipart: true, remote: true, class: 'form-horizontal', id: 'svg-upload-form') do %>
-          <% (0..5).each do |f| %>
-            <div class="form-group">
-              <%= label_tag 'Floor ' + f.to_s, nil, class: 'col-sm-2 control-label' %>
-              <div class="col-sm-10">
-                <%= file_field_tag "uploaded_map[#{f.to_s}]", class: 'form-control', :accept => 'image/svg+xml' %>
-              </div>
-            </div>
-          <% end %>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-1">
-              <%= submit_tag 'Upload', class: 'btn btn-default' %>
-            </div>
-            <div class="col-sm-9">
-              <div class="cache-stats text-right">
-                No cache building in porgress
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <% end %>
-
-      <% permitted_to? :csv, :administration do %>
-      <div role="tabpanel" class="tab-pane" id="csv">
-        <%= form_tag(csv_administration_index_path, multipart: true, remote: true, class: 'form-inline') do %>
-          <div class="form-group">
-            <%= file_field_tag :uploaded_csv, class: 'form-control start' %>
-          </div>
-          <%= submit_tag 'Upload', class: 'btn btn-default' %>
-          <%= link_to " FacilitiesLink",
-            "https://ucdavis.metabim.com/Buildings/Home/Managers/Managers.csv?Bkey=1066",
-            :target => "_blank", :class => "pull-right btn" %>
-        <% end %>
-      </div>
-      <% end %>
-
-      <% permitted_to? :manage, :rss_feeds do %>
-      <div role="tabpanel" class="tab-pane" id="rss">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Feed URL</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <% @rss_feeds.each do |rss_feed| %>
-              <tr>
-                <td><%= rss_feed.url %></td>
-                <td><%= link_to 'Remove', rss_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              </tr>
-            <% end %>
-              <tr>
-                <%= form_for(@rss_feed, remote: false, class: 'form-inline') do |f| %>
-                <td>
-                  <%= f.text_field :url, class: "form-control" %>
-                </td>
-                <td>
-                  <%= f.submit "Add Feed", class: "btn btn-default" %>
-                </td>
-                <% end %>
-              </tr>
-          </tbody>
-        </table>
-      </div>
-      <% end %>
-
-      <% permitted_to? :administer, :administration do %>
-      <div role="tabpanel" class="tab-pane" id="unmatched">
-        <% @unmatched_queries.each do |query| %>
-          <div class="col-sm-2">
-            <%= query.query %>
-          </div>
-        <% end %>
-      </div>
-
-      <div role="tabpanel" class="tab-pane" id="search-logs">
-        <div class="row" style="margin-top: 1em;">
-          <div class="col-sm-2">
-            Search Term - Number of occurences (Top 30)
-          </div>
-          <% @search_terms.each do |search_term| %>
-            <div class="col-sm-2">
-              <%= search_term.term %> - <%= search_term.count %>
-            </div>
-          <% end %>
-        </div> <!-- .row -->
-      </div>
-      <% end %>
+ 
 
       <% permitted_to? :administer_directory, :administration do %>
-      <div role="tabpanel" class="tab-pane" id="dir_dept">
-         <%= render "directory_form", type: 'Department' %>
-      </div>
+<!--      <div role="tabpanel" class="tab-pane" id="dir_dept">
+         <%# render "directory_form", type: 'Department' %>
+      </div> -->
 
       <div role="tabpanel" class="tab-pane" id="dir_people">
-         <%= render "directory_form", type: 'Person' %>
+         <%# render "directory_form", type: 'Person' %>
       </div>
 
       <div role="tabpanel" class="tab-pane" id="dir_rooms">
-         <%= render "directory_form", type: 'Room' %>
+         <%# render "directory_form", type: 'Room' %>
       </div>
       <% end %>
 
