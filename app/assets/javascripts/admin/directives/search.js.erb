@@ -2,17 +2,33 @@
  * Directive: search (tag)
  *
  * Uses the directory-search.html template to display the search box for a
- * directory object.
+ * directory object (e.g., rooms, people, departments).
  *
  * Variables (format for items below is: tag-attribute (internal_variable)):
- *   search-type (type_p): Pluralized name of type of directory object.
- *   search-type-singular (type_s): Name of type of directory object.
- *   search-items (item): Object containing names of all objects to be searched
- *      (possibly a function in the future).
+ *   search-type (types): (string) Pluralized name of type of directory object.
+ *   search-type-singular (type): (string) Name of type of directory object.
+ *   search-items (items): (array) Object containing names and ids of all
+ *      objects to be searched (possibly a function in the future returning
+ *      objects containing names and ids of objects to be searched).
+ *   no-new-item (noNew): (bool) Whether or not to display the new item button
+ *   item-changer (change): (func) Function to be called upon clicking one of the
+ *      displayed items (cf. search-items for more info on displayed items)
  *
  * Usage example:
  *   In a partial:
- *      <search search-type="type" search-items="items"></search>
+ *      <search
+ *          search-type="Types"
+ *          search-type-singular="Type"
+ *          search-items="items"
+ *          item-changer="change">
+ *      </search>
+ *
+ *   In the corresponding controller:
+ *      $scope.items = Rooms.query({});
+ *      $scope.change = function(id) {
+ *          doSomething;
+ *          // e.g., $scope.room = Rooms.get({id: id});
+ *      };
 */
 
 Admin.directive("search", function() {
@@ -20,10 +36,11 @@ Admin.directive("search", function() {
         restrict: "E",
         templateUrl: '<%= asset_path("admin/partials/directory-search.html") %>',
         scope: {
-            type_p: "@searchType",
-            type_s: "@searchTypeSingular",
-            item: "@searchItems",
-            no_new: "@noNewItem"
+            types: "@searchType",
+            type: "@searchTypeSingular",
+            items: "=searchItems",
+            noNew: "@noNewItem",
+            change: "=itemChanger"
         }
     };
 });

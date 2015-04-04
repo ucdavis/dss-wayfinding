@@ -7,6 +7,8 @@ class DirectoryObjectsController < ApplicationController
 
   # GET /directory_objects
   def index
+    @type = params[:type]
+
     if params[:type] == "Person"
       @directory_objects = Person.all.order(:last)
       @scrubber_categories = ("A".."Z").to_a

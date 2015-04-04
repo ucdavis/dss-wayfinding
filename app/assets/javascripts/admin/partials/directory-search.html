@@ -1,8 +1,10 @@
-    <div class="list-group col-sm-3 admin-directory-list" id="admin-list">
-        <input type="text" id="search-directory" placeholder="Search {{type_p}}" class="form-control directory-object-search" ng-model="search" />
-        <a href="#" ng-hide="no_new" class="list-group-item list-group-item-success active" id="new-object">New {{type_s}}</a>
+<div class="col-sm-3 list-group">
+    <input type="text" id="search-directory" placeholder="Search {{types}}" class="form-control directory-object-search" ng-model="search" />
+    <div class="admin-directory-list" id="admin-list">
+        <a href="#" ng-hide="noNew" class="list-group-item list-group-item-success active" id="new-object">New {{type}}</a>
 
-        <a href="#" class="list-group-item directory-item" ng-repeat="item in items | filter: search">
+        <a href="#/dir_rooms/{{item.id}}" class="list-group-item directory-item" ng-repeat="item in items | filter: search" ng-click="change(item.id); $event.preventDefault();">
             {{ item.name }}
         </a>
     </div>
+</div>
