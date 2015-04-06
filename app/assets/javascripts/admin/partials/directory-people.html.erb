@@ -1,6 +1,13 @@
-<search search-type="People" search-type-singular="Person"></search>
+<search
+    ng-show="loaded"
+    search-type="People"
+    search-type-singular="Person"
+    search-items="people"
+    current-item="person"
+    item-changer="changePerson">
+</search>
 <div class="col-sm-9">
-    <form method="post" class="form-horizontal directory-form" id="Person-form" action="/administration/person">
+    <form method="post" class="form-horizontal directory-form" id="Person-form">
             <%# hidden_field_tag 'id' %>
             <%# hidden_field_tag 'type', type %>
             <%# hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
@@ -8,33 +15,32 @@
             <div class="form-group">
               <label for="first" class="col-sm-2 control-label">Name</label>
               <div class="col-sm-5">
-                <input type="text" id="first" name="first" placeholder="First Name" class="form-control" />
+                <input type="text" id="first" name="first" placeholder="First Name" class="form-control" ng-model="person.first" />
               </div>
               <div class="col-sm-5">
-                <input type="text" name="last" placeholder="Last Name" class="form-control" />
+                <input type="text" name="last" placeholder="Last Name" class="form-control" ng-model="person.last" />
               </div>
             </div>
 
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" name="email" id="email" placeholder="Email" class="form-control" />
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control" ng-model="person.email" />
               </div>
             </div>
 
             <div class="form-group">
               <label for="phone" class="col-sm-2 control-label">Phone</label>
               <div class="col-sm-10">
-                <input type="tel" name="phone" id="phone" placeholder="Phone" class="form-control" />
+                <input type="tel" name="phone" id="phone" placeholder="Phone" class="form-control" ng-model="person.phone" />
               </div>
             </div>
 
             <div class="form-group">
               <label for="department" class="col-sm-2 control-label">Department</label>
               <div class="col-sm-10">
-                <select id="department" class="form-control">
+                <select id="department" class="form-control" ng-options="department.id as department.name for department in departments" ng-model="person.department_id">
                   <option value=""></option>
-                  <option ng-repeat="department in departments" value="{{department.id}}">{{department.title}}</option>
                 </select>
               </div>
             </div>
@@ -42,16 +48,16 @@
             <div class="form-group">
               <label for="rooms" class="col-sm-2 control-label">Rooms</label>
               <div class="col-sm-10">
-                <select id="rooms" class="form-control" multiple="true">
-                  <option ng-repeat="room in rooms" value="{{room.id}}">{{room.room_number}}</option>
+                <select id="rooms" class="form-control" multiple="true" ng-options="room.id as room.name for room in rooms" ng-model="person.room_ids">
                 </select>
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button id="submit" class="btn btn-default" type="submit">Create</button>
-                <button id="delete" class="btn btn-danger pull-right" type="button">Delete</button>
+                <button id="submit" class="btn btn-default" type="submit" ng-hide="person">Create</button>
+                <button id="submit" class="btn btn-default" type="submit" ng-show="person" ng-click="update(person)">Update</button>
+                <button id="delete" class="btn btn-danger pull-right" type="button" ng-show="person">Delete</button>
               </div>
             </div>
 </div>

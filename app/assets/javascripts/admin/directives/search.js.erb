@@ -20,6 +20,7 @@
  *          search-type="Types"
  *          search-type-singular="Type"
  *          search-items="items"
+ *          current-item="item"
  *          item-changer="change">
  *      </search>
  *
@@ -39,6 +40,7 @@ Admin.directive("search", function() {
             types: "@searchType",
             type: "@searchTypeSingular",
             items: "=searchItems",
+            currentItem: "=",
             noNew: "@noNewItem",
             change: "=itemChanger"
         }

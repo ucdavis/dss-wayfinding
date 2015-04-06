@@ -17,7 +17,9 @@ class Person < DirectoryObject
       :department => department ? department.title : '',
       :email => email,
       :phone => phone,
-      :type => type
+      :type => type,
+      :room_ids => rooms.present? ? rooms.map { |room| room.id } : [],
+      :department_id => department ? department.id : ''
     }
   end
 end
