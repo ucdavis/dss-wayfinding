@@ -17,6 +17,10 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms",
             $scope.room = Rooms.get({id: id});
         };
 
+        $scope.update = function(room) {
+            room.$update();
+        };
+
         // Sets the room to the room specified in the URL, if given.
         if ($routeParams.id) {
             $scope.changeRoom($routeParams.id);

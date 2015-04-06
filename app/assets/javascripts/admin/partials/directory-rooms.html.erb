@@ -7,7 +7,7 @@
     item-changer="changeRoom">
 </search>
 <div class="col-sm-9" ng-show="room">
-    <form method="post" class="form-horizontal directory-form" id="Room-form" action="/administration/room">
+    <form method="post" class="form-horizontal directory-form" id="Room-form">
 <%# hidden_field_tag 'id' %>
 <%# hidden_field_tag 'type', type %>
 <%# hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
@@ -21,8 +21,7 @@
 
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button id="submit" class="btn btn-default" type="submit">Update</button>
-            <button id="submit" class="btn btn-danger pull-right" type="button">Delete</button>
+            <button id="submit" class="btn btn-default" type="submit" ng-click="update(room)">Update</button>
           </div>
         </div>
     </form>

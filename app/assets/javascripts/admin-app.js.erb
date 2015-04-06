@@ -6,6 +6,7 @@ var includeCSRF = function($httpProvider) {
 }
 
 var Admin = angular.module("AdminApp", ["ngRoute", "ngSanitize", "adminServices"]);
+Admin.config(includeCSRF);
 Admin.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when("/", {
