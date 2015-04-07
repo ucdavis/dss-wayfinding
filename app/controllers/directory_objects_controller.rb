@@ -186,11 +186,15 @@ class DirectoryObjectsController < ApplicationController
     @object = get_object(params, type)
     return respond_with_error("Error identifying type of object")  if !@object.present?
 
-    # No need for additional sanity checks as they're already done above
+    # No need for additional sanity checks as we already know that we're working
+    # with an existing type (see above)
     new_data = send('modify_' + type, params)
-    success = @object.update new_data if new_data
 
-    if success
+    # Don't continue if the new data aren't valid for some reason (e.g., 
+    # invalid phone number) -- modify_* functions return false for invalid data
+    return false if ! new_data 
+
+    if @object.update new_data
       respond_to do |format|
         format.json { render json: @object }
       end
@@ -219,6 +223,8 @@ class DirectoryObjectsController < ApplicationController
     if params[:first].blank? || params[:last].blank?
         return respond_with_error("Error: first and last names must both be supplied")
     end
+
+    # TODO: Respond with appropriate error message for bad phone number.
 
     # No require on :first and :last because require only accepts one parameter,
     # and they're already checked above
