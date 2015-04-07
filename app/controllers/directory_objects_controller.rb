@@ -31,98 +31,11 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def create
-    type = params[:type].singularize.capitalize
-
-    case type
-    when 'Person'
-      @object = Person.new
-    when 'Department'
-      @object = Department.new
-    end
-
-    if !@object.present?
-      respond_to do |format|
-        format.json {render json: { message: "Error identifying type of object" }, status: 405 }
-      end
-    end
-
-    if type == 'Person' && (params[:first].blank? || params[:last].blank?)
-        respond_to do |format|
-            format.json {render json: { message: "Error: both first and last names must be supplied" }, status: 405}
-        end
-    end
-
-    @object.first = params[:first] unless params[:first].blank?
-    @object.last = params[:last] unless params[:last].blank?
-    @object.email = params[:email] unless params[:email].blank?
-    @object.phone = params[:phone] unless params[:phone].blank?
-    @object.room_number = params[:room_number] unless params[:room_number].blank?
-    @object.name = params[:name] unless params[:name].blank?
-    @object.title = params[:title] unless params[:title].blank?
-    @object.department = Department.find(params[:department]) unless params[:department].blank?
-
-    if type == 'Person'
-      @object.rooms = []
-      params[:rooms].each do |room|
-        @object.rooms << Room.find(room)
-      end unless params[:rooms].blank?
-    end
-    if type == 'Department'
-      @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
-    end
-
-    if @object.save
-      respond_to do |format|
-        format.json { render json: @object }
-      end
-    else
-      respond_to do |format|
-        format.json {render json: { message: "Error Creating " + type + ".. Duplicate?" }, status: 405 }
-      end
-    end
+    modify_with params
   end
 
   def update
-    # Find existing object
-    @object = DirectoryObject.find_by(id: params[:id])
-    type = params[:type].singularize.capitalize
-
-    if @object.present?
-      @object.first = params[:first] unless params[:first].blank?
-      @object.last = params[:last] unless params[:last].blank?
-      @object.email = params[:email] unless params[:email].blank?
-      @object.phone = params[:phone] unless params[:phone].blank?
-      @object.room_number = params[:room_number] unless params[:room_number].blank?
-      @object.name = params[:name] unless params[:name].blank?
-      @object.title = params[:title] unless params[:title].blank?
-      @object.department = Department.find(params[:department]) unless params[:department].blank?
-      if type == 'Person'
-        @object.rooms = []
-        params[:rooms].each do |room|
-          @object.rooms << Room.find(room)
-        end unless params[:rooms].blank?
-      end
-      if type == 'Department'
-        @object.room = Room.find_by(room_number: params[:room].rjust(4,'0')) unless params[:room].blank?
-      end
-
-      if @object.save
-          respond_to do |format|
-            format.json { render :json => @object }
-          end
-      else
-          respond_to do |format|
-              format.json { render json: { message: "Error updating " + type + "." }, status: 405 }
-          end
-      end 
-
-    else
-
-      respond_to do |format|
-        format.json {render json: { message: "Error finding directory object" }, status: 405 }
-      end
-
-    end
+    modify_with params
   end
 
   def destroy
@@ -206,6 +119,129 @@ class DirectoryObjectsController < ApplicationController
   end
 
   private
+
+  #
+  # get_object
+  #
+  #     Generic function for creating or getting a directory_object, given
+  #     parameters.
+  #
+  #     Arguments:
+  #         params: (object) GET/POST parameters. Generally, POST parameters.
+  #         type: (string) Type of the directory object being retrieved
+  #
+  #     Returns: A new or existing object of the appropriate type, or nil if the
+  #         given type is not a valid type.
+  #
+  
+  def get_object(params, type)
+    # Room or existing Person or Department
+    return DirectoryObject.find_by(id: params[:id])  if ! params[:id].nil?
+
+    # New Person or Department
+    case type
+    when 'Person'
+      return Person.new
+    when 'Department'
+      return Department.new
+    end
+
+    # Unidentified object
+    return nil
+  end
+
+
+  #
+  # respond_with_error
+  #
+  #     Generates a server response (status 405) with the given error message.
+  #
+  #     Arguments:
+  #         mesg: (string) The error message to be included in the server
+  #             response.
+  #
+  #     Side-effects: Generates a server response with status 405
+  #
+
+  def respond_with_error(mesg)
+    respond_to do |format|
+      format.json { render json: { message: mesg }, status: 405 }
+    end
+
+    return false
+  end
+
+
+  #
+  # modify_with
+  #
+  #     Generic function for creating and updating directory objects. Accepts
+  #     parameters defining the directory object to be created or updated and
+  #     does the appropriate action.
+  #
+  
+  def modify_with(params)
+    type = params[:type].singularize.capitalize
+    
+    @object = get_object(params, type)
+    return respond_with_error("Error identifying type of object")  if !@object.present?
+
+    # No need for additional sanity checks as they're already done above
+    new_data = send('modify_' + type, params)
+    success = @object.update new_data if new_data
+
+    if success
+      respond_to do |format|
+        format.json { render json: @object }
+      end
+    else
+      respond_with_error("Error creating " + type + ".. Duplicate?")
+    end
+  end
+
+  #
+  # modify_Room
+  #
+  #     Builds object necessary for updating room records.
+  #
+
+  def modify_Room(params)
+    return params.permit(:name)
+  end
+
+  #
+  # modify_Person
+  #
+  #     Builds object necessary for updating/creating person records.
+  #
+
+  def modify_Person(params)
+    if params[:first].blank? || params[:last].blank?
+        return respond_with_error("Error: first and last names must both be supplied")
+    end
+
+    # No require on :first and :last because require only accepts one parameter,
+    # and they're already checked above
+    person = params.permit(:first, :last, :email, :phone)
+    person[:department] = params[:department_id].blank? ? nil : Department.find(params[:department_id])
+    person[:rooms] = params[:room_ids].map { |room| Room.find(room) } unless params[:room_ids].length <= 0
+
+    return person
+  end
+
+
+  #
+  # modify_Department
+  #
+  #     Builds object necessary for updating/creating department records.
+  #
+
+  def modify_Department(params)
+    department = params.permit(:title)
+    department[:room] = params[:room].blank? ? nil : Room.find_by(room_number: params[:room].rjust(4,'0'))
+
+    return department
+  end
 
   #
   # room
