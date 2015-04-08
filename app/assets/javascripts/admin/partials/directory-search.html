@@ -4,7 +4,7 @@
         <a href="#" ng-hide="noNew" class="list-group-item list-group-item-success" ng-class="{active: !currentItem.id}" id="new-object" ng-click="new(); $event.preventDefault();">New {{type}}</a>
 <!-- TODO: Fix this line to make it not use $event.preventDefault(); put it 
      elsewhere -->
-        <a href="#/dir_rooms/{{item.id}}" class="list-group-item directory-item" ng-class="{active: currentItem.id == item.id}" ng-repeat="item in items | filter: search" ng-click="change(item.id); $event.preventDefault();">
+        <a href="#/dir_{{types.toLowerCase()}}/{{item.id}}" class="list-group-item directory-item" ng-class="{active: currentItem.id == item.id}" ng-repeat="item in items | filter: search" ng-click="change(item.id, $index); $event.preventDefault();">
             {{ item.name }}
         </a>
     </div>

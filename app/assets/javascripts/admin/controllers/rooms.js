@@ -14,7 +14,7 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms",
          * Changes the room that is displayed in the form.
         */
         $scope.changeRoom = function(id) {
-            $scope.room = Rooms.get({id: id});
+            Rooms.get({id: id}, function(data) { $scope.room = data; });
         };
 
         $scope.update = function(room) {

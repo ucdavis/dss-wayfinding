@@ -199,7 +199,7 @@ class DirectoryObjectsController < ApplicationController
         format.json { render json: @object }
       end
     else
-      respond_with_error("Error creating " + type + ".. Duplicate?")
+      respond_with_error("Error saving " + type + ".")
     end
   end
 
@@ -230,7 +230,7 @@ class DirectoryObjectsController < ApplicationController
     # and they're already checked above
     person = params.permit(:first, :last, :email, :phone)
     person[:department] = params[:department_id].blank? ? nil : Department.find(params[:department_id])
-    person[:rooms] = params[:room_ids].map { |room| Room.find(room) } unless params[:room_ids].length <= 0
+    person[:rooms] = params[:room_ids].map { |room| Room.find(room) } unless params[:room_ids].nil?
 
     return person
   end

@@ -20,11 +20,13 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
         /*
          * Changes the room that is displayed in the form.
         */
-        $scope.changePerson = function(id) {
+        $scope.changePerson = function(id, index) {
             People.get(
                 {id: id},
                 function(data) {
                     $scope.person = data;
+                    $scope.person.idx = index;
+                    console.log($scope.person);
                     $scope.editing = true;
                 },
                 function (data) {
@@ -55,7 +57,28 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
         };
 
         $scope.update = function(person) {
-            person.$update();
+            var index = person.idx
+            person.$update({},
+              function (data) {
+                person.idx = index;
+                $scope.people[index].name = person.first + " " + person.last
+              },
+              function () {
+                $scope.error = "Error saving person";
+              }
+            );
+        };
+
+        $scope.remove = function(person) {
+            person.$delete({id: person.id}, {},
+                function(data) {
+                    $scope.people.splice(person.idx, 1);
+                    $scope.newPerson();
+                },
+                function() {
+                    $scope.error = "Error deleting person";
+                }
+            );
         };
 
         // Sets the room to the room specified in the URL, if given.

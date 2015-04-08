@@ -37,11 +37,15 @@ Admin.config(['$routeProvider', function($routeProvider) {
             templateUrl: '<%= asset_path("admin/partials/search-logs.html") %>',
             controller: ""
         })
-        .when("/dir_dept", {
+        .when("/dir_departments", {
             templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
-            controller: ""
+            controller: "DepartmentsCtrl"
         })
         .when("/dir_people", {
+            templateUrl: '<%= asset_path("admin/partials/directory-people.html") %>',
+            controller: "PeopleCtrl"
+        })
+        .when("/dir_people/:id", {
             templateUrl: '<%= asset_path("admin/partials/directory-people.html") %>',
             controller: "PeopleCtrl"
         })
