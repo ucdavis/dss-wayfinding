@@ -57,6 +57,22 @@ class AdministrationController < ApplicationController
     redirect_to root_path
   end
 
+  def unmatched
+    @unmatched_queries = UnmatchedQueryLog.all
+
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  def search_terms
+    @search_terms = SearchTermLog.all.order(:count).limit(30)
+
+    respond_to do |format|
+      format.json
+    end
+  end
+
   def department_location
     room_number = params[:department_room_number]
     id = params[:department_id]

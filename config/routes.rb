@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       post 'map_upload'
       post 'department_location'
       get 'start'
+      get 'search_terms'
+      get 'unmatched'
 
       resources :rss_feeds
     end

@@ -21,6 +21,6 @@ privileges do
   privilege :create, :includes => :new
   privilege :update, :includes => :edit
   privilege :delete, :includes => :destroy
-  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload, :csv]
+  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload, :csv, :search_terms, :unmatched]
   privilege :administer_directory, :includes => [:directory_object, :del_directory_object]
 end

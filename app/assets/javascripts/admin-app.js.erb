@@ -31,11 +31,11 @@ Admin.config(['$routeProvider', function($routeProvider) {
         })
         .when("/unmatched", {
             templateUrl: '<%= asset_path("admin/partials/unmatched.html") %>',
-            controller: ""
+            controller: "UnmatchedCtrl"
         })
         .when("/search-logs", {
             templateUrl: '<%= asset_path("admin/partials/search-logs.html") %>',
-            controller: ""
+            controller: "SearchLogCtrl"
         })
         .when("/dir_departments", {
             templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
