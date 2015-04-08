@@ -8,8 +8,10 @@ class RssFeedsController < AdministrationController
     respond_to do |format|
       if @rss_feed.save
         format.html { redirect_to administration_index_url, notice: 'RSS feed successfully added.' }
+        format.json { render json: { notice: 'RSS feed successfully added' } }
       else
         format.html { redirect_to administration_index_url }
+        format.json { render json: { notice: 'Could not add RSS feed' } }
       end
     end
   end
@@ -19,6 +21,7 @@ class RssFeedsController < AdministrationController
     @rss_feed.destroy
     respond_to do |format|
       format.html { redirect_to rss_feeds_url, notice: 'Rss feed was successfully destroyed.' }
+      format.json { render json: { notice: 'Rss feed was successfully destroyed.' } }
     end
   end
 

@@ -27,7 +27,7 @@ Admin.config(['$routeProvider', function($routeProvider) {
         })
         .when("/rss", {
             templateUrl: '<%= asset_path("admin/partials/rss.html") %>',
-            controller: ""
+            controller: "RssCtrl"
         })
         .when("/unmatched", {
             templateUrl: '<%= asset_path("admin/partials/unmatched.html") %>',

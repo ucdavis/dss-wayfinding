@@ -13,13 +13,13 @@
         <td><%# link_to 'Remove', rss_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
       <tr>
-        <form class="form-inline" method="post" action="/administration/add_rss">
+        <form class="form-inline" method="post">
         <%# form_for(@rss_feed, remote: false, class: 'form-inline') do |f| %>
         <td>
-          <input type="text" id="rss_feed_url" class="form-control" name="rss_feed[url]"/>
+          <input type="text" id="rss_feed_url" class="form-control" ng-model="rss_feed.url"/>
         </td>
         <td>
-          <input type="submit" value="Add Feed" class="btn btn-default" />
+          <input type="submit" value="Add Feed" class="btn btn-default" ng-click="add_feed()"/>
         </td>
       </tr>
   </tbody>
