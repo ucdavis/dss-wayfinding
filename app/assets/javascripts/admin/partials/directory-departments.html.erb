@@ -9,7 +9,7 @@
             item-changer="changeDepartment">
         </search>
         <div class="col-sm-9">
-            <form method="post" class="form-horizontal directory-form" id="Department-form" action="/administration/department">
+            <form method="post" class="form-horizontal directory-form" id="Department-form">
             <%# hidden_field_tag 'id' %>
             <%# hidden_field_tag 'type', type %>
             <%# hidden_field_tag request_forgery_protection_token.to_s, form_authenticity_token %>
@@ -24,15 +24,19 @@
             <div class="form-group">
               <label for="room" class="col-sm-2 control-label">Room Number</label>
               <div class="col-sm-10">
-                <input type="text" name="room" placeholder="Room Number" class="form-control" ng-model="department.room_number" />
+                <select id="rooms"
+                    class="form-control"
+                    ng-options="room.name as room.name for room in rooms"
+                    ng-model="department.room_number">
+                </select>
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-default" id="submit" ng-hide="editing">Create</button>
-                <button class="btn btn-default" id="submit" ng-show="editing">Update</button>
-                <button class="btn btn-danger pull-right" id="delete" ng-show="editing">Delete</button>
+                <button class="btn btn-default" id="submit" ng-hide="editing" ng-click="create(department)">Create</button>
+                <button class="btn btn-default" id="submit" ng-show="editing" ng-click="update(department)">Update</button>
+                <button class="btn btn-danger pull-right" id="delete" ng-show="editing" ng-click="remove(department)">Delete</button>
               </div>
             </div>
     </div>

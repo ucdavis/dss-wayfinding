@@ -243,8 +243,10 @@ class DirectoryObjectsController < ApplicationController
   #
 
   def modify_Department(params)
+    return respond_with_error("Department must have title.")  if params[:title].blank?
+
     department = params.permit(:title)
-    department[:room] = params[:room].blank? ? nil : Room.find_by(room_number: params[:room].rjust(4,'0'))
+    department[:room] = params[:room_number].blank? ? nil : Room.find_by(room_number: params[:room_number].rjust(4,'0'))
 
     return department
   end

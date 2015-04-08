@@ -26,7 +26,6 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                 function(data) {
                     $scope.person = data;
                     $scope.person.idx = index;
-                    console.log($scope.person);
                     $scope.editing = true;
                 },
                 function (data) {
@@ -47,6 +46,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
             var person = new People(data);
             person.$save(
               function (data) {
+                // Could also just add this to $scope.people
                 load_people();
                 $scope.changePerson(data.id);
               },
@@ -81,7 +81,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
             );
         };
 
-        // Sets the room to the room specified in the URL, if given.
+        // Sets the person to the person specified in the URL, if given.
         if ($routeParams.id) {
             $scope.changePerson($routeParams.id);
         }
