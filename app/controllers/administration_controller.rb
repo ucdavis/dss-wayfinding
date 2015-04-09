@@ -6,17 +6,18 @@ class AdministrationController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
   def index
-    @origin = cookies[:origin]
-    @departments = Department.all
-    @people = Person.includes(:rooms, :department).all
-    @rooms = Room.includes(people: :department).order(:room_number)
-    @rss_feeds = RssFeed.all
-    @rss_feed = RssFeed.new # for adding new RSS feeds
-    @person = Person.new # for adding/editing people
-    @department = Department.new # for adding/editing departments
-    @room = Room.new # for editing rooms
-    @unmatched_queries = UnmatchedQueryLog.all
-    @search_terms = SearchTermLog.all.order(:count).limit(30)
+    @contains_data = Department.all.empty?
+    # @origin = cookies[:origin]
+    # @departments = Department.all
+    # @people = Person.includes(:rooms, :department).all
+    # @rooms = Room.includes(people: :department).order(:room_number)
+    # @rss_feeds = RssFeed.all
+    # @rss_feed = RssFeed.new # for adding new RSS feeds
+    # @person = Person.new # for adding/editing people
+    # @department = Department.new # for adding/editing departments
+    # @room = Room.new # for editing rooms
+    # @unmatched_queries = UnmatchedQueryLog.all
+    # @search_terms = SearchTermLog.all.order(:count).limit(30)
   end
 
   # POST

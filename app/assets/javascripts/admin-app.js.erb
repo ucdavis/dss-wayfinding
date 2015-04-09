@@ -9,10 +9,6 @@ var Admin = angular.module("AdminApp", ["ngRoute", "ngSanitize", "adminServices"
 Admin.config(includeCSRF);
 Admin.config(['$routeProvider', function($routeProvider) {
     $routeProvider
-        .when("/", {
-            templateUrl: '<%= asset_path("admin/partials/index.html") %>',
-            controller: ""
-        })
         .when("/kiosk", {
             templateUrl: '<%= asset_path("admin/partials/kiosk.html") %>',
             controller: "KioskCtrl"

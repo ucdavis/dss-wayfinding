@@ -41,9 +41,11 @@
       <% end %>
 
       <% permitted_to? :csv, :administration do %>
-      <li role="presentation" ng-class="{active: isActive('/csv')}">
-        <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab" class="tab-link">Upload New Facilities CSV</a>
-      </li>
+        <% if @contains_data == true %>
+          <li role="presentation" ng-class="{active: isActive('/csv')}">
+            <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab" class="tab-link">Upload New Facilities CSV</a>
+          </li>
+        <% end %>
       <% end %>
 
       <% permitted_to? :manage, :rss_feeds do %>
