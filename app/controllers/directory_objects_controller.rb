@@ -224,13 +224,12 @@ class DirectoryObjectsController < ApplicationController
         return respond_with_error("Error: first and last names must both be supplied")
     end
 
-    # TODO: Respond with appropriate error message for bad phone number.
-
     # No require on :first and :last because require only accepts one parameter,
     # and they're already checked above
     person = params.permit(:first, :last, :email, :phone)
     person[:department] = params[:department_id].blank? ? nil : Department.find(params[:department_id])
     person[:rooms] = params[:room_ids].map { |room| Room.find(room) } unless params[:room_ids].nil?
+    return respond_with_error("Error: Invalid phone number")  if !valid_number(params[:phone])
 
     return person
   end
@@ -261,6 +260,30 @@ class DirectoryObjectsController < ApplicationController
     return nil if number.nil?
     number.slice!(0) if number[0].upcase == "R"
     return number.to_s.rjust(4, '0').prepend("R")
+  end
+
+  #
+  # valid_number
+  #
+  #     Tests whether or not a phone number is a valid five-, seven-, or
+  #     ten-digit phone number. Compares given number to a version that strips
+  #     everything but valid non-numeric characters.
+  #
+  #     Arguments:
+  #         phone: (string) Phone number to test
+  #
+  #     Returns: Whether or not the given string is a valid phone number.
+  #
+
+  def valid_number(phone)
+    phone.strip!
+    trimmed = phone.gsub(/[^\dx]/, "").gsub(/x\d*/, "")
+    trimmedLength = trimmed.length;
+
+    return false  if trimmedLength != 5 && trimmedLength != 7 && trimmedLength != 10 && trimmedLength != 11
+    return true  if phone.gsub(/[^\d\+x)( \-]/, "") == phone
+
+    return false
   end
 
   #
