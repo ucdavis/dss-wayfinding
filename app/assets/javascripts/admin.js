@@ -1,5 +1,6 @@
 //= require jquery
 //= require underscore
+//= require cache-status
 //= require angular
 //= require angular-route
 //= require angular-resource
