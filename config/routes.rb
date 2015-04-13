@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get 'search', to: 'directory_objects#search'
   post 'search', to: 'directory_objects#search'
+  get 'unroutable', to: 'directory_objects#unroutable'
+  post 'unroutable', to: 'directory_objects#unroutable'
   get 'map', to: 'directory_objects#show'
   get 'about', to: 'site#about'
   get 'room/:number', to: 'directory_objects#show'

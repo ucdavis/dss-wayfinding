@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from: MyString
+  to: MyString
+  hits: 1
+  timestamps: MyString
+
+two:
+  from: MyString
+  to: MyString
+  hits: 1
+  timestamps: MyString

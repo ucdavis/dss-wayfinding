@@ -752,8 +752,11 @@
 					//build drawing and modify solution for text generation by adding .direction to solution segments?
 
 					draw = {};
+                    console.log(startpoint)
+                    console.log(destination)
 
 					if(solution.length === 0) {
+                        $.post( "/unroutable", { from: startpoint, to: destination } )
 						console.warn('Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: ' + destination);
 						return;
 					}

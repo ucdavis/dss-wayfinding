@@ -107,6 +107,21 @@ class DirectoryObjectsController < ApplicationController
     end
   end
 
+  def unroutable
+    if ! params[:from] || ! params[:to]
+      head 405, content_type: "text/html"
+    end
+
+    unroutable_route = UnroutableLog.where(unroutable_params).first_or_create
+
+    if unroutable_route
+        unroutable_route.hits ? unroutable_route.hits += 1 : unroutable_route.hits = 1
+        unroutable_route.save
+    end
+
+    head :ok, content_type: "text/html"
+  end
+
   # GET /directory_objects/1
   # GET /room/1
   # GET /start/R0070/end/R2169
@@ -308,5 +323,9 @@ class DirectoryObjectsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def directory_object_params
     params.require(:directory_object).permit(:title, :time, :link, :first, :last, :email, :phone, :name, :room_number, :is_bathroom, :rss_feed, :type, :room_id)
+  end
+
+  def unroutable_params
+    params.permit(:from, :to)
   end
 end
