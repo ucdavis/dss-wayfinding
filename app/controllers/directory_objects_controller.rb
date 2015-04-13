@@ -1,7 +1,8 @@
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin
-  skip_before_filter :require_login
-  skip_before_filter :authenticate
+  before_filter :require_login, except: [:index, :show, :search]
+  before_filter :authenticate, except: [:index, :show, :search]
+  filter_access_to :all
 
   respond_to :html, :json
 
