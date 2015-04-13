@@ -31,8 +31,9 @@ Rails.application.routes.draw do
       post 'map_upload'
       post 'department_location'
       get 'start'
-      get 'search_terms'
       get 'unmatched'
+      get 'unroutable'
+      get 'search_terms'
 
       resources :rss_feeds
     end

@@ -65,6 +65,14 @@ class AdministrationController < ApplicationController
       format.json
     end
   end
+  
+  def unroutable
+    @unroutable = UnroutableLog.all
+
+    respond_to do |format|
+      format.json
+    end
+  end
 
   def search_terms
     @search_terms = SearchTermLog.all.order(:count).limit(30)

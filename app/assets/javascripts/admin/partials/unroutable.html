@@ -1,0 +1,22 @@
+<div role="tabpanel" class="tab-pane active" id="search-logs">
+<div class="row" style="margin-top: 1em;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Occurrences</th>
+        <th>Most Recent</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="route in unroutable">
+        <td>{{ route.from }}</td>
+        <td>{{ route.to }}</td>
+        <td>{{ route.hits }}</td>
+        <td>{{ route.updated_at | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> <!-- .row -->
+</div>

@@ -752,8 +752,6 @@
 					//build drawing and modify solution for text generation by adding .direction to solution segments?
 
 					draw = {};
-                    console.log(startpoint)
-                    console.log(destination)
 
 					if(solution.length === 0) {
                         $.post( "/unroutable", { from: startpoint, to: destination } )

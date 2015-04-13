@@ -55,6 +55,9 @@
       <% end %>
 
       <% permitted_to? :administer, :administration do %>
+      <li role="presentation" ng-class="{active: isActive('/unroutable')}">
+        <a href="#unroutable" aria-controls="unroutable" role="tab" data-toggle="tab" class="tab-link">Unroutable Route Logs</a>
+      </li>
       <li role="presentation" ng-class="{active: isActive('/unmatched')}">
         <a href="#unmatched" aria-controls="unmatched" role="tab" data-toggle="tab" class="tab-link">Unmatched Search Query Logs</a>
       </li>

@@ -33,7 +33,15 @@ Admin.config(['$routeProvider', function($routeProvider) {
             templateUrl: '<%= asset_path("admin/partials/search-logs.html") %>',
             controller: "SearchLogCtrl"
         })
+        .when("/unroutable", {
+            templateUrl: '<%= asset_path("admin/partials/unroutable.html") %>',
+            controller: "UnroutableCtrl"
+        })
         .when("/dir_departments", {
+            templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
+            controller: "DepartmentsCtrl"
+        })
+        .when("/dir_departments/:id", {
             templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
             controller: "DepartmentsCtrl"
         })
