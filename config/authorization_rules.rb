@@ -1,6 +1,6 @@
 authorization do
   role :guest do
-    has_permission_on :directory_objects, :to => [:read, :search ]
+    has_permission_on :directory_objects, :to => [:read, :search, :unroutable]
     has_permission_on :administration, :to => :start
   end
   role :directoryadmin do
