@@ -1,12 +1,12 @@
-Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms",
-    function($scope, $routeParams, Rooms) {
+Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts",
+    function($scope, $routeParams, Rooms, Alerts) {
         $scope.rooms = Rooms.query({},
             function(data) {
                 $scope.loaded = true;
                 
             },
             function(data) {
-                $scope.mesg = "Error retrieving rooms from server. Please try again later.";
+                Alerts.danger("Error retrieving rooms from server. Please try again later");
             }
         );
 

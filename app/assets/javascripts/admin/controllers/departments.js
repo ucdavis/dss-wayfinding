@@ -1,5 +1,5 @@
-Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "Rooms",
-    function($scope, $routeParams, Departments, Rooms) {
+Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "Rooms", "Alerts",
+    function($scope, $routeParams, Departments, Rooms, Alerts) {
         var load_departments = function() {
             Departments.query({},
                 function(data) {
@@ -7,7 +7,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.departments = data;
                 },
                 function(data) {
-                    $scope.mesg = "Error retrieving departments from server. Please try again later.";
+                    Alerts.danger("Error retrieving departments from server. Please try again later.");
                 }
             );
         }
@@ -27,7 +27,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.editing = true;
                 },
                 function (data) {
-                    $scope.mesg = "Error retrieving person from server. Please try again later.";
+                    Alerts.danger("Error retrieving person from server. Please try again later.");
                 }
             );
         };
@@ -44,8 +44,8 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
               load_departments();
               $scope.changeDepartment(data.id);
             },
-            function (data) {
-              $scope.mesg = "Error saving department. " + data.message;
+            function (resp) {
+              Alerts.danger("Error saving department. " + resp.data.message);
             }
           );
         };
@@ -57,8 +57,8 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                 department.idx = index;
                 $scope.departments[index].name = department.title
               },
-              function () {
-                $scope.mesg = "Error updating department. " + data.message;
+              function (resp) {
+                Alerts.danger("Error updating department. " + resp.data.message);
               }
             );
         };
@@ -69,8 +69,8 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.departments.splice(department.idx, 1);
                     $scope.newDepartment();
                 },
-                function() {
-                    $scope.mesg = "Error deleting department. " + data.message;
+                function(resp) {
+                    Alerts.danger("Error deleting department. " + resp.data.message);
                 }
             );
         };
