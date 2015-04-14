@@ -10,7 +10,7 @@ Admin.controller("RssCtrl", ["$scope", "$routeParams", "$http",
                 $scope.rss_feed.url = "";
               }).
               error(function(data) {
-                $scope.error = "Failed to add RSS feed";
+                $scope.mesg = "Failed to add RSS feed";
               });
         };
     }

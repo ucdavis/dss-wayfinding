@@ -20,8 +20,8 @@
 </div>
 
 <div class="admin-view" ng-app="AdminApp">
-  <div class="alert" role="alert">
-    <span class="notice"></span>
+  <div ng-controller="AlertsCtrl" class="alert" role="alert" ng-class="status">
+    <span class="notice">{{ mesg }}</span>
   </div> <!-- .alert -->
 
   <div role="tabpanel" class="tabs-left" id="admin-menu" ng-controller="NavigationCtrl">

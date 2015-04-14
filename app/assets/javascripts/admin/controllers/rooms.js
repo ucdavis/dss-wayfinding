@@ -6,12 +6,13 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms",
                 
             },
             function(data) {
-                $scope.error = "Error retrieving rooms from server";
+                $scope.mesg = "Error retrieving rooms from server. Please try again later.";
             }
         );
 
         /*
          * Changes the room that is displayed in the form.
+         * TODO: Display error messages.
         */
         $scope.changeRoom = function(id) {
             Rooms.get({id: id}, function(data) { $scope.room = data; });

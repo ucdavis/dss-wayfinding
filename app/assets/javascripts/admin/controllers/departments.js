@@ -7,7 +7,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.departments = data;
                 },
                 function(data) {
-                    $scope.error = "Error retrieving departments from server";
+                    $scope.mesg = "Error retrieving departments from server. Please try again later.";
                 }
             );
         }
@@ -27,7 +27,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.editing = true;
                 },
                 function (data) {
-                    $scope.error = "Error retrieving person from server";
+                    $scope.mesg = "Error retrieving person from server. Please try again later.";
                 }
             );
         };
@@ -44,8 +44,8 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
               load_departments();
               $scope.changeDepartment(data.id);
             },
-            function () {
-              $scope.error = "Error saving department";
+            function (data) {
+              $scope.mesg = "Error saving department. " + data.message;
             }
           );
         };
@@ -58,7 +58,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                 $scope.departments[index].name = department.title
               },
               function () {
-                $scope.error = "Error saving person";
+                $scope.mesg = "Error updating department. " + data.message;
               }
             );
         };
@@ -70,7 +70,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                     $scope.newDepartment();
                 },
                 function() {
-                    $scope.error = "Error deleting department";
+                    $scope.mesg = "Error deleting department. " + data.message;
                 }
             );
         };

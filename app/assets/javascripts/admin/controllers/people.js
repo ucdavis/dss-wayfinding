@@ -1,19 +1,20 @@
 Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
-    "Departments",
-    function($scope, $routeParams, People, Rooms, Departments) {
+    "Departments", "Alerts",
+    function($scope, $routeParams, People, Rooms, Departments, Alerts) {
         var load_people = function() {
             People.query({},
                 function(data) {
                     $scope.loaded = true;
                     $scope.people = data;
                 },
-                function(data) {
-                    $scope.error = "Error retrieving people from server";
+                function() {
+                    Alerts.danger("Error retrieving people from server. Please try again later.");
                 }
             );
         };
 
         load_people();
+
         $scope.rooms = Rooms.query({});
         $scope.departments = Departments.query({});
 
@@ -28,8 +29,8 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                     $scope.person.idx = index;
                     $scope.editing = true;
                 },
-                function (data) {
-                    $scope.error = "Error retrieving person from server";
+                function () {
+                    Alerts.danger("Error retrieving person from server. Please try again later.");
                 }
             );
         };
@@ -49,9 +50,10 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                 // Could also just add this to $scope.people
                 load_people();
                 $scope.changePerson(data.id);
+                Alerts.success("Person saved successfully!");
               },
-              function () {
-                $scope.error = "Error saving person";
+              function (resp) {
+                Alerts.danger("Error saving person. " + resp.data.message);
               }
             );
         };
@@ -62,9 +64,10 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
               function (data) {
                 person.idx = index;
                 $scope.people[index].name = person.first + " " + person.last
+                Alerts.success(person.first + " " + person.last + "'s information updated successfully!");
               },
-              function () {
-                $scope.error = "Error saving person";
+              function (resp) {
+                Alerts.danger("Error saving person. " + resp.data.message);
               }
             );
         };
@@ -75,8 +78,8 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                     $scope.people.splice(person.idx, 1);
                     $scope.newPerson();
                 },
-                function() {
-                    $scope.error = "Error deleting person";
+                function(resp) {
+                    Alerts.danger("Error deleting person. " + resp.data.message);
                 }
             );
         };
