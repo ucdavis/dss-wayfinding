@@ -43,6 +43,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
             function (data) {
               load_departments();
               $scope.changeDepartment(data.id);
+              Alerts.success("Department created successfully");
             },
             function (resp) {
               Alerts.danger("Error saving department. " + resp.data.message);
@@ -56,6 +57,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
               function (data) {
                 department.idx = index;
                 $scope.departments[index].name = department.title
+                Alerts.success("Department updated successfully!");
               },
               function (resp) {
                 Alerts.danger("Error updating department. " + resp.data.message);

@@ -33,11 +33,11 @@ class DirectoryObjectsController < ApplicationController
 
   def create
     type = params[:type].singularize.capitalize
-    new_data = modify_with params, type
-
-    logger.info Authorization.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + type
+    new_data = modify_with(params, type)
+    return if !new_data
 
     if @object.update new_data
+      logger.info Authorization.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + type
       respond_to do |format|
         format.json { render json: @object }
       end
@@ -48,11 +48,11 @@ class DirectoryObjectsController < ApplicationController
 
   def update
     type = params[:type].singularize.capitalize
-    new_data = modify_with params, type
-
-    logger.info Authorization.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + type
+    new_data = modify_with(params, type)
+    return if !new_data
 
     if @object.update new_data
+      logger.info Authorization.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + type
       respond_to do |format|
         format.json { render json: @object }
       end
@@ -228,10 +228,6 @@ class DirectoryObjectsController < ApplicationController
     # No need for additional sanity checks as we already know that we're working
     # with an existing type (see above)
     new_data = send('modify_' + type, params)
-
-    # Don't continue if the new data aren't valid for some reason (e.g., 
-    # invalid phone number) -- modify_* functions return false for invalid data
-    return false if ! new_data 
 
     return new_data 
   end

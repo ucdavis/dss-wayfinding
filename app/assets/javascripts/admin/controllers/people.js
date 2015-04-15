@@ -77,6 +77,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                 function(data) {
                     $scope.people.splice(person.idx, 1);
                     $scope.newPerson();
+                    Alerts.success("Person deleted successfully!");
                 },
                 function(resp) {
                     Alerts.danger("Error deleting person. " + resp.data.message);
