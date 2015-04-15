@@ -901,3 +901,11 @@ table {
 #search-directory, .directory-object-search {
   border-radius: 4px 4px 0 0;
 }
+
+.loader {
+  background: transparent url("/assets/loader.gif") no-repeat;
+  margin: 0 auto;
+  height: 15px;
+  width: 50px;
+  display: block;
+}

@@ -1,3 +1,4 @@
+<div class="loader" ng-hide="loaded"></div>
 <search
     ng-show="loaded"
     search-type="People"
@@ -7,7 +8,7 @@
     new-item="newPerson"
     item-changer="changePerson">
 </search>
-<div class="col-sm-9">
+<div class="col-sm-9" ng-show="loaded">
     <form method="post" class="form-horizontal directory-form" id="Person-form">
             <%# hidden_field_tag 'id' %>
             <%# hidden_field_tag 'type', type %>

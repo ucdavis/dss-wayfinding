@@ -1,15 +1,5 @@
 Admin.controller("AlertsCtrl", ["$scope", "$timeout", "$window", "Alerts",
     function($scope, $timeout, $window, Alerts) {
-        // Display errors from params.
-        if ($window.notice) {
-            $scope.mesg = $window.notice;
-            $scope.status = "alert-warning";
-        }
-        else if ($window.error) {
-            $scope.mesg = $window.error;
-            $scope.status = "alert-danger";
-        }
-
         $scope.alerts = Alerts;
         $scope.$watch('alerts.mesg()', function() {
             $scope.mesg = $scope.alerts.mesg();
@@ -24,5 +14,16 @@ Admin.controller("AlertsCtrl", ["$scope", "$timeout", "$window", "Alerts",
                 $scope.alerts.clear();
             }, 3000);
         });
+
+        // Display errors from params. Use the Alerts service, even though the
+        // mesg and status $scope variables are ultimately set in this
+        // controller, because of the $watch on alerts.mesg(), above, which
+        // resets $scope.mesg and $scope.status on page load.
+        if ($window.notice) {
+            Alerts.warning($window.notice);
+        }
+        else if ($window.error) {
+            Alerts.danger($window.error);
+        }
     }
 ]);

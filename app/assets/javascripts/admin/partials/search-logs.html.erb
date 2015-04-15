@@ -1,5 +1,6 @@
 <div role="tabpanel" class="tab-pane active" id="search-logs">
-<div class="row" style="margin-top: 1em;">
+<div class="loader" ng-hide="loaded"></div>
+<div class="row" style="margin-top: 1em;" ng-show="loaded">
   <div class="col-sm-2">
     Search Term - Number of occurences (Top 30)
   </div>

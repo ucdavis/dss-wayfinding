@@ -1,5 +1,6 @@
 <div role="tabpanel" class="tab-pane active" id="unmatched">
-  <div class="col-sm-2" ng-repeat="query in unmatched_queries">
+  <div class="loader" ng-hide='loaded'></div>
+  <div class="col-sm-2" ng-repeat="query in unmatched_queries" ng-show="loaded">
     {{ query.query }}
   </div>
 </div>
