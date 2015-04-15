@@ -32,11 +32,33 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def create
-    modify_with params
+    type = params[:type].singularize.capitalize
+    new_data = modify_with params, type
+
+    logger.info Authorization.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + type
+
+    if @object.update new_data
+      respond_to do |format|
+        format.json { render json: @object }
+      end
+    else
+      respond_with_error("Error creating " + type + ".")
+    end
   end
 
   def update
-    modify_with params
+    type = params[:type].singularize.capitalize
+    new_data = modify_with params, type
+
+    logger.info Authorization.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + type
+
+    if @object.update new_data
+      respond_to do |format|
+        format.json { render json: @object }
+      end
+    else
+      respond_with_error("Error saving " + type + ".")
+    end
   end
 
   def destroy
@@ -45,6 +67,9 @@ class DirectoryObjectsController < ApplicationController
       @object = DirectoryObject.find(params[:id])
     end
     if @object.present? and @object.type != 'Room'
+
+      logger.info Authorization.current_user.loginid.to_s + " deleted directory_object id: " + @object.id.to_s + " type: " + params[:type].singularize.capitalize
+
       @object.destroy
       respond_to do |format|
         format.json {render json: { message: "Object deleted successfully", id: @object.id }, status: 302 }
@@ -196,9 +221,7 @@ class DirectoryObjectsController < ApplicationController
   #     does the appropriate action.
   #
   
-  def modify_with(params)
-    type = params[:type].singularize.capitalize
-    
+  def modify_with(params, type)
     @object = get_object(params, type)
     return respond_with_error("Error identifying type of object")  if !@object.present?
 
@@ -210,13 +233,7 @@ class DirectoryObjectsController < ApplicationController
     # invalid phone number) -- modify_* functions return false for invalid data
     return false if ! new_data 
 
-    if @object.update new_data
-      respond_to do |format|
-        format.json { render json: @object }
-      end
-    else
-      respond_with_error("Error saving " + type + ".")
-    end
+    return new_data 
   end
 
   #
