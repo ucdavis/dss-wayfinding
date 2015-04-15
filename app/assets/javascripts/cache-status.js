@@ -5,45 +5,46 @@ var statsInterval;
 // refresh variable is set to true if called from AngularJS controller (for
 // reloading these settings in the AngularJS partial
 var getCacheStats = function (refresh) {
-$.get( "/map_stats.json", function( data ) {
-  if ( progress == null ) {
-    // Set interval to keep checking stats
-    statsInterval = setInterval(function(){getCacheStats();}, 10000);
-  }
+    $.ajax( { url: "/map_stats.json", cache: false } )
+    .done(function( data ) {
+      if ( progress == null ) {
+        // Set interval to keep checking stats
+        statsInterval = setInterval(function(){getCacheStats();}, 10000);
+      }
 
-  if (typeof data == 'undefined' || data.progress == "Completed" ) {
-    // Stop checking if no build in progress
-    clearInterval(statsInterval);
-    lastBuild = new Date(data.startTime);
-    lastBuild = lastBuild.getMonth() + '/' + lastBuild.getDate() + '/' + lastBuild.getFullYear()
-      + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
-    progress = "No cache building in progress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
-    percentage = '100%';
+      if (typeof data == 'undefined' || data.progress == "Completed" ) {
+        // Stop checking if no build in progress
+        clearInterval(statsInterval);
+        lastBuild = new Date(data.startTime);
+        lastBuild = lastBuild.getMonth() + '/' + lastBuild.getDate() + '/' + lastBuild.getFullYear()
+          + ' ' + lastBuild.getHours() + ':' + lastBuild.getMinutes();
+        progress = "No cache building in progress.. Last build: " + lastBuild + " ( Took " + data.totalTime + " )";
+        percentage = '100%';
 
-    // Update DOM
-    $(".cache-building").addClass('hidden');
-    $('.cache-stats').text(progress);
-    $("#svg-upload-form :input").attr("disabled", false);
-  } else {
-    console.log($('.cache-stats'));
-    // Apply the following only once, on page load if caches are being built
-    if (!progress || refresh) {
-      $(".cache-building").removeClass('hidden');
-      $('.cache-stats').text("Cache building in progress...").addClass('text-danger');
-      $("#svg-upload-form :input").attr("disabled", true);
-    }
+        // Update DOM
+        $(".cache-building").addClass('hidden');
+        $('.cache-stats').text(progress);
+        $("#svg-upload-form :input").attr("disabled", false);
+      } else {
+        // Apply the following only once, on page load if caches are being built
+        if (!progress || refresh) {
+          $(".cache-building").removeClass('hidden');
+          $('.cache-stats').text("Cache building in progress...").addClass('text-danger');
+          $("#svg-upload-form :input").attr("disabled", true);
+        }
 
-    // Update values if process is not completed
-    progress = data.progress;
-    percentage = data.progress;
-  }
+        // Update values if process is not completed
+        progress = data.progress;
+        percentage = data.progress;
+      }
 
-  $('#cache-progress').css('width', percentage);
-  $('#cache-progress').text(progress);
-}).fail(function() {
-  console.error("Could not fetch cache building progress");
-  clearInterval(statsInterval);
-});
+      $('#cache-progress').css('width', percentage);
+      $('#cache-progress').text(progress);
+    })
+    .fail(function() {
+      console.error("Could not fetch cache building progress");
+      clearInterval(statsInterval);
+    });
 }
 
 // Get cache stats on page load
