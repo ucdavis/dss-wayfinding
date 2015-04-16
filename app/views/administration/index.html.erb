@@ -21,7 +21,7 @@
 
 <div class="admin-view" ng-app="AdminApp">
   <div ng-controller="AlertsCtrl" class="alert" role="alert" ng-class="status">
-    <span class="notice">{{ mesg }}</span>
+    <span class="notice" compile="mesg"></span>
   </div> <!-- .alert -->
 
   <div role="tabpanel" class="tabs-left" id="admin-menu" ng-controller="NavigationCtrl">

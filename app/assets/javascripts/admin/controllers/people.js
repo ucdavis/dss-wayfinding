@@ -1,6 +1,6 @@
 Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
-    "Departments", "Alerts",
-    function($scope, $routeParams, People, Rooms, Departments, Alerts) {
+    "Departments", "Alerts", "$timeout",
+    function($scope, $routeParams, People, Rooms, Departments, Alerts, $timeout) {
         var load_people = function() {
             People.query({},
                 function(data) {
@@ -12,6 +12,11 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                 }
             );
         };
+
+        // Set to various $timeout promises to allow canceling the $timeout (for
+        // $scope.remove function)
+        $scope.alerts = Alerts;
+        $scope.timer = null;
 
         load_people();
 
@@ -72,7 +77,30 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
             );
         };
 
+        /* 
+         * $scope.remove
+         *  
+         *   Fake person delete. Sets a timeout of three seconds so that the
+         *   user has time to reconsider.
+        */
+
         $scope.remove = function(person) {
+            // The ng-click here calls functions in the Alerts controller
+            Alerts.success("Deleting person... <a href='#' ng-click='alerts.warning(\"Canceling delete...\"); $event.preventDefault();'>Undo</a>");
+
+            $scope.$watch('alerts.mesg()', function() {
+                if ($scope.alerts.mesg() === "Canceling delete...") {
+                    $timeout.cancel($scope.timer);
+                    Alerts.clear();
+                }
+            });
+
+            $scope.timer = $timeout(function() {
+                $scope.actuallyRemove(person)
+            }, 3000);
+        };
+
+        $scope.actuallyRemove = function(person) {
             person.$delete({id: person.id}, {},
                 function(data) {
                     $scope.people.splice(person.idx, 1);

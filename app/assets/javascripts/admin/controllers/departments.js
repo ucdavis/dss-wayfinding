@@ -1,5 +1,6 @@
-Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "Rooms", "Alerts",
-    function($scope, $routeParams, Departments, Rooms, Alerts) {
+Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
+    "Rooms", "Alerts", "$timeout",
+    function($scope, $routeParams, Departments, Rooms, Alerts, $timeout) {
         var load_departments = function() {
             Departments.query({},
                 function(data) {
@@ -11,6 +12,11 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
                 }
             );
         }
+
+        // Set to various $timeout promises to allow canceling the $timeout (for
+        // $scope.remove function)
+        $scope.alerts = Alerts;
+        $scope.timer = null;
 
         load_departments();
         $scope.rooms = Rooms.query({});
@@ -65,16 +71,37 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments", "R
             );
         };
 
+        // Fake department delete. Sets a timeout of three seconds so the user
+        // has time to reconsider. Might be able to refactor this stuff into a
+        // service some day (code shared with people controller).
         $scope.remove = function(department) {
-            department.$delete({id: department.id}, {},
-                function(data) {
-                    $scope.departments.splice(department.idx, 1);
-                    $scope.newDepartment();
-                },
-                function(resp) {
-                    Alerts.danger("Error deleting department. " + resp.data.message);
+            // The ng-click here calls functions in the Alerts controller
+            Alerts.success("Deleting department... <a href='#' ng-click='alerts.warning(\"Canceling delete...\"); $event.preventDefault();'>Undo</a>");
+
+            $scope.$watch('alerts.mesg()', function() {
+                if ($scope.alerts.mesg() === "Canceling delete...") {
+                    $timeout.cancel($scope.timer);
+                    Alerts.clear();
                 }
-            );
+            });
+
+            $scope.timer = $timeout(function() {
+                $scope.actuallyRemove(department)
+            }, 3000);
+        };
+
+        // Actually deletes a department when called.
+        $scope.actuallyRemove = function(department) {
+           department.$delete({id: department.id}, {},
+             function(data) {
+               $scope.departments.splice(department.idx, 1);
+               $scope.newDepartment();
+               Alerts.success("Department deleted successfully!");
+             },
+             function(resp) {
+               Alerts.danger("Error deleting department. " + resp.data.message);
+             }
+          );
         };
 
         // Sets the department to the department specified in the URL, if given.
