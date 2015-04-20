@@ -4,10 +4,8 @@ one:
   from: MyString
   to: MyString
   hits: 1
-  timestamps: MyString
 
 two:
-  from: MyString
+  from: String
   to: MyString
-  hits: 1
-  timestamps: MyString
+  hits: 3

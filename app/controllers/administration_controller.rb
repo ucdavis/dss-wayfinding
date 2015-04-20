@@ -6,18 +6,8 @@ class AdministrationController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
 
   def index
+    # Whether or not to hide the CSV upload tab
     @contains_data = Department.all.empty?
-    # @origin = cookies[:origin]
-    # @departments = Department.all
-    # @people = Person.includes(:rooms, :department).all
-    # @rooms = Room.includes(people: :department).order(:room_number)
-    # @rss_feeds = RssFeed.all
-    # @rss_feed = RssFeed.new # for adding new RSS feeds
-    # @person = Person.new # for adding/editing people
-    # @department = Department.new # for adding/editing departments
-    # @room = Room.new # for editing rooms
-    # @unmatched_queries = UnmatchedQueryLog.all
-    # @search_terms = SearchTermLog.all.order(:count).limit(30)
   end
 
   # POST
@@ -82,6 +72,8 @@ class AdministrationController < ApplicationController
     end
   end
 
+  # Not sure if this method is used anywhere. May be safe to remove (and its
+  # associated test).
   def department_location
     room_number = params[:department_room_number]
     id = params[:department_id]
@@ -220,7 +212,6 @@ class AdministrationController < ApplicationController
   # POST
   # Upload an SVG map
   def map_upload
-
     unless params[:uploaded_map].blank?
       require 'fileutils'
 

@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  loginid: MyString
+  loginid: casuser
 
 two:
-  loginid: MyString
+  loginid: user2

@@ -296,7 +296,8 @@ class DirectoryObjectsController < ApplicationController
   #
   #     Tests whether or not a phone number is a valid five-, seven-, or
   #     ten-digit phone number. Compares given number to a version that strips
-  #     everything but valid non-numeric characters.
+  #     everything but valid non-numeric characters. Blank or nil values are
+  #     automatically valid numbers so that saving can go through.
   #
   #     Arguments:
   #         phone: (string) Phone number to test
@@ -305,6 +306,8 @@ class DirectoryObjectsController < ApplicationController
   #
 
   def valid_number(phone)
+    return true  if phone.nil? || phone.blank?
+
     phone.strip!
     trimmed = phone.gsub(/[^\dx]/, "").gsub(/x\d*/, "")
     trimmedLength = trimmed.length;

@@ -4,8 +4,31 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+  first:
+  last:
+  email:
+  phone:
+  title:
+  room_number: 1100
+  name: Social Sciences Lecture Hall
+  type: Room
+two:
+  first: Homo
+  last: Sapiens
+  email: example@example.com
+  phone: (555) 555-555
+  title:
+  room_number: 1102
+  name:
+  type: Person
+  department: three
+three:
+  first:
+  last:
+  email:
+  phone:
+  title: abcde
+  room_number:
+  name:
+  type: Department
