@@ -7,6 +7,10 @@
 
       $(document).on("wayfinding:floorChanged", function(e, data) {
         console.debug("Wayfinding indicates the floor has changed during an animation. Floor: " + data.map_id);
+
+        // Reset home page return timer
+        setRedirectToHome();
+
         // Make the corresponding floor button active
         $("a.btn-floor").removeClass('active');
         $($('a.btn-floor[data-mapId="' + data.map_id + '"]')[0]).addClass('active')
@@ -14,6 +18,7 @@
 
       $(document).on("wayfinding:roomClicked", function(e, data) {
         console.debug("Wayfinding indicates a room was clicked. Room: " + data.room_id);
+
         destination = data.room_id;
 
         endFloor = destination.substring(1,2);
@@ -73,6 +78,7 @@
          //toggle accessibleRoute
         $('.accessible').click(function(e) {
           e.preventDefault();
+          setRedirectToHome();
 
           if (destination.length > 0)
             $('a.accessible').toggleClass('active');
