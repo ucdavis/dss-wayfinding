@@ -104,8 +104,6 @@ class AdministrationController < ApplicationController
     case params[:group]
       when "year"
         @visits = @visits.group_by { |v| v.start.beginning_of_year }
-      when "quarter"
-        @visits = @visits.group_by { |v| v.start.beginning_of_quarter }
       when "month"
         @visits = @visits.group_by { |v| v.start.beginning_of_month }
       when "week"

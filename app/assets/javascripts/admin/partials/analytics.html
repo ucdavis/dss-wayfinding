@@ -77,7 +77,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="visit in visitsByPeriod">
-          <td>{{ periodOf(group) }} {{ visit.period | date }}</td>
+          <td>{{ periodOf(group) }} {{ visit.period | date : periodFormat(group) }}</td>
           <td>{{ visit.visitors }}</td>
         </tr>
       </tbody>

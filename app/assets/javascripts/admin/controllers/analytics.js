@@ -2,7 +2,7 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
     function($scope, $http) {
         // Interval to sum over (e.g., every day, every month, etc.)
         $scope.group = "day";
-        $scope.groups = [ "day", "week", "month", "quarter", "year" ];
+        $scope.groups = [ "day", "week", "month", "year" ];
 
         // Start and end dates for analytics
         $scope.startDate = new Date();
@@ -93,11 +93,30 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
           });
         };
 
+        // Returns things like "Week of", "Month of", etc.
         $scope.periodOf = function(group) {
           if (group === "day") 
             return "";
 
           return group.capitalize() + " of";
+        };
+
+        // Returns appropriate date formats to use with periodOf
+        $scope.periodFormat = function(group) {
+          switch(group) {
+            case 'day':
+              return 'mediumDate';
+            break;
+            case 'week':
+              return 'mediumDate';
+            break;
+            case 'month':
+              return 'MMMM, yyyy';
+            break;
+            case 'year':
+              return 'yyyy';
+            break;
+          }
         };
 
         // Sums up visits for each period across all devices
