@@ -5,7 +5,7 @@ var includeCSRF = function($httpProvider) {
     $httpProvider.defaults.headers.common["X-CSRF-Token"] = $("meta[name=csrf-token]").attr("content");
 }
 
-var Admin = angular.module("AdminApp", ["ngRoute", "ngSanitize", "adminServices"]);
+var Admin = angular.module("AdminApp", ["ngRoute", "ngSanitize", "adminServices", "ui.bootstrap"]);
 Admin.config(includeCSRF);
 Admin.config(['$routeProvider', function($routeProvider) {
     $routeProvider
@@ -36,6 +36,10 @@ Admin.config(['$routeProvider', function($routeProvider) {
         .when("/unroutable", {
             templateUrl: '<%= asset_path("admin/partials/unroutable.html") %>',
             controller: "UnroutableCtrl"
+        })
+        .when("/analytics", {
+            templateUrl: '<%= asset_path("admin/partials/analytics.html") %>',
+            controller: "AnalyticsCtrl"
         })
         .when("/dir_departments", {
             templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',

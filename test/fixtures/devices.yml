@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ip: MyString
+  kiosk: false
+  room_id: 1
+
+two:
+  ip: MyString
+  kiosk: false
+  room_id: 1

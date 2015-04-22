@@ -5,5 +5,6 @@
 //= require angular-route
 //= require angular-resource
 //= require angular-sanitize
+//= require ui-bootstrap
 //= require admin-app
 //= require_tree ./admin

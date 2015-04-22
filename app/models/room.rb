@@ -6,6 +6,7 @@ class Room < DirectoryObject
   has_and_belongs_to_many :people, join_table: 'person_room_join_requirements'
 
   has_many :events
+  has_many :devices
 
   def calculated_name
     return self.name if self.name.present?

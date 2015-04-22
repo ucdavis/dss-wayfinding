@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  device_id: 1
+  start: 2015-04-20 16:26:29
+  end: 2015-04-20 16:26:29
+
+two:
+  device_id: 1
+  start: 2015-04-20 16:26:29
+  end: 2015-04-20 16:26:29

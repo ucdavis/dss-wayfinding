@@ -64,6 +64,9 @@
       <li role="presentation" ng-class="{active: isActive('/search-logs')}">
         <a href="#search-logs" aria-controls="search-logs" role="tab" data-toggle="tab" class="tab-link">Search Term Logs</a>
       </li>
+      <li role="presentation" ng-class="{active: isActive('/analytics')}">
+        <a href="#analytics" aria-controls="analytics" role="tab" data-toggle="tab" class="tab-link">Analytics</a>
+      </li>
       <% end %>
 
       <% permitted_to? :administer_directory, :administration do %>

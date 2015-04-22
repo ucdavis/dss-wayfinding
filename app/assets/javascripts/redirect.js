@@ -12,7 +12,9 @@ function setRedirectToHome() {
     if (document.origin != '') {
       $('ul.vertical-nav').animate({left: '-200%'}, 500, function() {
         setTimeout(function(){
-          window.location = "/";
+          $.post('/logvisitor').done(function() {
+            window.location = "/";
+          });
         }, 500);
       })
     }

@@ -1,7 +1,7 @@
 authorization do
   role :guest do
     has_permission_on :directory_objects, :to => [:read, :search, :unroutable]
-    has_permission_on :administration, :to => :start
+    has_permission_on :administration, :to => [:start, :logvisitor]
   end
   role :directoryadmin do
     includes :guest
@@ -21,6 +21,6 @@ privileges do
   privilege :create, :includes => :new
   privilege :update, :includes => :edit
   privilege :delete, :includes => :destroy
-  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload, :csv, :search_terms, :unmatched, :unroutable]
+  privilege :administer, :includes => [:origin, :start, :department_location, :map_upload, :csv, :search_terms, :unmatched, :unroutable, :analytics]
   privilege :administer_directory, :includes => [:directory_object, :del_directory_object]
 end
