@@ -4,11 +4,13 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
         $scope.group = "day";
         $scope.groups = [ "day", "week", "month", "quarter", "year" ];
 
-
         // Start and end dates for analytics
         $scope.startDate = new Date();
         $scope.endDate = new Date();
         $scope.startDate.setMonth($scope.endDate.getMonth() - 1)
+
+        // Whether or not to display analytics for all time
+        $scope.general = false;
 
         // Calendar options
         $scope.startOpened = false;
@@ -29,6 +31,20 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
           $scope[opened] = true
         };
         // END Calendar options
+
+        // Clears $scope.startDate and $scope.endDate, so the web app asks for
+        // data for all time.
+        $scope.allTime = function() {
+          $scope.general = true;
+          $scope.loaded = false;
+          $scope.getAnalytics();
+        };
+
+        $scope.notAllTime = function() {
+          $scope.general = false;
+          $scope.loaded = false;
+          $scope.getAnalytics();
+        };
 
         $scope.isKiosk = function(value) {
           return value.kiosk || false;
@@ -124,10 +140,15 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
         };
 
         $scope.getAnalytics = function() {
+            if (!$scope.general) {
+              var startDate = $scope.startDate;
+              var endDate = $scope.endDate;
+            }
+
             $http.get('/administration/analytics.json', {
                   params: {
-                    start: $scope.startDate,
-                    end: $scope.endDate,
+                    start: startDate,
+                    end: endDate,
                     group: $scope.group
                   }
             }).success(
@@ -147,8 +168,10 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
 
         // Watch start, end, and group dates to get analytics when things change
         comparer = function(newVal, oldVal) {
-          if (newVal !== oldVal)
+          if (newVal !== oldVal) {
+            $scope.loaded = false;
             $scope.getAnalytics();
+          }
         };
         $scope.$watch('group', comparer);
         $scope.$watch('startDate', comparer);
