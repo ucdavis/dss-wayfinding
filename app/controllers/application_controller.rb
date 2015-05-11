@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def track_devices
     # The device's location, as reported by its permanent cookies
     location = cookies["origin"] || cookies["start_location"] || ''
-    location.slice!(0)  if !location[0].blank? && location[0].upcase == "R"
+    location = location[1..-1]  if !location[0].blank? && location[0].upcase == "R"
 
     data = {
       :ip => (IPAddr.new request.remote_ip).to_s,
