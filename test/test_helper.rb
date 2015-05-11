@@ -29,11 +29,9 @@ class ActiveSupport::TestCase
           @role_symbols = [ :superadmin ]
         end
       end
-   #     RolesManagement.module_eval do
-   #         def self.fetch_role_symbols_by_loginid(loginid)
-   #             return [ :superadmin ]
-   #         end
-   #     end
+
+      request.session[:auth_via] = 'cas'
+      request.session[:user_id] = users(:one)
     end
   end
 
@@ -47,6 +45,9 @@ class ActiveSupport::TestCase
           @role_symbols = [ :directoryadmin ]
         end
       end
+
+      request.session[:auth_via] = 'cas'
+      request.session[:user_id] = users(:one)
     end
   end
 end

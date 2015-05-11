@@ -56,7 +56,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
       :format => 'json',
       :id => 4,
       :first => 'A', :last => 'Person', :room_ids => []
-    }, { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
+    }
 
     assert_response :success
   end
@@ -64,8 +64,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
   test "admins can delete directory objects" do
     directoryadminify
 
-    delete :destroy, { :type => 'Person', :format => 'json', :id => 4 },
-        { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
+    delete :destroy, { :type => 'Person', :format => 'json', :id => 4 }
 
     assert_response 302
   end
@@ -76,7 +75,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
     post :create, { :type => 'Person',
       :format => 'json',
       :first => 'A', :last => 'Person', :room_ids => []
-    }, { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
+    }
 
     assert_response :success
   end

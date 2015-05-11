@@ -16,8 +16,7 @@ class AdministrationControllerTest < ActionController::TestCase
   test "superadmins can modify origin" do
     superadminify
 
-    post :origin, { :format => 'json', :origin => '1100' },
-      { :auth_via => 'cas', :user_id => 980190962 }
+    post :origin, { :format => 'json', :origin => '1100' }
 
     assert_response :success
   end
@@ -25,8 +24,7 @@ class AdministrationControllerTest < ActionController::TestCase
   test "directoryadmins cannot modify origin" do
     directoryadminify
 
-    post :origin, { :format => 'json', :origin => '1100' },
-      { :auth_via => 'cas', :user_id => 980190962 }
+    post :origin, { :format => 'json', :origin => '1100' }
 
     assert_response 403
   end
@@ -34,46 +32,46 @@ class AdministrationControllerTest < ActionController::TestCase
   test "directoryadmins cannot see unmatched logs, search logs, and unroutable logs" do
     directoryadminify
 
-    get :unmatched, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :unmatched, { :format => 'json'}
     assert_response 403
 
-    get :unroutable, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :unroutable, { :format => 'json'}
     assert_response 403
 
-    get :search_terms, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :search_terms, { :format => 'json'}
     assert_response 403
   end
 
   test "superadmins can see unmatched logs, search logs, and unroutable logs" do
     superadminify
 
-    get :unmatched, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :unmatched, { :format => 'json'}
     assert_response :success
 
-    get :unroutable, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :unroutable, { :format => 'json'}
     assert_response :success
 
-    get :search_terms, { :format => 'json'}, { :auth_via => 'cas', :user_id => 980190962 }
+    get :search_terms, { :format => 'json'}
     assert_response :success
   end
 
   test "directoryadmins cannot upload csv and svg" do
     directoryadminify
 
-    post :map_upload, {}, { :auth_via => 'cas', :user_id => 980190962 }
+    post :map_upload, {}
     assert_redirected_to(action: "access_denied", :controller => "site")
 
-    post :csv, {}, { :auth_via => 'cas', :user_id => 980190962 }
+    post :csv, {}
     assert_redirected_to(action: "access_denied", :controller => "site")
   end
 
   test "superadmins can upload csv and svg" do
     superadminify
 
-    post :map_upload, {}, { :auth_via => 'cas', :user_id => 980190962 }
+    post :map_upload, {}
     assert_redirected_to(action: "index", error: "Error uploading SVG map")
 
-    post :csv, {}, { :auth_via => 'cas', :user_id => 980190962 }
+    post :csv, {}
     assert_redirected_to(action: "index", error: "Error uploading file")
   end
 end
