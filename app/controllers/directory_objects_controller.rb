@@ -42,7 +42,7 @@ class DirectoryObjectsController < ApplicationController
 
         format.json { render json: @object }
       else
-        format.json { render json: { message: "Error creating " + type + "." }, status: 405 }
+        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
       end
     end
   end
@@ -54,7 +54,7 @@ class DirectoryObjectsController < ApplicationController
 
         format.json { render json: @object }
       else
-        format.json { render json: { message: "Error saving " + params[:type] + "." }, status: 405 }
+        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
       end
     end
   end
@@ -145,7 +145,7 @@ class DirectoryObjectsController < ApplicationController
   # GET /start/R0070/end/R2169
   # GET /start/R0070/directory/1234
   def show
-    respond_with @directory_object
+    respond_with @object
   end
 
   private
@@ -190,11 +190,11 @@ class DirectoryObjectsController < ApplicationController
   def directory_object_params
     case params[:type]
     when 'Person'
-      params.permit(:first, :last, :email, :phone, :department_ids, :room_ids)
+      params.permit(:first, :last, :email, :phone, :department_id, :room_ids => [])
     when 'Room'
       params.permit(:name)
     when 'Department'
-      params.permit(:title)
+      params.permit(:title, :room_id)
     else
       params.permit()
     end

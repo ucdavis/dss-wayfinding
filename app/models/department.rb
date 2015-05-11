@@ -10,6 +10,7 @@ class Department < DirectoryObject
     {
       :id => id,
       :room_number => room.present? ? room.room_number : '',
+      :room_id => room_id,
       :name => '',
       :department => title,
       :title => title,
