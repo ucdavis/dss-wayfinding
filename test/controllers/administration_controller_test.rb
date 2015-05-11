@@ -1,11 +1,6 @@
 require 'test_helper'
 
 class AdministrationControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  #
-
   test "public can modify start location" do
     post :start, { :location => '1100' }
 
@@ -23,7 +18,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
     post :origin, { :format => 'json', :origin => '1100' },
       { :auth_via => 'cas', :user_id => 980190962 }
-    
+
     assert_response :success
   end
 
@@ -32,7 +27,7 @@ class AdministrationControllerTest < ActionController::TestCase
 
     post :origin, { :format => 'json', :origin => '1100' },
       { :auth_via => 'cas', :user_id => 980190962 }
-    
+
     assert_response 403
   end
 

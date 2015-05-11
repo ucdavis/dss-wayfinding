@@ -1,10 +1,5 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
 one:
+  id: 1
   first:
   last:
   email:
@@ -13,17 +8,21 @@ one:
   room_number: 1100
   name: Social Sciences Lecture Hall
   type: Room
+
 two:
+  id: 2
   first: Homo
   last: Sapiens
   email: example@example.com
-  phone: (555) 555-555
+  phone: (555) 555-5555
   title:
   room_number: 1102
   name:
   type: Person
   department: three
+
 three:
+  id: 3
   first:
   last:
   email:
@@ -32,3 +31,15 @@ three:
   room_number:
   name:
   type: Department
+
+person1:
+  id: 4
+  first: Bob
+  last: Wayfinder
+  email: bwayfinder@example.com
+  phone: (555) 123-4567
+  title:
+  room_number: 1103
+  name:
+  type: Person
+  department:

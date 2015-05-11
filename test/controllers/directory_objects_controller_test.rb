@@ -1,19 +1,14 @@
 require 'test_helper'
 
 class DirectoryObjectsControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
-  
   test "guests cannot edit directory objects" do
    patch :update, {
      :format => 'json',
      :id => 1,
      :type => 'person', :first => 'A', :last => 'Person'
    }
-   
-   # Unauthorized
-   assert_response 401
+
+   assert_response :unauthorized
   end
 
   test "guests cannot delete directory objects" do
@@ -30,13 +25,13 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
       :last => 'Person'
     }
 
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "guests can read directory objects" do
     # For id, refer directory_objects.yml and
     # http://stackoverflow.com/questions/763881/automatic-associations-in-ruby-on-rails-fixtures
-    get :show, { :format => 'json', :type => 'Person', :id => 298486374 }
+    get :show, { :format => 'json', :type => 'Person', :id => 4 }
     assert_response :success
   end
 
@@ -54,11 +49,13 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
   test "admins can edit directory objects" do
     directoryadminify
 
+    assert_not_nil DirectoryObject.find_by_id(4)
+
     patch :update, {
       :type => 'Person',
       :format => 'json',
-      :id => 298486374,
-      :first => 'A', :last => 'Person', :department_id => '', :room_ids => []
+      :id => 4,
+      :first => 'A', :last => 'Person', :room_ids => []
     }, { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
 
     assert_response :success
@@ -67,7 +64,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
   test "admins can delete directory objects" do
     directoryadminify
 
-    delete :destroy, { :type => 'Person', :format => 'json', :id => 298486374 },
+    delete :destroy, { :type => 'Person', :format => 'json', :id => 4 },
         { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
 
     assert_response 302
@@ -78,8 +75,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
 
     post :create, { :type => 'Person',
       :format => 'json',
-      :id => 298486374,
-      :first => 'A', :last => 'Person', :department_id => '', :room_ids => []
+      :first => 'A', :last => 'Person', :room_ids => []
     }, { :auth_via => 'cas', :user_id => 980190962, :cas_user => 'casuser' }
 
     assert_response :success
@@ -88,8 +84,7 @@ class DirectoryObjectsControllerTest < ActionController::TestCase
   test "admins can read directory objects" do
     directoryadminify
 
-    get :show, { :format => 'json', :type => 'Person', :id => 298486374 }
+    get :show, { :format => 'json', :type => 'Person', :id => 4 }
     assert_response :success
   end
-
 end

@@ -14,19 +14,14 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  # Monkey patches the User model module to return [ :superadmin ] when asked
+  # for users' roles. Effect is limited to just a test..do..end block. Also
+  # have to make sure to set appropriate session variables for authentication
+  # (auth_via = 'cas' and user_id = a user id).
   #
-  # superadminify
+  # Arguments: (none)
   #
-  #   Monkey patches the User model module to return [ :superadmin ] when asked
-  #   for users' roles. Effect is limited to just a test..do..end block. Also
-  #   have to make sure to set appropriate session variables for authentication
-  #   (auth_via = 'cas' and user_id = a user id).
-  #
-  #   Arguments: (none)
-  #
-  #   Returns: (none)
-  #
-
+  # Returns: (none)
   def superadminify
     without_access_control do
       User.module_eval do
@@ -43,13 +38,8 @@ class ActiveSupport::TestCase
   end
 
 
-  #
-  # directoryadminify
-  #
-  #   Same as superadminify, but modifies the User model for the directoryadmin
-  #   role. Takes no arguments and returns nothing.
-  #
-
+  # Same as superadminify, but modifies the User model for the directoryadmin
+  # role. Takes no arguments and returns nothing.
   def directoryadminify
     without_access_control do
       User.module_eval do
