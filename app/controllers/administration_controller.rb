@@ -88,7 +88,6 @@ class AdministrationController < ApplicationController
     @devices = Device.all
 
     if params[:start] and params[:end]
-      logger.info "got here"
       start_date = Date.parse(params[:start]).in_time_zone
       end_date = Date.parse(params[:end]).next_day.in_time_zone
 

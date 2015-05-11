@@ -50,8 +50,8 @@ var displayResults = function () {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.department.title + '</span>';
         }
         tmpl = tmpl
-            + '<span class="dir-row-field">' + directory_object.email + '</span>'
-            + '<span class="dir-row-field">' + directory_object.phone + '</span>'
+            + '<span class="dir-row-field">' + ( directory_object.email || '' ) + '</span>'
+            + '<span class="dir-row-field">' + ( directory_object.phone || '' ) + '</span>'
           + '</td>'
         + '</tr>';
       } else if (directory_object.type == 'Event') {
