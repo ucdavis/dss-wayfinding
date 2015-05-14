@@ -97,7 +97,7 @@ class AdministrationController < ApplicationController
           end_date: end_date
         })
     else
-      @visits = Visitor.all
+      @visits = Visitor.where("start is not null")
     end
 
     case params[:group]
@@ -115,10 +115,11 @@ class AdministrationController < ApplicationController
     # (e.g., sqlite uses strftime and postgres uses date_trunc), so just do
     # array/enumerable operations
     @visits = @visits.map do |date, vs|
-      [
-        date,
-        vs.group_by { |v| v[:device_id] }.map { |device,v| [device, v.length] }
-      ]
+      {
+        date: date,
+        devices: vs.group_by { |v| v[:device_id] }
+                   .map { |device,v| { device_id: device, visitors: v.length } }
+      }
     end
 
     respond_to do |format|
