@@ -1,8 +1,10 @@
 /*
- *= require bootstrap
  *= require_self
  *= require directory_objects_show
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
 .col-xs-2-modified {
   width: 11%;
