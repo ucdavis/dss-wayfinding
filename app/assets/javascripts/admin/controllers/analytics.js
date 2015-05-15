@@ -74,20 +74,18 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
          * visitors in each period for a given device (specified with device_id).
         */
         $scope.visitsByDevice = function(device_id) {
-          // First item in data array is the visits array. Everything afterward
-          // is individual devices.
           var visitors = $scope.data.visitors;
 
           // Top-level items in the visitors array are periods
           return _.map(visitors, function(period) {
             // Number of visitors for given device in given period
-            var visits = _.find(period[1], function(device) {
-                return device ? device_id === device[0] : false;
+            var visits = _.find(period.devices, function(device) {
+                return device ? device_id === device.device_id : false;
             })
-            visits = visits ? visits[1] : 0;
+            visits = visits ? visits.visitors : 0;
             return {
               // Name of the period (e.g., 2015-04-20T00:00:00)
-              period: period[0],
+              period: period.date,
               visitors: visits
             };
           });
@@ -125,11 +123,11 @@ Admin.controller("AnalyticsCtrl", ["$scope", "$http",
             return [];
 
           return test = _.map(data.visitors, function(period) {
-            var visits = _.reduce(period[1], function(memo, device) {
-              return memo + device[1];
+            var visits = _.reduce(period.devices, function(memo, device) {
+              return memo + device.visitors;
             }, 0);
 
-            return { period: period[0], visitors: visits };
+            return { period: period.date, visitors: visits };
           });
         };
 
