@@ -95,9 +95,9 @@ class AdministrationController < ApplicationController
         {
           start_date: start_date,
           end_date: end_date
-        })
+        }).order(:start)
     else
-      @visits = Visitor.where("start is not null")
+      @visits = Visitor.where("start is not null").order(:start)
     end
 
     case params[:group]
