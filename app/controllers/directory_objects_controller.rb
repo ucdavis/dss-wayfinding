@@ -6,8 +6,6 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   filter_access_to :all
 
-  respond_to :html, :json
-
   # GET /directory_objects
   def index
     @type = params[:type]
@@ -145,7 +143,6 @@ class DirectoryObjectsController < ApplicationController
   # GET /start/R0070/end/R2169
   # GET /start/R0070/directory/1234
   def show
-    respond_with @object
   end
 
   private
