@@ -45,7 +45,7 @@
         $('a.btn-floor[data-mapId="floor' + startFloor + '"]').addClass('active').addClass('start');
 
         try {
-          directory_object = jQuery.parseJSON('<%= raw json_escape(@object.to_json) %>');
+          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
 
           if (directory_object) {
             showInfo(directory_object);
