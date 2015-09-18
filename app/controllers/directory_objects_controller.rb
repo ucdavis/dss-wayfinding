@@ -143,6 +143,10 @@ class DirectoryObjectsController < ApplicationController
   # GET /start/R0070/end/R2169
   # GET /start/R0070/directory/1234
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @object }
+    end
   end
 
   private
