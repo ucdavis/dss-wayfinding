@@ -39,6 +39,9 @@ set :keep_releases, 5
 # Let NPM know where to install (default: not set)
 set :npm_target_path, -> { release_path.join('nodejs') }
 
+# Use 1 background worker (the same value should be set in config/schedule.rb)
+set :delayed_job_args, "-n 1 -p wayfinding"
+
 # Restart delayed_job on every deploy
 after 'deploy:publishing', 'deploy:restart'
 

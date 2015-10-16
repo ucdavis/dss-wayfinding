@@ -8,5 +8,5 @@ job_type :envcommand, 'cd :path && RAILS_ENV=:environment :task'
 
 # Ensure our background processor starts up on reboot
 every :reboot do
-  envcommand 'bin/delayed_job -n 1 restart'
+  envcommand 'bin/delayed_job -n 1 -p wayfinding restart'
 end
