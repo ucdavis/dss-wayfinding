@@ -128,11 +128,11 @@ class DirectoryObjectsController < ApplicationController
       head 405, content_type: "text/html"
     end
 
-    unroutable_route = UnroutableLog.where(params.permit(:from, :to)).first_or_create
+    unroutable_route = UnroutableLog.where(from: params[:from], to: params[:to]).first_or_create
 
     if unroutable_route
-        unroutable_route.hits ? unroutable_route.hits += 1 : unroutable_route.hits = 1
-        unroutable_route.save
+      unroutable_route.hits ? unroutable_route.hits += 1 : unroutable_route.hits = 1
+      unroutable_route.save
     end
 
     head :ok, content_type: "text/html"
@@ -153,9 +153,17 @@ class DirectoryObjectsController < ApplicationController
 
   def params_type_as_constant
     if params and params[:type] and DirectoryObject::TYPES.include?(params[:type])
-      params[:type].singularize.capitalize.classify.constantize
-    else
-      DirectoryObject
+      case params[:type]
+      when "Person"
+        return Person
+      when "Event"
+        return Event
+      when "Department"
+        return Department
+      when "Room"
+        return Room
+      else
+        return DirectoryObject
     end
   end
 
