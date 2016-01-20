@@ -1,28 +1,14 @@
-== README
+== DSS Wayfinding
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+DSS Wayfinding is an indoor mapping project. It has been designed to help with person, event, and room location in the UC Davis Social Science & Humanities (SSH) building.
 
-Things you may want to cover:
+=== Installation
+1. Perform a standard Rails app installation:
+  $ bundle install
+  $ bin/rake db:migrate
+2. Install NodeJS dependencies for cache building
+  $ cd nodejs
+  $ npm install
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+=== Contact
+See https://github.com/dssit for contact information.
