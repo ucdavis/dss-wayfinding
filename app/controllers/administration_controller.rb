@@ -45,7 +45,7 @@ class AdministrationController < ApplicationController
       start_location = params[:location].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
       cookies.permanent[:start_location] = start_location.upcase
     end
-    
+
     redirect_to root_path
   end
 
@@ -57,7 +57,7 @@ class AdministrationController < ApplicationController
   def logvisitor
     @visitor.end = DateTime.current
     @visitor.save
-    
+
     render :nothing => true
   end
 
@@ -68,7 +68,7 @@ class AdministrationController < ApplicationController
       format.json
     end
   end
-  
+
   def unroutable
     @unroutable = UnroutableLog.all
 
@@ -270,6 +270,9 @@ class AdministrationController < ApplicationController
   def map_upload
     unless params[:uploaded_map].blank?
       require 'fileutils'
+
+      # Ensure public/maps exists
+      FileUtils::mkdir_p "public/maps"
 
       directory = "public/maps.tmp"
       # Ensure a blank maps.tmp directory exists
