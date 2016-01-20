@@ -164,6 +164,7 @@ class DirectoryObjectsController < ApplicationController
         return Room
       else
         return DirectoryObject
+      end
     end
   end
 
