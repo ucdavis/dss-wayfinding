@@ -23,26 +23,29 @@ class RolesManagement
     require 'net/http'
     require 'json'
     require 'yaml'
-    # require 'openssl'
 
-    uri = URI(DSS_RM_SETTINGS['HOST'] + "/people/#{loginid}.json")
-    req = Net::HTTP::Get.new(uri)
-    req['Accept'] = "application/vnd.roles-management.v1"
-    req.basic_auth(DSS_RM_SETTINGS['USER'], DSS_RM_SETTINGS['PASSWORD'])
+    if defined? DSS_RM_SETTINGS
+      uri = URI(DSS_RM_SETTINGS['HOST'] + "/people/#{loginid}.json")
+      req = Net::HTTP::Get.new(uri)
+      req['Accept'] = "application/vnd.roles-management.v1"
+      req.basic_auth(DSS_RM_SETTINGS['USER'], DSS_RM_SETTINGS['PASSWORD'])
 
-    begin
-      # Fetch URL
-      resp = Net::HTTP.start( uri.hostname, uri.port, use_ssl: true ) { |http|
-        http.request(req)
-      }
-      # Parse results
-      buffer = resp.body
+      begin
+        # Fetch URL
+        resp = Net::HTTP.start( uri.hostname, uri.port, use_ssl: true ) { |http|
+          http.request(req)
+        }
+        # Parse results
+        buffer = resp.body
 
-      return JSON.parse(buffer)
-    rescue StandardError => e
-      #$stderr.puts "Could not fetch RM URL #{e}"
-      return false
-    rescue Net::HTTPNotFound => e
+        return JSON.parse(buffer)
+      rescue StandardError => e
+        #$stderr.puts "Could not fetch RM URL #{e}"
+        return false
+      end
+    else
+      # DSS_RM_SETTINGS is not defined
+      $stderr.puts "RolesManagement.fetch_json_by_loginid() called but RM integration is not configured."
       return false
     end
   end
