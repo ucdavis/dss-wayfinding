@@ -4,14 +4,7 @@ module Authentication
     if impersonating?
       return Authorization.current_user
     else
-      case session[:auth_via]
-      # when :whitelisted_ip
-      #   return ApiWhitelistedIpUser.find_by_address(session[:user_id])
-      # when :api_key
-      #   return ApiKeyUser.find_by_name(session[:user_id])
-      when 'cas'
-        return Authorization.current_user
-      end
+      return Authorization.current_user
     end
   end
 
@@ -23,29 +16,18 @@ module Authentication
     User.find_by_id(session[:user_id])
   end
 
-  # Ensure session[:auth_via] exists.
-  # This is populated by a whitelisted IP request, a CAS redirect or a HTTP Auth request
   def authenticate
-    if session[:auth_via]
-      case session[:auth_via]
-      # when :whitelisted_ip
-      #   Authorization.current_user = ApiWhitelistedIpUser.find_by_address(session[:user_id])
-      # when :api_key
-      #   Authorization.current_user = ApiKeyUser.find_by_name(session[:user_id])
-      when 'cas'
-        logger.debug "Auth is via CAS"
-        if impersonating?
-          logger.debug "User is impersonating"
-          Authorization.current_user = User.find_by_id(session[:impersonation_id])
-        else
-          logger.debug "User set to CAS user #{session[:user_id]}"
-          Authorization.current_user = User.find_by_id(session[:user_id])
-        end
+    if session[:user_id]
+      logger.debug "Auth is via CAS"
+      if impersonating?
+        logger.debug "User is impersonating"
+        Authorization.current_user = User.find_by_id(session[:impersonation_id])
       else
-        logger.warn "Unknown auth_via: #{session[:auth_via]}"
+        logger.debug "User set to CAS user #{session[:user_id]}"
+        Authorization.current_user = User.find_by_id(session[:user_id])
       end
 
-      logger.info "User authentication passed due to existing session: #{session[:auth_via]}, #{session[:user_id]}, #{Authorization.current_user}"
+      logger.info "User authentication passed due to existing session: #{session[:user_id]}, #{Authorization.current_user}"
       return
     end
 
@@ -56,16 +38,30 @@ module Authentication
     CASClient::Frameworks::Rails::Filter.filter(self)
 
     if session[:cas_user]
-      rm_id = RolesManagement.fetch_id_by_loginid(session[:cas_user])
+      if Rails.env === "development"
+        # If we're in development, avoid using Roles Management
+        Authorization.ignore_access_control(true)
 
-      unless rm_id.nil?
+        @user = User.find_or_create_by(loginid: session[:cas_user])
+
+        # Valid user found through CAS.
+        session[:user_id] = @user.id
+        Authorization.current_user = @user
+
+        @user.save!
+
+        Authorization.ignore_access_control(false)
+
+        logger.info "Valid CAS user. Passes authentication due to development mode."
+      else
+        # If we're in production, the user must exist in RM
+        if RolesManagement.user_exists?(session[:cas_user])
           Authorization.ignore_access_control(true)
 
-          @user = User.find_or_create_by(loginid: session[:cas_user], rm_id: rm_id)
+          @user = User.find_or_create_by(loginid: session[:cas_user])
 
           # Valid user found through CAS.
           session[:user_id] = @user.id
-          session[:auth_via] = 'cas'
           Authorization.current_user = @user
 
           @user.save!
@@ -73,6 +69,7 @@ module Authentication
           Authorization.ignore_access_control(false)
 
           logger.info "Valid CAS user. Passes authentication."
+        end
       end
     end
   end
