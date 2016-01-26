@@ -4,6 +4,7 @@ class DirectoryObjectsController < ApplicationController
   before_action :set_directory_object, only: [:show, :update, :destroy]
   before_filter :require_login, except: [:index, :show, :search, :unroutable]
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
+  protect_from_forgery :except => :unroutable
   filter_access_to :all
 
   # GET /directory_objects
@@ -165,6 +166,8 @@ class DirectoryObjectsController < ApplicationController
       else
         return DirectoryObject
       end
+    else
+      return DirectoryObject
     end
   end
 
