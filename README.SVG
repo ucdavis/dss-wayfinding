@@ -1,0 +1,68 @@
+# SVG Format
+
+## Introduction
+The maps themselves are stored in SVG format, including both display graphs
+and the non-visual data structure representing available paths.
+
+This document aims to cover the format as required by the current Wayfinding
+source code. It is important that any application which modifies or exports
+SVGs conform to this format. Popular applications such as Adobe Illustrator
+are known to have very specific export options required to format the SVGs
+correctly.
+
+## The Overall Structure
+SVG files themselves are formatted as XML, allowing a map file to be opened
+and modified in plain text editors. Important elements to understand include
+the tags <g> (group), <a> (anchor link, also known simply as a link),
+<polygon> (representing an arbitrary polygon), and <line> (representing a
+line).
+
+Wayfinding uses the <g> (group) tags to organize the map into several
+important layers:
+
+ - Rooms
+ - Portals
+ - Doors
+ - Paths
+ 
+### Rooms
+A room is a human-addressable location such as "1138", "0120", or "5201".
+Room numbers typically start with a digit representing their floor number
+(0 for a basement), followed by a floor-specific address. In order to
+route to a room, it must have a door. Should your building have rooms
+without doors, it's best not to question it.
+
+### Portals
+A portal connects one map file to another. It is important to parse portals
+in order to build a complete graph. Portals have an ID which uniquely
+identifies a stairwell or elevator and indicates its connecting terminal.
+
+For example, in public/maps/floor0.svg you'll find a Portal labeled
+"Stair.1.floor1". If you then open public/maps/floor1.svg, you'll find
+its matching "Stair.1.floor0". Note that stairwells often lead to multiple
+floors so a single floor map may have multiple portals in the same location
+which lead to different floors, e.g. floor0.svg could have portals
+"Stair.1.floor1", "Stair.1.floor2", "Stair.1.floor3", and so on.
+
+### Doors
+Doors are the start- and end-points of paths.
+
+### Paths
+Paths are the connections between doors. They form the graph to be traversed.
+Note that paths may be formed by multiple line segments between doors or
+portals.
+
+## Miscellaneous Concerns
+
+### SVG Dimensions and Viewbox
+As per the SVG specification, the head <svg> tag may include dimensional
+definitions in the form of 'x', 'y', 'width', and 'height'. It may also
+have a viewbox which defines the default view onto the SVG data itself,
+defined like viewBox="x y w h". While the viewBox may match the exact
+dimensions of the SVG, it does not have to. This is useful for rendering
+the SVG in a browser where the browser may place its _own_ constraints
+on the size of an SVG element.
+
+For example, a SVG document may have the dimensions of (0,0) with a width
+and height of 100. The viewBox may then specify the default view to be
+(0, 0) to (50, 50) in order to show only the upper-left quadrant.
