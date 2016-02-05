@@ -18,6 +18,7 @@ var maps = [
 
 require('../app/assets/javascripts/wayfinding.datastore.js');
 
+// Number of maps processed
 var processed = 0;
 var rooms = [];
 var stats = {};
