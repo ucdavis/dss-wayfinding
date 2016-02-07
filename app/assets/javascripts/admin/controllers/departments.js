@@ -104,6 +104,10 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
           );
         };
 
+        $scope.generateQrLink = function(room) {
+          return '/directory_objects/generateqr/' + room;
+        }
+
         // Sets the department to the department specified in the URL, if given.
         if ($routeParams.id) {
             $scope.changeDepartment($routeParams.id);

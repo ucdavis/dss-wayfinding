@@ -6,6 +6,10 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   filter_access_to :all
 
+  def generateQR
+    render text: params[:id]
+  end
+
   # GET /directory_objects
   def index
     @type = params[:type]

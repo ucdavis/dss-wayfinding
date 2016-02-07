@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   get '/access_denied' => 'site#access_denied'
 
+  get '/directory_objects/generateqr/:id', to: 'directory_objects#generateQR'
+
   # General
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'
