@@ -8,7 +8,7 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   filter_access_to :all
 
-  def generateQR
+  def generateqr
     roomID = params[:id]
     qrcode = RQRCode::QRCode.new("http://github.com/")
     image = qrcode.as_png
@@ -20,10 +20,10 @@ class DirectoryObjectsController < ApplicationController
               size: 120,
               border_modules: 4,
               module_px_size: 6,
-              file: Rails.root.join('public', 'tempQR.png') # BAD! Need a concurrent solution
+              file: Rails.root.join('public', 'tempQR.png') # BAD! Need a concurrent solution, file for each room?
     )
 
-    send_file Rails.root.join('public', 'tempQR.png'), type: 'image/png', disposition: 'inline'
+    # send_file Rails.root.join('public', 'tempQR.png'), type: 'image/png', disposition: 'inline'
 
   end
 

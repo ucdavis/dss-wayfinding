@@ -19,7 +19,7 @@ class AdministrationController < ApplicationController
       origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
       cookies.permanent[:origin] = origin.upcase
 
-      cookies.delete :start_location
+      cookies.delete :start_location # FOR WHAT PURPOSE
 
       notice = "Origin successfully updated to: #{cookies[:origin]}"
     else
@@ -40,10 +40,10 @@ class AdministrationController < ApplicationController
   # GET
   # Modifies the starting location passed via URL (QR Codes)
   def start
-    unless params[:location].blank? or cookies[:origin].present?
-      params[:location].slice!(0) if params[:location][0].upcase == "R" # Remove proceeding R if present
-      start_location = params[:location].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
-      cookies.permanent[:start_location] = start_location.upcase
+    unless params[:origin].blank?
+      params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
+      origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
+      cookies.permanent[:origin] = origin.upcase
     end
 
     redirect_to root_path
