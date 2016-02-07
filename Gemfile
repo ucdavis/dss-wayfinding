@@ -14,6 +14,9 @@ gem 'therubyracer',  platforms: :ruby
 # RSS feed parser
 gem 'feedjira'
 
+# QR code generator
+gem 'rqrcode'
+
 # For scheduled tasks
 gem 'whenever'
 

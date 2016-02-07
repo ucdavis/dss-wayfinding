@@ -1,4 +1,6 @@
 # DirectoryObject is polymorphic and can be a Person, Room, Event, or Department.
+require 'rqrcode'
+
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin
   before_action :set_directory_object, only: [:show, :update, :destroy]
@@ -7,7 +9,22 @@ class DirectoryObjectsController < ApplicationController
   filter_access_to :all
 
   def generateQR
-    render text: params[:id]
+    roomID = params[:id]
+    qrcode = RQRCode::QRCode.new("http://github.com/")
+    image = qrcode.as_png
+    png = qrcode.as_png(
+              resize_gte_to: false,
+              resize_exactly_to: false,
+              fill: 'white',
+              color: 'black',
+              size: 120,
+              border_modules: 4,
+              module_px_size: 6,
+              file: Rails.root.join('public', 'tempQR.png') # BAD! Need a concurrent solution
+    )
+
+    send_file Rails.root.join('public', 'tempQR.png'), type: 'image/png', disposition: 'inline'
+
   end
 
   # GET /directory_objects
