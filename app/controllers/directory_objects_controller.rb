@@ -10,7 +10,7 @@ class DirectoryObjectsController < ApplicationController
 
   def generateqr
     roomID = params[:id]
-    qrcode = RQRCode::QRCode.new("roomID")
+    qrcode = RQRCode::QRCode.new(roomID)
     image = qrcode.as_png
     png = qrcode.as_png(
               resize_gte_to: false,
