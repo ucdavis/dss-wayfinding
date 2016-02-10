@@ -9,6 +9,7 @@ class DirectoryObjectsController < ApplicationController
   filter_access_to :all
 
   def generateqr
+    render :layout => false
     roomID = params[:id]
     qrcode = RQRCode::QRCode.new(roomID)
     image = qrcode.as_png
