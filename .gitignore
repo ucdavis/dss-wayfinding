@@ -17,6 +17,9 @@
 *~
 *.DS_Store
 
+# Ignore QR files
+public/qrCodes/*
+
 # Ignore sensitive files
 config/auth_config.yml
 config/secret_token.yml

@@ -9,8 +9,9 @@ class DirectoryObjectsController < ApplicationController
   filter_access_to :all
 
   def generateqr
-    render :layout => false
+    
     roomID = params[:id]
+    @qrPath = 'qrCodes/' + roomID + '.png'
     qrcode = RQRCode::QRCode.new(roomID)
     image = qrcode.as_png
     png = qrcode.as_png(
@@ -21,11 +22,10 @@ class DirectoryObjectsController < ApplicationController
               size: 120,
               border_modules: 4,
               module_px_size: 6,
-              file: Rails.root.join('public', 'tempQR.png') # BAD! Need a concurrent solution, file for each room?
+              file: Rails.root.join('public/qrCodes', roomID + '.png') # BAD! Need a concurrent solution, file for each room?
+
     )
-
-    # send_file Rails.root.join('public', 'tempQR.png'), type: 'image/png', disposition: 'inline'
-
+    render :layout => false
   end
 
   # GET /directory_objects

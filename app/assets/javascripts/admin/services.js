@@ -47,7 +47,6 @@ adminServices.factory('Rooms', function($resource) {
 }).factory("QRLink", function($resource) {
     return {
         get: function(roomID) {
-            console.log("TEST PENIS"  + roomID);
             return '/directory_objects/generateqr/' + roomID;
         }
     }
