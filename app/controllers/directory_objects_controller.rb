@@ -9,7 +9,6 @@ class DirectoryObjectsController < ApplicationController
   filter_access_to :all
 
   def generateqr
-    
     roomID = params[:id]
     @qrPath = 'qrCodes/' + roomID + '.png'
     qrcode = RQRCode::QRCode.new(roomID)
@@ -25,7 +24,7 @@ class DirectoryObjectsController < ApplicationController
               file: Rails.root.join('public/qrCodes', roomID + '.png') # BAD! Need a concurrent solution, file for each room?
 
     )
-    render :layout => false
+    render :layout => false # Don't want the application layout to be displayed
   end
 
   # GET /directory_objects
