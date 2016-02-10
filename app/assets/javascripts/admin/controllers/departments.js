@@ -1,6 +1,6 @@
 Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
-    "Rooms", "Alerts", "$timeout",
-    function($scope, $routeParams, Departments, Rooms, Alerts, $timeout) {
+    "Rooms", "Alerts", "$timeout", "QRLink",
+    function($scope, $routeParams, Departments, Rooms, Alerts, $timeout, QRLink) {
         var load_departments = function() {
             Departments.query({},
                 function(data) {
@@ -31,6 +31,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
                     $scope.department = data;
                     $scope.department.idx = index;
                     $scope.editing = true;
+                    $scope.qrLink = QRLink.get(data.room_id);
                 },
                 function (data) {
                     Alerts.danger("Error retrieving person from server. Please try again later.");
@@ -103,10 +104,6 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
              }
           );
         };
-
-        $scope.generateQrLink = function(room) {
-          return '/directory_objects/generateqr/' + room;
-        }
 
         // Sets the department to the department specified in the URL, if given.
         if ($routeParams.id) {

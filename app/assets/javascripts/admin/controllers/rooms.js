@@ -1,5 +1,5 @@
-Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts",
-    function($scope, $routeParams, Rooms, Alerts) {
+Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts", "QRLink",
+    function($scope, $routeParams, Rooms, Alerts, QRLink) {
         $scope.rooms = Rooms.query({},
             function(data) {
                 $scope.loaded = true;
@@ -15,7 +15,10 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts",
          * TODO: Display error messages.
         */
         $scope.changeRoom = function(id) {
-            Rooms.get({id: id}, function(data) { $scope.room = data; });
+            Rooms.get({id: id}, function(data) { 
+                $scope.room = data;
+                $scope.qrLink = QRLink.get(data.id);
+             });
         };
 
         $scope.update = function(room) {

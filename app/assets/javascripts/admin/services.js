@@ -44,4 +44,11 @@ adminServices.factory('Rooms', function($resource) {
         mesg: function() { return data.mesg },
         status: function() { return data.status }
     };
+}).factory("QRLink", function($resource) {
+    return {
+        get: function(roomID) {
+            console.log("TEST PENIS"  + roomID);
+            return '/directory_objects/generateqr/' + roomID;
+        }
+    }
 });

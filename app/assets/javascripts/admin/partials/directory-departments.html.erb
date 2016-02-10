@@ -39,7 +39,7 @@
                 <button class="btn btn-default" id="submit" ng-hide="editing" ng-click="create(department)">Create</button>
                 <button class="btn btn-default" id="submit" ng-show="editing" ng-click="update(department)">Update</button>
                 <button class="btn btn-danger pull-right" id="delete" ng-show="editing" ng-click="remove(department)">Delete</button>
-                <a href="{{generateQrLink(department.room_id)}}" target="_blank" class="btn btn-default" ng-show="editing">Generate Origin QR</a>
+                <a href="{{qrLink}}" target="_blank" class="btn btn-default" ng-show="editing">Generate Origin QR</a>
               </div>
             </div>
     </div>
