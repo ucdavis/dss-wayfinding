@@ -1,5 +1,6 @@
 # DirectoryObject is polymorphic and can be a Person, Room, Event, or Department.
 require 'rqrcode'
+require 'fileutils'
 
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin
@@ -10,9 +11,19 @@ class DirectoryObjectsController < ApplicationController
 
   def qr
     roomID = params[:id]
-    @qrPath = 'qrCodes/' + roomID + '.png'
-    qrcode = RQRCode::QRCode.new(roomID)
+    roomURL = root_url + 'directory/' + roomID # Actual URl we are QR'ing too
+    @qrPath = 'qrCodes/' + roomID + '.png' # Used for the front end file path
+    qrAbsolutePath = Rails.root.join('public/qrCodes', roomID + '.png') # Used for back end
+
+    qrcode = RQRCode::QRCode.new(roomURL)
     image = qrcode.as_png
+
+    # rqrcode will not overwrite preexisting png, need incase url format changes
+    if File.exist?(qrAbsolutePath)
+      print "deleting\n"
+      FileUtils.rm( qrAbsolutePath )
+    end
+
     png = qrcode.as_png(
               resize_gte_to: false,
               resize_exactly_to: false,
@@ -24,7 +35,9 @@ class DirectoryObjectsController < ApplicationController
               file: Rails.root.join('public/qrCodes', roomID + '.png')
 
     )
-    render :layout => false # Don't want the application layout to be displayed
+
+    render :layout => false # Stop application layout from displaying
+
   end
 
   # GET /directory_objects
