@@ -9,9 +9,12 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   filter_access_to :all
 
+  # Generates the QR code for a specified room ID
+  # The qr should redirect to the "scan" method, with the ID as the first parameter
+
   def qr
     roomID = params[:id]
-    roomURL = root_url + 'directory/' + roomID # Actual URl we are QR'ing too
+    roomURL = root_url + 'scan/' + roomID # Actual URl we are QR'ing too
     @qrPath = 'qrCodes/' + roomID + '.png' # Used for the front end file path
     qrAbsolutePath = Rails.root.join('public/qrCodes', roomID + '.png') # Used for back end
 
@@ -39,6 +42,12 @@ class DirectoryObjectsController < ApplicationController
     render :layout => false # Stop application layout from displaying
 
   end
+
+  def scan
+    @qrID = params[:id]
+    render :layout => false # Stop application layout from displaying
+  end
+
 
   # GET /directory_objects
   def index

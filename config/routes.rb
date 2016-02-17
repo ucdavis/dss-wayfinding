@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   # QR prototype, not sure proper way to do this
   get '/directory_objects/qr/:id', to: 'directory_objects#qr#?'
   get '/administration/start/:origin', to: 'administration#start'
+  post '/directory_objects/scan/:id', to: 'directory_objects#scan'
+  get '/directory_objects/scan/:id', to: 'directory_objects#scan'
   # General
   resources :directory_objects, :path => 'directory'
   resources :people, controller: 'directory_objects', type: 'Person'
