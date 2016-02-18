@@ -14,7 +14,7 @@ class DirectoryObjectsController < ApplicationController
 
   def qr
     roomID = params[:id]
-    roomURL = root_url + 'scan/' + roomID # Actual URl we are QR'ing too
+    roomURL = root_url + 'administration/start/' + roomID # Actual URl we are QR'ing too
     @qrPath = 'qrCodes/' + roomID + '.png' # Used for the front end file path
     qrAbsolutePath = Rails.root.join('public/qrCodes', roomID + '.png') # Used for back end
 
@@ -42,12 +42,6 @@ class DirectoryObjectsController < ApplicationController
     render :layout => false # Stop application layout from displaying
 
   end
-
-  def scan
-    @qrID = params[:id]
-    render :layout => false # Stop application layout from displaying
-  end
-
 
   # GET /directory_objects
   def index
@@ -221,7 +215,7 @@ class DirectoryObjectsController < ApplicationController
   def set_origin
     # Prefer url-specified start locations over set ones when the URL is of
     # format /start/.../end/...
-    @origin = normalize_room(params[:start_loc]) ||
+    @origin = normalize_room(params[:start_loc]) || normalize_room(session[:start]) ||
                cookies[:origin] || cookies[:start_location]
     @dest = normalize_room(params[:end_loc])
 

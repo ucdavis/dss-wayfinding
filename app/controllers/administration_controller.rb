@@ -14,9 +14,11 @@ class AdministrationController < ApplicationController
   # POST
   # Modifies the starting location. Useful for kiosks.
   def origin
+    
     unless params[:origin].blank?
       params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
       origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
+      session[:start] = origin
       cookies.permanent[:origin] = origin.upcase
 
       cookies.delete :start_location # FOR WHAT PURPOSE
@@ -43,7 +45,7 @@ class AdministrationController < ApplicationController
     unless params[:origin].blank?
       params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
       origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
-      cookies.permanent[:origin] = origin.upcase
+      session[:start] = origin.upcase
     end
 
     redirect_to root_path
