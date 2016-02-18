@@ -18,21 +18,22 @@ class DirectoryObjectsController < ApplicationController
   # converts room ID to room Number (This is what start method expects)
   def qr
     @qrLink = nil
+    @targetURL = nil
     originRoom = Room.where("id=?", params[:originID]).first.room_number
-    unless params[:destinationID].blank?
-      destinationRoom = Room.where("id=?", params[:destinationID]).first
-      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: "google.com")
+    unless params[:destinationID].blank? # Origin and destination supplied
+      destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
+      @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom # Hardcoding this for now because it's weird
+      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: @targetURL)
     else
-      targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
-      print targetURL
-      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: targetURL)
+      @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
+      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: @targetURL)
     end
 
     render :layout => false # Stop application layout from displaying
 
   end
 
-  # Generate a QR PNG for URL passed in as a param and then render it
+  # Generate a QR for URL passed in as a param and then render it
   # Intended route to be used in an <img> tag
   # Does not do any parsing or forming
   def generateQR
