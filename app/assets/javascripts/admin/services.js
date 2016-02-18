@@ -45,9 +45,18 @@ adminServices.factory('Rooms', function($resource) {
         status: function() { return data.status }
     };
 }).factory("QRLink", function($resource) {
+
+    // Takes room IDs, will generate URLs that correspond to the 'qr' view in directory_objects
+    // The qr view will take the ID's, do the necessary parsing, and provide the
+    //      view with the necessary QR image for a <img>
+    // Avoid any issues of passing a full url to qr encode
     return {
-        get: function(roomID) {
-            return '/directory_objects/qr/' + roomID;
+
+        getOriginQR: function(originID) { 
+            return '/directory_objects/qr/' + originID;
+        },
+        getOriginAndDestinationQR: function(originID, destinationID) {
+            return '/directory_objects/qr/' + originID + '/end/' + destinationID;
         }
     }
 });

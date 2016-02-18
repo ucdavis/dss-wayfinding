@@ -9,39 +9,57 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   filter_access_to :all
 
-  # Generates the QR code for a specified room ID
-  # The qr should redirect to the "scan" method, with the ID as the first parameter
 
+  # Accepts either a single room ID (Assumed to be an origin)
+  #   or 2 Room IDs (assumed to be an origin destination pair)
+  #   and will generate the view to display the corresponding qr code
+  # Target URL is the URL the QR points to
+  # qrLink links to the generateQR view which will render the actual QR PNG
+  # converts room ID to room Number (This is what start method expects)
   def qr
-    roomID = params[:id]
-    roomURL = root_url + 'administration/start/' + roomID # Actual URl we are QR'ing too
-    @qrPath = 'qrCodes/' + roomID + '.png' # Used for the front end file path
-    qrAbsolutePath = Rails.root.join('public/qrCodes', roomID + '.png') # Used for back end
-
-    qrcode = RQRCode::QRCode.new(roomURL)
-    image = qrcode.as_png
-
-    # rqrcode will not overwrite preexisting png, need incase url format changes
-    if File.exist?(qrAbsolutePath)
-      print "deleting\n"
-      FileUtils.rm( qrAbsolutePath )
+    @qrLink = nil
+    originRoom = Room.where("id=?", params[:originID]).first.room_number
+    unless params[:destinationID].blank?
+      destinationRoom = Room.where("id=?", params[:destinationID]).first
+      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: "google.com")
+    else
+      targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
+      print targetURL
+      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: targetURL)
     end
-
-    png = qrcode.as_png(
-              resize_gte_to: false,
-              resize_exactly_to: false,
-              fill: 'white',
-              color: 'black',
-              size: 120,
-              border_modules: 4,
-              module_px_size: 6,
-              file: Rails.root.join('public/qrCodes', roomID + '.png')
-
-    )
 
     render :layout => false # Stop application layout from displaying
 
   end
+
+  # Generate a QR PNG for URL passed in as a param and then render it
+  # Intended route to be used in an <img> tag
+  # Does not do any parsing or forming
+  def generateQR
+    url = params[:url]
+
+    qrcode = RQRCode::QRCode.new(url)
+    # Preference on png or svg?
+    # png = qrcode.as_png(
+    #           resize_gte_to: false,
+    #           resize_exactly_to: false,
+    #           fill: 'white',
+    #           color: 'black',
+    #           size: 120,
+    #           border_modules: 4,
+    #           module_px_size: 6,
+    #           file: nil
+
+    # )
+
+    svg = qrcode.as_svg(offset: 0, color: '000', 
+                    shape_rendering: 'crispEdges', 
+                    module_size: 11
+    )
+
+    send_data svg, type: 'image/svg+xml', disposition: 'inline'
+  end
+
 
   # GET /directory_objects
   def index

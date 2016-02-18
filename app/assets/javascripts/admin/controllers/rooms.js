@@ -17,7 +17,7 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts", "QRL
         $scope.changeRoom = function(id) {
             Rooms.get({id: id}, function(data) { 
                 $scope.room = data;
-                $scope.qrLink = QRLink.get(data.id);
+                $scope.qrLink = QRLink.getOriginQR(data.id);
              });
         };
 

@@ -33,7 +33,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                     $scope.person = data;
                     $scope.person.idx = index;
                     $scope.editing = true;
-                    $scope.qrLink = QRLink.get(data.room_id); //Potentially problematic with multiplie rooms
+                    $scope.qrLink = QRLink.getOriginQR(data.room_id); //Potentially problematic with multiplie rooms
                 },
                 function () {
                     Alerts.danger("Error retrieving person from server. Please try again later.");
