@@ -18,6 +18,7 @@ Admin.controller("RoomsCtrl", ["$scope", "$routeParams", "Rooms", "Alerts", "QRL
             Rooms.get({id: id}, function(data) { 
                 $scope.room = data;
                 $scope.qrLink = QRLink.getOriginQR(data.id);
+                $scope.biQrLinkTEST = QRLink.getOriginAndDestinationQR(data.id, 406); //TEST
              });
         };
 

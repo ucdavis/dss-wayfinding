@@ -32,7 +32,6 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
                     $scope.department.idx = index;
                     $scope.editing = true;
                     $scope.qrLink = QRLink.getOriginQR(data.room_id);
-                    $scope.biQrLinkTEST = QRLink.getOriginAndDestinationQR(data.room_id, 406); //TEST
                 },
                 function (data) {
                     Alerts.danger("Error retrieving person from server. Please try again later.");
