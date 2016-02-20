@@ -65,7 +65,7 @@ WayfindingDataStore = {
   		path.bx = $(this).attr('x2');
   		path.by = $(this).attr('y2');
   		path.doorB = [];
-  		path.length = Math.sqrt(Math.pow(path.ax - path.bx, 2) + Math.pow(path.ay - path.by, 2));
+  		path.length = Math.pow(path.ax - path.bx, 2) + Math.pow(path.ay - path.by, 2);
 
   		path.connections = []; //other paths
   		path.portals = []; // connected portals
@@ -132,7 +132,7 @@ WayfindingDataStore = {
   		}
 
   		//portal needs length -- long stairs versus elevator
-  		portal.length = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+  		portal.length = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
 
   		WayfindingDataStore.portalSegments.push(portal);
   	});
