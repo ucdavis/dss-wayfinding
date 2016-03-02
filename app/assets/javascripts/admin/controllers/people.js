@@ -1,6 +1,6 @@
 Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
     "Departments", "Alerts", "$timeout", "QRLink", "PlacardLink",
-    function($scope, $routeParams, People, Rooms, Departments, Alerts, $timeout, QRLink) {
+    function($scope, $routeParams, People, Rooms, Departments, Alerts, $timeout, QRLink, PlacardLink) {
         var load_people = function() {
             People.query({},
                 function(data) {

@@ -1,46 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!-- <link rel="stylesheet" href= "printPlacardStyle.css"> -->
 
-		<!--===========The javascript functions to change QR code, name, and background image ====-->
+		<%= stylesheet_link_tag "printPlacardStyle.css", media: "all" %>
 
 	</head>
 
 
 	<body>
-		<script>
-			function changeBgImage(filename)
-				{
-				  var background = document.getElementById("bgImage");
-				  background.setAttribute("src", "Modern1.jpg");
-				}
-			function changeQrImage(filename)
-				{
-				  var QRCode = document.getElementById("qrImage");
-				  QRCode.setAttribute("src", "qrcode.png");
-				}
-
-			function changeName(newName)
-				{
-				 document.getElementById("nameField").innerHTML= "Bobo Brenner";
-				}
-
-
-			<!-- ===============EXTRA=================-->
-			function changeDepName(newName)
-				{
-				 document.getElementById("depNameField").innerHTML= "yoo";
-				}
-
-			function changeTitle(newName)  <!-- Correct so display title after click-->
-				{
-				 document.getElementById("titleField").innerHTML= "Big boss man";
-				}
-
-			<!-- =====================================-->
-
-		</script>
 			<!-- This is the placard background -->
 			<div class="backgroundImg">
       <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
@@ -68,13 +35,6 @@
 			<!-- This is the department name field -->
 			<div id="depNameField" class="depname"><%= @department %></div>
 
-
-			<!-- Buttons to show functionality of javascript dynamics -->
-			<button onclick="changeBgImage()">Background</button>
-			<button onclick="changeQrImage()">QR</button>
-			<button onclick="changeName()">Name</button>
-			<button onclick="changeDepName()">Department</button>
-			<button onclick="changeTitle()">Title</button>
 			<!-- =====================================-->
 		</div>
 
