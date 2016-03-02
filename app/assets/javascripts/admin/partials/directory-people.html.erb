@@ -51,7 +51,7 @@
               <label for="rooms" class="col-sm-2 control-label">Rooms</label>
               <div class="col-sm-10">
                 <select id="rooms"
-                    class="form-control" 
+                    class="form-control"
                     multiple="true"
                     ng-options="room.id as room.name for room in rooms"
                     ng-model="person.room_ids">
@@ -63,7 +63,7 @@
               <div class="col-sm-offset-2 col-sm-10">
                 <button id="submit" class="btn btn-default" type="submit" ng-hide="editing" ng-click="create(person)">Create</button>
                 <button id="submit" class="btn btn-default" type="submit" ng-show="editing" ng-click="update(person)">Update</button>
-                <a href="{{qrLink}}" target="_blank" class="btn btn-default" ng-show="editing">Generate origin QR</a>
+                <a href="{{placardLink}}" target="_blank" class="btn btn-default" ng-show="editing">Generate Placard</a>
                 <button id="delete" class="btn btn-danger pull-right" type="button" ng-show="editing" ng-click="remove(person)">Delete</button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
-    "Departments", "Alerts", "$timeout", "QRLink",
+    "Departments", "Alerts", "$timeout", "QRLink", "PlacardLink",
     function($scope, $routeParams, People, Rooms, Departments, Alerts, $timeout, QRLink) {
         var load_people = function() {
             People.query({},
@@ -34,6 +34,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                     $scope.person.idx = index;
                     $scope.editing = true;
                     $scope.qrLink = QRLink.getOriginQR(data.room_id); //Potentially problematic with multiplie rooms
+                    $scope.placardLink = PlacardLink.getPersonPlacardURL(data.id);
                 },
                 function () {
                     Alerts.danger("Error retrieving person from server. Please try again later.");
@@ -78,9 +79,9 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
             );
         };
 
-        /* 
+        /*
          * $scope.remove
-         *  
+         *
          *   Fake person delete. Sets a timeout of three seconds so that the
          *   user has time to reconsider.
         */

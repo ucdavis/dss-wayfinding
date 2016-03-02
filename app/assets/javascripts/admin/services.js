@@ -52,11 +52,23 @@ adminServices.factory('Rooms', function($resource) {
     // Avoid any issues of passing a full url to qr encode
     return {
 
-        getOriginQR: function(originID) { 
+        getOriginQR: function(originID) {
             return '/directory_objects/qr/' + originID;
         },
         getOriginAndDestinationQR: function(originID, destinationID) {
             return '/directory_objects/qr/' + originID + '/end/' + destinationID;
         }
     }
+}).factory("PlacardLink", function($resource) {
+  // Takes either a person's ID or a department's ID and generates a link
+  // for the appropriate route
+
+  return {
+    getPersonPlacardURL: function(personID) {
+      return '/directory_objects/personPlacard/' + personID;
+    },
+    getDepartmentPlacardsURL: function(departmentID) {
+      return 'directory_objects/departmentPlacards/' + departmentID;
+    }
+  }
 });

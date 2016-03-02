@@ -24,10 +24,10 @@ class DirectoryObjectsController < ApplicationController
     unless params[:destinationID].blank? # Origin and destination supplied
       destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
       @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom # Hardcoding this for now because it's weird
-      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: @targetURL)
+      @qrLink = generateQRLink(@targetURL)
     else
       @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
-      @qrLink = url_for(action: 'generateQR', controller: 'directory_objects', url: @targetURL)
+      @qrLink = generateQRLink(@targetURL)
     end
 
     render :layout => false # Stop application layout from displaying
@@ -54,13 +54,27 @@ class DirectoryObjectsController < ApplicationController
 
     # )
 
-    svg = qrcode.as_svg(offset: 0, color: '000', 
-                    shape_rendering: 'crispEdges', 
+    svg = qrcode.as_svg(offset: 0, color: '000',
+                    shape_rendering: 'crispEdges',
                     module_size: 11
     )
 
     send_data svg, type: 'image/svg+xml', disposition: 'inline'
   end
+
+  def personPlacard
+    person      = Person.where("id =?", params[:id]).first
+    @name       = person.first + ' ' + person.last
+    @department = person.department.name
+    @title      = nil
+    targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
+    print "target url: " + targetURL
+
+    @qrLink     = generateQRLink(targetURL)
+
+    render :layout => false
+  end
+
 
 
   # GET /directory_objects
@@ -268,4 +282,12 @@ class DirectoryObjectsController < ApplicationController
       params.permit()
     end
   end
+
+
+  private
+
+  def generateQRLink(url)
+    return url_for(action: 'generateQR', controller: 'directory_objects', url: url)
+  end
+
 end

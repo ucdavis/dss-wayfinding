@@ -1,11 +1,11 @@
 authorization do
   role :guest do
-    has_permission_on :directory_objects, :to => [:read, :search, :unroutable, :qr, :generateQR]
+    has_permission_on :directory_objects, :to => [:read, :search, :unroutable]
     has_permission_on :administration, :to => [:start, :logvisitor]
   end
   role :directoryadmin do
     includes :guest
-    has_permission_on :directory_objects, :to => :manage
+    has_permission_on :directory_objects, :to => [:manage, :personPlacard, :qr, :generateQR]
     has_permission_on :administration, :to => [:read, :administer_directory]
   end
   role :superadmin do

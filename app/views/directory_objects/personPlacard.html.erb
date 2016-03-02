@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- <link rel="stylesheet" href= "printPlacardStyle.css"> -->
+
+		<!--===========The javascript functions to change QR code, name, and background image ====-->
+
+	</head>
+
+
+	<body>
+		<script>
+			function changeBgImage(filename)
+				{
+				  var background = document.getElementById("bgImage");
+				  background.setAttribute("src", "Modern1.jpg");
+				}
+			function changeQrImage(filename)
+				{
+				  var QRCode = document.getElementById("qrImage");
+				  QRCode.setAttribute("src", "qrcode.png");
+				}
+
+			function changeName(newName)
+				{
+				 document.getElementById("nameField").innerHTML= "Bobo Brenner";
+				}
+
+
+			<!-- ===============EXTRA=================-->
+			function changeDepName(newName)
+				{
+				 document.getElementById("depNameField").innerHTML= "yoo";
+				}
+
+			function changeTitle(newName)  <!-- Correct so display title after click-->
+				{
+				 document.getElementById("titleField").innerHTML= "Big boss man";
+				}
+
+			<!-- =====================================-->
+
+		</script>
+			<!-- This is the placard background -->
+			<div class="backgroundImg">
+      <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
+
+			<!-- This is the name field -->
+			<div id="nameField" class="name"> <%= @name %>
+
+			<!--Extra (watch for div enclosure-->
+			<div id="titleField" class="title"><%= @title %></div>
+
+			</div>
+
+			<!-- This is the QR image-->
+			<div class="qr">
+          <%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %>
+			</div>
+
+			<!-- ===============EXTRA=================-->
+			<div class="logo">
+        <!-- image_tag("icon.png", size: "16x10", alt: "Edit Entry") -->
+					<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
+			</div>
+
+
+			<!-- This is the department name field -->
+			<div id="depNameField" class="depname"><%= @department %></div>
+
+
+			<!-- Buttons to show functionality of javascript dynamics -->
+			<button onclick="changeBgImage()">Background</button>
+			<button onclick="changeQrImage()">QR</button>
+			<button onclick="changeName()">Name</button>
+			<button onclick="changeDepName()">Department</button>
+			<button onclick="changeTitle()">Title</button>
+			<!-- =====================================-->
+		</div>
+
+		<p> Cut on dotted line </p>
+		<p> Thanks for participating in the new and improved wayfinding system! </p>
+
+
+	</body>
+</html>
