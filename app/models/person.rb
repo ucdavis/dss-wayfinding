@@ -20,7 +20,8 @@ class Person < DirectoryObject
       :phone => phone,
       :type => type,
       :room_ids => rooms.present? ? rooms.map { |room| room.id } : [],
-      :department_id => department ? department.id : ''
+      :department_id => department ? department.id : '',
+      :room_id => rooms.first.id
     }
   end
 

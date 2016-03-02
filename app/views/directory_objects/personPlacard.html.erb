@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<%= stylesheet_link_tag "printPlacardStyle.css", media: "all" %>
+
+	</head>
+
+
+	<body>
+			<!-- This is the placard background -->
+		<div class="backgroundImg">
+      <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
+
+			<!-- This is the name field -->
+			<div id="nameField" class="name"> <%= @name %>
+
+			<!--Extra (watch for div enclosure-->
+			<div id="titleField" class="title"><%= @title %></div>
+
+			</div>
+
+			<!-- This is the QR image-->
+			<div class="qr">
+          <%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %>
+			</div>
+
+			<!-- ===============EXTRA=================-->
+			<div class="logo">
+        <!-- image_tag("icon.png", size: "16x10", alt: "Edit Entry") -->
+					<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
+			</div>
+
+
+			<!-- This is the department name field -->
+			<div id="depNameField" class="depname"><%= @department %></div>
+
+			<!-- =====================================-->
+		</div>
+
+		<p> Cut on dotted line </p>
+		<p> Thanks for participating in the new and improved wayfinding system! </p>
+
+
+	</body>
+</html>

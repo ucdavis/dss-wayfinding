@@ -1,4 +1,7 @@
 # DirectoryObject is polymorphic and can be a Person, Room, Event, or Department.
+require 'rqrcode'
+require 'fileutils'
+
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin
   before_action :set_directory_object, only: [:show, :update, :destroy]
@@ -6,6 +9,93 @@ class DirectoryObjectsController < ApplicationController
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
   protect_from_forgery :except => :unroutable
   filter_access_to :all
+
+
+  # Accepts either a single room ID (Assumed to be an origin)
+  #   or 2 Room IDs (assumed to be an origin destination pair)
+  #   and will generate the view to display the corresponding qr code
+  # Target URL is the URL the QR points to
+  # qrLink links to the generateQR view which will render the actual QR PNG
+  # converts room ID to room Number (This is what start method expects)
+  def qr
+    @qrLink = nil
+    @targetURL = nil
+    originRoom = Room.where("id=?", params[:originID]).first.room_number
+    unless params[:destinationID].blank? # Origin and destination supplied
+      destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
+      @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom # Hardcoding this for now because it's weird
+      @qrLink = generateQRLink(@targetURL)
+    else
+      @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
+      @qrLink = generateQRLink(@targetURL)
+    end
+
+    render :layout => false # Stop application layout from displaying
+
+  end
+
+  # Generate a QR for URL passed in as a param and then render it
+  # Intended route to be used in an <img> tag
+  # Does not do any parsing or forming
+  def generateQR
+    url = params[:url]
+
+    qrcode = RQRCode::QRCode.new(url)
+    # Preference on png or svg?
+    # png = qrcode.as_png(
+    #           resize_gte_to: false,
+    #           resize_exactly_to: false,
+    #           fill: 'white',
+    #           color: 'black',
+    #           size: 120,
+    #           border_modules: 4,
+    #           module_px_size: 6,
+    #           file: nil
+
+    # )
+
+    svg = qrcode.as_svg(offset: 0, color: '000',
+                    shape_rendering: 'crispEdges',
+                    module_size: 11
+    )
+
+    send_data svg, type: 'image/svg+xml', disposition: 'inline'
+  end
+
+  def personPlacard
+    person      = Person.where("id =?", params[:id]).first
+    @name       = person.first + ' ' + person.last
+    @department = person.department.name
+    @title      = nil
+    targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
+    @qrLink     = generateQRLink(targetURL)
+
+    render :layout => false
+  end
+
+  def departmentPlacards
+    @results = []
+
+    Person.where("department_id =?", params[:id]).each do |person|
+      name       = person.first + ' ' + person.last
+      department = person.department.name
+      title      = nil
+      begin
+        roomNumber = person.rooms.first.room_number
+      rescue
+        roomNumber = 0
+        title = "please define a room number for this person"
+      end
+      targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
+      qrLink     = generateQRLink(targetURL)
+
+      hash = {name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink}
+      @results.push(hash)
+    end
+
+    render :layout => false
+  end
+
 
   # GET /directory_objects
   def index
@@ -190,7 +280,7 @@ class DirectoryObjectsController < ApplicationController
   def set_origin
     # Prefer url-specified start locations over set ones when the URL is of
     # format /start/.../end/...
-    @origin = normalize_room(params[:start_loc]) ||
+    @origin = normalize_room(params[:start_loc]) || normalize_room(session[:start]) ||
                cookies[:origin] || cookies[:start_location]
     @dest = normalize_room(params[:end_loc])
 
@@ -212,4 +302,12 @@ class DirectoryObjectsController < ApplicationController
       params.permit()
     end
   end
+
+
+  private
+
+  def generateQRLink(url)
+    return url_for(action: 'generateQR', controller: 'directory_objects', url: url)
+  end
+
 end

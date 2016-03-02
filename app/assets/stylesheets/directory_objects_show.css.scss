@@ -161,7 +161,19 @@ body {
   border-radius: 32px;
   color: white;
 }
+.generateQR{
+  @media screen {
+    img {height: 4in; width: 4in;}
 
+    
+  }
+  @media print {
+    img {padding:0px; border:1px solid #021a40; background-color:#ff0; height: 2in; width: 2in; margin: auto;}
+    .right-btn-container {display: none;}
+    .vertical-nav {display: none;}
+
+  }
+}
 ul.horizontal-nav {
   list-style: none;
   text-align: center;
