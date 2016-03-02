@@ -17,13 +17,14 @@ Rails.application.routes.draw do
 
   get '/access_denied' => 'site#access_denied'
 
-  # QR prototype
+  # QR
   get '/directory_objects/qr/:originID', to: 'directory_objects#qr'
   get '/directory_objects/qr/:originID/end/:destinationID', to: 'directory_objects#qr'
   get '/administration/start/:origin', to: 'administration#start'
   get 'directory_objects/generateQR/', to: 'directory_objects#generateQR'
   get 'directory_objects/personPlacard/:id', to: 'directory_objects#personPlacard'
-  
+  get 'directory_objects/departmentPlacards/:id', to: 'directory_objects#departmentPlacards'
+
 
   # General
   resources :directory_objects, :path => 'directory'

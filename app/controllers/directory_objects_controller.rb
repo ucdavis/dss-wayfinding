@@ -68,13 +68,33 @@ class DirectoryObjectsController < ApplicationController
     @department = person.department.name
     @title      = nil
     targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
-    print "target url: " + targetURL
-
     @qrLink     = generateQRLink(targetURL)
 
     render :layout => false
   end
 
+  def departmentPlacards
+    @results = []
+
+    Person.where("department_id =?", params[:id]).each do |person|
+      name       = person.first + ' ' + person.last
+      department = person.department.name
+      title      = nil
+      begin
+        roomNumber = person.rooms.first.room_number
+      rescue
+        roomNumber = 0
+        title = "please define a room number for this person"
+      end
+      targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
+      qrLink     = generateQRLink(targetURL)
+
+      hash = {name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink}
+      @results.push(hash)
+    end
+
+    render :layout => false
+  end
 
 
   # GET /directory_objects

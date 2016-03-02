@@ -5,7 +5,7 @@ authorization do
   end
   role :directoryadmin do
     includes :guest
-    has_permission_on :directory_objects, :to => [:manage, :personPlacard, :qr, :generateQR]
+    has_permission_on :directory_objects, :to => [:manage, :personPlacard, :qr, :generateQR, :departmentPlacards]
     has_permission_on :administration, :to => [:read, :administer_directory]
   end
   role :superadmin do

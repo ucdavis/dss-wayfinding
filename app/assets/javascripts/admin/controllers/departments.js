@@ -1,6 +1,6 @@
 Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
-    "Rooms", "Alerts", "$timeout", "QRLink",
-    function($scope, $routeParams, Departments, Rooms, Alerts, $timeout, QRLink) {
+    "Rooms", "Alerts", "$timeout", "QRLink", "PlacardLink",
+    function($scope, $routeParams, Departments, Rooms, Alerts, $timeout, QRLink, PlacardLink) {
         var load_departments = function() {
             Departments.query({},
                 function(data) {
@@ -32,6 +32,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
                     $scope.department.idx = index;
                     $scope.editing = true;
                     $scope.qrLink = QRLink.getOriginQR(data.room_id);
+                    $scope.departmentPlacardsLink = PlacardLink.getDepartmentPlacardsURL(data.id);
                 },
                 function (data) {
                     Alerts.danger("Error retrieving person from server. Please try again later.");

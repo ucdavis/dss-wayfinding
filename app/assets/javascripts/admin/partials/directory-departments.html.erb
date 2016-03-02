@@ -28,7 +28,7 @@
                     class="form-control"
                     ng-options="room.id as room.name for room in rooms"
                     ng-model="department.room_id">
-                    <option value="" label=""></option> 
+                    <option value="" label=""></option>
                 </select>
               </div>
             </div>
@@ -38,6 +38,7 @@
               <div class="col-sm-offset-2 col-sm-10">
                 <button class="btn btn-default" id="submit" ng-hide="editing" ng-click="create(department)">Create</button>
                 <button class="btn btn-default" id="submit" ng-show="editing" ng-click="update(department)">Update</button>
+                <a href="{{departmentPlacardsLink}}" target="_blank" class="btn btn-default" ng-show="editing">Generate Placards</a>
                 <button class="btn btn-danger pull-right" id="delete" ng-show="editing" ng-click="remove(department)">Delete</button>
               </div>
             </div>
