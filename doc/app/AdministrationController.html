@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>class AdministrationController - Rails Application Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-analytics">#analytics</a>
+    
+    <li ><a href="#method-i-csv">#csv</a>
+    
+    <li ><a href="#method-i-department_location">#department_location</a>
+    
+    <li ><a href="#method-i-index">#index</a>
+    
+    <li ><a href="#method-i-logvisitor">#logvisitor</a>
+    
+    <li ><a href="#method-i-map_upload">#map_upload</a>
+    
+    <li ><a href="#method-i-origin">#origin</a>
+    
+    <li ><a href="#method-i-search_terms">#search_terms</a>
+    
+    <li ><a href="#method-i-start">#start</a>
+    
+    <li ><a href="#method-i-unmatched">#unmatched</a>
+    
+    <li ><a href="#method-i-unroutable">#unroutable</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-AdministrationController">
+  <h1 id="class-AdministrationController" class="class">
+    class AdministrationController
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-analytics" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">analytics</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="analytics-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">analytics</span>
+  <span class="ruby-ivar">@devices</span> = <span class="ruby-constant">Device</span>.<span class="ruby-identifier">all</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:start</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:end</span>]
+    <span class="ruby-identifier">start_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:start</span>]).<span class="ruby-identifier">in_time_zone</span>
+    <span class="ruby-identifier">end_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:end</span>]).<span class="ruby-identifier">next_day</span>.<span class="ruby-identifier">in_time_zone</span>
+
+    <span class="ruby-ivar">@visits</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;start &gt;= :start_date AND start &lt;= :end_date&quot;</span>,
+      {
+        <span class="ruby-identifier">start_date</span><span class="ruby-operator">:</span> <span class="ruby-identifier">start_date</span>,
+        <span class="ruby-identifier">end_date</span><span class="ruby-operator">:</span> <span class="ruby-identifier">end_date</span>
+      }).<span class="ruby-identifier">order</span>(<span class="ruby-value">:start</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@visits</span> = <span class="ruby-constant">Visitor</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;start is not null&quot;</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:start</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:group</span>]
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;year&quot;</span>
+      <span class="ruby-ivar">@visits</span> = <span class="ruby-ivar">@visits</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">start</span>.<span class="ruby-identifier">beginning_of_year</span> }
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;month&quot;</span>
+      <span class="ruby-ivar">@visits</span> = <span class="ruby-ivar">@visits</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">start</span>.<span class="ruby-identifier">beginning_of_month</span> }
+    <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;week&quot;</span>
+      <span class="ruby-ivar">@visits</span> = <span class="ruby-ivar">@visits</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">start</span>.<span class="ruby-identifier">beginning_of_week</span> }
+    <span class="ruby-keyword">else</span> <span class="ruby-comment"># defaults to grouping by day</span>
+      <span class="ruby-ivar">@visits</span> = <span class="ruby-ivar">@visits</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">start</span>.<span class="ruby-identifier">beginning_of_day</span> }
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># vs is for visitors. v is for visitor. No cross-database way of doing it</span>
+  <span class="ruby-comment"># (e.g., sqlite uses strftime and postgres uses date_trunc), so just do</span>
+  <span class="ruby-comment"># array/enumerable operations</span>
+  <span class="ruby-ivar">@visits</span> = <span class="ruby-ivar">@visits</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">date</span>, <span class="ruby-identifier">vs</span><span class="ruby-operator">|</span>
+    {
+      <span class="ruby-identifier">date</span><span class="ruby-operator">:</span> <span class="ruby-identifier">date</span>,
+      <span class="ruby-identifier">devices</span><span class="ruby-operator">:</span> <span class="ruby-identifier">vs</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>[<span class="ruby-value">:device_id</span>] }
+                 .<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">device</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> { <span class="ruby-identifier">device_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">device</span>, <span class="ruby-identifier">visitors</span><span class="ruby-operator">:</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">length</span> } }
+    }
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-csv" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">csv</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST Import a CSV file</p>
+          
+          
+
+          
+          <div class="method-source-code" id="csv-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">csv</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;csv&#39;</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:uploaded_csv</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">csv_path</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:uploaded_csv</span>].<span class="ruby-identifier">path</span>
+
+    <span class="ruby-comment"># Wipe database on csv load, will need to be modified when event RSS feeds are fixed</span>
+    <span class="ruby-identifier">data_validated</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-constant">CSV</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-identifier">csv_path</span>, <span class="ruby-value">:headers</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">csv_building</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">1</span>]
+        <span class="ruby-identifier">csv_room_number</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">3</span>]
+        <span class="ruby-identifier">csv_room_name</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">4</span>]
+        <span class="ruby-identifier">csv_department</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">7</span>]
+        <span class="ruby-identifier">csv_person_name</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">9</span>] <span class="ruby-comment">#can be general purpose name like &#39;general graduate student&#39;</span>
+        <span class="ruby-identifier">csv_last_name</span>, <span class="ruby-identifier">csv_first_name</span> = <span class="ruby-identifier">csv_person_name</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;,&#39;</span>).<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:strip</span>)
+
+        <span class="ruby-identifier">csv_person_department</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">11</span>] <span class="ruby-comment"># appears to be less relevant to our needs</span>
+        <span class="ruby-identifier">csv_organization</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">12</span>]
+        <span class="ruby-identifier">csv_org_code</span>, <span class="ruby-identifier">csv_person_organization</span> = <span class="ruby-identifier">csv_organization</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39; &#39;</span>, <span class="ruby-value">2</span>) <span class="ruby-comment"># Use this for department</span>
+        <span class="ruby-identifier">csv_phone</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">13</span>]
+        <span class="ruby-identifier">csv_email</span> = <span class="ruby-identifier">row</span>[<span class="ruby-value">14</span>]
+
+        <span class="ruby-comment"># Destroy data only if the first row was parsed successfully</span>
+        <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data_validated</span>
+          <span class="ruby-constant">Rails</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-string">&quot;[[[[[[ Data validated, wiping db!!! ]]]]]]&quot;</span>
+          <span class="ruby-constant">Person</span>.<span class="ruby-identifier">destroy_all</span>
+          <span class="ruby-constant">Department</span>.<span class="ruby-identifier">destroy_all</span>
+          <span class="ruby-constant">DirectoryObject</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">type</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;Room&quot;</span>).<span class="ruby-identifier">delete_all</span>
+          <span class="ruby-identifier">data_validated</span> = <span class="ruby-keyword">true</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-comment"># Don&#39;t bother with this row if a room number doesn&#39;t exist</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">csv_room_number</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;&quot;</span>
+          <span class="ruby-comment"># Parse Rooms</span>
+          <span class="ruby-identifier">results</span> = <span class="ruby-constant">Room</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">room_number</span><span class="ruby-operator">:</span> <span class="ruby-identifier">csv_room_number</span>)
+          <span class="ruby-comment"># Found new room?</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">results</span>.<span class="ruby-identifier">empty?</span>
+            <span class="ruby-identifier">room</span> = <span class="ruby-constant">Room</span>.<span class="ruby-identifier">new</span>
+            <span class="ruby-identifier">room</span>.<span class="ruby-identifier">room_number</span> = <span class="ruby-identifier">csv_room_number</span>
+            <span class="ruby-identifier">room</span>.<span class="ruby-identifier">save</span>
+          <span class="ruby-keyword">else</span>
+            <span class="ruby-identifier">room</span> = <span class="ruby-identifier">results</span>.<span class="ruby-identifier">first</span>
+          <span class="ruby-keyword">end</span>
+
+          <span class="ruby-comment"># Ensure custom data has not already been set</span>
+  <span class="ruby-comment">#        if room.name.blank?</span>
+  <span class="ruby-comment">#          room.name = csv_room_name</span>
+  <span class="ruby-comment">#          room.save</span>
+  <span class="ruby-comment">#        end</span>
+          <span class="ruby-comment"># Parse Department</span>
+          <span class="ruby-comment"># Don&#39;t bother with department/person parsing, something is wrong with this row</span>
+          <span class="ruby-keyword">unless</span> <span class="ruby-identifier">csv_organization</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&quot;Identity Purged&quot;</span>)
+            <span class="ruby-identifier">department</span> = <span class="ruby-keyword">nil</span>
+            <span class="ruby-identifier">results</span> = <span class="ruby-constant">Department</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">title</span><span class="ruby-operator">:</span> <span class="ruby-identifier">csv_person_organization</span>.<span class="ruby-identifier">downcase</span>).<span class="ruby-identifier">first</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">results</span>.<span class="ruby-identifier">blank?</span>
+              <span class="ruby-identifier">department</span> = <span class="ruby-constant">Department</span>.<span class="ruby-identifier">new</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-identifier">csv_person_organization</span>.<span class="ruby-identifier">present?</span>
+                <span class="ruby-identifier">department</span>.<span class="ruby-identifier">title</span> = (<span class="ruby-identifier">csv_person_organization</span>).<span class="ruby-identifier">downcase</span>
+                <span class="ruby-identifier">department</span>.<span class="ruby-identifier">save</span>
+              <span class="ruby-keyword">else</span>
+                <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;entry was missing an organization&quot;</span>
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">department</span> = <span class="ruby-identifier">results</span>
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-comment"># Parsing Person</span>
+            <span class="ruby-identifier">results</span> = <span class="ruby-constant">Person</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">email</span><span class="ruby-operator">:</span> <span class="ruby-identifier">csv_email</span>)
+
+            <span class="ruby-comment"># Found new person?</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">results</span>.<span class="ruby-identifier">empty?</span>
+              <span class="ruby-identifier">person</span> = <span class="ruby-constant">Person</span>.<span class="ruby-identifier">new</span>
+
+            <span class="ruby-comment"># Found existing person?</span>
+            <span class="ruby-keyword">else</span>
+              <span class="ruby-identifier">person</span> = <span class="ruby-identifier">results</span>.<span class="ruby-identifier">first</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-comment"># Ensure room is associated</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">room</span>.<span class="ruby-identifier">present?</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">person</span>.<span class="ruby-identifier">rooms</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">room</span>)
+                <span class="ruby-identifier">person</span>.<span class="ruby-identifier">rooms</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">room</span>
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-comment"># Ensure department is associated</span>
+            <span class="ruby-comment"># Currently assumes each person has one department, seems to be the case from the data</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">person</span>.<span class="ruby-identifier">department</span>.<span class="ruby-identifier">blank?</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-identifier">department</span>.<span class="ruby-identifier">present?</span>
+                <span class="ruby-identifier">person</span>.<span class="ruby-identifier">department</span> = <span class="ruby-identifier">department</span>
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-identifier">person</span>.<span class="ruby-identifier">email</span> = <span class="ruby-identifier">csv_email</span>
+            <span class="ruby-identifier">person</span>.<span class="ruby-identifier">phone</span> = <span class="ruby-identifier">csv_phone</span>
+            <span class="ruby-identifier">person</span>.<span class="ruby-identifier">first</span> = <span class="ruby-identifier">csv_first_name</span>
+            <span class="ruby-identifier">person</span>.<span class="ruby-identifier">last</span> = <span class="ruby-identifier">csv_last_name</span>
+            <span class="ruby-identifier">person</span>.<span class="ruby-identifier">save</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">notice</span> = <span class="ruby-string">&quot;CSV was successfully parsed&quot;</span>
+    <span class="ruby-keyword">rescue</span>
+      <span class="ruby-identifier">error</span> = <span class="ruby-string">&quot;CSV file contains invalid data&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">error</span> = <span class="ruby-string">&quot;Error uploading file&quot;</span>
+  <span class="ruby-keyword">end</span> <span class="ruby-comment"># unless csv_path.blank?</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> {
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;index&quot;</span>,
+      <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-identifier">error</span>,
+      <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">notice</span>
+    }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-department_location" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">department_location</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Not sure if this method is used anywhere. May be safe to remove (and its
+associated test).</p>
+          
+          
+
+          
+          <div class="method-source-code" id="department_location-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 136</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">department_location</span>
+  <span class="ruby-identifier">room_number</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:department_room_number</span>]
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:department_id</span>]
+
+  <span class="ruby-identifier">room</span> = <span class="ruby-constant">Room</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">room_number</span><span class="ruby-operator">:</span> <span class="ruby-identifier">room_number</span>).<span class="ruby-identifier">first_or_create</span>
+  <span class="ruby-identifier">department</span> = <span class="ruby-constant">Department</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+  <span class="ruby-identifier">department</span>.<span class="ruby-identifier">room</span> = <span class="ruby-identifier">room</span>
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">department</span>.<span class="ruby-identifier">save</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">room_number</span>.<span class="ruby-identifier">present?</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> {<span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> { <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;Department location saved successfully&quot;</span> } }
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> {<span class="ruby-identifier">render</span> <span class="ruby-identifier">json</span><span class="ruby-operator">:</span> { <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;Error saving department location&quot;</span> } }
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-comment"># Whether or not to hide the CSV upload tab</span>
+  <span class="ruby-ivar">@contains_data</span> = <span class="ruby-constant">Department</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">empty?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-logvisitor" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">logvisitor</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST /logvisitor</p>
+
+<p>Logs a visitor. Called from redirect.js, which redirects to home after 2
+minutes of inactivity. Logs a visitor after one minute of inactivity.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="logvisitor-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">logvisitor</span>
+  <span class="ruby-ivar">@visitor</span>.<span class="ruby-identifier">end</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">current</span>
+  <span class="ruby-ivar">@visitor</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:nothing</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-map_upload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">map_upload</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST Upload an SVG map</p>
+          
+          
+
+          
+          <div class="method-source-code" id="map_upload-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 273</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">map_upload</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:uploaded_map</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;fileutils&#39;</span>
+
+    <span class="ruby-comment"># Ensure public/maps exists</span>
+    <span class="ruby-constant">FileUtils</span><span class="ruby-operator">::</span><span class="ruby-identifier">mkdir_p</span> <span class="ruby-string">&quot;public/maps&quot;</span>
+
+    <span class="ruby-identifier">directory</span> = <span class="ruby-string">&quot;public/maps.tmp&quot;</span>
+    <span class="ruby-comment"># Ensure a blank maps.tmp directory exists</span>
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm_rf</span> <span class="ruby-identifier">directory</span>
+    <span class="ruby-constant">FileUtils</span><span class="ruby-operator">::</span><span class="ruby-identifier">mkdir_p</span> <span class="ruby-identifier">directory</span>
+
+    <span class="ruby-comment"># Copy the existing maps into that directory</span>
+    <span class="ruby-comment"># (to support the case where the user is updating maps and doesn&#39;t specify</span>
+    <span class="ruby-comment"># all of the existing maps.)</span>
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">cp_r</span> <span class="ruby-string">&#39;public/maps/.&#39;</span>, <span class="ruby-identifier">directory</span>
+
+    <span class="ruby-comment"># Copy uploaded files to maps.tmp, overriding any old maps that were</span>
+    <span class="ruby-comment"># just copied in the line above.</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:uploaded_map</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">map</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-string">&quot;floor&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">map</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;.svg&quot;</span>)
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-string">&quot;wb&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">map</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">read</span>) }
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># Modify the stats file to initialize the progress bar</span>
+    <span class="ruby-constant">FileUtils</span><span class="ruby-operator">::</span><span class="ruby-identifier">mkdir_p</span> <span class="ruby-string">&quot;public/dataStore&quot;</span>
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-string">&quot;public/map_stats.json&quot;</span>, <span class="ruby-string">&quot;w+&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>(<span class="ruby-string">&#39;{&quot;progress&quot;: &quot;0%&quot;}&#39;</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># Run the buildCaches script</span>
+    <span class="ruby-identifier">load</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Rails</span>.<span class="ruby-identifier">root</span>, <span class="ruby-string">&#39;lib&#39;</span>, <span class="ruby-string">&#39;tasks&#39;</span>, <span class="ruby-string">&#39;build_caches.rake&#39;</span>)
+    <span class="ruby-constant">Delayed</span><span class="ruby-operator">::</span><span class="ruby-constant">Job</span>.<span class="ruby-identifier">enqueue</span>(<span class="ruby-constant">DelayedRake</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;caches:build&quot;</span>))
+
+    <span class="ruby-identifier">notice</span> = <span class="ruby-string">&quot;Maps were successfully uploaded. Re-building caches ...&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">error</span> = <span class="ruby-string">&quot;Error uploading SVG map&quot;</span>
+  <span class="ruby-keyword">end</span> <span class="ruby-comment"># unless uploaded_map.blank?</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">html</span> {
+      <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">action</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;index&quot;</span>,
+      <span class="ruby-identifier">error</span><span class="ruby-operator">:</span> <span class="ruby-identifier">error</span>,
+      <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">notice</span>
+    }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-origin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">origin</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>POST Modifies the starting location. Useful for kiosks.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="origin-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 16</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">origin</span>
+  
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">upcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;R&quot;</span> <span class="ruby-comment"># Remove proceeding R if present</span>
+    <span class="ruby-identifier">origin</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">rjust</span>(<span class="ruby-value">4</span>, <span class="ruby-string">&#39;0&#39;</span>).<span class="ruby-identifier">prepend</span>(<span class="ruby-string">&quot;R&quot;</span>) <span class="ruby-comment"># Add zero padding and Prepend R</span>
+    <span class="ruby-identifier">session</span>[<span class="ruby-value">:start</span>] = <span class="ruby-identifier">origin</span>
+    <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">permanent</span>[<span class="ruby-value">:origin</span>] = <span class="ruby-identifier">origin</span>.<span class="ruby-identifier">upcase</span>
+
+    <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:start_location</span> <span class="ruby-comment"># FOR WHAT PURPOSE</span>
+
+    <span class="ruby-identifier">notice</span> = <span class="ruby-node">&quot;Origin successfully updated to: #{cookies[:origin]}&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">cookies</span>.<span class="ruby-identifier">delete</span> <span class="ruby-value">:origin</span>
+    <span class="ruby-identifier">notice</span> = <span class="ruby-string">&quot;Origin successfully cleared&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span> {
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {
+        <span class="ruby-identifier">origin</span><span class="ruby-operator">:</span> <span class="ruby-identifier">cookies</span>[<span class="ruby-value">:origin</span>],
+        <span class="ruby-identifier">notice</span><span class="ruby-operator">:</span> <span class="ruby-identifier">notice</span>
+      }
+    }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-search_terms" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_terms</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search_terms-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_terms</span>
+  <span class="ruby-ivar">@search_terms</span> = <span class="ruby-constant">SearchTermLog</span>.<span class="ruby-identifier">all</span>.<span class="ruby-identifier">order</span>(<span class="ruby-value">:count</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-value">30</span>)
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-start" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">start</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>GET Modifies the starting location passed via URL (QR Codes) Passes
+starting location as the room number</p>
+          
+          
+
+          
+          <div class="method-source-code" id="start-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 45</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">start</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>][<span class="ruby-value">0</span>].<span class="ruby-identifier">upcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;R&quot;</span> <span class="ruby-comment"># Remove proceeding R if present</span>
+    <span class="ruby-identifier">origin</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:origin</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">rjust</span>(<span class="ruby-value">4</span>, <span class="ruby-string">&#39;0&#39;</span>).<span class="ruby-identifier">prepend</span>(<span class="ruby-string">&quot;R&quot;</span>) <span class="ruby-comment"># Add zero padding and Prepend R</span>
+    <span class="ruby-identifier">session</span>[<span class="ruby-value">:start</span>] = <span class="ruby-identifier">origin</span>.<span class="ruby-identifier">upcase</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">root_path</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-unmatched" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unmatched</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unmatched-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unmatched</span>
+  <span class="ruby-ivar">@unmatched_queries</span> = <span class="ruby-constant">UnmatchedQueryLog</span>.<span class="ruby-identifier">all</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-unroutable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unroutable</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unroutable-source">
+            <pre><span class="ruby-comment"># File app/controllers/administration_controller.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unroutable</span>
+  <span class="ruby-ivar">@unroutable</span> = <span class="ruby-constant">UnroutableLog</span>.<span class="ruby-identifier">all</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">format</span>.<span class="ruby-identifier">json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.2.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
