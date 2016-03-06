@@ -1,203 +1,193 @@
 /*This is the normal display settings*/
-	@media screen {
-			p {
-				display: none;
-			}	
-			img.hidden {
-				display:none;
-			}
-			
-			
-			
-		img.hidden {
-				display:none;
-			}
-			
-			
-			
-			.backgroundImg {
-				position:relative;
-				width: 8in;
-				height: 2.25in;
-				
-			}
-			
-			.name {
-				position: absolute;
-				font-weight: bold;
-				font-size:30px;
-				
-				left: 13%;
-				top:5%;
-				color: #000000;
-			}
-			
-			.qr {
-				position:absolute;
-				left: 4%;
-				top:30%;
-			}
-			
-			img.qrstyle {
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			img.bgstyle {
-				width: 8in;
-				height: 2in;
-				margin-top: .125in;
-				margin-bottom: .125in;
-				/* height: 288px; */
-				opacity: 0.5;
-				/*border-style: solid;
-				border-width: 9pt 0pt 9pt 0pt ;*/
-				border-color:#ffffff;
-			}
-			
-			/*==========EXTRA==================*/
-			img.logostyle{
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			.logo {
-				position:absolute;
-				right: 10%;
-				top:15%;
-			}
-			
-			.depname {
-				position: absolute;
-				font-weight: bold;
-				font-size:20px;
-				left:55%;
-				bottom:12%;
-				color: #000000;
-			}
-			
-			.title {
-				position: absolute;
-				font-weight: bold;
-				font-size:16px;
-			/*SCRATCH
-				left: 15%;
-				top:15%; 
-				*/
-				top:100%;
-				left: 30%;
-				margin-right: -30%;
-				text-align:center;
-				color: #000000;
-			}
-			
-	/*=================================*/
+  @media screen {
+      p {
+        display: none;
+      }
+      img.hidden {
+        display:none;
+      }
+
+    img.hidden {
+        display:none;
+      }
+
+      .backgroundImg {
+        position:relative;
+        width: 8in;
+        height: 2.25in;
+
+      }
+
+      .name {
+        position: absolute;
+        font-weight: bold;
+        font-size:30px;
+
+        left: 13%;
+        top:5%;
+        color: #000000;
+      }
+
+      .qr {
+        position:absolute;
+        left: 4%;
+        top:30%;
+      }
+
+      img.qrstyle {
+        width: 100%;
+        height:auto;
+        max-width: 100px;
+        max-height: 100px;
+
+      }
+
+      img.bgstyle {
+        width: 8in;
+        height: 2in;
+        margin-top: .125in;
+        margin-bottom: .125in;
+        /* height: 288px; */
+        opacity: 0.5;
+        /*border-style: solid;
+        border-width: 9pt 0pt 9pt 0pt ;*/
+        border-color:#ffffff;
+      }
+
+      /*==========EXTRA==================*/
+      img.logostyle {
+        width: 100%;
+        height:auto;
+        max-width: 100px;
+        max-height: 100px;
+
+      }
+
+      .logo {
+        position:absolute;
+        right: 10%;
+        top:15%;
+      }
+
+      .depname {
+        position: absolute;
+        font-weight: bold;
+        font-size:20px;
+        left:55%;
+        bottom:12%;
+        color: #000000;
+      }
+
+      .title {
+        position: absolute;
+        font-weight: bold;
+        font-size:16px;
+      /*SCRATCH
+        left: 15%;
+        top:15%;
+        */
+        top:100%;
+        left: 30%;
+        margin-right: -30%;
+        text-align:center;
+        color: #000000;
+      }
+
+  /*=================================*/
 }
 
 /*This is the display settings for printing*/
 @media print {
-		header nav, footer, button {
-			display: none;
-		}
-		
-			img.hidden {
-				display:none;
-			}
-			
-			
-			
-			.backgroundImg {
-				position:relative;
-				width: 8in;
-				height: 2.25in;
-				border-style: dashed;
-				border-width: 1px;
-				border-color:#000000;
-			}
-			
-			.name {
-				position: absolute;
-				font-weight: bold;
-				font-size:30px;
-				
-				left: 13%;
-				top:5%;
-				color: #000000;
-			}
-			
-			.qr {
-				position:absolute;
-				left: 4%;
-				top:30%;
-			}
-			
-			img.qrstyle {
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			img.bgstyle {
-				width: 8in;
-				height: 2in;
-				margin-top: .125in;
-				margin-bottom: .125in;
-				/* height: 288px; */
-				opacity: 0.5;
-				/*border-style: solid;
-				border-width: 9pt 0pt 9pt 0pt ;*/
-				border-color:#ffffff;
-			}
-			
-			/*==========EXTRA==================*/
-			img.logostyle{
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			.logo {
-				position:absolute;
-				right: 10%;
-				top:15%;
-			}
-			
-			.depname {
-				position: absolute;
-				font-weight: bold;
-				font-size:20px;
-				
-				left:55%;
+    header nav, footer, button {
+      display: none;
+    }
 
-				bottom:12%;
-				color: #000000;
-			}
-			
-			.title {
-				position: absolute;
-				font-weight: bold;
-				font-size:16px;
-			/*SCRATCH
-				left: 15%;
-				top:15%; 
-				*/
-				top:100%;
-				left: 30%;
-				margin-right: -30%;
-				text-align:center;
-				color: #000000;
-			}
-			
-	/*=================================*/
-	
-		}
+      img.hidden {
+        display:none;
+      }
+
+      .backgroundImg {
+        position:relative;
+        width: 8in;
+        height: 2.25in;
+        border-style: dashed;
+        border-width: 1px;
+        border-color:#000000;
+      }
+
+      .name {
+        position: absolute;
+        font-weight: bold;
+        font-size:30px;
+
+        left: 13%;
+        top:5%;
+        color: #000000;
+      }
+
+      .qr {
+        position:absolute;
+        left: 4%;
+        top:30%;
+      }
+
+      img.qrstyle {
+        width: 100%;
+        height:auto;
+        max-width: 100px;
+        max-height: 100px;
+
+      }
+
+      img.bgstyle {
+        width: 8in;
+        height: 2in;
+        margin-top: .125in;
+        margin-bottom: .125in;
+        /* height: 288px; */
+        opacity: 0.5;
+        /*border-style: solid;
+        border-width: 9pt 0pt 9pt 0pt ;*/
+        border-color:#ffffff;
+      }
+
+      /*==========EXTRA==================*/
+      img.logostyle {
+        width: 100%;
+        height:auto;
+        max-width: 100px;
+        max-height: 100px;
+
+      }
+
+      .logo {
+        position:absolute;
+        right: 10%;
+        top:15%;
+      }
+
+      .depname {
+        position: absolute;
+        font-weight: bold;
+        font-size:20px;
+
+        left:55%;
+
+        bottom:12%;
+        color: #000000;
+      }
+
+      .title {
+        position: absolute;
+        font-weight: bold;
+        font-size:16px;
+        top:100%;
+        left: 30%;
+        margin-right: -30%;
+        text-align:center;
+        color: #000000;
+      }
+
+  /*=================================*/
+
+    }
