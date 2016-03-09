@@ -15,23 +15,39 @@
         position:relative;
         width: 8in;
         height: 2.25in;
-
+        border-style: dashed;
+        border-width: 1px;
+        border-color:#000000;
       }
 
       .name {
         position: absolute;
-        font-weight: bold;
+       
+	font-weight: bold;
         font-size:30px;
 
+  
         left: 13%;
-        top:5%;
+        top:8%;
         color: #000000;
-      }
+	 text-shadow:
 
+	   -1px -1px 0 #fff,  
+
+	    1px -1px 0 #fff,
+
+	    -1px 1px 0 #fff,
+
+	     1px 1px 0 #fff;
+ 	font-family:Gill Sans, sans-serif;
+
+      }
+ 
       .qr {
         position:absolute;
         left: 4%;
         top:30%;
+	
       }
 
       img.qrstyle {
@@ -39,6 +55,7 @@
         height:auto;
         max-width: 100px;
         max-height: 100px;
+	background-color: #ffffff;
 
       }
 
@@ -69,28 +86,35 @@
         top:15%;
       }
 
-      .depname {
+     .depname {
         position: absolute;
         font-weight: bold;
         font-size:20px;
         left:55%;
         bottom:12%;
         color: #000000;
+	font-family:Gill Sans, sans-serif;
       }
 
       .title {
         position: absolute;
         font-weight: bold;
-        font-size:16px;
-      /*SCRATCH
-        left: 15%;
-        top:15%;
-        */
+        font-size:14px;
         top:100%;
         left: 30%;
-        margin-right: -30%;
+        margin-right: -10%;
         text-align:center;
         color: #000000;
+	 text-shadow:
+
+	   -1px -1px 0 #fff,  
+
+	    1px -1px 0 #fff,
+
+	    -1px 1px 0 #fff,
+
+	     1px 1px 0 #fff;
+	font-family:Gill Sans, sans-serif;
       }
 
   /*=================================*/
@@ -116,19 +140,30 @@
       }
 
       .name {
-        position: absolute;
-        font-weight: bold;
+        position: absolute; 
+	font-weight: bold;
         font-size:30px;
-
         left: 13%;
-        top:5%;
+        top:8%;
         color: #000000;
+	 text-shadow:
+
+	   -1px -1px 0 #fff,  
+
+	    1px -1px 0 #fff,
+
+	    -1px 1px 0 #fff,
+
+	     1px 1px 0 #fff;
+ 	font-family:Gill Sans, sans-serif;
+
       }
 
       .qr {
         position:absolute;
         left: 4%;
         top:30%;
+	background-color: #ffffff;
       }
 
       img.qrstyle {
@@ -136,7 +171,6 @@
         height:auto;
         max-width: 100px;
         max-height: 100px;
-
       }
 
       img.bgstyle {
@@ -167,25 +201,39 @@
       }
 
       .depname {
-        position: absolute;
+       position: absolute;
         font-weight: bold;
         font-size:20px;
-
         left:55%;
-
         bottom:12%;
         color: #000000;
+	font-family:Gill Sans, sans-serif;
       }
 
       .title {
         position: absolute;
         font-weight: bold;
-        font-size:16px;
+        font-size:14px;
+
+      /*SCRATCH
+        left: 15%;
+        top:15%;
+        */
         top:100%;
         left: 30%;
         margin-right: -30%;
         text-align:center;
         color: #000000;
+	 text-shadow:
+
+	   -1px -1px 0 #fff,  
+
+	    1px -1px 0 #fff,
+
+	    -1px 1px 0 #fff,
+
+	     1px 1px 0 #fff;
+	font-family:Gill Sans, sans-serif;
       }
 
   /*=================================*/

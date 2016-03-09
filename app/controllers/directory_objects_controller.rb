@@ -84,7 +84,7 @@ class DirectoryObjectsController < ApplicationController
         roomNumber = person.rooms.first.room_number
       rescue
         roomNumber = 0
-        title = "please define a room number for this person"
+        title = "define a room number"
       end
       targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
       qrLink     = generateQRLink(targetURL)
