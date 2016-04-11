@@ -1232,7 +1232,7 @@
 		
 			<line id="Stair.18.floor0_1_" fill="none" stroke="#FFEE00" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="515.8857" y1="760.3701" x2="591.1874" y2="760.3701"/>
 		
-			<line id="Stair.4.floor0" fill="none" stroke="#FFEE00" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="540.3857" y1="694.6694" x2="540.3857" y2="728.4702"/>
+			<line id="Stair.4.floor0" fill="none" stroke="#FFEE00" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="540.3857" y1="702.0689" x2="540.3857" y2="735.8697"/>
 		
 			<line id="Elev.4.floor0_1_" fill="none" stroke="#FFEE00" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="544.9883" y1="665.27" x2="517.8857" y2="638.1694"/>
 		
@@ -1500,9 +1500,7 @@
 		
 			<line id="R1118_2_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="63.8872" y1="657.27" x2="60.687" y2="660.4702"/>
 		
-			<line id="R1100_5_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="52.0869" y1="792.5693" x2="57.5869" y2="792.5693"/>
-		
-			<line id="R1100_4_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
+			<line id="R1100_4_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="57.1943" y2="792.5693"/>
 		
 			<polyline id="R1100_3_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
 			41.8872,847.3701 52.3872,847.3701 57.3872,847.2705 		"/>
@@ -2861,7 +2859,7 @@
 		
 			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="464.2871" y1="647.5689" x2="491.5869" y2="647.5689"/>
 		
-			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="57.1943" y1="792.5693" x2="41.8872" y2="792.5693"/>
+			<polyline fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="41.8872,792.5693 52.0869,792.5693 57.1943,792.5693"/>
 		
 			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="57.1943" y1="847.3701" x2="41.8872" y2="847.3701"/>
 		
