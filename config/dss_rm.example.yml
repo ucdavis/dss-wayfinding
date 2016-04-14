@@ -3,3 +3,4 @@
 HOST: https://rm-instance/api/
 USER: username
 PASSWORD: password
+RM_APP_ID: app_id
