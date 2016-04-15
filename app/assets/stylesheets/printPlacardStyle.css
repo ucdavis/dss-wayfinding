@@ -19,43 +19,65 @@
         border-width: 1px;
         border-color:#000000;
       }
+      
 
       .name {
         position: absolute;
-       
 	font-weight: bold;
-        font-size:30px;
-
-  
-        left: 13%;
-        top:8%;
-        color: #000000;
+        font-size:40px;
+        left: 25%;
+        top:5%;
+        color: #ffffff;
 	 text-shadow:
 
-	   -1px -1px 0 #fff,  
+	   -1px -1px 0 #000,  
 
-	    1px -1px 0 #fff,
+	    1px -1px 0 #000,
 
-	    -1px 1px 0 #fff,
+	    -1px 1px 0 #000,
 
-	     1px 1px 0 #fff;
+	     1px 1px 0 #000;
  	font-family:Gill Sans, sans-serif;
 
+      }
+
+      .title {
+        position: absolute;
+	font-weight: bold;
+        font-size:18px;
+        top:105%;
+        left: 0%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
+      }
+      .email {
+ 	position: absolute;
+	font-weight: bold;
+        font-size:16px;
+        top:40%;
+        left: 25%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
       }
  
       .qr {
         position:absolute;
-        left: 4%;
-        top:30%;
+        left: .1in;   /*4*/
+        top:.225in;  /*30*/
 	
       }
 
       img.qrstyle {
         width: 100%;
         height:auto;
-        max-width: 100px;
-        max-height: 100px;
+        max-width: 1.7in; /*100px */
+        max-height: 1.7in;
 	background-color: #ffffff;
+	border-style: solid;
+        border-width: .05in ;
+        border-color:#ffffff;
 
       }
 
@@ -71,61 +93,47 @@
         border-color:#ffffff;
       }
 
-      /*==========EXTRA==================*/
+      /*==========EXTRA INFO==================*/
       img.logostyle {
         width: 100%;
         height:auto;
-        max-width: 100px;
-        max-height: 100px;
+        max-width: 110px;
+        max-height: 110px;
 
       }
 
       .logo {
         position:absolute;
-        right: 10%;
-        top:15%;
+        right: 7%;
+        top:30%;
       }
 
      .depname {
         position: absolute;
         font-weight: bold;
-        font-size:20px;
-        left:55%;
-        bottom:12%;
+        font-size:28px;
+        /*left:55%;
+        bottom:12%;*/
+        right: 5%;
+        bottom:.1in;
         color: #000000;
 	font-family:Gill Sans, sans-serif;
       }
 
-      .title {
-        position: absolute;
-        font-weight: bold;
-        font-size:14px;
-        top:100%;
-        left: 30%;
-        margin-right: -10%;
-        text-align:center;
-        color: #000000;
-	 text-shadow:
 
-	   -1px -1px 0 #fff,  
-
-	    1px -1px 0 #fff,
-
-	    -1px 1px 0 #fff,
-
-	     1px 1px 0 #fff;
-	font-family:Gill Sans, sans-serif;
-      }
 
   /*=================================*/
 }
 
 /*This is the display settings for printing*/
 @media print {
-    header nav, footer, button {
+    header nav, footer, button,input {
       display: none;
     }
 
+    p {
+        display: none;
+      }
       img.hidden {
         display:none;
       }
@@ -138,39 +146,66 @@
         border-width: 1px;
         border-color:#000000;
       }
+      
 
       .name {
-        position: absolute; 
+        position: absolute;
 	font-weight: bold;
-        font-size:30px;
-        left: 13%;
-        top:8%;
-        color: #000000;
+        font-size:40px;
+        left: 25%;
+        top:5%;
+        color: #ffffff;
 	 text-shadow:
 
-	   -1px -1px 0 #fff,  
+	   -1px -1px 0 #000,  
 
-	    1px -1px 0 #fff,
+	    1px -1px 0 #000,
 
-	    -1px 1px 0 #fff,
+	    -1px 1px 0 #000,
 
-	     1px 1px 0 #fff;
+	     1px 1px 0 #000;
  	font-family:Gill Sans, sans-serif;
 
       }
 
+      .title {
+        position: absolute;
+	font-weight: bold;
+        font-size:18px;
+        top:105%;
+        left: 0%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
+      }
+      .email {
+ 	position: absolute;
+	font-weight: bold;
+        font-size:16px;
+        top:40%;
+        left: 25%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
+      }
+ 
       .qr {
         position:absolute;
-        left: 4%;
-        top:30%;
-	background-color: #ffffff;
+        left: .1in;   /*4*/
+        top:.225in;  /*30*/
+	
       }
 
       img.qrstyle {
         width: 100%;
         height:auto;
-        max-width: 100px;
-        max-height: 100px;
+        max-width: 1.7in; /*100px */
+        max-height: 1.7in;
+	background-color: #ffffff;
+	border-style: solid;
+        border-width: .05in ;
+        border-color:#ffffff;
+
       }
 
       img.bgstyle {
@@ -185,57 +220,32 @@
         border-color:#ffffff;
       }
 
-      /*==========EXTRA==================*/
+      /*==========EXTRA INFO==================*/
       img.logostyle {
         width: 100%;
         height:auto;
-        max-width: 100px;
-        max-height: 100px;
+        max-width: 110px;
+        max-height: 110px;
 
       }
 
       .logo {
         position:absolute;
-        right: 10%;
-        top:15%;
+        right: 7%;
+        top:30%;
       }
 
-      .depname {
-       position: absolute;
-        font-weight: bold;
-        font-size:20px;
-        left:55%;
-        bottom:12%;
-        color: #000000;
-	font-family:Gill Sans, sans-serif;
-      }
-
-      .title {
+     .depname {
         position: absolute;
         font-weight: bold;
-        font-size:14px;
-
-      /*SCRATCH
-        left: 15%;
-        top:15%;
-        */
-        top:100%;
-        left: 30%;
-        margin-right: -30%;
-        text-align:center;
+        font-size:28px;
+        /*left:55%;
+        bottom:12%;*/
+        right: 5%;
+        bottom:.1in;
         color: #000000;
-	 text-shadow:
-
-	   -1px -1px 0 #fff,  
-
-	    1px -1px 0 #fff,
-
-	    -1px 1px 0 #fff,
-
-	     1px 1px 0 #fff;
 	font-family:Gill Sans, sans-serif;
       }
 
-  /*=================================*/
 
-    }
+} 

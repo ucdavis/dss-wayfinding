@@ -65,10 +65,11 @@ class DirectoryObjectsController < ApplicationController
   def personPlacard
     person      = Person.where("id =?", params[:id]).first
     @name       = person.first + ' ' + person.last
-    @department = person.department.name
+    @department = person.department.title
     @title      = nil
     targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
     @qrLink     = generateQRLink(targetURL)
+    @email 	= person.email
 
     render :layout => false
   end

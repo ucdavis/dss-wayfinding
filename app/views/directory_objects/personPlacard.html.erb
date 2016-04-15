@@ -8,6 +8,33 @@
 
 
 	<body>
+		<!--===========The javascript functions to change title and background image ====-->
+		<script>
+		var toggleBGImg = false;
+		function changeBgImage()
+				{
+				  var background = document.getElementById("bgImage");
+				  var bckSrc = background.src;
+				  if(toggleBGImg == true){
+					background.setAttribute("src", "/assets/placard/back1.jpg");
+					toggleBGImg = false;
+				  }
+				  else{
+				 	background.setAttribute("src", "/assets/placard/Modern1.jpg");
+					toggleBGImg = true;
+				  }
+
+				  
+				}
+		function changeTitle(newName)  
+				{
+
+				 var entTitle = document.getElementById("newTitle").value;
+				 document.getElementById("titleField").innerHTML= entTitle;
+				}
+			
+		</script>
+
 			<!-- This is the placard background -->
 		<div class="backgroundImg">
       <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
@@ -17,7 +44,7 @@
 
 			<!--Extra (watch for div enclosure-->
 			<div id="titleField" class="title"><%= @title %></div>
-			<div id="fname" class="title">sdfjfvbcvbcvbcvbcvbcvbcvbcvbcvb</div>
+
 			</div>
 
 			<!-- This is the QR image-->
@@ -34,13 +61,28 @@
 
 			<!-- This is the department name field 
 			<div id="depNameField" class="depname"><%= @department %></div>-->
-<div id="depNameField" class="depname"><%= @name %></div>
+		<div id="depNameField" class="depname"><%= @department %></div>
+		<div id="emailField" class="email"><%= @email %></div>
 			<!-- =====================================-->
 		</div>
 
-		<p> Cut on dotted line </p>
-		<p> Thanks for participating in the new and improved wayfinding system! </p>
+		<div>
+		<input type="text" id="newTitle">
 
+		<button onclick="changeTitle()">Enter Title</button>
+		<button onclick="changeBgImage()">Toggle Background Image</button>
+		</div>
+		<br>
+
+
+
+
+		<br>
+		<br>
+		Thanks for participating in the new and improved wayfinding system!
+		<br>
+		<br>
+		If background image is not being displayed, go to advanced print settings and change 'print background' option
 
 	</body>
 </html>
