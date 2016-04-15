@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post 'logvisitor', to: 'administration#logvisitor'
 
   get '/access_denied' => 'site#access_denied'
+  get '/status' => 'site#status'
 
   # QR
   get '/directory_objects/qr/:originID', to: 'directory_objects#qr'
