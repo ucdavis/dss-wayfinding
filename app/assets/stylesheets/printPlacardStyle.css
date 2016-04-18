@@ -1,12 +1,17 @@
-/*This is the normal display settings*/
-  @media screen {
-      p {
-        display: none;
-      }
-      img.hidden {
-        display:none;
-      }
+/*
+ * Stylesheet for placards
+ * Note: Be aware that relative locations are in inches since placard size is measured in inches
+ *
+ * Author: Andrea Brenner-Billet <abrennerbillet@ucdavis.edu>
+ *
+ */
 
+/*These are the screen display settings*/
+ @media screen {
+    h3,p{
+	font-family:Gill Sans, sans-serif;
+      }
+      
     img.hidden {
         display:none;
       }
@@ -19,7 +24,6 @@
         border-width: 1px;
         border-color:#000000;
       }
-      
 
       .name {
         position: absolute;
@@ -27,18 +31,14 @@
         font-size:40px;
         left: 25%;
         top:5%;
+	width:75%;
         color: #ffffff;
-	 text-shadow:
-
+	text-shadow:
 	   -1px -1px 0 #000,  
-
 	    1px -1px 0 #000,
-
-	    -1px 1px 0 #000,
-
-	     1px 1px 0 #000;
+	   -1px 1px 0 #000,
+	    1px 1px 0 #000;
  	font-family:Gill Sans, sans-serif;
-
       }
 
       .title {
@@ -47,15 +47,29 @@
         font-size:18px;
         top:105%;
         left: 0%;
+	width:70%;
  	text-shadow: none;
         color: #000000;
 	font-family:Gill Sans, sans-serif;
       }
+
+      .extrainfo {
+        position: absolute;
+	font-weight: bold;
+        font-size:14px;
+        top:160%;
+        left: 0%;
+	width:70%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
+      }
+
       .email {
  	position: absolute;
 	font-weight: bold;
         font-size:16px;
-        top:40%;
+        top:80%;
         left: 25%;
  	text-shadow: none;
         color: #000000;
@@ -64,21 +78,19 @@
  
       .qr {
         position:absolute;
-        left: .1in;   /*4*/
-        top:.225in;  /*30*/
-	
+        left: .1in;   
+        top:.225in;  
       }
 
       img.qrstyle {
         width: 100%;
         height:auto;
-        max-width: 1.7in; /*100px */
+        max-width: 1.7in; 
         max-height: 1.7in;
 	background-color: #ffffff;
 	border-style: solid;
         border-width: .05in ;
         border-color:#ffffff;
-
       }
 
       img.bgstyle {
@@ -86,12 +98,10 @@
         height: 2in;
         margin-top: .125in;
         margin-bottom: .125in;
-        /* height: 288px; */
         opacity: 0.5;
-        /*border-style: solid;
-        border-width: 9pt 0pt 9pt 0pt ;*/
         border-color:#ffffff;
       }
+
 
       /*==========EXTRA INFO==================*/
       img.logostyle {
@@ -99,7 +109,6 @@
         height:auto;
         max-width: 110px;
         max-height: 110px;
-
       }
 
       .logo {
@@ -112,30 +121,36 @@
         position: absolute;
         font-weight: bold;
         font-size:28px;
-        /*left:55%;
-        bottom:12%;*/
         right: 5%;
         bottom:.1in;
         color: #000000;
 	font-family:Gill Sans, sans-serif;
       }
 
-
-
-  /*=================================*/
+.error{
+	color:red;
+        font-size:14px;
+ 	text-shadow: none;
+	font-family:Gill Sans, sans-serif;
+      }
 }
 
-/*This is the display settings for printing*/
+/*These the print display settings*/
 @media print {
-    header nav, footer, button,input {
+    footer, button,input, p, textarea,h4 {
       display: none;
     }
 
-    p {
-        display: none;
+      h3 {
+	font-family:Gill Sans, sans-serif;
       }
+
       img.hidden {
         display:none;
+      }
+
+      .error{
+	display:none;
       }
 
       .backgroundImg {
@@ -146,7 +161,6 @@
         border-width: 1px;
         border-color:#000000;
       }
-      
 
       .name {
         position: absolute;
@@ -154,18 +168,14 @@
         font-size:40px;
         left: 25%;
         top:5%;
+	width:75%;
         color: #ffffff;
-	 text-shadow:
-
+	text-shadow:
 	   -1px -1px 0 #000,  
-
 	    1px -1px 0 #000,
-
-	    -1px 1px 0 #000,
-
-	     1px 1px 0 #000;
+	   -1px 1px 0 #000,
+	    1px 1px 0 #000;
  	font-family:Gill Sans, sans-serif;
-
       }
 
       .title {
@@ -174,15 +184,29 @@
         font-size:18px;
         top:105%;
         left: 0%;
+	width:70%;
  	text-shadow: none;
         color: #000000;
 	font-family:Gill Sans, sans-serif;
       }
+
+      .extrainfo {
+        position: absolute;
+	font-weight: bold;
+        font-size:14px;
+        top:160%;
+        left: 0%;
+	width:70%;
+ 	text-shadow: none;
+        color: #000000;
+	font-family:Gill Sans, sans-serif;
+      }
+
       .email {
  	position: absolute;
 	font-weight: bold;
         font-size:16px;
-        top:40%;
+        top:80%;
         left: 25%;
  	text-shadow: none;
         color: #000000;
@@ -191,21 +215,19 @@
  
       .qr {
         position:absolute;
-        left: .1in;   /*4*/
-        top:.225in;  /*30*/
-	
+        left: .1in;   
+        top:.225in;  
       }
 
       img.qrstyle {
         width: 100%;
         height:auto;
-        max-width: 1.7in; /*100px */
+        max-width: 1.7in; 
         max-height: 1.7in;
 	background-color: #ffffff;
 	border-style: solid;
         border-width: .05in ;
         border-color:#ffffff;
-
       }
 
       img.bgstyle {
@@ -213,12 +235,10 @@
         height: 2in;
         margin-top: .125in;
         margin-bottom: .125in;
-        /* height: 288px; */
         opacity: 0.5;
-        /*border-style: solid;
-        border-width: 9pt 0pt 9pt 0pt ;*/
         border-color:#ffffff;
       }
+
 
       /*==========EXTRA INFO==================*/
       img.logostyle {
@@ -226,7 +246,6 @@
         height:auto;
         max-width: 110px;
         max-height: 110px;
-
       }
 
       .logo {
@@ -239,13 +258,10 @@
         position: absolute;
         font-weight: bold;
         font-size:28px;
-        /*left:55%;
-        bottom:12%;*/
         right: 5%;
         bottom:.1in;
         color: #000000;
 	font-family:Gill Sans, sans-serif;
       }
-
 
 } 

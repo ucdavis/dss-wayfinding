@@ -1,88 +1,156 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<%= stylesheet_link_tag "printPlacardStyle.css", media: "all" %>
-
 	</head>
 
 
 	<body>
 		<!--===========The javascript functions to change title and background image ====-->
 		<script>
-		var toggleBGImg = false;
+		var toggleBGImg = 1;
 		function changeBgImage()
-				{
-				  var background = document.getElementById("bgImage");
-				  var bckSrc = background.src;
-				  if(toggleBGImg == true){
+			{
+			var background = document.getElementById("bgImage");
+			var bckSrc = background.src;
+
+			/* This switches between the 3 backgrounds and a blank background */
+			switch(toggleBGImg){
+				case 0:
 					background.setAttribute("src", "/assets/placard/back1.jpg");
-					toggleBGImg = false;
-				  }
-				  else{
-				 	background.setAttribute("src", "/assets/placard/Modern1.jpg");
-					toggleBGImg = true;
-				  }
+					toggleBGImg = 1;
+					break;
+				case 1:	
+					background.setAttribute("src", "/assets/placard/Modern1.jpg");
+					toggleBGImg = 2;
+					break;
+				case 2:
+					background.setAttribute("src", "/assets/placard/nature.jpg");
+					toggleBGImg = 3;
+					break;
+				case 3:
+					background.setAttribute("src", " ");
+					toggleBGImg = 0;
+					break;
+				default:
+					background.setAttribute("src", "/assets/placard/back1.jpg");
+					toggleBGImg = 1;
+					break;
+				  } 
+			}
+		function changeInfo(newName)  
+			{
+			var entTitle = document.getElementById("newTitle").value;
+			 document.getElementById("titleField").innerHTML= entTitle;
 
-				  
-				}
-		function changeTitle(newName)  
-				{
+			//This parses data to insert in optional extra info field
+			var entInfo = document.getElementById("newInfo").value;
+			var infoFormat = entInfo.replace(/\n/g, "<br>"); //Change newline encoding
 
-				 var entTitle = document.getElementById("newTitle").value;
-				 document.getElementById("titleField").innerHTML= entTitle;
-				}
+			//Count number of lines in extra info, if too many then display error
+			var numLines = (entInfo.match(/\n/g) || []).length;
+
+			if(numLines < 5){
+				document.getElementById("extraField").innerHTML= infoFormat;
+				document.getElementById("errorField").innerHTML= "";
+			}
+			else{
+				document.getElementById("errorField").innerHTML= "ERROR: too many lines";
+				document.getElementById("extraField").innerHTML= "";
+			}
+
+			}
 			
 		</script>
 
-			<!-- This is the placard background -->
+		<!-- This is the placard background -->
 		<div class="backgroundImg">
-      <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
+      		<%= image_tag("placard/back1.jpg", id: "bgImage", alt: "", class: "bgstyle") %>
 
 			<!-- This is the name field -->
 			<div id="nameField" class="name"> <%= @name %>
 
-			<!--Extra (watch for div enclosure-->
-			<div id="titleField" class="title"><%= @title %></div>
+			<!--Extra (watch for div enclosure)-->
+			<div id="titleField" class="title"><%= @title %> </div>
+			<div id="extraField" class="extrainfo"></div>
 
 			</div>
-
 			<!-- This is the QR image-->
 			<div class="qr">
-          <%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %>
+          		<%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %>
 			</div>
 
 			<!-- ===============EXTRA=================-->
+			<!-- This is the school logo -->
 			<div class="logo">
-        <!-- image_tag("icon.png", size: "16x10", alt: "Edit Entry") -->
-					<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
+			<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
 			</div>
 
+			<!-- This is the department name-->
+			<div id="depNameField" class="depname">
+			<%= @department %>
+			</div>
 
-			<!-- This is the department name field 
-			<div id="depNameField" class="depname"><%= @department %></div>-->
-		<div id="depNameField" class="depname"><%= @department %></div>
-		<div id="emailField" class="email"><%= @email %></div>
+			<!-- This is the email address-->
+			<div id="emailField" class="email">
+			<%= @email %>
+			</div>
 			<!-- =====================================-->
 		</div>
 
-		<div>
-		<input type="text" id="newTitle">
+		<!-- This is where the user can change the background and add a title or additional info-->
+		<br>
+		<button onclick="changeBgImage()">Change Background Image</button>
 
-		<button onclick="changeTitle()">Enter Title</button>
-		<button onclick="changeBgImage()">Toggle Background Image</button>
+		<br>
+		<h4>
+		Optional fields
+		</h4>
+		<input type="text" id="newTitle" size="35" placeholder="Enter your title"> 
+		<br>
+		<textarea id="newInfo" rows="4" cols="50" placeholder="Additional info (office hours, phone number, etc.)"></textarea>
+		<button onclick="changeInfo()">Update</button>
+
+		<!-- This is the email address-->
+		<div id="errorField" class="error">
+			<p>  </p>
 		</div>
 		<br>
-
-
-
-
 		<br>
 		<br>
+
+		<h3>
 		Thanks for participating in the new and improved wayfinding system!
+		</h3>
+
 		<br>
 		<br>
-		If background image is not being displayed, go to advanced print settings and change 'print background' option
+
+		<!-- Printing tips-->
+		<p>
+		If background images are not showing up or text colors are not correct in the print:
+		</p>
+
+		<p>
+		Internet Explorer <br>
+		File -> Page Setup -> Print Background Colors and Images
+		</p>
+
+		<p>
+		Firefox <br>
+		Windows: Print -> Properties -> Page Setup -> Print Background (colors & images) <br>
+		Mac: File -> Print -> Show Details -> Print background colors and Print background images
+		</p>
+
+		<p>
+		Google Chrome <br>
+		Print -> Background colors and images 
+		</p>
+
+		<p>
+		Safari <br>
+		File -> Print -> Safari (from drop down menu) -> Print Backgrounds
+		</p>
 
 	</body>
 </html>

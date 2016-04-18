@@ -79,8 +79,9 @@ class DirectoryObjectsController < ApplicationController
 
     Person.where("department_id =?", params[:id]).each do |person|
       name       = person.first + ' ' + person.last
-      department = person.department.name
+      department = person.department.title
       title      = nil
+      email	 = person.email
       begin
         roomNumber = person.rooms.first.room_number
       rescue
@@ -90,7 +91,7 @@ class DirectoryObjectsController < ApplicationController
       targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
       qrLink     = generateQRLink(targetURL)
 
-      hash = {name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink}
+      hash = {name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink, email: email}
       @results.push(hash)
     end
 

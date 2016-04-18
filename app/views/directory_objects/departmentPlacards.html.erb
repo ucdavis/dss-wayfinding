@@ -5,15 +5,62 @@
   </head>
 
   <body>
-      <!-- This is the placard background -->
+
+	<!--===========The javascript functions to change the background images ====-->
+	<script>
+	var toggleBGImg = 1;
+	function changeBgImage()
+		{
+		var background = document.getElementsByClassName("bgstyle");
+		var newBackground;
+
+		/* This switches between 3 backgrounds and a blank background */
+		switch(toggleBGImg){
+			case 0:
+			newBackground = "/assets/placard/back1.jpg";
+			toggleBGImg = 1;
+			break;
+
+			case 1:	
+			newBackground = "/assets/placard/Modern1.jpg";
+			toggleBGImg = 2;
+			break;
+
+			case 2:
+			newBackground = "/assets/placard/nature.jpg";
+			toggleBGImg = 3;
+			break;
+
+			case 3:
+			newBackground = " ";
+			toggleBGImg = 0;
+			break;
+				
+			default:
+			newBackground = "/assets/placard/back1.jpg";
+			toggleBGImg = 1;
+			break;
+			}
+
+		var i;
+		for (i = 0; i < background.length; i++) {
+			background[i].setAttribute("src", newBackground);
+		}
+
+	}
+			
+	</script>
+
+
+    <!-- This is the placard background -->
     <% @results.each do |person| %>
       <div class="backgroundImg">
-        <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
+        <%= image_tag("placard/back1.jpg", id: "bgImage", alt: " ", class: "bgstyle") %>
 
         <!-- This is the name field -->
         <div id="nameField" class="name"> <%= person[:name] %>
 
-        <!--Extra (watch for div enclosure-->
+        <!--Extra (watch for div enclosure)-->
         <div id="titleField" class="title"><%= person[:title] %></div>
 
         </div>
@@ -24,21 +71,63 @@
         </div>
 
         <!-- ===============EXTRA=================-->
+	<!-- This is the school logo -->
         <div class="logo">
-          <!-- image_tag("icon.png", size: "16x10", alt: "Edit Entry") -->
             <%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
         </div>
 
         <!-- This is the department name field -->
         <div id="depNameField" class="depname"><%= person[:department] %></div>
 
+	<!-- This is the email address-->
+	<div id="emailField" class="email">
+	<%= person[:email] %>
+	</div>
+
         <!-- =====================================-->
       </div>
+	<br>
     <% end %>
 
-    <p> Cut on dotted line </p>
-    <p> Thanks for participating in the new and improved wayfinding system! </p>
+	<!-- This is where the user can change the background images-->
+	<button onclick="changeBgImage()">Change Background Images</button>
 
+	<br>
+	<br>
+	<br>
+
+	<h3>
+	Thanks for participating in the new and improved wayfinding system!
+	</h3>
+
+	<br>
+	<br>
+
+	<!-- Printing tips-->
+	<p>
+	If background images are not showing up or text colors are not correct in the print:
+	</p>
+
+	<p>
+	Internet Explorer <br>
+	File -> Page Setup -> Print Background Colors and Images
+	</p>
+
+	<p>
+	Firefox <br>
+	Windows: Print -> Properties -> Page Setup -> Print Background (colors & images) <br>
+	Mac: File -> Print -> Show Details -> Print background colors and Print background images
+	</p>
+
+	<p>
+	Google Chrome <br>
+	Print -> Background colors and images 
+	</p>
+
+	<p>
+	Safari <br>
+	File -> Print -> Safari (from drop down menu) -> Print Backgrounds
+	</p>
 
   </body>
 </html>
