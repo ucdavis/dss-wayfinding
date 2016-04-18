@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require underscore
+//= require jquery.mobile-1.4.5.min.js
 
 var handleLinksWithJS = function () {
   // Handle left nav links using javascript (fixes guided mode issue on iPad)

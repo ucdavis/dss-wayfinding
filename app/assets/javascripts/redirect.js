@@ -25,6 +25,11 @@ $(function() {
   // Call redirect timer function
   setRedirectToHome();
 
+  // Reset timer on scroll
+  $(document).on("scrollstart", function() {
+    setRedirectToHome();
+  });
+
   $('a.btn-home').click(function(e) {
     e.preventDefault();
 
