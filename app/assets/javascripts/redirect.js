@@ -25,6 +25,9 @@ $(function() {
   // Call redirect timer function
   setRedirectToHome();
 
+  // Reset timer while user browses the same page
+  $(window).scroll(setRedirectToHome());
+
   $('a.btn-home').click(function(e) {
     e.preventDefault();
 
