@@ -25,7 +25,7 @@ class DirectoryObjectsController < ApplicationController
     originRoom = Room.find(params[:originID]).first.room_number
 
     unless params[:destinationID].blank? # Origin and destination supplied
-      destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
+      destinationRoom = Room.find(params[:destinationID]).room_number
       
       # Hardcoding this for now because it's weird
       @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom
@@ -111,7 +111,7 @@ class DirectoryObjectsController < ApplicationController
       @scrubber_categories = []
     elsif params[:type] == "Room"
       @directory_objects = Room.all.order(:room_number)
-      @scrubber_categories = ['L',1,2,3,4,5]
+      @scrubber_categories = ['L', 1, 2, 3, 4, 5]
     else
       # Unsupported behavior
       @directory_objects = []
