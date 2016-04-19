@@ -12,9 +12,10 @@ $(function() {
   });
 });
 
-var minMaxInfo = function (state) {
+var toggleInfoPanel = function (state) {
   state = state || 'toggle';
   var width = $('#destination-view').outerWidth();
+
   if (state == 'min' || $('#destination-view').css('right') == '0px') {
     $('#destination-view').css('right', -width + 20);
     $('#destination-view-bg').css('right', -width + 20);
@@ -52,10 +53,8 @@ var showInfo = function (data) {
 
     $('#destination-view').css('right', -9999);
     $('#destination-view-bg').css('right', -9999);
-    minMaxInfo('min');
-    $('#destination-view .min-max').on('click', function() {
-      minMaxInfo();
-    });
+    toggleInfoPanel('min');
+    $('#destination-view .min-max').on('click', toggleInfoPanel);
 
     handleLinksWithJS();
   } else {

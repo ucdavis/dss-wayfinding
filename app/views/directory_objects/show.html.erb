@@ -26,7 +26,7 @@
         $('a.btn-floor[data-mapId="floor' + endFloor + '"]').addClass('destination');
 
         $('.replay').addClass('disabled');
-        minMaxInfo('min');
+        toggleInfoPanel('min');
 
         setRedirectToHome(); // reset the home page return timer
 
@@ -37,7 +37,7 @@
 
       $(document).on("wayfinding:animationComplete", function() {
         $('.replay').removeClass('disabled');
-        minMaxInfo();
+        toggleInfoPanel();
       });
 
       $(document).on("wayfinding:ready", function(e, data) {
@@ -71,11 +71,11 @@
           if (destination.length > 0 && !$(this).hasClass('disabled')) {
             $('#map').wayfinding('routeTo', destination);
             $(this).addClass('disabled');
-            minMaxInfo('min');
+            toggleInfoPanel('min');
           }
         });
 
-         //toggle accessibleRoute
+        // Toggle accessibleRoute
         $('.accessible').click(function(e) {
           e.preventDefault();
           setRedirectToHome();
@@ -87,7 +87,7 @@
                 // Route was alredy shown, so redraw with accessibility enabled
                 $('#map').wayfinding('routeTo', destination);
                 $('.replay').addClass('disabled');
-                minMaxInfo('min');
+                toggleInfoPanel('min');
               }
             });
          })
