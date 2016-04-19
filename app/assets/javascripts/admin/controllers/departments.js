@@ -32,7 +32,7 @@ Admin.controller("DepartmentsCtrl", ["$scope", "$routeParams", "Departments",
                     $scope.department.idx = index;
                     $scope.editing = true;
                     $scope.qrLink = QRLink.getOriginQR(data.room_id);
-                    $scope.departmentPlacardsLink = PlacardLink.getDepartmentPlacardsURL(data.id);
+                    $scope.departmentPlacardsLink = PlacardLink.getPlacardURL(data.id);
                 },
                 function (data) {
                     Alerts.danger("Error retrieving person from server. Please try again later.");

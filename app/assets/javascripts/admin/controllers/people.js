@@ -34,7 +34,7 @@ Admin.controller("PeopleCtrl", ["$scope", "$routeParams", "People", "Rooms",
                     $scope.person.idx = index;
                     $scope.editing = true;
                     $scope.qrLink = QRLink.getOriginQR(data.room_id); //Potentially problematic with multiplie rooms
-                    $scope.placardLink = PlacardLink.getPersonPlacardURL(data.id);
+                    $scope.placardLink = PlacardLink.getPlacardURL(data.id);
                 },
                 function () {
                     Alerts.danger("Error retrieving person from server. Please try again later.");

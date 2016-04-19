@@ -7,9 +7,10 @@ class DirectoryObjectsController < ApplicationController
   before_action :set_directory_object, only: [:show, :update, :destroy]
   before_filter :require_login, except: [:index, :show, :search, :unroutable]
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
-  protect_from_forgery :except => :unroutable
-  filter_access_to :all
 
+  protect_from_forgery :except => :unroutable
+
+  filter_access_to :all
 
   # Accepts either a single room ID (Assumed to be an origin)
   #   or 2 Room IDs (assumed to be an origin destination pair)
@@ -20,18 +21,22 @@ class DirectoryObjectsController < ApplicationController
   def qr
     @qrLink = nil
     @targetURL = nil
-    originRoom = Room.where("id=?", params[:originID]).first.room_number
+    
+    originRoom = Room.where("id = ?", params[:originID]).first.room_number
+
     unless params[:destinationID].blank? # Origin and destination supplied
       destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
-      @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom # Hardcoding this for now because it's weird
+      
+      # Hardcoding this for now because it's weird
+      @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom
+
       @qrLink = generateQRLink(@targetURL)
     else
       @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
       @qrLink = generateQRLink(@targetURL)
     end
 
-    render :layout => false # Stop application layout from displaying
-
+    render :layout => false
   end
 
   # Generate a QR for URL passed in as a param and then render it
@@ -41,19 +46,7 @@ class DirectoryObjectsController < ApplicationController
     url = params[:url]
 
     qrcode = RQRCode::QRCode.new(url)
-    # Preference on png or svg?
-    # png = qrcode.as_png(
-    #           resize_gte_to: false,
-    #           resize_exactly_to: false,
-    #           fill: 'white',
-    #           color: 'black',
-    #           size: 120,
-    #           border_modules: 4,
-    #           module_px_size: 6,
-    #           file: nil
-
-    # )
-
+ 
     svg = qrcode.as_svg(offset: 0, color: '000',
                     shape_rendering: 'crispEdges',
                     module_size: 11
@@ -62,40 +55,49 @@ class DirectoryObjectsController < ApplicationController
     send_data svg, type: 'image/svg+xml', disposition: 'inline'
   end
 
-  def personPlacard
-    person      = Person.where("id =?", params[:id]).first
-    @name       = person.first + ' ' + person.last
-    @department = person.department.name
-    @title      = nil
-    targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
-    @qrLink     = generateQRLink(targetURL)
-
-    render :layout => false
-  end
-
-  def departmentPlacards
+  def placard
     @results = []
+    
+    obj = DirectoryObject.find(params[:id])
 
-    Person.where("department_id =?", params[:id]).each do |person|
+    if obj.type == "Person"
+      person      = Person.where("id = ?", params[:id]).first
+      
       name       = person.first + ' ' + person.last
       department = person.department.name
       title      = nil
-      begin
-        roomNumber = person.rooms.first.room_number
-      rescue
-        roomNumber = 0
-        title = "please define a room number for this person"
-      end
-      targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
+      targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
       qrLink     = generateQRLink(targetURL)
 
-      hash = {name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink}
-      @results.push(hash)
+      hash = { name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+
+      @results.push( hash )
+    else
+      # Assume it's a department
+      
+      Person.where("department_id = ?", params[:id]).each do |person|
+        name       = person.first + ' ' + person.last
+        department = person.department.name
+        title      = nil
+
+        begin
+          roomNumber = person.rooms.first.room_number
+        rescue
+          roomNumber = 0
+          title = "please define a room number for this person"
+        end
+
+        targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
+        qrLink     = generateQRLink(targetURL)
+
+        hash = { name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+
+        @results.push(hash)
+      end
     end
 
     render :layout => false
   end
-
 
   # GET /directory_objects
   def index
