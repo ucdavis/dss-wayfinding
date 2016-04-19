@@ -22,7 +22,7 @@ class DirectoryObjectsController < ApplicationController
     @qrLink = nil
     @targetURL = nil
     
-    originRoom = Room.where("id = ?", params[:originID]).first.room_number
+    originRoom = Room.find(params[:originID]).first.room_number
 
     unless params[:destinationID].blank? # Origin and destination supplied
       destinationRoom = Room.where("id=?", params[:destinationID]).first.room_number
@@ -43,9 +43,7 @@ class DirectoryObjectsController < ApplicationController
   # Intended route to be used in an <img> tag
   # Does not do any parsing or forming
   def generateQR
-    url = params[:url]
-
-    qrcode = RQRCode::QRCode.new(url)
+    qrcode = RQRCode::QRCode.new(params[:url])
  
     svg = qrcode.as_svg(offset: 0, color: '000',
                     shape_rendering: 'crispEdges',
@@ -61,7 +59,7 @@ class DirectoryObjectsController < ApplicationController
     obj = DirectoryObject.find(params[:id])
 
     if obj.type == "Person"
-      person      = Person.where("id = ?", params[:id]).first
+      person      = Person.find(params[:id])
       
       name       = person.first + ' ' + person.last
       department = person.department.name
@@ -74,8 +72,7 @@ class DirectoryObjectsController < ApplicationController
       @results.push( hash )
     else
       # Assume it's a department
-      
-      Person.where("department_id = ?", params[:id]).each do |person|
+      Person.where(department: params[:id]).each do |person|
         name       = person.first + ' ' + person.last
         department = person.department.name
         title      = nil
@@ -244,72 +241,68 @@ class DirectoryObjectsController < ApplicationController
 
   private
 
-  def params_type_as_constant
-    if params and params[:type] and DirectoryObject::TYPES.include?(params[:type])
-      case params[:type]
-      when "Person"
-        return Person
-      when "Event"
-        return Event
-      when "Department"
-        return Department
-      when "Room"
-        return Room
+    def params_type_as_constant
+      if params and params[:type] and DirectoryObject::TYPES.include?(params[:type])
+        case params[:type]
+        when "Person"
+          return Person
+        when "Event"
+          return Event
+        when "Department"
+          return Department
+        when "Room"
+          return Room
+        else
+          return DirectoryObject
+        end
       else
         return DirectoryObject
       end
-    else
-      return DirectoryObject
     end
-  end
 
-  # Normalizes input for room numbers
-  def normalize_room(number)
-    return nil if number.nil?
+    # Normalizes input for room numbers
+    def normalize_room(number)
+      return nil if number.nil?
 
-    number.slice!(0) if number[0].upcase == "R"
+      number.slice!(0) if number[0].upcase == "R"
 
-    return number.to_s.rjust(4, '0').prepend("R")
-  end
-
-  def set_directory_object
-    @object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
-    @object = params_type_as_constant.find_by(id: params[:id]) unless @object
-  end
-
-  # Used as before_action.
-  # Sets @origin and @dest for views, if applicable.
-  def set_origin
-    # Prefer url-specified start locations over set ones when the URL is of
-    # format /start/.../end/...
-    @origin = normalize_room(params[:start_loc]) || normalize_room(session[:start]) ||
-               cookies[:origin] || cookies[:start_location]
-    @dest = normalize_room(params[:end_loc])
-
-    unless @origin
-      logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"
+      return number.to_s.rjust(4, '0').prepend("R")
     end
-  end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def directory_object_params
-    case params[:type]
-    when 'Person'
-      params.permit(:first, :last, :email, :phone, :department_id, :room_ids => [])
-    when 'Room'
-      params.permit(:name)
-    when 'Department'
-      params.permit(:title, :room_id)
-    else
-      params.permit()
+    def set_directory_object
+      @object = DirectoryObject.where(room_number: params[:number]).first if params[:number]
+      @object = params_type_as_constant.find_by(id: params[:id]) unless @object
     end
-  end
 
+    # Used as before_action.
+    # Sets @origin and @dest for views, if applicable.
+    def set_origin
+      # Prefer url-specified start locations over set ones when the URL is of
+      # format /start/.../end/...
+      @origin = normalize_room(params[:start_loc]) || normalize_room(session[:start]) ||
+                cookies[:origin] || cookies[:start_location]
+      @dest = normalize_room(params[:end_loc])
 
-  private
+      unless @origin
+        logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"
+      end
+    end
 
-  def generateQRLink(url)
-    return url_for(action: 'generateQR', controller: 'directory_objects', url: url)
-  end
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def directory_object_params
+      case params[:type]
+      when 'Person'
+        params.permit(:first, :last, :email, :phone, :department_id, :room_ids => [])
+      when 'Room'
+        params.permit(:name)
+      when 'Department'
+        params.permit(:title, :room_id)
+      else
+        params.permit()
+      end
+    end
 
+    def generateQRLink(url)
+      return url_for(action: 'generateQR', controller: 'directory_objects', url: url)
+    end
 end
