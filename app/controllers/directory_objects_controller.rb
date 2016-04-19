@@ -22,21 +22,27 @@ class DirectoryObjectsController < ApplicationController
     @qrLink = nil
     @targetURL = nil
     
-    originRoom = Room.find(params[:originID]).first.room_number
-
-    unless params[:destinationID].blank? # Origin and destination supplied
-      destinationRoom = Room.find(params[:destinationID]).room_number
-      
-      # Hardcoding this for now because it's weird
-      @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom
-
-      @qrLink = generateQRLink(@targetURL)
+    room = Room.find(params[:originID]).first
+    if room == nil
+      raise ActionController::RoutingError.new('Origin Room Not Found')
+      #render :status => 404, :layout => false
     else
-      @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
-      @qrLink = generateQRLink(@targetURL)
-    end
+      originRoom = room.room_number
 
-    render :layout => false
+      unless params[:destinationID].blank? # Origin and destination supplied
+        destinationRoom = Room.find(params[:destinationID]).room_number
+        
+        # Hardcoding this for now because it's weird
+        @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom
+
+        @qrLink = generateQRLink(@targetURL)
+      else
+        @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
+        @qrLink = generateQRLink(@targetURL)
+      end
+      
+      render :layout => false
+    end
   end
 
   # Generate a QR for URL passed in as a param and then render it
