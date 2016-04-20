@@ -129,9 +129,11 @@
 
 .error{
 	color:red;
-        font-size:14px;
+        font-size:12px;
  	text-shadow: none;
 	font-family:Gill Sans, sans-serif;
+	padding-bottom:3em;
+	visibility: hidden;
       }
 }
 

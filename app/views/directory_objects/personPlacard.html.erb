@@ -52,10 +52,10 @@
 
 			if(numLines < 5){
 				document.getElementById("extraField").innerHTML= infoFormat;
-				document.getElementById("errorField").innerHTML= "";
+				document.getElementById("errorField").style.visibility= "hidden";
 			}
 			else{
-				document.getElementById("errorField").innerHTML= "ERROR: too many lines";
+				document.getElementById("errorField").style.visibility= "visible";
 				document.getElementById("extraField").innerHTML= "";
 			}
 
@@ -112,19 +112,12 @@
 		<button onclick="changeInfo()">Update</button>
 
 		<!-- This is the email address-->
-		<div id="errorField" class="error">
-			<p>  </p>
-		</div>
-		<br>
-		<br>
-		<br>
+		<p id="errorField" class="error">ERROR: too many lines</p>
 
-		<h3>
+
+		<h3 >
 		Thanks for participating in the new and improved wayfinding system!
 		</h3>
-
-		<br>
-		<br>
 
 		<!-- Printing tips-->
 		<p>
