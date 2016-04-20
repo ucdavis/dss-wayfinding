@@ -32,11 +32,21 @@
 
 <body data-spy="scroll" data-target="#side-nav">
   <div class="topRibbon">
-    <a class="btn btn-default" id="menuToggleButton">Toggle Menu </a>
+    <a class="btn btn-default fitButton" id="menuToggleButton">Toggle Menu </a>
+    <% unless controller_name == "administration" %>
+      <a href="/search" class="btn btn-default fitButton">Search</a>
+    <% else %>
+      <a href="/logout" class="btn btn-default fitButton">logout</a>
+    <% end %>
+    <% if action_name == "landing" %>
+      <a href="/about" class="btn btn-default fitButton">about</a>
+    <% else %>
+      <a href="/" class="btn btn-default fitButton">home</a>
+    <% end %>
   </div>
   <div class="container overlay" id="overlayContainer">
     <div class="overlayGreyOut"></div>
-    <div class="col-lg-2 col-sm-6" id="sideBarColumn">
+    <div class="col-lg-2 col-sm-6 col-xs-10" id="sideBarColumn">
       <div id="sidebarContainer">
         <%= render("layouts/vertical_navigation") %>
       </div>
@@ -44,24 +54,6 @@
   </div>
 
   <div class="container-fluid">
-    <div class="right-btn-container search">
-    <% unless controller_name == "administration" %>
-      <a href="/search" class="btn-search icon-search"></a>
-    <% else %>
-      <a href="/logout" class="btn-logout icon-logout"></a>
-    <% end %>
-    </div>
-    <% if action_name == "landing" %>
-    <div class="right-btn-container about">
-      <a href="/about" class="btn-about icon-about"></a>
-    </div>
-    <% else %>
-    <div class="right-btn-container home">
-      <a class="btn btn-default" id="menuToggleButton">Toggle Menu </a>
-      <a href="/" class="btn-home icon-home"></a>
-    </div>
-    <% end %>
-
     <div class="row">
       <div class="col-xs-12">
         <% if action_name == "landing" %>
@@ -82,10 +74,10 @@
 
   <%= render "shared/analytics" %>
   <style>
-  body {
+/*  body {
     padding-bottom: 5vh;
     margin-bottom: 5vh;
-  }
+  }*/
   .topRibbon {
     position: fixed;
     top: 0;
@@ -153,6 +145,14 @@
     margin-left: 0;
   }
 
+  .fitButton {
+    max-height:100%;
+    max-width:100%;
+  }
+
+  .vertical-nav {
+    max-height: 100%;
+  }
   </style>
 
   <script>
