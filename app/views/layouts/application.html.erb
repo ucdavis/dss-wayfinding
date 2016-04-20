@@ -27,7 +27,21 @@
   document.development_mode = '<%= Rails.env %>' == "development";
   </script>
 </head>
+
+
+
 <body data-spy="scroll" data-target="#side-nav">
+  <div class="topRibbon">
+    <a class="btn btn-default" id="menuToggleButton">Toggle Menu </a>
+  </div>
+  <div class="container overlay" id="overlayContainer">
+    <div class="overlayGreyOut"></div>
+    <div class="col-lg-2 col-sm-6" id="sideBarColumn">
+      <div id="sidebarContainer">
+        <%= render("layouts/vertical_navigation") %>
+      </div>
+    </div>
+  </div>
 
   <div class="container-fluid">
     <div class="right-btn-container search">
@@ -43,18 +57,13 @@
     </div>
     <% else %>
     <div class="right-btn-container home">
+      <a class="btn btn-default" id="menuToggleButton">Toggle Menu </a>
       <a href="/" class="btn-home icon-home"></a>
     </div>
     <% end %>
 
     <div class="row">
-      <% if ["landing"].include?(action_name) || ["administration", "site"].include?(controller_name) %>
-        <% col_xs_12_style = "width: 100%;" %>
-      <% else %>
-        <% col_xs_12_style = "width: calc(100% - 130px); margin-left: 130px;" %>
-      <% end %>
-
-      <div class="col-xs-12" style="<%= col_xs_12_style %>">
+      <div class="col-xs-12">
         <% if action_name == "landing" %>
           <%= yield :javascript %>
           <%= yield %>
@@ -66,10 +75,94 @@
           </div> <!-- main-content -->
         <% end %>
       </div>
-      <%= render "layouts/vertical_navigation" unless (["landing","access_denied"].include?(action_name) || ["administration"].include?(controller_name)) %>
     </div> <!-- row -->
   </div> <!-- container-fluid -->
 
+
+
   <%= render "shared/analytics" %>
+  <style>
+  body {
+    padding-bottom: 5vh;
+    margin-bottom: 5vh;
+  }
+  .topRibbon {
+    position: fixed;
+    top: 0;
+    height: 5vh;
+    width: 100%;
+    background-color: #00cc44;
+    z-index: 1;
+  }
+  #overlayContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 5vh;    
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    overflow-y: hidden;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    /*defaults to hidden*/
+    z-index: -1;
+    opacity: 0;
+  }
+
+  .overlayGreyOut {
+    background-color: black;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    z-index: inherit;
+  }
+
+  #sideBarColumn {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow-y: hidden;
+    z-index: 12;
+      margin-left: 0;
+      padding-left: 0;
+  }
+
+  #sidebarContainer {
+
+      /*defaults to hidden*/
+      left: -100%; 
+      margin-left: -100%;
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+    background-color: cyan;
+    height: 100%;
+    width: 100%;
+  }
+
+  #overlayContainer.unhide {
+    z-index: 10;
+    opacity: 1;
+  }
+
+  #sidebarContainer.unhide {
+    left: 0;
+    margin-left: 0;
+  }
+
+  </style>
+
+  <script>
+      $("#menuToggleButton").click(function(e) {
+          e.preventDefault();
+          $("#sidebarContainer").toggleClass("unhide");
+          $("#overlayContainer").toggleClass("unhide");
+          $('body').css('overflow', 'hidden');
+      });
+  </script>
+
 </body>
 </html>
