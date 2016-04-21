@@ -19,6 +19,7 @@
 (function ($) {
 	'use strict';
 
+	var animating = false;
 	var defaults = {
 		// Defaults to a local file called floorplan.svg
 		'maps': [{'path': 'floorplan.svg', 'id': 'map.1'}],
@@ -292,9 +293,12 @@
 
 			// Make rooms clickable
 			$('#Rooms a', svgDiv).click(function (event) {
-				$(obj).trigger('wayfinding:roomClicked', [ { room_id : $(this).attr('id') } ] );
-				$(obj).wayfinding('routeTo', $(this).prop('id'));
-				event.preventDefault();
+				if(!animating) {
+					animating = true;
+					$(obj).trigger('wayfinding:roomClicked', [ { room_id : $(this).attr('id') } ] );
+					$(obj).wayfinding('routeTo', $(this).prop('id'));
+					event.preventDefault();
+				}
 			});
 
 			// Disable clicking on every SVG element except rooms
@@ -543,6 +547,7 @@
 				if(drawingSegment == (drawing.length - 1)) {
 					$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
 						$(obj).trigger('wayfinding:animationComplete');
+						animating = false;
 					});
 				}
 			}
