@@ -43,4 +43,12 @@ module DirectoryObjectsHelper
 
     return str.html_safe
   end
+
+  def cache_key_for_directory_objects
+    # Admins share the same application list
+    count          = DirectoryObject.count
+    max_updated_at = DirectoryObject.maximum(:updated_at).try(:utc).try(:to_s, :number)
+    # cache
+    "directory_objects/container-#{count}-#{max_updated_at}"
+  end
 end
