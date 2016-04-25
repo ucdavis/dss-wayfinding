@@ -1,4 +1,4 @@
-<% cache @directory_object do %>
+<% cache directory_object do %>
   <%# Generate Initial Anchor %>
   <% if @initial_category == false %>
       <tr><td id="category_<%= @scrubber_category_index %>" class="category-header">Floor <%= @scrubber_categories[@scrubber_category_index] %></td></tr>

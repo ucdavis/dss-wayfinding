@@ -1,4 +1,4 @@
-<% cache do %>
+<% cache(cache_key_for_directory_objects) do %>
   <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 
   <div class="directory-list">
