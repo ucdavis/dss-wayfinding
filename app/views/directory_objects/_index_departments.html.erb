@@ -1,3 +1,4 @@
+<% cache directory_object do %>
 <!-- Generate Initial Anchor -->
 <% if @initial_category == false %>
     <tr class="category-header"><td id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
@@ -19,3 +20,4 @@
   <% end %>
   </td>
 </tr>
+<% end %>
