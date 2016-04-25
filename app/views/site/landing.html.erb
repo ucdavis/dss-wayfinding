@@ -1,25 +1,27 @@
-<!-- div required for the transformY/top vertical centering technique -->
-<div style="height: 90vh;">
-  <ul class="horizontal-nav landing">
-    <li>
-      <a href="/people" class="btn-people icon-people"></a>
-      <span>People</span>
-    </li>
-    <li>
-      <a href="/departments" class="btn-departments icon-departments"></a>
-      <span>Departments</span>
-    </li>
-    <li>
-      <a href="/events" class="btn-events icon-events"></a>
-      <span>Events</span>
-    </li>
-    <li>
-      <a href="/rooms" class="btn-rooms icon-rooms"></a>
-      <span>Rooms</span>
-    </li>
-    <li>
-      <a href="/map" class="btn-map icon-map"></a>
-      <span>Map</span>
-    </li>
-  </ul>
-</div>
+<% cache do %>
+  <!-- div required for the transformY/top vertical centering technique -->
+  <div style="height: 90vh;">
+    <ul class="horizontal-nav landing">
+      <li>
+        <a href="/people" class="btn-people icon-people"></a>
+        <span>People</span>
+      </li>
+      <li>
+        <a href="/departments" class="btn-departments icon-departments"></a>
+        <span>Departments</span>
+      </li>
+      <li>
+        <a href="/events" class="btn-events icon-events"></a>
+        <span>Events</span>
+      </li>
+      <li>
+        <a href="/rooms" class="btn-rooms icon-rooms"></a>
+        <span>Rooms</span>
+      </li>
+      <li>
+        <a href="/map" class="btn-map icon-map"></a>
+        <span>Map</span>
+      </li>
+    </ul>
+  </div>
+<% end %>
