@@ -3,7 +3,7 @@ require 'rqrcode'
 require 'fileutils'
 
 class DirectoryObjectsController < ApplicationController
-  before_action :set_origin
+  before_action :set_origin, except: [:index]
   before_action :set_directory_object, only: [:show, :update, :destroy]
   before_filter :require_login, except: [:index, :show, :search, :unroutable]
   before_filter :authenticate, except: [:index, :show, :search, :unroutable]
@@ -21,7 +21,7 @@ class DirectoryObjectsController < ApplicationController
   def qr
     @qrLink = nil
     @targetURL = nil
-    
+
     room = Room.find(params[:originID]).first
     if room == nil
       raise ActionController::RoutingError.new('Origin Room Not Found')
@@ -31,7 +31,7 @@ class DirectoryObjectsController < ApplicationController
 
       unless params[:destinationID].blank? # Origin and destination supplied
         destinationRoom = Room.find(params[:destinationID]).room_number
-        
+
         # Hardcoding this for now because it's weird
         @targetURL = root_url + "start/" + originRoom + "/end/" + destinationRoom
 
@@ -40,7 +40,7 @@ class DirectoryObjectsController < ApplicationController
         @targetURL = url_for(action: 'start', controller: 'administration', origin: originRoom)
         @qrLink = generateQRLink(@targetURL)
       end
-      
+
       render :layout => false
     end
   end
@@ -50,7 +50,7 @@ class DirectoryObjectsController < ApplicationController
   # Does not do any parsing or forming
   def generateQR
     qrcode = RQRCode::QRCode.new(params[:url])
- 
+
     svg = qrcode.as_svg(offset: 0, color: '000',
                     shape_rendering: 'crispEdges',
                     module_size: 11
@@ -61,12 +61,12 @@ class DirectoryObjectsController < ApplicationController
 
   def placard
     @results = []
-    
+
     obj = DirectoryObject.find(params[:id])
 
     if obj.type == "Person"
       person      = Person.find(params[:id])
-      
+
       name       = person.first + ' ' + person.last
       department = person.department.name
       title      = nil
