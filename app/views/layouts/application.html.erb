@@ -26,34 +26,124 @@
   // as this annoys developers who may wish to linger on a page.
   document.development_mode = '<%= Rails.env %>' == "development";
   </script>
+
+<style type="text/css">
+    
+
+    /* Medium Devices, Desktops */
+     @media only screen and (max-width : 1080px) {
+        body{
+        padding-top: 60px;
+    }
+    }
+    /* if wider than min-width navbar dissapears */
+    @media only screen and (min-width : 1080px) {
+        .navbar {
+            display: none;
+        }
+    }
+</style>
+
 </head>
 
 
 
 <body data-spy="scroll" data-target="#side-nav">
-  <div class="topRibbon">
-    <a class="btn btn-default fitButton" id="menuToggleButton">Toggle Menu </a>
-    <% unless controller_name == "administration" %>
-      <a href="/search" class="btn btn-default fitButton">Search</a>
-    <% else %>
-      <a href="/logout" class="btn btn-default fitButton">logout</a>
-    <% end %>
-    <% if action_name == "landing" %>
-      <a href="/about" class="btn btn-default fitButton">about</a>
-    <% else %>
-      <a href="/" class="btn btn-default fitButton">home</a>
-    <% end %>
-  </div>
-  <div class="container overlay" id="overlayContainer">
-    <div class="overlayGreyOut"></div>
-    <div class="col-lg-2 col-sm-6 col-xs-10" id="sideBarColumn">
-      <div id="sidebarContainer">
-        <%= render("layouts/vertical_navigation") %>
-      </div>
-    </div>
-  </div>
 
+<!-- static navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <!-- Home Button -->
+            <!-- <div class="left-btn-container home"> -->
+            <a href="/" class="btn-home icon-home"></a>
+
+            <!-- Search Form -->
+            <!-- <div class="left-btn-container search"> -->
+            <% unless controller_name == "administration" %>
+                <a href="/search" class="btn-search icon-search"></a>
+            <% else %>
+                <a href="/logout" class="btn-logout icon-logout"></a>
+            <% end %>
+            <!--</div> -->            
+
+            <!-- toggle gets grouped for better mobile display -->
+            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span> 
+                <!-- 3 layer hamburger icon -->
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+         <!-- Hamburger Menu -->
+         <!-- just copy pastad from vertical navigation -->
+        <div id="navbarCollapse" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/people">
+                        <span class="btn-people icon-people"></span>
+                        <span class="text-people">People</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/departments">
+                        <span class="btn-departments icon-departments"></span>
+                        <span class="text-departments">Departments</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/events">
+                        <span class="btn-events icon-events"></span>
+                        <span class="text-events">Events</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/rooms">
+                        <span class="btn-rooms icon-rooms"></span>
+                        <span class="text-rooms">Rooms</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/map">
+                        <span class="btn-map icon-map"></span>
+                        <span class="text-map">Map</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/about">
+                        <span class="btn-about icon-about"></span>
+                        <span class="text-about">About</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<!-- Circle buttons
   <div class="container-fluid">
+    <div class="right-btn-container search">
+    <% unless controller_name == "administration" %>
+      <a href="/search" class="btn-search icon-search"></a>
+    <% else %>
+      <a href="/logout" class="btn-logout icon-logout"></a>
+    <% end %>
+    </div>
+    <% if action_name == "landing" %>
+    <div class="right-btn-container about">
+      <a href="/about" class="btn-about icon-about"></a>
+    </div>
+    <% else %>
+    <div class="right-btn-container home">
+      <a href="/" class="btn-home icon-home"></a>
+    </div>
+    <% end %>
+-->
+
     <div class="row">
       <div class="col-xs-12">
         <% if action_name == "landing" %>
@@ -67,102 +157,9 @@
           </div> <!-- main-content -->
         <% end %>
       </div>
+
     </div> <!-- row -->
   </div> <!-- container-fluid -->
-
-
-
-  <%= render "shared/analytics" %>
-  <style>
-/*  body {
-    padding-bottom: 5vh;
-    margin-bottom: 5vh;
-  }*/
-  .topRibbon {
-    position: fixed;
-    top: 0;
-    height: 5vh;
-    width: 100%;
-    background-color: #00cc44;
-    z-index: 1;
-  }
-  #overlayContainer {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 5vh;    
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-    overflow-y: hidden;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    /*defaults to hidden*/
-    z-index: -1;
-    opacity: 0;
-  }
-
-  .overlayGreyOut {
-    background-color: black;
-    opacity: 0.5;
-    width: 100%;
-    height: 100%;
-    z-index: inherit;
-  }
-
-  #sideBarColumn {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    overflow-y: hidden;
-    z-index: 12;
-      margin-left: 0;
-      padding-left: 0;
-  }
-
-  #sidebarContainer {
-
-      /*defaults to hidden*/
-      left: -100%; 
-      margin-left: -100%;
-      -webkit-transition: all 0.5s ease;
-      -moz-transition: all 0.5s ease;
-      -o-transition: all 0.5s ease;
-      transition: all 0.5s ease;
-    background-color: cyan;
-    height: 100%;
-    width: 100%;
-  }
-
-  #overlayContainer.unhide {
-    z-index: 10;
-    opacity: 1;
-  }
-
-  #sidebarContainer.unhide {
-    left: 0;
-    margin-left: 0;
-  }
-
-  .fitButton {
-    max-height:100%;
-    max-width:100%;
-  }
-
-  .vertical-nav {
-    max-height: 100%;
-  }
-  </style>
-
-  <script>
-      $("#menuToggleButton").click(function(e) {
-          e.preventDefault();
-          $("#sidebarContainer").toggleClass("unhide");
-          $("#overlayContainer").toggleClass("unhide");
-          $('body').css('overflow', 'hidden');
-      });
-  </script>
 
 </body>
 </html>
