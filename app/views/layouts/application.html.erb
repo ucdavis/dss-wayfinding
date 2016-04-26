@@ -28,8 +28,6 @@
   </script>
 
 <style type="text/css">
-    
-
     /* Medium Devices, Desktops */
      @media only screen and (max-width : 1080px) {
         body{
@@ -43,7 +41,6 @@
         }
     }
 </style>
-
 </head>
 
 
@@ -56,15 +53,19 @@
         <div class="navbar-header">
             <!-- Home Button -->
             <!-- <div class="left-btn-container home"> -->
+            <button type="button" class="btn btn-xs btn-default">
             <a href="/" class="btn-home icon-home"></a>
+            </button>
 
             <!-- Search Form -->
             <!-- <div class="left-btn-container search"> -->
+            <button type="button" class="btn btn-xs btn-default">
             <% unless controller_name == "administration" %>
                 <a href="/search" class="btn-search icon-search"></a>
             <% else %>
                 <a href="/logout" class="btn-logout icon-logout"></a>
             <% end %>
+            </button>
             <!--</div> -->            
 
             <!-- toggle gets grouped for better mobile display -->
@@ -80,41 +81,53 @@
          <!-- Hamburger Menu -->
          <!-- just copy pastad from vertical navigation -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-left btn-block">
                 <li>
                     <a href="/people">
-                        <span class="btn-people icon-people"></span>
-                        <span class="text-people">People</span>
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-people icon-people"></span>
+                            <span class="text-people">People</span>
+                        </button>
                     </a>
                 </li>
                 <li>
                     <a href="/departments">
-                        <span class="btn-departments icon-departments"></span>
-                        <span class="text-departments">Departments</span>
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-departments icon-departments"></span>
+                            <span class="text-departments">Departments</span>
+                        </button>
                     </a>
                 </li>
                 <li>
                     <a href="/events">
-                        <span class="btn-events icon-events"></span>
-                        <span class="text-events">Events</span>
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-events icon-events"></span>
+                            <span class="text-events">Events</span>
+                        </button>
                     </a>
                 </li>
                 <li>
-                    <a href="/rooms">
-                        <span class="btn-rooms icon-rooms"></span>
-                        <span class="text-rooms">Rooms</span>
+                    <a href="/rooms">                
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-rooms icon-rooms"></span>
+                            <span class="text-rooms">Rooms</span>
+                        </button>
                     </a>
                 </li>
                 <li>
                     <a href="/map">
-                        <span class="btn-map icon-map"></span>
-                        <span class="text-map">Map</span>
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-map icon-map"></span>
+                            <span class="text-map">Map</span>
+                        </button>
                     </a>
                 </li>
                 <li>
                     <a href="/about">
-                        <span class="btn-about icon-about"></span>
-                        <span class="text-about">About</span>
+                        <button type="button" class="btn navbar-btn btn-block">
+                            <span class="btn-about icon-about"></span>
+                            <span class="text-about">About</span>
+                        </button>
                     </a>
                 </li>
             </ul>
