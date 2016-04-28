@@ -1,6 +1,7 @@
-<h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
+<% cache(cache_key_for_directory_objects) do %>
+  <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
 
-<div class="directory-list">
+  <div class="directory-list">
     <div id="scrubber-view">
         <ul class="nav nav-list" id="slider-vertical">
             <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) && @scrubber_categories %>
@@ -23,4 +24,5 @@
         <% end %>
       </tbody>
     </table>
-</div> <!-- .directory-list.spy-container -->
+  </div> <!-- .directory-list.spy-container -->
+<% end %>
