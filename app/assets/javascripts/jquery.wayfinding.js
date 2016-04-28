@@ -517,13 +517,12 @@
 			var mapIdx = drawing[drawingSegment][0].floor;
 			svg = $('#' + maps[mapIdx].id + ' svg')[0];
 
-			drawLength = drawing[drawingSegment].routeLength;
-			animationDuration = drawLength * options.path.speed;
-
 			switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
 			// Get the complete path for this particular floor-route
 			path = $('#' + maps[drawing[drawingSegment][0].floor].id + ' .directionPath' + drawingSegment)[0];
+			drawLength = path.getTotalLength();
+			animationDuration = drawLength * options.path.speed;
 
 			// Animate using CSS transitions
 			// SVG animation technique from http://jakearchibald.com/2013/animated-line-drawing-svg/
