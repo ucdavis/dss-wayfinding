@@ -407,8 +407,6 @@
 	</g>
 	<g id="Portals">
 		
-			<line id="Stair.19.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="425.8369" y1="253.1074" x2="421.8037" y2="250.4219"/>
-		
 			<line id="Stair.19.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="425.8369" y1="253.1074" x2="426.3408" y2="250.1758"/>
 		
 			<line id="Elev.2.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="363.1846" y1="165.2622" x2="361.0391" y2="164.418"/>
@@ -419,21 +417,21 @@
 		
 			<line id="Elev.2.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="363.1846" y1="165.2622" x2="365.3486" y2="160.5161"/>
 		
-			<line id="Stair.2.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="381.1113" y1="163.8848" x2="381.3525" y2="161.6431"/>
+			<line id="Stair.2b.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="381.1113" y1="163.8848" x2="381.3525" y2="161.6431"/>
 		
-			<line id="Stair.2.floor5" fill="none" stroke="#000000" stroke-miterlimit="10" x1="381.1113" y1="163.8848" x2="378.3145" y2="162.0732"/>
+			<line id="Stair.2b.floor5" fill="none" stroke="#000000" stroke-miterlimit="10" x1="381.1113" y1="163.8848" x2="378.3145" y2="162.0732"/>
 		
-			<line id="Stair.2.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="374.7832" y1="166.7441" x2="374.6191" y2="164.1519"/>
+			<line id="Stair.2b.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="374.7832" y1="166.7441" x2="374.6191" y2="164.1519"/>
 		
-			<line id="Stair.2.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="374.7832" y1="166.7441" x2="372.8506" y2="163.7861"/>
+			<line id="Stair.2b.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="374.7832" y1="166.7441" x2="372.8506" y2="163.7861"/>
 		
-			<line id="Stair.1.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="290.3901" y1="55.5732" x2="290.1602" y2="57.9639"/>
+			<line id="Stair.1b.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="290.3901" y1="55.5732" x2="290.1602" y2="57.9639"/>
 		
-			<line id="Stair.1.floor5" fill="none" stroke="#000000" stroke-miterlimit="10" x1="290.3901" y1="55.5732" x2="286.957" y2="56.1719"/>
+			<line id="Stair.1b.floor5" fill="none" stroke="#000000" stroke-miterlimit="10" x1="290.3901" y1="55.5732" x2="286.957" y2="56.1719"/>
 		
-			<line id="Stair.1.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="280.5762" y1="38.875" x2="278.8179" y2="41.2187"/>
+			<line id="Stair.1b.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="280.5762" y1="38.875" x2="278.8179" y2="41.2187"/>
 		
-			<line id="Stair.1.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="280.5762" y1="38.875" x2="276.7012" y2="39.958"/>
+			<line id="Stair.1b.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="280.5762" y1="38.875" x2="276.7012" y2="39.958"/>
 		
 			<line id="Elev.1.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="288.125" y1="47.8418" x2="286.333" y2="46.9648"/>
 		
@@ -467,17 +465,17 @@
 		
 			<line id="Stair.6.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="100.9829" y1="202.5977" x2="92.5" y2="206.5625"/>
 		
-			<line id="Elev.5.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="203.1641" y2="229.4805"/>
+			<line id="Elev.3.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="203.1641" y2="229.4805"/>
 		
-			<line id="Elev.5.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="202.5659" y2="227.1836"/>
+			<line id="Elev.3.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="202.5659" y2="227.1836"/>
 		
-			<line id="Elev.5.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="201.478" y2="224.9502"/>
+			<line id="Elev.3.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="199.792" y1="230.082" x2="201.478" y2="224.9502"/>
 		
-			<line id="Stair.5.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="209.0049" y2="234.832"/>
+			<line id="Stair.3.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="209.0049" y2="234.832"/>
 		
-			<line id="Stair.5.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="209.5112" y2="232.3398"/>
+			<line id="Stair.3.floor1" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="209.5112" y2="232.3398"/>
 		
-			<line id="Stair.5.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="210.231" y2="229.4805"/>
+			<line id="Stair.3.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="210.231" y2="229.4805"/>
 	</g>
 	<g id="Doors">
 		<line id="R3102_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="75.376" y1="90.23" x2="75.376" y2="84.541"/>
@@ -600,9 +598,8 @@
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="427.6396" y1="276.5029" x2="423.1172" y2="279"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="427.6396" y1="276.5029" x2="424.0371" y2="270.2734"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="424.0371" y1="270.2734" x2="428.7832" y2="267.8691"/>
-		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="424.0371" y1="270.2734" x2="422.3711" y2="267.0049"/>
-		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="422.3711" y1="267.0049" x2="417.376" y2="269.7119"/>
-		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="422.3711" y1="267.0049" x2="422.1602" y2="266.3574"/>
+		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="424.0371" y1="270.2734" x2="422.1602" y2="266.3574"/>
+		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="422.1602" y1="266.3574" x2="417.376" y2="269.7119"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="422.1602" y1="266.3574" x2="429.1152" y2="262.4951"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="422.1602" y1="266.3574" x2="417.0215" y2="257.4639"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="417.0215" y1="257.4639" x2="411.3779" y2="260.0039"/>
@@ -730,8 +727,6 @@
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="182.4771" y1="206.165" x2="191" y2="214.6875"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="191" y1="214.6875" x2="180.5801" y2="225.1055"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="180.5801" y1="225.1055" x2="186.064" y2="230.5908"/>
-		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M194.6802,221.9746"/>
-		<path fill="none" stroke="#000000" stroke-miterlimit="10" d="M186.064,230.5908"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="186.064" y1="230.5908" x2="192.6729" y2="237.2002"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="192.6729" y1="237.2002" x2="199.792" y2="230.082"/>
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="192.6729" y1="237.2002" x2="197.8921" y2="242.418"/>
