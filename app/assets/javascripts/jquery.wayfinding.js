@@ -26,7 +26,7 @@
 		'path': {
 			color: 'red', // the color of the solution path that will be drawn
 			radius: 10, // the radius in pixels to apply to the solution path
-			speed: 8, // the speed at which the solution path with be drawn
+			speed: 6, // the speed at which the solution path with be drawn
 			width: 3 // the width of the solution path in pixels
 		},
 		// The door identifier for the default starting point
@@ -63,9 +63,9 @@
 		},
 		'pinchToZoom': false, // requires jquery.panzoom
 		'zoomToRoute': true,
-		'zoomPadding': 25,
+		'zoomPadding': 55,
 		// milliseconds to wait during animation when a floor change occurs
-		'floorChangeAnimationDelay': 1250
+		'floorChangeAnimationDelay': 1800
 	};
 
 	$.fn.wayfinding = function (action, options, callback) {
@@ -517,13 +517,12 @@
 			var mapIdx = drawing[drawingSegment][0].floor;
 			svg = $('#' + maps[mapIdx].id + ' svg')[0];
 
-			drawLength = drawing[drawingSegment].routeLength;
-			animationDuration = drawLength * options.path.speed;
-
 			switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
 			// Get the complete path for this particular floor-route
 			path = $('#' + maps[drawing[drawingSegment][0].floor].id + ' .directionPath' + drawingSegment)[0];
+			drawLength = path.getTotalLength();
+			animationDuration = drawLength * options.path.speed;
 
 			// Animate using CSS transitions
 			// SVG animation technique from http://jakearchibald.com/2013/animated-line-drawing-svg/
@@ -548,8 +547,8 @@
 			}
 
 			// Zooming logic...
-			var steps = 35;
-			var duration = 650; // Zoom animation in milliseconds
+			var steps = 16;
+			var duration = 1050; // Zoom animation in milliseconds
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');

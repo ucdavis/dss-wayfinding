@@ -45,11 +45,13 @@ adminServices.factory('Rooms', function($resource) {
         status: function() { return data.status }
     };
 }).factory("QRLink", function($resource) {
-    // Input: a single room ID and destination ID
-    // Generates links that correspond to the qr action in directory_objects
-    //  controller.
-    return {
 
+    // Takes room IDs, will generate URLs that correspond to the 'qr' view in directory_objects
+    // The qr view will take the ID's, do the necessary parsing, and provide the
+    //      view with the necessary QR image for a <img>
+    // Avoid any issues of passing a full url to qr encode
+
+    return {
         getOriginQR: function(originID) {
             return '/directory_objects/qr/' + originID;
         },
@@ -60,13 +62,9 @@ adminServices.factory('Rooms', function($resource) {
 }).factory("PlacardLink", function($resource) {
   // Takes either a person's ID or a department's ID and generates a link
   // for the appropriate route
-
   return {
-    getPersonPlacardURL: function(personID) {
-      return '/directory_objects/personPlacard/' + personID;
-    },
-    getDepartmentPlacardsURL: function(departmentID) {
-      return 'directory_objects/departmentPlacards/' + departmentID;
+    getPlacardURL: function(doID) {
+      return '/directory_objects/' + doID + '/placard';
     }
   }
 });

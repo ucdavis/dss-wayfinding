@@ -24,7 +24,7 @@ var displayResults = function () {
       $('#result').empty();
     }
     else {
-      $('#result').html('<div class="search-error" align="center">You need at least 3 charachters</div>');
+      $('#result').html('<div class="search-error" align="center">You need at least 3 characters</div>');
     }
     return;
   }

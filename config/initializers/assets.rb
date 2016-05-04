@@ -5,4 +5,4 @@ Rails.application.config.assets.precompile += %w( bootstrap/glyphicons-halflings
 Rails.application.config.assets.precompile += %w( bootstrap/glyphicons-halflings-regular.svg )
 Rails.application.config.assets.precompile += %w( bootstrap/glyphicons-halflings-regular.ttf )
 Rails.application.config.assets.precompile += %w( fontello.eot fontello.woff fontello.ttf )
-Rails.application.config.assets.precompile += %w( printPlacardStyle.css )
+Rails.application.config.assets.precompile += %w( print_placard.css )
