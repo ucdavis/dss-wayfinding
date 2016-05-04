@@ -7,11 +7,41 @@
  */
 
 /*These are the screen display settings*/
+
+
  @media screen {
-    h3,p{
-	font-family:Gill Sans, sans-serif;
+*
+{
+	font-family: 'Segoe UI', sans-serif !important;
+	font-style: normal !important;
+	font-variant: normal !important;
+	/*OLDER 	font-family: 'Segoe UI', sans-serif;*/
+
+}
+    h3{
+	font-style: normal;
+	font-variant: normal;
+	font-size:14px;
+    	border:1px solid #dddddd;
+    	width:8in; 
+      }
+    p,textarea,input, div{
+	font-size:12px;
       }
       
+    button{
+    	border:1px solid #dddddd; 
+   	font-weight:bold;
+	font-size:12px;
+      }
+    button:hover{
+	background-color:#dfe4de;
+	
+      }
+
+    .buttonDiv{
+	padding-bottom:2em;
+      }
     img.hidden {
         display:none;
       }
@@ -30,52 +60,54 @@
 	font-weight: bold;
         font-size:40px;
         left: 25%;
-        top:5%;
+        top:.15in; 
 	width:75%;
         color: #ffffff;
 	text-shadow:
-	   -1px -1px 0 #000,  
-	    1px -1px 0 #000,
-	   -1px 1px 0 #000,
-	    1px 1px 0 #000;
- 	font-family:Gill Sans, sans-serif;
+	   -1px -1px 0 #013b69,  
+	    1px -1px 0 #013b69,
+	   -1px 1px 0 #013b69,
+	    1px 1px 0 #013b69;
       }
 
       .title {
         position: absolute;
 	font-weight: bold;
         font-size:18px;
-        top:105%;
-        left: 0%;
+	top: 40px; /*To place below name, may be a better way to do this*/
+        left: .3%;
 	width:70%;
+        padding-top: 5px;
  	text-shadow: none;
         color: #000000;
-	font-family:Gill Sans, sans-serif;
       }
 
       .extrainfo {
         position: absolute;
 	font-weight: bold;
-        font-size:14px;
-        top:160%;
-        left: 0%;
-	width:70%;
+        font-size:12px;
+	top: 40px; /*To place below name and title*/
  	text-shadow: none;
         color: #000000;
-	font-family:Gill Sans, sans-serif;
+	padding-left: 3px;
+	border-left: 1px solid #013b69;
       }
 
       .email {
  	position: absolute;
 	font-weight: bold;
-        font-size:16px;
-        top:80%;
-        left: 25%;
+        font-size:14px;
  	text-shadow: none;
-        color: #000000;
-	font-family:Gill Sans, sans-serif;
+        color: #000000; 
+        padding-bottom: 10px;
       }
- 
+      .leftLine{
+	position: absolute;
+        padding-top: 10px;
+	width:70%;
+        left: 2%;
+	top: 58px; /*To place below name*/
+      }
       .qr {
         position:absolute;
         left: .1in;   
@@ -93,6 +125,7 @@
         border-color:#ffffff;
       }
 
+
       img.bgstyle {
         width: 8in;
         height: 2in;
@@ -102,56 +135,60 @@
         border-color:#ffffff;
       }
 
-
-      /*==========EXTRA INFO==================*/
       img.logostyle {
         width: 100%;
         height:auto;
-        max-width: 110px;
-        max-height: 110px;
+        max-width: 107px;
+        max-height: 107px;
       }
 
       .logo {
         position:absolute;
-        right: 7%;
+        right: 5%;
         top:30%;
       }
 
      .depname {
         position: absolute;
         font-weight: bold;
-        font-size:28px;
+        font-size:24px;
         right: 5%;
-        bottom:.1in;
-        color: #000000;
-	font-family:Gill Sans, sans-serif;
+        bottom:.18in;
+        color: #013b69;
       }
 
-.error{
+     .error{
 	color:red;
         font-size:12px;
  	text-shadow: none;
-	font-family:Gill Sans, sans-serif;
-	padding-bottom:3em;
 	visibility: hidden;
       }
+	
 }
 
 /*These the print display settings*/
 @media print {
-    footer, button,input, p, textarea,h4 {
+
+      *{
+	font-family: 'Segoe UI', sans-serif !important;
+	font-style: normal !important;
+	font-variant: normal !important;
+	/*OLDER 	font-family: 'Segoe UI', sans-serif;*/
+
+	}
+    footer, button,input, textarea,h4, h3 {
       display: none;
     }
-
-      h3 {
-	font-family:Gill Sans, sans-serif;
-      }
 
       img.hidden {
         display:none;
       }
 
       .error{
+	display:none;
+      }
+
+      .hidep{
 	display:none;
       }
 
@@ -169,52 +206,54 @@
 	font-weight: bold;
         font-size:40px;
         left: 25%;
-        top:5%;
+        top:.15in; 
 	width:75%;
         color: #ffffff;
 	text-shadow:
-	   -1px -1px 0 #000,  
-	    1px -1px 0 #000,
-	   -1px 1px 0 #000,
-	    1px 1px 0 #000;
- 	font-family:Gill Sans, sans-serif;
+	   -1px -1px 0 #013b69,  
+	    1px -1px 0 #013b69,
+	   -1px 1px 0 #013b69,
+	    1px 1px 0 #013b69;
       }
 
       .title {
         position: absolute;
 	font-weight: bold;
         font-size:18px;
-        top:105%;
-        left: 0%;
+	top: 40px; /*To place below name, may be a better way to do this*/
+        left: .3%;
 	width:70%;
+        padding-top: 5px;
  	text-shadow: none;
         color: #000000;
-	font-family:Gill Sans, sans-serif;
       }
 
       .extrainfo {
         position: absolute;
 	font-weight: bold;
-        font-size:14px;
-        top:160%;
-        left: 0%;
-	width:70%;
+        font-size:12px;
+	top: 40px; /*To place below name and title*/
  	text-shadow: none;
         color: #000000;
-	font-family:Gill Sans, sans-serif;
+	padding-left: 3px;
+	border-left: 1px solid #013b69;
       }
 
       .email {
  	position: absolute;
 	font-weight: bold;
-        font-size:16px;
-        top:80%;
-        left: 25%;
+        font-size:14px;
  	text-shadow: none;
-        color: #000000;
-	font-family:Gill Sans, sans-serif;
+        color: #000000; 
+        padding-bottom: 10px;
       }
- 
+      .leftLine{
+	position: absolute;
+        padding-top: 10px;
+	width:70%;
+        left: 2%;
+	top: 58px; /*To place below name*/
+      }
       .qr {
         position:absolute;
         left: .1in;   
@@ -232,6 +271,7 @@
         border-color:#ffffff;
       }
 
+
       img.bgstyle {
         width: 8in;
         height: 2in;
@@ -241,29 +281,27 @@
         border-color:#ffffff;
       }
 
-
-      /*==========EXTRA INFO==================*/
       img.logostyle {
         width: 100%;
         height:auto;
-        max-width: 110px;
-        max-height: 110px;
+        max-width: 107px;
+        max-height: 107px;
       }
 
       .logo {
         position:absolute;
-        right: 7%;
+        right: 5%;
         top:30%;
       }
 
      .depname {
         position: absolute;
         font-weight: bold;
-        font-size:28px;
+        font-size:24px;
         right: 5%;
-        bottom:.1in;
-        color: #000000;
-	font-family:Gill Sans, sans-serif;
+        bottom:.18in;
+        color: #013b69;
       }
+
 
 } 

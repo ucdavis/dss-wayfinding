@@ -6,38 +6,32 @@
 
 
 	<body>
-		<!--===========The javascript functions to change title and background image ====-->
+		<!--===========The javascript functions to change title, extra info, and background image ====-->
 		<script>
-		var toggleBGImg = 1;
-		function changeBgImage()
+		var numberOfBackgrounds = 14; //Change when adding new images 
+		var curBackground = 0;
+		function changeBgImage(num)
 			{
 			var background = document.getElementById("bgImage");
 			var bckSrc = background.src;
-
-			/* This switches between the 3 backgrounds and a blank background */
-			switch(toggleBGImg){
-				case 0:
-					background.setAttribute("src", "/assets/placard/back1.jpg");
-					toggleBGImg = 1;
-					break;
-				case 1:	
-					background.setAttribute("src", "/assets/placard/Modern1.jpg");
-					toggleBGImg = 2;
-					break;
-				case 2:
-					background.setAttribute("src", "/assets/placard/nature.jpg");
-					toggleBGImg = 3;
-					break;
-				case 3:
-					background.setAttribute("src", " ");
-					toggleBGImg = 0;
-					break;
-				default:
-					background.setAttribute("src", "/assets/placard/back1.jpg");
-					toggleBGImg = 1;
-					break;
-				  } 
+			
+			if(num == 0){ 	//Go to previous background
+				if(curBackground == 0) curBackground = numberOfBackgrounds;
+				else curBackground -= 1;
+			
 			}
+			else{			//Go to next background
+				if(curBackground == numberOfBackgrounds) curBackground = 0;
+				else curBackground += 1;
+
+			}
+			if(curBackground == numberOfBackgrounds) //Set blank background
+				background.setAttribute("src", " ");
+			else
+				background.setAttribute("src", "/assets/placard/back" + curBackground + ".jpg");
+
+			}
+
 		function changeInfo(newName)  
 			{
 			var entTitle = document.getElementById("newTitle").value;
@@ -58,66 +52,75 @@
 				document.getElementById("errorField").style.visibility= "visible";
 				document.getElementById("extraField").innerHTML= "";
 			}
-
 			}
 			
 		</script>
 
+
+		<!-- ========= Start Placard ============-->
+
 		<!-- This is the placard background -->
 		<div class="backgroundImg">
-      		<%= image_tag("placard/back1.jpg", id: "bgImage", alt: "", class: "bgstyle") %>
+      		<%= image_tag("placard/back0.jpg", id: "bgImage", alt: "", class: "bgstyle") %>
+
+			<!--WATCH FOR <DIV> NESTING-->
 
 			<!-- This is the name field -->
 			<div id="nameField" class="name"> <%= @name %>
 
-			<!--Extra (watch for div enclosure)-->
-			<div id="titleField" class="title"><%= @title %> </div>
-			<div id="extraField" class="extrainfo"></div>
+				<div id="titleField" class="title"><%= @title %> </div>
+
+				<div id = "extraInfoLine" class = "leftLine">
+					<!-- This is the email address-->
+					<div id="emailField" class="email"><%= @email %></div>
+
+					<!--Extra info-->
+					<div id="extraField" class="extrainfo"></div>
+				</div>
 
 			</div>
+
 			<!-- This is the QR image-->
-			<div class="qr">
-          		<%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %>
-			</div>
+			<div class="qr"><%= image_tag(@qrLink, alt: "qrCode", class: "qrstyle", id: "qrImage") %></div>
 
-			<!-- ===============EXTRA=================-->
 			<!-- This is the school logo -->
-			<div class="logo">
-			<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
-			</div>
+			<div class="logo"><%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %></div>
 
 			<!-- This is the department name-->
-			<div id="depNameField" class="depname">
-			<%= @department %>
-			</div>
+			<div id="depNameField" class="depname"><%= @department %></div>
 
-			<!-- This is the email address-->
-			<div id="emailField" class="email">
-			<%= @email %>
-			</div>
-			<!-- =====================================-->
+		</div>
+		<!-- ========= End Placard ============-->
+
+		<!-- This is where the user can change the background-->
+		<h3> Optional Customization</h3>
+
+		<div class= "buttonDiv">
+		<p id="backgroundTitle" class= "hidep">
+		<button onclick="changeBgImage(0)" id = "0">Previous Image</button>
+		<button onclick="changeBgImage(1)" id = "1">Next Image</button>
+		Change Background</p>
 		</div>
 
-		<!-- This is where the user can change the background and add a title or additional info-->
-		<br>
-		<button onclick="changeBgImage()">Change Background Image</button>
-
-		<br>
-		<h4>
-		Optional fields
-		</h4>
+		<!-- This is where the user can change the title-->
 		<input type="text" id="newTitle" size="35" placeholder="Enter your title"> 
 		<br>
-		<textarea id="newInfo" rows="4" cols="50" placeholder="Additional info (office hours, phone number, etc.)"></textarea>
+
+		<!-- This is where the user can add extra info-->
+		<textarea id="newInfo" rows="4" cols="50" placeholder="Additional info (office hours, phone number, etc.)"></textarea> 
+		<br>
+
+		<!-- This is the update button-->
+		<div class= "buttonDiv">
 		<button onclick="changeInfo()">Update</button>
+		<p id="errorField" class="error">ERROR: Too many additional info lines</p>
+		</div>
 
-		<!-- This is the email address-->
-		<p id="errorField" class="error">ERROR: too many lines</p>
 
 
-		<h3 >
+		<h2 >
 		Thanks for participating in the new and improved wayfinding system!
-		</h3>
+		</h2>
 
 		<!-- Printing tips-->
 		<p>
