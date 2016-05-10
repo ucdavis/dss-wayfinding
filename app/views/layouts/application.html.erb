@@ -31,33 +31,14 @@
   </script>
 </head>
 <body data-spy="scroll" data-target="#side-nav">
-
   <div class="container-fluid">
-    <div class="right-btn-container search">
-    <% unless controller_name == "administration" %>
-      <a href="/search" class="btn-search icon-search"></a>
-    <% else %>
-      <a href="/logout" class="btn-logout icon-logout"></a>
-    <% end %>
-    </div>
     <% if action_name == "landing" %>
     <div class="right-btn-container about">
       <a href="/about" class="btn-about icon-about"></a>
     </div>
-    <% else %>
-    <div class="right-btn-container home">
-      <a href="/" class="btn-home icon-home"></a>
-    </div>
     <% end %>
-
     <div class="row">
-      <% if ["landing"].include?(action_name) || ["administration", "site"].include?(controller_name) %>
-        <% col_xs_12_style = "width: 100%;" %>
-      <% else %>
-        <% col_xs_12_style = "width: calc(100% - 130px); margin-left: 130px;" %>
-      <% end %>
-
-      <div class="col-xs-12" style="<%= col_xs_12_style %>">
+      <div class="col-xs-12">
         <% if action_name == "landing" %>
           <%= yield :javascript %>
           <%= yield %>
@@ -69,7 +50,6 @@
           </div> <!-- main-content -->
         <% end %>
       </div>
-      <%= render "layouts/vertical_navigation" unless (["landing","access_denied"].include?(action_name) || ["administration"].include?(controller_name)) %>
     </div> <!-- row -->
   </div> <!-- container-fluid -->
 
