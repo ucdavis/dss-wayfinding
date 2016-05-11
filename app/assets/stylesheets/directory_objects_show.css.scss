@@ -1029,14 +1029,13 @@ table {
   }
 }
 
-.access-nav {
-
-}
-
-
 /* Accessibility nav-bar buttons*/
 .btn-access {
   &.active {
     opacity: 0.6;
   }
+}
+ /* Not sure where ui-loader is coming from, leaves "loading" */
+.ui-loader {
+  visibility: hidden;
 }
