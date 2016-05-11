@@ -116,15 +116,26 @@
 </script>
 
 <div class="show-map">
-  <ul class="horizontal-nav map-actions">
-    <span>Floors</span>
-    <li><a href="#" data-mapId="floor0" class="btn-floor">L</a></li>
-    <li><a href="#" data-mapId="floor1" class="btn-floor">1</a></li>
-    <li><a href="#" data-mapId="floor2" class="btn-floor">2</a></li>
-    <li><a href="#" data-mapId="floor3" class="btn-floor">3</a></li>
-    <li><a href="#" data-mapId="floor4" class="btn-floor">4</a></li>
-    <li><a href="#" data-mapId="floor5" class="btn-floor">5</a></li>
-  </ul>
+  <div class="row floor-nav row-no-padding">
+      <div class="col-lg-1 col-lg-offset-3 col-xs-2">
+        <a href="#" data-mapId="floor0" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+      <div class="col-lg-1 col-xs-2">
+        <a href="#" data-mapId="floor1" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+      <div class="col-lg-1 col-xs-2">
+        <a href="#" data-mapId="floor2" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+      <div class="col-lg-1 col-xs-2">
+        <a href="#" data-mapId="floor3" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+      <div class="col-lg-1 col-xs-2">
+        <a href="#" data-mapId="floor4" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+      <div class="col-lg-1 col-xs-2">
+        <a href="#" data-mapId="floor5" class="btn-floor"><img src="GroundFloorButton.png" class="img-fill"></a>
+      </div>
+  </div>
   <div id="map">
     <div id="mapLoading">
       <div id="mapLoadingInner">
@@ -132,10 +143,14 @@
       </div>
     </div>
   </div> <!-- #map -->
-  <ul class="horizontal-nav map-actions">
-    <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
-    <li><a href="#" class="btn-map-action icon-repeat replay disabled"></a></li>
-  </ul>
+  <div class="row floor-nav">
+    <div class="col-lg-1 col-lg-offset-5 col-xs-2 col-xs-offset-4">
+      <a href="#" class="btn-access accessible"><img src="GroundFloorButton.png" class="img-fill"></a>
+    </div>
+    <div class="col-lg-1 col-xs-2">
+      <a href="#" class="btn-access replay disabled"><img src="GroundFloorButton.png" class="img-fill"></a>
+    </div>
+  </div>
 </div> <!-- .show-map -->
 
 <div id="destination-view-bg"></div>
@@ -143,3 +158,6 @@
   <i class="btn-min-max icon-right-arrow min-max"></i>
   <h1>Destination</h1>
 </div>
+
+<style>
+</style>

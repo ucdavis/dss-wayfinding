@@ -472,11 +472,6 @@ ul.vertical-nav {
   color: white;
 }
 
-.btn-floor {
-  background: $floor-color;
-  color: white;
-}
-
 .btn-map-action {
   background: $floor-color;
   color: white;
@@ -926,4 +921,122 @@ table {
   height: 15px;
   width: 50px;
   display: block;
+}
+
+/* 
+ * FRONT PAGE NAVIGATION
+ */
+
+
+/* Scale font size, line height, active, etc based on screen size */
+.floor-nav {
+
+  span {
+    width: 100%;
+    height: 100%;
+    text-align: right;
+    background-color: red;
+    display: block;
+  }
+
+  /*Small devices (landscape phones, 34em and up)*/
+  @media (min-width: 0em) {  
+    .btn-floor.start:after {
+      content: ".";
+      position: absolute;
+      width: 100%;
+      top: 0%;
+      left: 0%;
+      color: #00e13c;
+      font-size: 250%;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-floor.destination:after {
+      content: ".";
+      position: absolute;
+      width: 100%;
+      top: 0%;
+      left: 0%;
+      color: #fc6355;
+      font-size: 250%;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  /*Medium devices (tablets, 48em and up)*/
+  @media (min-width: 48em) { 
+    font-size: 12pt;
+  }
+
+  /*Large devices (desktops, 62em and up)*/
+  @media (min-width: 62em) { 
+    .btn-floor.start:after {
+      content: ".";
+      position: absolute;
+      width: 100%;
+      top: 0%;
+      left: 0%;
+      color: #00e13c;
+      font-size: 500%;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-floor.destination:after {
+      content: ".";
+      position: absolute;
+      width: 100%;
+      top: 0%;
+      left: 0%;
+      color: #fc6355;
+      font-size: 500%;
+      display: block;
+      text-align: center;
+    }
+  }
+
+  /*Extra large devices (large desktops, 75em and up)*/
+
+}
+
+/* Style a row such that child cols dont have padding */
+.row-no-padding {
+  [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* img tags that scale with container maintaining aspect */
+.img-fill {
+  width: 100%;
+  height: auto;
+}
+
+/* Used for floor anchors */
+.btn-floor {
+  display: block;
+
+  &.active {
+    opacity: 0.6;
+  }
+
+  &.disabled {
+    opacity: 0.6;
+  }
+}
+
+.access-nav {
+
+}
+
+
+/* Accessibility nav-bar buttons*/
+.btn-access {
+  &.active {
+    opacity: 0.6;
+  }
 }
