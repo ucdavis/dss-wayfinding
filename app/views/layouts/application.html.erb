@@ -51,10 +51,10 @@
             <!-- Search Form -->
             <div class="searchbar">
                 <input name="q" type="search" id="search" class="form-control search" autocomplete="off" autocorrect="off" autocapitalize="off"
-                    placeholder="Search for people, rooms, etc..." value="<%= @query %>">
+                    placeholder="Search people, rooms, etc..." value="<%= @query %>">
             </div>
 
-            <!-- toggle gets grouped for better mobile display -->
+            <!-- toggle hamburger menu -->
             <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span> 
                 <!-- 3 layer hamburger icon -->
@@ -68,16 +68,18 @@
         <div id="navbarCollapse" class="collapse navbar-collapse">
             <%= render("layouts/vertical_navigation") %>
         </div> <!-- navbarCollapse -->
+
+        <!--Search results-->
+        <div class="directory-list">
+            <div id="scrubber-view" >
+                <ul class="nav nav-list" id="slider-vertical"></ul>
+            </div>
+            <div id="result"></div>
+        </div> <!--directory-list-->
     </div> <!-- container -->
 </nav>
 
-<div class="directory-list">
-  <div id="scrubber-view" >
-    <ul class="nav nav-list" id="slider-vertical">
-    </ul>
-  </div>
-  <div id="result"></div>
-</div>
+
 
 <!-- Circle buttons
   <div class="container-fluid">
