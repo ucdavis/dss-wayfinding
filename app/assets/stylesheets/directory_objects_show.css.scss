@@ -1047,6 +1047,41 @@ table {
   visibility: hidden;
 }
 
+/* END FRONT PAGE FLOOR NAV */
+
+/* BEGIN LANDING */
+
+.landing-ul {
+  margin: auto;
+  width: 70%;
+  left: 50%;
+  text-align: center;
+
+  li { /* Holds links to rest of site */
+    display: block;
+    height: 16vh; /* containing div is 90vh, divide by 5 and leave some extra */
+    text-align: left;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+
+    a { /* Anchors hold button images */
+      height: 100%;
+      display: inline-block;
+
+
+      img { /* Button imags scale to fit container */
+        height: 100%;
+        width: auto;
+        display: inline-block;
+      }
+    }
+
+    span {
+      display: inline-block;
+    }
+
+  }
+}
 
 
 .btn-navbar-main {  //home button
@@ -1110,4 +1145,10 @@ table {
 .navbar-nav>li>a {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 1080px) {
+    body{
+        padding-top: 60px;
 }

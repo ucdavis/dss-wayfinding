@@ -30,19 +30,13 @@
   document.development_mode = '<%= Rails.env %>' == "development";
   </script>
 
-<style>
-    /* Medium Devices, Desktops */
-    @media only screen and (max-width : 1080px) {
-        body{
-            padding-top: 60px;
-    }
-</style>
-</head>
 
+</head>
 
 <body data-spy="scroll" data-target="#side-nav">
 
 
+<% unless ["landing"].include?(action_name) %> 
 <!-- static navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -82,7 +76,7 @@
         </div> <!--directory-list-->
     </div> <!-- container -->
 </nav>
-
+<% end %>
 
 
 <!-- Circle buttons
