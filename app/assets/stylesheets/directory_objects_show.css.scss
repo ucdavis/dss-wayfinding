@@ -1085,7 +1085,7 @@ table {
 
 
 /*.top {
-  max-height: 15vh;
+  height: 15vh;
 }
 
 .middle {
@@ -1093,7 +1093,7 @@ table {
 }
 
 .bottom { 
-  max-height: 15vh;
+  height: 15vh;
 }*/
 
 
@@ -1101,6 +1101,11 @@ table {
   position: absolute;
   top: 10vh;
   height: 90vh;
+}
+
+body {
+  overflow: hidden !important;
+  height: 100vh;
 }
 
 
