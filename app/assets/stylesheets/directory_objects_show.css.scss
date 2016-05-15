@@ -51,6 +51,7 @@ body {
 /* Used on every page except 'landing' */
 .main-content {
   width: 100%;
+  height: 100vh;
 }
 
 #map>div {
@@ -701,12 +702,7 @@ input.search:focus {
     width: 15%;
 }
 
-.show-map
-{
-  width: 100%;
-  height: 100vh;
-  padding-top: 2vh;
-}
+
 
 .admin-view
 {
@@ -1083,6 +1079,32 @@ table {
   }
 }
 
+/* END LANDING */
+
+/* BODY STYLING */
+
+
+/*.top {
+  max-height: 15vh;
+}
+
+.middle {
+  max-height: 50vh;
+}
+
+.bottom { 
+  max-height: 15vh;
+}*/
+
+
+.main-content {
+  position: absolute;
+  top: 10vh;
+  height: 90vh;
+}
+
+
+/* END BODY STYLING */
 
 .btn-navbar-main {  //home button
     margin-top: 5px;
@@ -1145,10 +1167,4 @@ table {
 .navbar-nav>li>a {
     padding-top: 10px;
     padding-bottom: 10px;
-}
-
-/* Medium Devices, Desktops */
-@media only screen and (max-width : 1080px) {
-    body{
-        padding-top: 60px;
 }

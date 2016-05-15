@@ -115,8 +115,8 @@
 
 </script>
 
-<div class="show-map">
-  <div class="row floor-nav row-no-padding">
+
+  <div class="row floor-nav row-no-padding top">
       <div class="col-lg-1 col-lg-offset-3 col-xs-2">
         <a href="#" data-mapId="floor0" class="btn-floor">
           <img src=<%= asset_path "Floor0Button.png" %> class="img-fill">
@@ -148,14 +148,18 @@
         </a>
       </div>
   </div>
-  <div id="map">
-    <div id="mapLoading">
-      <div id="mapLoadingInner">
-        <%= image_tag("loader.gif", alt: "Loading") %>
+
+  <div class="row middle" id="map">
+    <div class="col-xs-12">
+      <div id="mapLoading">
+        <div id="mapLoadingInner">
+          <%= image_tag("loader.gif", alt: "Loading") %>
+        </div>
       </div>
     </div>
   </div> <!-- #map -->
-  <div class="row floor-nav row-no-padding">
+
+  <div class="row floor-nav row-no-padding bottom">
     <div class="col-lg-1 col-lg-offset-5 col-xs-2 col-xs-offset-4">
       <a href="#" class="btn-access accessible">
         <img src= <%= asset_path "accessButton.png" %> class="img-fill">
@@ -167,7 +171,6 @@
       </a>
     </div>
   </div>
-</div> <!-- .show-map -->
 
 <div id="destination-view-bg"></div>
 <div id="destination-view">

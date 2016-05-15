@@ -88,22 +88,16 @@
     <% end %>
 -->
 
-
-    <div class="row">
-      <div class="col-xs-12">
-        <% if action_name == "landing" %>
-          <%= yield :javascript %>
-          <%= yield %>
-        <% else %>
-          <!-- Inner-div required to pad all pages except 'landing' -->
-          <div class="main-content">
-            <%= yield :javascript %>
-            <%= yield %>
-          </div> <!-- main-content -->
-        <% end %>
-      </div>
-    </div> <!-- row -->
-
+  <% if action_name == "landing" %>
+    <%= yield :javascript %>
+    <%= yield %>
+  <% else %>
+    <!-- Inner-div required to pad all pages except 'landing' -->
+    <div class="fluid-container main-content">
+      <%= yield :javascript %>
+      <%= yield %>
+    </div> <!-- main-content -->
+  <% end %>
   <!--</div> container-fluid -->
 
 </body>
