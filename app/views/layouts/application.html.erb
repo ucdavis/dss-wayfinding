@@ -78,24 +78,16 @@
 </nav>
 <% end %>
 
-
-<!-- Circle buttons
-  <div class="container-fluid">
-    <% if action_name == "landing" %>
-    <div class="right-btn-container about">
-      <a href="/about" class="btn-about icon-about"></a>
-    </div>
-    <% end %>
--->
-
   <% if action_name == "landing" %>
     <%= yield :javascript %>
     <%= yield %>
   <% else %>
     <!-- Inner-div required to pad all pages except 'landing' -->
-    <div class="fluid-container main-content">
-      <%= yield :javascript %>
-      <%= yield %>
+    <div class="main-content">
+      <div class="container-fluid">
+        <%= yield :javascript %>
+        <%= yield %>
+      </div>
     </div> <!-- main-content -->
   <% end %>
   <!--</div> container-fluid -->

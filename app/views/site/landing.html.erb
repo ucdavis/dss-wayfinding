@@ -1,6 +1,6 @@
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
-  <div style="height: 90vh;">
+  <div class="landing-div">
     <ul class="landing-ul">
       <li>
         <a href="/people"><img src=<%= asset_path "icons/people-btn.png" %> ></a>
@@ -21,6 +21,10 @@
       <li>
         <a href="/map"><img src=<%= asset_path "icons/map-btn.png" %> ></a>
         <span>Map</span>
+      </li>
+      <li>
+        <a href="/about"><img src=<%= asset_path "icons/about-btn.png" %> ></a>
+        <span>About the building</span>
       </li>
     </ul>
   </div>
