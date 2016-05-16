@@ -927,68 +927,23 @@ table {
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
-
-  /*Small devices (landscape phones, 34em and up)*/
-  @media (min-width: 0em) {  
-    .btn-floor.start:after {
-      content: ".";
-      position: absolute;
-      width: 100%;
-      top: 0%;
-      left: 0%;
-      color: #00e13c;
-      font-size: 350%;
-      display: block;
-      text-align: center;
-    }
-
-    .btn-floor.destination:after {
-      content: ".";
-      position: absolute;
-      width: 100%;
-      top: 0%;
-      left: 0%;
-      color: #fc6355;
-      font-size: 350%;
-      display: block;
-      text-align: center;
+  .btn-floor.start {
+    img {
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #00e13c;
     }
   }
 
-  /*Medium devices (tablets, 48em and up)*/
-  @media (min-width: 48em) { 
-    font-size: 12pt;
-  }
-
-  /*Large devices (desktops, 62em and up)*/
-  @media (min-width: 62em) { 
-    .btn-floor.start:after {
-      content: ".";
-      position: absolute;
-      width: 100%;
-      top: 0%;
-      left: 0%;
-      color: #00e13c;
-      font-size: 500%;
-      display: block;
-      text-align: center;
-    }
-
-    .btn-floor.destination:after {
-      content: ".";
-      position: absolute;
-      width: 100%;
-      top: 0%;
-      left: 0%;
-      color: #fc6355;
-      font-size: 500%;
-      display: block;
-      text-align: center;
+  .btn-floor.destination {
+    img {
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #fc6355;
     }
   }
-
-  /*Extra large devices (large desktops, 75em and up)*/
-
 }
 
 /* Style a row such that child cols dont have padding */
