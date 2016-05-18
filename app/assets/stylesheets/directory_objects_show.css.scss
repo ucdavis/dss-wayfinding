@@ -48,10 +48,7 @@ body {
   background: white;
 }
 
-#map>div {
-  width: 100%;
-  height: 73vh; //calc(100vh - 200px);
-}
+
 
 #mapLoading {
 	font-size: 7vw;
@@ -172,173 +169,6 @@ body {
     img { padding:0px; border:1px solid #021a40; background-color:#ff0; height: 2in; width: 2in; margin: auto; }
     .right-btn-container {display: none;}
     .vertical-nav {display: none;}
-  }
-}
-
-ul.horizontal-nav {
-  list-style: none;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  padding-left: 0;
-
-  &.landing {
-    padding-left: 0;
-    margin: auto auto;
-    width: 83.33333%;
-
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-
-    li {
-      width: 19%;
-      font-size: 2vw;
-
-      a {
-        margin: 0.15em;
-        line-height: 1.95em;
-        border: 0.12em solid #fff;
-
-        &:before {
-          top: -0.22em;
-          left: -0.22em;
-          bottom: -0.22em;
-          right: -0.22em;
-        }
-      }
-    }
-  }
-
-  &.map-actions {
-    font-size: 1.9vw;
-
-    width: 75%;
-    margin: auto auto;
-
-    span {
-      text-transform: uppercase;
-      color: $floor-color;
-      position: absolute;
-      top: 30%;
-      left: 30px;
-
-      font-size: 100%;
-      line-height: 100%;
-    }
-
-    li {
-      width: 9%;
-
-      a {
-        margin: 0.15em;
-        line-height: 225%;
-        font-size: 100%;
-        border: 0.12em solid #fff;
-
-        &.active {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #5B7F95;
-        }
-
-        &.disabled {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #DFD6CD;
-          cursor: default;
-        }
-
-        &:before {
-          top: -0.25em;
-          left: -0.25em;
-          bottom: -0.25em;
-          right: -0.25em;
-        }
-
-        &.start:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #00e13c;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-
-        &.destination:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #fc6355;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  li {
-    position: relative;
-    display: inline-block;
-
-    span {
-      color: #777;
-      font-size: 1.2vw;
-      text-transform: uppercase;
-      white-space: normal;
-      position: absolute;
-      left: 0;
-      width: 100%;
-      text-align: center;
-    }
-
-    &:before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      padding-top: 100%;
-    }
-
-    a {
-      position: absolute;
-      text-align: center;
-      border-radius: 50%;
-      box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      &:before {
-        content: "";
-        display: block;
-        background: #fff;
-        border-top: 2px solid #ddd;
-        position: absolute;
-        z-index: -1;
-        border-radius: 50%;
-        box-shadow: inset 0px 8px 48px #ddd;
-      }
-    }
-
-    &:hover {
-      a {
-        color: #eee;
-        text-decoration: none;
-
-        &.disabled {
-          color: #fff;
-        }
-      }
-      span {
-        color: #333;
-      }
-    }
   }
 }
 
@@ -927,7 +757,29 @@ table {
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
-  .btn-floor.start {
+  text-align: center; /* UL centered in this top div */
+
+  ul {
+    display: inline-block;
+    padding-left: 0; /* Padding is non-zero by default */
+    padding-right: 0;
+
+    li { 
+      display: inline-block;
+      width: calc(95vw / 7); /* Spread evenly and leave some extra */
+      padding-left: 2vw;
+      padding-right: 2vw;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      img { /* images will maintain aspect ratio => height of this div == width of li */
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .btn-floor.start { /* Circular border stylizing for start floor */
     img {
       border-radius: 50%;
       border-width: 3px;
@@ -936,7 +788,7 @@ table {
     }
   }
 
-  .btn-floor.destination {
+  .btn-floor.destination { /* Circular border stylizing for destination floor */
     img {
       border-radius: 50%;
       border-width: 3px;
@@ -946,13 +798,31 @@ table {
   }
 }
 
-/* Style a row such that child cols dont have padding */
-.row-no-padding {
-  [class*="col-"] {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+.accessibility-nav {
+  /* copy paste from floor-nav */
+  text-align: center; /* UL centered in this top div */
+
+  ul {
+    display: inline-block;
+    padding: 0;
+
+    li { 
+      display: inline-block;
+      width: calc(95vw / 7); /* Spread evenly and leave some extra */
+      padding-left: 2vw;
+      padding-right: 2vw;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      img { /* images will maintain aspect ratio => height of this div == width of li */
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 }
+
+/* Style a row such that child cols dont have padding */
 
 /* img tags that scale with container maintaining aspect */
 .img-fill {
@@ -984,7 +854,21 @@ table {
   visibility: hidden;
 }
 
+.middle {
+  width: 100%;
+  display: inline-block;
+}
+
+.map-center {
+  text-align: center;
+  width:100%;
+}
+
+
 /* END FRONT PAGE FLOOR NAV */
+
+
+
 
 /* BEGIN LANDING */
 .landing-div {
@@ -1027,33 +911,16 @@ table {
 
 /* BODY STYLING */
 
-.top {}
-
-.middle {
-  height: auto;
-}
-
-.bottom {
-  display: block;
-  overflow: auto;
-}
-
-.main-content {
-  position: absolute;
-  top: 20vh;
-  height: 80vh;
-  width: 100%;
-}
-
 body {
+  padding-top: 5vh;
   height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
 }
 
-html {
-  height: 100vh;
+#map>div {
+  width: 100%;
+  height: 60vh;
 }
+
 
 
 /* END BODY STYLING */

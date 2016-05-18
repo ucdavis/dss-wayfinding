@@ -116,57 +116,66 @@
 </script>
 
 
-  <div class="row floor-nav row-no-padding top">
-      <div class="col-lg-1 col-lg-offset-3 col-xs-2">
-        <a href="#" data-mapId="floor0" class="btn-floor">
-          <img src=<%= asset_path "Floor0Button.png" %> class="img-fill">
-        </a>
-      </div>
-      <div class="col-lg-1 col-xs-2">
-        <a href="#" data-mapId="floor1" class="btn-floor">
-          <img src=<%= asset_path "Floor1Button.png" %> class="img-fill">
-        </a>
-      </div>
-      <div class="col-lg-1 col-xs-2">
-        <a href="#" data-mapId="floor2" class="btn-floor">
-          <img src=<%= asset_path "Floor2Button.png" %> class="img-fill">
-        </a>
-      </div>
-      <div class="col-lg-1 col-xs-2">
-        <a href="#" data-mapId="floor3" class="btn-floor">
-          <img src=<%= asset_path "Floor3Button.png" %> class="img-fill">
-        </a>
-      </div>
-      <div class="col-lg-1 col-xs-2">
-        <a href="#" data-mapId="floor4" class="btn-floor">
-          <img src=<%= asset_path "Floor4Button.png" %> class="img-fill">
-        </a>
-      </div>
-      <div class="col-lg-1 col-xs-2">
-        <a href="#" data-mapId="floor5" class="btn-floor">
-          <img src=<%= asset_path "Floor5Button.png" %> class="img-fill">
-        </a>
-      </div>
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" data-mapId="floor0" class="btn-floor">
+            <img src=<%= asset_path "Floor0Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor1" class="btn-floor">
+            <img src=<%= asset_path "Floor1Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor2" class="btn-floor">
+            <img src=<%= asset_path "Floor2Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor3" class="btn-floor">
+            <img src=<%= asset_path "Floor3Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor4" class="btn-floor">
+            <img src=<%= asset_path "Floor4Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor5" class="btn-floor">
+            <img src=<%= asset_path "Floor5Button.png" %>>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row map-center">
+    <div class="row middle" id="map">
+        <div id="mapLoading">
+          <div id="mapLoadingInner">
+            <%= image_tag("loader.gif", alt: "Loading") %>
+          </div>
+        </div>
+    </div> <!-- #map -->
   </div>
 
-  <div class="row middle" id="map">
-      <div id="mapLoading">
-        <div id="mapLoadingInner">
-          <%= image_tag("loader.gif", alt: "Loading") %>
-        </div>
-      </div>
-  </div> <!-- #map -->
-
-  <div class="row floor-nav row-no-padding bottom">
-    <div class="col-lg-1 col-lg-offset-5 col-xs-2 col-xs-offset-4">
-      <a href="#" class="btn-access accessible">
-        <img src= <%= asset_path "accessButton.png" %> class="img-fill">
-      </a>
-    </div>
-    <div class="col-lg-1 col-xs-2">
-      <a href="#" class="btn-access replay disabled">
-        <img src= <%= asset_path "repeatButton.png" %> class="img-fill">
-      </a>
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src= <%= asset_path "accessButton.png" %> class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src= <%= asset_path "repeatButton.png" %> class="img-fill">
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
