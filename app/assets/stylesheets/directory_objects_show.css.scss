@@ -751,24 +751,35 @@ table {
 
 
 /* 
- * FRONT PAGE NAVIGATION
+ * FRONT PAGE MAP NAVIGATION
  */
 
+/* Pad to accomodate static nav-bar */
+body {
+  padding-top: 10vh;
+  height: 100vh;
+}
+
+#map>div {
+  width: 100%;
+  height: calc(90vh - 28vw);
+}
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
   text-align: center; /* UL centered in this top div */
+  padding-bottom: 0;
 
   ul {
     display: inline-block;
-    padding-left: 0; /* Padding is non-zero by default */
-    padding-right: 0;
+    padding: 0; /* Padding is non-zero by default */
+    margin-bottom: 0;
 
     li { 
       display: inline-block;
-      width: calc(95vw / 7); /* Spread evenly and leave some extra */
-      padding-left: 2vw;
-      padding-right: 2vw;
+      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      padding-left: 0.5vw;
+      padding-right: 0.5vw;
       padding-bottom: 0;
       padding-top: 0;
 
@@ -796,38 +807,6 @@ table {
       border-color: #fc6355;
     }
   }
-}
-
-.accessibility-nav {
-  /* copy paste from floor-nav */
-  text-align: center; /* UL centered in this top div */
-
-  ul {
-    display: inline-block;
-    padding: 0;
-
-    li { 
-      display: inline-block;
-      width: calc(95vw / 7); /* Spread evenly and leave some extra */
-      padding-left: 2vw;
-      padding-right: 2vw;
-      padding-bottom: 0;
-      padding-top: 0;
-
-      img { /* images will maintain aspect ratio => height of this div == width of li */
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
-}
-
-/* Style a row such that child cols dont have padding */
-
-/* img tags that scale with container maintaining aspect */
-.img-fill {
-  width: 95%;
-  height: auto;
 }
 
 /* Used for floor anchors */
@@ -861,7 +840,6 @@ table {
 
 .map-center {
   text-align: center;
-  width:100%;
 }
 
 
@@ -906,20 +884,11 @@ table {
 
   }
 }
-
 /* END LANDING */
 
 /* BODY STYLING */
 
-body {
-  padding-top: 5vh;
-  height: 100vh;
-}
 
-#map>div {
-  width: 100%;
-  height: 60vh;
-}
 
 
 
