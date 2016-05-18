@@ -89,9 +89,9 @@ body {
   right: -1000px;
 
   filter: blur(5px);
-  
+
   z-index: 1;
-  
+
   background-color: rgba(255, 255, 255, 0.9);
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 }
@@ -750,7 +750,7 @@ table {
 }
 
 
-/* 
+/*
  * FRONT PAGE MAP NAVIGATION
  */
 
@@ -776,7 +776,7 @@ body {
     padding: 0; /* Padding is non-zero by default */
     margin-bottom: 0;
 
-    li { 
+    li {
       display: inline-block;
       width: calc(100vw / 7); /* Spread evenly and leave some extra */
       max-width: 10vh; /* Only occurs when device is wider than tall (iPad)*/
@@ -904,10 +904,6 @@ body {
     font-size: .7em;
 }
 
-.btn-navbar { //toggle menu list icon size
-    font-size: 25px;
-}
-
 .btn-text { //toggle menu list text size
   font-size: 1.25em;
 }
@@ -917,13 +913,21 @@ body {
   max-height: 100%;
 }
 
-
+/*
 .searchbar {
-  display: inline-block;  
+  display: inline-block;
   min-width: 65%;
 }
+*/
 
 
+
+
+.navbar-collapse {
+	img {
+		height: 50px;	//icon size
+	}
+}
 
 //STOP NAVBAR FROM COLLAPSING
 .navbar-header {
@@ -945,7 +949,7 @@ body {
 }
 
 .navbar-collapse.collapse.in {
-  display: block !important; 
+  display: block !important;
 }
 .navbar-nav {
     float: none!important;
