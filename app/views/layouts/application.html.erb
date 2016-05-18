@@ -35,49 +35,6 @@
 
 <body data-spy="scroll" data-target="#side-nav">
 
-<!-- 
-<% unless ["landing"].include?(action_name) %> 
-<!-- static navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <!-- Home Button -->
-            <button type="button" class="btn-navbar-main btn btn-xs btn-default">
-                <a href="/" class="btn-home icon-home"></a>
-            </button>
-
-            <!-- Search Form -->
-            <div class="searchbar">
-                <input name="q" type="search" id="search" class="form-control search" autocomplete="off" autocorrect="off" autocapitalize="off"
-                    placeholder="Search people, rooms, etc..." value="<%= @query %>">
-            </div>
-
-            <!-- toggle hamburger menu -->
-            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span> 
-                <!-- 3 layer hamburger icon -->
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </div>
-         <!-- Hamburger Menu -->
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <%= render("layouts/vertical_navigation") %>
-        </div> <!-- navbarCollapse -->
-
-        <!--Search results-->
-        <div class="directory-list">
-            <div id="scrubber-view" >
-                <ul class="nav nav-list" id="slider-vertical"></ul>
-            </div>
-            <div id="result"></div>
-        </div> <!--directory-list-->
-    </div> <!-- container -->
-</nav>
-<% end %>
--->
   <% if action_name == "landing" %>
     <%= yield :javascript %>
     <%= yield %>

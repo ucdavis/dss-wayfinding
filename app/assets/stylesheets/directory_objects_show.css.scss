@@ -763,6 +763,7 @@ body {
 #map>div {
   width: 100%;
   height: calc(90vh - 28vw);
+  min-height: 70vh; /* Only occurs when device is wider than tall (iPad)*/
 }
 
 /* Scale font size, line height, active, etc based on screen size */
@@ -778,6 +779,7 @@ body {
     li { 
       display: inline-block;
       width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      max-width: 10vh; /* Only occurs when device is wider than tall (iPad)*/
       padding-left: 0.5vw;
       padding-right: 0.5vw;
       padding-bottom: 0;
@@ -850,7 +852,7 @@ body {
 
 /* BEGIN LANDING */
 .landing-div {
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   text-align: center;
 }
@@ -862,7 +864,7 @@ body {
 
   li { /* Holds links to rest of site */
     display: block;
-    height: 16vh; /* containing div is 90vh, divide by 5 and leave some extra */
+    height: 15vh; /* containing div is 90vh, divide by 5 and leave some extra */
     text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
