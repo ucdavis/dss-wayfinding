@@ -41,7 +41,7 @@ class DirectoryObjectsController < ApplicationController
         @qrLink = generateQRLink(@targetURL)
       end
 
-      render :layout => false
+      render :layout => true
     end
   end
 
@@ -68,19 +68,21 @@ class DirectoryObjectsController < ApplicationController
       person      = Person.find(params[:id])
 
       name       = person.first + ' ' + person.last
-      department = person.department.name
+      email = person.email
+      department = person.department.title
       title      = nil
       targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
       qrLink     = generateQRLink(targetURL)
 
-      hash = { name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+      hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
 
       @results.push( hash )
     else
       # Assume it's a department
       Person.where(department: params[:id]).each do |person|
         name       = person.first + ' ' + person.last
-        department = person.department.name
+        email = person.email
+	department = person.department.title
         title      = nil
 
         begin
@@ -93,7 +95,7 @@ class DirectoryObjectsController < ApplicationController
         targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
         qrLink     = generateQRLink(targetURL)
 
-        hash = { name: name, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+        hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
 
         @results.push(hash)
       end

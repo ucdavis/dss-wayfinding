@@ -1,41 +1,174 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<%= stylesheet_link_tag "print_placard", media: "all" %>
-	</head>
+
+<head>
+	<%= stylesheet_link_tag "print_placard", media: "all" %>
+</head>
 	<body>
+
+	<!--===========The javascript functions to change the background images ====-->
+	<script>
+		var numberOfBackgrounds = 14; //Change when adding new images 
+		var curBackground = 0;
+		var numPeople = <%= @results.count%>;
+		
+		//This hides the additional info and title fields when print for department
+
+		function hideExtra(){
+			if( numPeople > 1){		
+			document.getElementById('newTitle').style.display = 'none';
+			document.getElementById('newInfo').style.display = 'none';
+			document.getElementById('changeInfoButton').style.display = 'none';
+			}
+}
+		window.onload = hideExtra;
+		function changeBgImage(num)
+			{
+			var backgrounds = document.getElementsByClassName("bgstyle");
+			var newBackground;
+			//var bckSrc = background.src;
+			
+			if(num == 0){ 	//Go to previous background
+				if(curBackground == 0) curBackground = numberOfBackgrounds;
+				else curBackground -= 1;
+			
+			}
+			else{			//Go to next background
+				if(curBackground == numberOfBackgrounds) curBackground = 0;
+				else curBackground += 1;
+
+			}
+			var i;
+			for(i = 0; i < backgrounds.length; i++){
+			if(curBackground == numberOfBackgrounds) //Set blank background
+				newBackground = "";
+			else
+				newBackground = "/assets/placard/back" + curBackground + ".jpg";
+			
+			backgrounds[i].setAttribute("src", newBackground);
+			}
+			
+			}
+
+		function changeInfo(newName)  
+			{
+			var entTitle = document.getElementById("newTitle").value;
+			 document.getElementById("titleField").innerHTML= entTitle;
+
+			//This parses data to insert in optional extra info field
+			var entInfo = document.getElementById("newInfo").value;
+			var infoFormat = entInfo.replace(/\n/g, "<br>"); //Change newline encoding
+
+			//Count number of lines in extra info, if too many then display error
+			var numLines = (entInfo.match(/\n/g) || []).length;
+
+			if(numLines < 5){
+				document.getElementById("extraField").innerHTML= infoFormat;
+				document.getElementById("errorField").style.visibility= "hidden";
+			}
+			else{
+				document.getElementById("errorField").style.visibility= "visible";
+				document.getElementById("extraField").innerHTML= "";
+			}
+			}
+			
+	</script>
+
+
+  		<!-- ========= Start Placard ============-->
+
     <% @results.each do |person| %>
-  		<div class="backgroundImg">
-        <%= image_tag("placard/back1.jpg", id: "bgImage", alt: "back", class: "bgstyle") %>
+		<!-- This is the placard background -->
+		<div class="backgroundImg">
+      		 <%= image_tag("placard/back0.jpg", id: "bgImage", alt: " ", class: "bgstyle") %>
 
-  			<!-- This is the name field -->
-  			<div id="nameField" class="name"> <%= person[:name] %>
+			<!--WATCH FOR <DIV> NESTING-->
 
-  			<!--Extra (watch for div enclosure-->
-  			<div id="titleField" class="title"><%= person[:title] %></div>
+			<!-- This is the name field -->
+			<div id="nameField" class="name"> <%= person[:name] %>
 
-  			</div>
+				<div id="titleField" class="title"><%= person[:title] %> </div>
 
-  			<!-- This is the QR image-->
-  			<div class="qr">
-            <%= image_tag(person[:qrLink], alt: "qrCode", class: "qrstyle", id: "qrImage") %>
-  			</div>
+				<div id = "extraInfoLine" class = "leftLine">
+					<!-- This is the email address-->
+					<div id="emailField" class="email"><%= person[:email] %></div>
 
-  			<!-- ===============EXTRA=================-->
-  			<div class="logo">
-          <!-- image_tag("icon.png", size: "16x10", alt: "Edit Entry") -->
-  					<%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %>
-  			</div>
+					<!--Extra info-->
+					<div id="extraField" class="extrainfo"></div>
+				</div>
+
+			</div>
+
+			<!-- This is the QR image-->
+			<div class="qr"> <%= image_tag(person[:qrLink], alt: "qrCode", class: "qrstyle", id: "qrImage") %></div>
+
+			<!-- This is the school logo -->
+			<div class="logo"><%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %></div>
+
+			<!-- This is the department name-->
+			<div id="depNameField" class="depname"><%= person[:department] %></div>
+
+		</div>
+	    <% end %>
+		<!-- ========= End Placard ============-->
+
+		<!-- This is where the user can change the background-->
+		<h3> Optional Customization</h3>
+
+		<div class= "buttonDiv">
+		<p id="backgroundTitle" class= "hidep">
+		<button onclick="changeBgImage(0)" id = "0">Previous Image</button>
+		<button onclick="changeBgImage(1)" id = "1">Next Image</button>
+		Change Background</p>
+		</div>
+
+		<!-- This is where the user can change the title-->
+		<input type="text" id="newTitle" size="35" placeholder="Enter your title"> 
+		<br>
+
+		<!-- This is where the user can add extra info-->
+		<textarea id="newInfo" rows="4" cols="50" placeholder="Additional info (office hours, phone number, etc.)"></textarea> 
+		<br>
+
+		<!-- This is the update button-->
+		<div class= "buttonDiv">
+		<button onclick="changeInfo()" id="changeInfoButton">Update</button>
+		<p id="errorField" class="error">ERROR: Too many additional info lines</p>
+		</div>
 
 
-  			<!-- This is the department name field -->
-  			<div id="depNameField" class="depname"><%= person[:department] %></div>
 
-  			<!-- =====================================-->
-  		</div>
-    <% end %>
+		<h2 >
+		Thanks for participating in the new and improved wayfinding system!
+		</h2>
 
-		<p>Cut on dotted line.</p>
-		<p>Thanks for participating in the new and improved wayfinding system!</p>
-	</body>
+		<!-- Printing tips-->
+		<p>
+		If background images are not showing up or text colors are not correct in the print:
+		</p>
+
+		<p>
+		Internet Explorer <br>
+		File -> Page Setup -> Print Background Colors and Images
+		</p>
+
+		<p>
+		Firefox <br>
+		Windows: Print -> Properties -> Page Setup -> Print Background (colors & images) <br>
+		Mac: File -> Print -> Show Details -> Print background colors and Print background images
+		</p>
+
+		<p>
+		Google Chrome <br>
+		Print -> Background colors and images 
+		</p>
+
+		<p>
+		Safari <br>
+		File -> Print -> Safari (from drop down menu) -> Print Backgrounds
+		</p>
+
+  </body>
+
+
 </html>

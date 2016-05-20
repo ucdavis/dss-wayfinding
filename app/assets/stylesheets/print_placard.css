@@ -1,203 +1,307 @@
-/*This is the normal display settings*/
-	@media screen {
-			p {
-				display: none;
-			}	
-			img.hidden {
-				display:none;
-			}
-			
-			
-			
-		img.hidden {
-				display:none;
-			}
-			
-			
-			
-			.backgroundImg {
-				position:relative;
-				width: 8in;
-				height: 2.25in;
-				
-			}
-			
-			.name {
-				position: absolute;
-				font-weight: bold;
-				font-size:30px;
-				
-				left: 13%;
-				top:5%;
-				color: #000000;
-			}
-			
-			.qr {
-				position:absolute;
-				left: 4%;
-				top:30%;
-			}
-			
-			img.qrstyle {
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			img.bgstyle {
-				width: 8in;
-				height: 2in;
-				margin-top: .125in;
-				margin-bottom: .125in;
-				/* height: 288px; */
-				opacity: 0.5;
-				/*border-style: solid;
-				border-width: 9pt 0pt 9pt 0pt ;*/
-				border-color:#ffffff;
-			}
-			
-			/*==========EXTRA==================*/
-			img.logostyle{
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			.logo {
-				position:absolute;
-				right: 10%;
-				top:15%;
-			}
-			
-			.depname {
-				position: absolute;
-				font-weight: bold;
-				font-size:20px;
-				left:55%;
-				bottom:12%;
-				color: #000000;
-			}
-			
-			.title {
-				position: absolute;
-				font-weight: bold;
-				font-size:16px;
-			/*SCRATCH
-				left: 15%;
-				top:15%; 
-				*/
-				top:100%;
-				left: 30%;
-				margin-right: -30%;
-				text-align:center;
-				color: #000000;
-			}
-			
-	/*=================================*/
+/*
+ * Stylesheet for placards
+ * Note: Be aware that relative locations are in inches since placard size is measured in inches
+ *
+ * Author: Andrea Brenner-Billet <abrennerbillet@ucdavis.edu>
+ *
+ */
+
+/*These are the screen display settings*/
+
+
+ @media screen {
+*
+{
+	font-family: 'Segoe UI', sans-serif !important;
+	font-style: normal !important;
+	font-variant: normal !important;
+	/*OLDER 	font-family: 'Segoe UI', sans-serif;*/
+
+}
+    h3{
+	font-style: normal;
+	font-variant: normal;
+	font-size:14px;
+    	border:1px solid #dddddd;
+    	width:8in; 
+      }
+    p,textarea,input, div{
+	font-size:12px;
+      }
+      
+    button{
+    	border:1px solid #dddddd; 
+   	font-weight:bold;
+	font-size:12px;
+      }
+    button:hover{
+	background-color:#dfe4de;
+	
+      }
+
+    .buttonDiv{
+	padding-bottom:2em;
+      }
+    img.hidden {
+        display:none;
+      }
+
+      .backgroundImg {
+        position:relative;
+        width: 8in;
+        height: 2.25in;
+        border-style: dashed;
+        border-width: 1px;
+        border-color:#000000;
+      }
+
+      .name {
+        position: absolute;
+	font-weight: bold;
+        font-size:40px;
+        left: 25%;
+        top:.15in; 
+	width:75%;
+        color: #ffffff;
+	text-shadow:
+	   -1px -1px 0 #013b69,  
+	    1px -1px 0 #013b69,
+	   -1px 1px 0 #013b69,
+	    1px 1px 0 #013b69;
+      }
+
+      .title {
+        position: absolute;
+	font-weight: bold;
+        font-size:18px;
+	top: 40px; /*To place below name, may be a better way to do this*/
+        left: .6%;
+	width:70%;
+        padding-top: 5px;
+ 	text-shadow: none;
+        color: #000000;
+      }
+
+      .extrainfo {
+        position: absolute;
+	font-weight: bold;
+        font-size:12px;
+	top: 40px; /*To place below name and title*/
+ 	text-shadow: none;
+        color: #000000;
+	padding-left: 3px;
+	border-left: 1px solid #013b69;
+      }
+
+      .email {
+ 	position: absolute;
+	font-weight: bold;
+        font-size:14px;
+ 	text-shadow: none;
+        color: #000000; 
+        padding-bottom: 10px;
+      }
+      .leftLine{
+	position: absolute;
+        padding-top: 10px;
+	width:70%;
+        left: 2%;
+	top: 58px; /*To place below name*/
+      }
+      .qr {
+        position:absolute;
+        left: .1in;   
+        top:.225in;  
+      }
+
+      img.qrstyle {
+        width: 100%;
+        height:auto;
+        max-width: 1.7in; 
+        max-height: 1.7in;
+	background-color: #ffffff;
+	border-style: solid;
+        border-width: .05in ;
+        border-color:#ffffff;
+      }
+
+
+      img.bgstyle {
+        width: 8in;
+        height: 2in;
+        margin-top: .125in;
+        margin-bottom: .125in;
+        opacity: 0.5;
+        border-color:#ffffff;
+      }
+
+      img.logostyle {
+        width: 100%;
+        height:auto;
+        max-width: 107px;
+        max-height: 107px;
+      }
+
+      .logo {
+        position:absolute;
+        right: 5%;
+        top:30%;
+      }
+
+     .depname {
+        position: absolute;
+        font-weight: bold;
+        font-size:24px;
+        right: 5%;
+        bottom:.18in;
+        color: #013b69;
+      }
+
+     .error{
+	color:red;
+        font-size:12px;
+ 	text-shadow: none;
+	visibility: hidden;
+      }
+	
 }
 
-/*This is the display settings for printing*/
+/*These the print display settings*/
 @media print {
-		header nav, footer, button {
-			display: none;
-		}
-		
-			img.hidden {
-				display:none;
-			}
-			
-			
-			
-			.backgroundImg {
-				position:relative;
-				width: 8in;
-				height: 2.25in;
-				border-style: dashed;
-				border-width: 1px;
-				border-color:#000000;
-			}
-			
-			.name {
-				position: absolute;
-				font-weight: bold;
-				font-size:30px;
-				
-				left: 13%;
-				top:5%;
-				color: #000000;
-			}
-			
-			.qr {
-				position:absolute;
-				left: 4%;
-				top:30%;
-			}
-			
-			img.qrstyle {
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			img.bgstyle {
-				width: 8in;
-				height: 2in;
-				margin-top: .125in;
-				margin-bottom: .125in;
-				/* height: 288px; */
-				opacity: 0.5;
-				/*border-style: solid;
-				border-width: 9pt 0pt 9pt 0pt ;*/
-				border-color:#ffffff;
-			}
-			
-			/*==========EXTRA==================*/
-			img.logostyle{
-				width: 100%;
-				height:auto;
-				max-width: 100px; 
-				max-height: 100px;
-			
-			}
-			
-			.logo {
-				position:absolute;
-				right: 10%;
-				top:15%;
-			}
-			
-			.depname {
-				position: absolute;
-				font-weight: bold;
-				font-size:20px;
-				
-				left:55%;
 
-				bottom:12%;
-				color: #000000;
-			}
-			
-			.title {
-				position: absolute;
-				font-weight: bold;
-				font-size:16px;
-			/*SCRATCH
-				left: 15%;
-				top:15%; 
-				*/
-				top:100%;
-				left: 30%;
-				margin-right: -30%;
-				text-align:center;
-				color: #000000;
-			}
-			
-	/*=================================*/
-	
-		}
+      *{
+	font-family: 'Segoe UI', sans-serif !important;
+	font-style: normal !important;
+	font-variant: normal !important;
+	/*OLDER 	font-family: 'Segoe UI', sans-serif;*/
+
+	}
+    footer, button,input, textarea,h4, h3 {
+      display: none;
+    }
+
+      img.hidden {
+        display:none;
+      }
+
+      .error{
+	display:none;
+      }
+
+      .hidep{
+	display:none;
+      }
+
+      .backgroundImg {
+        position:relative;
+        width: 8in;
+        height: 2.25in;
+        border-style: dashed;
+        border-width: 1px;
+        border-color:#000000;
+      }
+
+      .name {
+        position: absolute;
+	font-weight: bold;
+        font-size:40px;
+        left: 25%;
+        top:.15in; 
+	width:75%;
+        color: #ffffff;
+	text-shadow:
+	   -1px -1px 0 #013b69,  
+	    1px -1px 0 #013b69,
+	   -1px 1px 0 #013b69,
+	    1px 1px 0 #013b69;
+      }
+
+      .title {
+        position: absolute;
+	font-weight: bold;
+        font-size:18px;
+	top: 40px; /*To place below name, may be a better way to do this*/
+        left: .3%;
+	width:70%;
+        padding-top: 5px;
+ 	text-shadow: none;
+        color: #000000;
+      }
+
+      .extrainfo {
+        position: absolute;
+	font-weight: bold;
+        font-size:12px;
+	top: 40px; /*To place below name and title*/
+ 	text-shadow: none;
+        color: #000000;
+	padding-left: 3px;
+	border-left: 1px solid #013b69;
+      }
+
+      .email {
+ 	position: absolute;
+	font-weight: bold;
+        font-size:14px;
+ 	text-shadow: none;
+        color: #000000; 
+        padding-bottom: 10px;
+      }
+      .leftLine{
+	position: absolute;
+        padding-top: 10px;
+	width:70%;
+        left: 2%;
+	top: 58px; /*To place below name*/
+      }
+      .qr {
+        position:absolute;
+        left: .1in;   
+        top:.225in;  
+      }
+
+      img.qrstyle {
+        width: 100%;
+        height:auto;
+        max-width: 1.7in; 
+        max-height: 1.7in;
+	background-color: #ffffff;
+	border-style: solid;
+        border-width: .05in ;
+        border-color:#ffffff;
+      }
+
+
+      img.bgstyle {
+        width: 8in;
+        height: 2in;
+        margin-top: .125in;
+        margin-bottom: .125in;
+        opacity: 0.5;
+        border-color:#ffffff;
+      }
+
+      img.logostyle {
+        width: 100%;
+        height:auto;
+        max-width: 107px;
+        max-height: 107px;
+      }
+
+      .logo {
+        position:absolute;
+        right: 5%;
+        top:30%;
+      }
+
+     .depname {
+        position: absolute;
+        font-weight: bold;
+        font-size:24px;
+        right: 5%;
+        bottom:.18in;
+        color: #013b69;
+      }
+
+
+} 

@@ -22,9 +22,6 @@ config/auth_config.yml
 config/secret_token.yml
 config/dss_rm.yml
 
-# Ignore QR files
-public/qrCodes/*
-
 # Ignore map files
 public/maps/*
 public/maps.tmp/*
