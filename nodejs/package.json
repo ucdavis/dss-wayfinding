@@ -3,7 +3,7 @@
   "description": "Pre-compiles caches to be used by jQuery Wayfinding",
   "author": "Christopher Thielen <cmthielen@ucdavis.edu>",
   "dependencies": {
-    "jsdom": "~0.11.1",
+    "jsdom": "1.0.0",
     "jquery": "~2.1.1",
     "json": "~9.0.1",
     "MD5": "~1.2.1",
