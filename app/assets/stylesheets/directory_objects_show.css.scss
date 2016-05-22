@@ -760,10 +760,11 @@ body {
   height: 100vh;
 }
 
+/* this is the map display */
 #map>div {
   width: 100%;
   height: calc(90vh - 28vw);
-  min-height: 70vh; /* Only occurs when device is wider than tall (iPad)*/
+  min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
 }
 
 /* Scale font size, line height, active, etc based on screen size */
@@ -779,7 +780,7 @@ body {
     li {
       display: inline-block;
       width: calc(100vw / 7); /* Spread evenly and leave some extra */
-      max-width: 10vh; /* Only occurs when device is wider than tall (iPad)*/
+      max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
       padding-left: 0.5vw;
       padding-right: 0.5vw;
       padding-bottom: 0;
@@ -830,12 +831,8 @@ body {
     opacity: 0.6;
   }
 }
- /* Not sure where ui-loader is coming from, leaves "loading" */
-.ui-loader {
-  visibility: hidden;
-}
 
-.middle {
+/*.middle {
   width: 100%;
   display: inline-block;
 }
@@ -843,7 +840,7 @@ body {
 .map-center {
   text-align: center;
 }
-
+*/
 
 /* END FRONT PAGE FLOOR NAV */
 
