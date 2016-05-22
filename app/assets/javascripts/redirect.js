@@ -26,8 +26,9 @@ $(function() {
   setRedirectToHome();
 
   // Reset timer on scroll
-  $(document).on("scrollstart", function() {
+  $(document).on("scroll", function() {
     setRedirectToHome();
+    console.log("scrolling");
   });
 
   $('a.btn-home').click(function(e) {
