@@ -107,16 +107,43 @@
   });
 </script>
 
-<div class="show-map">
-  <ul class="horizontal-nav map-actions">
-    <span>Floors</span>
-    <li><a href="#" id="flr-btn0" class="btn-floor">L</a></li>
-    <li><a href="#" id="flr-btn1" class="btn-floor">1</a></li>
-    <li><a href="#" id="flr-btn2" class="btn-floor">2</a></li>
-    <li><a href="#" id="flr-btn3" class="btn-floor">3</a></li>
-    <li><a href="#" id="flr-btn4" class="btn-floor">4</a></li>
-    <li><a href="#" id="flr-btn5" class="btn-floor">5</a></li>
-  </ul>
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" data-mapId="floor0" class="btn-floor">
+            <img src=<%= asset_path "Floor0Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor1" class="btn-floor">
+            <img src=<%= asset_path "Floor1Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor2" class="btn-floor">
+            <img src=<%= asset_path "Floor2Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor3" class="btn-floor">
+            <img src=<%= asset_path "Floor3Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor4" class="btn-floor">
+            <img src=<%= asset_path "Floor4Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-mapId="floor5" class="btn-floor">
+            <img src=<%= asset_path "Floor5Button.png" %>>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <div id="map">
     <div id="viewing" width = "100%" style="position:relative; display:none;">
       <canvas id="myCanvas" style="position:relative; left:10vw; z=0; margin:auto; width:60vw; height:350;">
@@ -128,12 +155,24 @@
         <%= image_tag("loader.gif", alt: "Loading") %>
       </div>
     </div>
-  </div>      
-  <ul class="horizontal-nav map-actions">
-    <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
-    <li><a href="#" class="btn-map-action icon-repeat replay disabled"></a></li>
-  </ul>
-</div>
+  </div>
+
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src= <%= asset_path "accessButton.png" %> class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src= <%= asset_path "repeatButton.png" %> class="img-fill">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
 <div id="destination-view">
   <i class="btn-min-max icon-right-arrow min-max"></i>
