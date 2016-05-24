@@ -109,7 +109,6 @@ function routingFunctions(){
     currentSet = 0
     currentEntry = 0;
     animating = true;
-    console.log(drawing);
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
@@ -151,7 +150,6 @@ function routingFunctions(){
     yMin = floors[currentFloor].height;
     yMax = views[currentFloor][1];
     for (var i = 0; i < drawing[currentSet].length; i++){
-      console.log(drawing[currentSet][i].x + " " + xMin + " " + xMax + " " + drawing[currentSet][i].y + " " +  yMin + " " + yMax);
       drawing[currentSet][i].x = parseFloat(drawing[currentSet][i].x);
       drawing[currentSet][i].y = parseFloat(drawing[currentSet][i].y);
       if (drawing[currentSet][i].x < xMin)
@@ -162,7 +160,6 @@ function routingFunctions(){
         yMin = drawing[currentSet][i].y;
       if (drawing[currentSet][i].y > yMax)
         yMax = drawing[currentSet][i].y
-      console.log(xMin + " " + xMax + " " +  yMin + " " + yMax);
 
     }
     xMin = (xMin - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
@@ -389,11 +386,13 @@ function begin(){
     drawing = $("#svgImage").wayfinding('routeTo', destination);
     setRedirectToHome(); // reset the home page return timer
     if (drawing.length > 0)
-      toggleInfoPanel('min');
-      $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
-        showInfo(data);
-      });
-      routingFunctions();
+      if (drawing[0].length > 0){
+        toggleInfoPanel('min');
+        $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
+          showInfo(data);
+        });
+        routingFunctions();
+      }
   });
 
   $(".accessible").click(function(e) {
