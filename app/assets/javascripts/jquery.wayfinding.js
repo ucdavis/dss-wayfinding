@@ -18,18 +18,17 @@
 
 (function ($) {
 	'use strict';
-
+  
+  var loaded = false;
 	var defaults = {
 		// Defaults to a local file called floorplan.svg
 		'maps': [{'path': 'floorplan.svg', 'id': 'map.1'}],
-		// Default animation statement
-		'animating': false,
 		// Path formatting
 		'path': {
 			color: 'red', // the color of the solution path that will be drawn
 			radius: 10, // the radius in pixels to apply to the solution path
-			speed: 6, // the speed at which the solution path with be drawn
-			width: 3 // the width of the solution path in pixels
+			speed: 1500, // the speed at which the solution path with be drawn
+			width: 6 // the width of the solution path in pixels
 		},
 		// The door identifier for the default starting point
 		'startpoint': function () {
@@ -65,9 +64,9 @@
 		},
 		'pinchToZoom': false, // requires jquery.panzoom
 		'zoomToRoute': true,
-		'zoomPadding': 55,
+		'zoomPadding': 25,
 		// milliseconds to wait during animation when a floor change occurs
-		'floorChangeAnimationDelay': 1800
+		'floorChangeAnimationDelay': 1250
 	};
 
 	$.fn.wayfinding = function (action, options, callback) {
@@ -79,9 +78,9 @@
 			portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to datastore
 			result, // used to return non jQuery results
 			drawing;
-
 		//Takes x and y coordinates and makes a location indicating pin for those
 		//coordinates. Returns the pin element, not yet attached to the DOM.
+
 		function makePin(x, y, type) {
 			var indicator,
 			height,
@@ -141,7 +140,6 @@
 			} else {
 				options.startpoint = passed;
 			}
-
 			startpoint = options.startpoint;
 
 			if (options.showLocation) {
@@ -149,7 +147,6 @@
 
 				var startMap = el.children().has($('#' + startpoint));
 				attachPinLocation = $('svg', startMap).children().last();
-
 				if (start.length) {
 					x = (Number(start.attr('x1')) + Number(start.attr('x2'))) / 2;
 					y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
@@ -168,9 +165,8 @@
 			var optionsPrior = el.data('wayfinding:options');
 
 			drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
-
 			options = $.extend(true, {}, defaults, options);
-
+			
 			// check for settings attached to the current object
 			if (optionsPrior !== undefined) {
 				options = optionsPrior;
@@ -258,14 +254,15 @@
 				end = $('#Doors #' + endpoint, el);
 
 			attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
+
 				if (end.length) {
 					x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
 					y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
-
 					pin = makePin(x, y, 'destinationPin');
-
 					attachPinLocation.append(pin);
 				} else {
+
+
 					return; //endpoint does not exist
 				}
 			}
@@ -274,42 +271,10 @@
 		// Hide SVG div, hide path lines (they're data, not visuals), make rooms clickable
 		function activateSVG(obj, svgDiv) {
 			// Hide maps until explicitly displayed
-			$(svgDiv).hide();
-
-			// Hide route information
-			$('#Paths line', svgDiv).attr('stroke-opacity', 0);
-			$('#Doors line', svgDiv).attr('stroke-opacity', 0);
-			$('#Portals line', svgDiv).attr('stroke-opacity', 0);
-
-			// If #Paths, #Doors, etc. are in a group, ensure that group does _not_
-			// have display: none; (commonly set by Illustrator when hiding a layer)
-			// and instead add opacity: 0; (which allows for events, unlike display: none;)
-			// (A group tag 'g' is used by Illustrator for layers.)
-			var $dataGroup = $('#Paths', svgDiv).parent();
-			if($dataGroup.is("g")) {
-				$dataGroup.attr('opacity', 0).attr('display', 'inline');
-			}
-
-			// The following need to use the el variable to scope their calls: el is jquery element
-
-			// Make rooms clickable
-			$('#Rooms a', svgDiv).click(function (event) {
-				if(!defaults['animating']) {
-					defaults['animating'] = true;
-					$(obj).trigger('wayfinding:roomClicked', [ { room_id : $(this).attr('id') } ] );
-					$(obj).wayfinding('routeTo', $(this).prop('id'));
-				}
-				event.preventDefault();
-			});
-
-			// Disable clicking on every SVG element except rooms
-			$(svgDiv).find('*').css("pointer-events", "none");
-			$('#Rooms a', svgDiv).find('*').css("pointer-events", "auto");
-
-			$(obj).append(svgDiv);
+			
 
 			// jQuery.panzoom() only works after element is attached to DOM
-			if(options.pinchToZoom) initializePanZoom($(svgDiv));
+			//if(options.pinchToZoom) initializePanZoom($(svgDiv));
 		} //function activateSVG
 
 		function replaceLoadScreen(el) {
@@ -319,7 +284,7 @@
 			$('#mapLoading').remove();
 
 			// loop ensures defaultMap is in fact one of the maps
-			displayNum = 0;
+			/*displayNum = 0;
 			for (mapNum = 0; mapNum < maps.length; mapNum++) {
 				if (defaultMap === maps[mapNum].id) {
 					displayNum = mapNum;
@@ -334,7 +299,7 @@
 			// Ensure SVG w/h are divisble by 2 (to avoid webkit blurriness bug on pan/zoom)
 			var elem = $('#' + maps[displayNum].id + '>svg', el)[0];
 			$(elem).attr('height', (Math.ceil($(elem).outerHeight() / 2) * 2) + 'px');
-			$(elem).attr('width', (Math.ceil($(elem).outerWidth() / 2) * 2) + 'px');
+			$(elem).attr('width', (Math.ceil($(elem).outerWidth() / 2) * 2) + 'px');*/
 
 			// if endpoint was specified, route to there.
 			if (typeof(options.endpoint) === 'function') {
@@ -349,7 +314,6 @@
 		// Initialize the jQuery target object
 		function initialize(obj, callback) {
 			var mapsProcessed = 0;
-
 			// Load SVGs off the network
 			$.each(maps, function (i, map) {
 				var svgDiv = $('<div id="' + map.id + '"><\/div>');
@@ -380,8 +344,10 @@
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
 								replaceLoadScreen(obj);
+                endInit();
 								if (typeof callback === 'function') {
 									callback();
+                  
 								}
 							});
 						}
@@ -389,6 +355,10 @@
 				);
 			});
 		} // function initialize
+
+    function endInit(){
+      loaded = true;
+    }
 
 		// Ensure a dataStore exists and is set, whether from a cache
 		// or by building it.
@@ -412,7 +382,6 @@
 
 					$.getJSON(cacheUrl, function (result) {
 						console.debug('Using dataStoreCache from remote.');
-
 						WayfindingDataStore.dataStore = result;
 
 						if(typeof(onReadyCallback) === 'function') {
@@ -522,12 +491,13 @@
 			var mapIdx = drawing[drawingSegment][0].floor;
 			svg = $('#' + maps[mapIdx].id + ' svg')[0];
 
+			drawLength = drawing[drawingSegment].routeLength;
+			animationDuration = drawLength * options.path.speed;
+
 			switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
 			// Get the complete path for this particular floor-route
 			path = $('#' + maps[drawing[drawingSegment][0].floor].id + ' .directionPath' + drawingSegment)[0];
-			drawLength = path.getTotalLength();
-			animationDuration = drawLength * options.path.speed;
 
 			// Animate using CSS transitions
 			// SVG animation technique from http://jakearchibald.com/2013/animated-line-drawing-svg/
@@ -547,14 +517,13 @@
 				if(drawingSegment == (drawing.length - 1)) {
 					$(path).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function(e) {
 						$(obj).trigger('wayfinding:animationComplete');
-						defaults['animating'] = false;
 					});
 				}
 			}
 
 			// Zooming logic...
-			var steps = 16;
-			var duration = 1050; // Zoom animation in milliseconds
+			var steps = 35;
+			var duration = 650; // Zoom animation in milliseconds
 
 			// Store the original SVG viewBox in order to zoom out back to it after path animation
 			var oldViewBox = svg.getAttribute('viewBox');
@@ -641,19 +610,6 @@
 			}, animationDuration + options.floorChangeAnimationDelay);
 		} //function animatePath
 
-		// Ensures '$el' has a valid jQuery.panzoom object
-		function initializePanZoom($el) {
-			$el.panzoom({
-				minScale: 1.0,
-				contain: 'invert',
-				cursor: 'pointer'
-			});
-
-			// Allow clicking on links within the SVG despite $.panZoom()
-			$el.find('a').on('mousedown touchstart', function( e ) {
-				e.stopImmediatePropagation();
-			});
-		} //function initializePanZoom
 
 		// Uses jQuery.panzoom to pan/zoom to the SVG viewbox coordinate equivalent of (x, y, w, h)
 		function panzoomWithViewBoxCoords(cssDiv, svg, x, y, w, h) {
@@ -978,8 +934,8 @@
 						drawLength = drawing[i].routeLength;
 
 					});
-
-					animatePath(drawing, 0);
+					return drawing;
+					//animatePath(drawing, 0);
 
 					//on switch which floor is displayed reset path svgStrokeDashOffset to minPath and the reanimate
 					//notify animation loop?
@@ -990,7 +946,6 @@
 		if (WayfindingDataStore == null) {
 			console.error('Please include wayfinding.datastore.js before jquery.wayfinding.js.');
 		}
-
 		if (action && typeof (action) === 'object') {
 			if (typeof options === 'function') {
 				callback = options;
@@ -1005,17 +960,16 @@
 			obj = $(this);
 
 			getOptions(obj); // load the current options
-
 			// Handle actions
 			if (action && typeof (action) === 'string') {
 				switch (action) {
 				case 'initialize':
 					checkIds();
-					initialize(obj, callback);
-					break;
+					result = initialize(obj, callback);
+          break;
 				case 'routeTo':
 					// call method
-					routeTo(passed);
+					result = routeTo(passed);
 					break;
 				case 'animatePath':
 					hidePath(obj);
@@ -1092,6 +1046,9 @@
 					//remove all traces of wayfinding from the obj
 					$(obj).remove();
 					break;
+        case 'fullyLoaded':
+          result = loaded;
+          break;
 				default:
 					break;
 				}
@@ -1103,7 +1060,6 @@
 		if (result !== undefined) {
 			return result;
 		}
-
 		return this;
 	};
 }(jQuery));
