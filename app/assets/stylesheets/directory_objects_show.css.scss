@@ -761,12 +761,18 @@ body {
   height: 100vh;
 }
 
+//override padding for landscape on mobiles
+@media only screen and (orientation: landscape) {
+	padding-top: 15vh;
+}
+
 /* this is the map display */
 #map {
   width: 100%;
   height: calc(90vh - 28vw);
   min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
   text-align: center;
+
 }
 
 /* Scale font size, line height, active, etc based on screen size */
@@ -895,12 +901,13 @@ body {
 
 /* END BODY STYLING */
 
+
 .btn-navbar-main {  //home button
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
-    padding: 0 7px;
-    font-size: .7em;
+    padding: 3px 3px;
+	border-radius: 50%;
 }
 
 .text-logout { //toggle menu list text size
@@ -911,6 +918,7 @@ body {
 	height: 4.5vh;
 	margin-top: 7px;
 	float: right;
+	border-radius: 4px;
 }
 
 .btn-text { //toggle menu list text size
@@ -927,12 +935,9 @@ body {
   max-height: 100%;
 }
 
-/*
-.searchbar {
-  display: inline-block;
-  min-width: 65%;
+.navbar-toggle .icon-bar {
+	max-width: 6.5vh;
 }
-*/
 
 .navbar-collapse {
 	img {
@@ -943,8 +948,10 @@ body {
 //STOP NAVBAR FROM COLLAPSING
 .navbar-header {
     float: none;
-    max-height: 9vh;
-    min-height: 5vh;
+	img {
+		height: 50px;	//icon size
+		max-height: 9vh;
+	}
 }
 .navbar-toggle {
     display: block;
@@ -952,6 +959,8 @@ body {
     margin-right: 10px;
 	margin-left: 10px;
     margin-top: 10px;
+	max-height: 9vh;
+	max-width: 9vh;
 }
 .navbar-collapse {
     border-top: 1px solid transparent;
