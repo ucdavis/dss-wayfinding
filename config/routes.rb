@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'about', to: 'site#about'
   get 'room/:number', to: 'directory_objects#show'
   get "/logout" => 'application#logout'
+  get "test" => 'directory_objects#test'
 
   get 'start/:location', to: redirect('/administration/start?location=%{location}')
   get 'start/:start_loc/end/:end_loc', to: 'directory_objects#show'

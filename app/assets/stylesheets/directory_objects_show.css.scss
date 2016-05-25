@@ -48,15 +48,7 @@ body {
   background: white;
 }
 
-/* Used on every page except 'landing' */
-.main-content {
-  width: 100%;
-}
 
-#map>div {
-  width: 100%;
-  height: 73vh; //calc(100vh - 200px);
-}
 
 #mapLoading {
 	font-size: 7vw;
@@ -97,10 +89,10 @@ body {
   right: -1000px;
 
   filter: blur(5px);
-  
-  z-index: 1;
-  
-  background-color: rgba(255, 255, 255, 0.9);
+
+  z-index: 100;
+
+  background-color: white;
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 }
 
@@ -110,6 +102,7 @@ body {
   text-align: center;
   width: 19vw;
   overflow: auto;
+  background-color: white;
 
   position: fixed;
   top: 100px;
@@ -119,7 +112,7 @@ body {
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
-  z-index: 10;
+  z-index: 100;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -177,173 +170,6 @@ body {
     img { padding:0px; border:1px solid #021a40; background-color:#ff0; height: 2in; width: 2in; margin: auto; }
     .right-btn-container {display: none;}
     .vertical-nav {display: none;}
-  }
-}
-
-ul.horizontal-nav {
-  list-style: none;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  padding-left: 0;
-
-  &.landing {
-    padding-left: 0;
-    margin: auto auto;
-    width: 83.33333%;
-
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-
-    li {
-      width: 19%;
-      font-size: 2vw;
-
-      a {
-        margin: 0.15em;
-        line-height: 1.95em;
-        border: 0.12em solid #fff;
-
-        &:before {
-          top: -0.22em;
-          left: -0.22em;
-          bottom: -0.22em;
-          right: -0.22em;
-        }
-      }
-    }
-  }
-
-  &.map-actions {
-    font-size: 1.9vw;
-
-    width: 75%;
-    margin: auto auto;
-
-    span {
-      text-transform: uppercase;
-      color: $floor-color;
-      position: absolute;
-      top: 30%;
-      left: 30px;
-
-      font-size: 100%;
-      line-height: 100%;
-    }
-
-    li {
-      width: 9%;
-
-      a {
-        margin: 0.15em;
-        line-height: 225%;
-        font-size: 100%;
-        border: 0.12em solid #fff;
-
-        &.active {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #5B7F95;
-        }
-
-        &.disabled {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #DFD6CD;
-          cursor: default;
-        }
-
-        &:before {
-          top: -0.25em;
-          left: -0.25em;
-          bottom: -0.25em;
-          right: -0.25em;
-        }
-
-        &.start:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #00e13c;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-
-        &.destination:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #fc6355;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  li {
-    position: relative;
-    display: inline-block;
-
-    span {
-      color: #777;
-      font-size: 1.2vw;
-      text-transform: uppercase;
-      white-space: normal;
-      position: absolute;
-      left: 0;
-      width: 100%;
-      text-align: center;
-    }
-
-    &:before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      padding-top: 100%;
-    }
-
-    a {
-      position: absolute;
-      text-align: center;
-      border-radius: 50%;
-      box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      &:before {
-        content: "";
-        display: block;
-        background: #fff;
-        border-top: 2px solid #ddd;
-        position: absolute;
-        z-index: -1;
-        border-radius: 50%;
-        box-shadow: inset 0px 8px 48px #ddd;
-      }
-    }
-
-    &:hover {
-      a {
-        color: #eee;
-        text-decoration: none;
-
-        &.disabled {
-          color: #fff;
-        }
-      }
-      span {
-        color: #333;
-      }
-    }
   }
 }
 
@@ -469,11 +295,6 @@ ul.vertical-nav {
 
 .btn-logout {
   background: $logout-color;
-  color: white;
-}
-
-.btn-floor {
-  background: $floor-color;
   color: white;
 }
 
@@ -681,14 +502,20 @@ ul.directory-list {
   }
 }
 
+//inside the searchbar
 input.search {
   height: 2em;
-  margin: 1.2em 0.3em 2em;
+  margin-top: .7em;
+  margin-left: .1em;
   background: white;
-  font-size: 2em;
+  font-size: 1.2em;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) inset;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.form-control {
+  padding: 5px 5px;
 }
 
 input.search:focus {
@@ -700,12 +527,7 @@ input.search:focus {
     width: 15%;
 }
 
-.show-map
-{
-  width: 100%;
-  height: 100vh;
-  padding-top: 2vh;
-}
+
 
 .admin-view
 {
@@ -926,4 +748,240 @@ table {
   height: 15px;
   width: 50px;
   display: block;
+}
+
+
+/*
+ * FRONT PAGE MAP NAVIGATION
+ */
+
+/* Pad to accomodate static nav-bar */
+body {
+  padding-top: 10vh;
+  height: 100vh;
+}
+
+//override padding for landscape on mobiles
+@media only screen and (orientation: landscape) {
+	padding-top: 15vh;
+}
+
+/* this is the map display */
+#map {
+  width: 100%;
+  height: calc(90vh - 28vw);
+  min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
+  text-align: center;
+
+}
+
+/* Scale font size, line height, active, etc based on screen size */
+.floor-nav {
+  text-align: center; /* UL centered in this top div */
+  padding-bottom: 0;
+
+  ul {
+    display: inline-block;
+    padding: 0; /* Padding is non-zero by default */
+    margin-bottom: 0;
+
+    li {
+      display: inline-block;
+      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
+      padding-left: 0.5vw;
+      padding-right: 0.5vw;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      img { /* images will maintain aspect ratio => height of this div == width of li */
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .btn-floor.start { /* Circular border stylizing for start floor */
+    img {
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #00e13c;
+    }
+  }
+
+  .btn-floor.destination { /* Circular border stylizing for destination floor */
+    img {
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #fc6355;
+    }
+  }
+}
+
+/* Used for floor anchors */
+.btn-floor {
+  display: block;
+
+  &.active {
+    opacity: 0.6;
+  }
+
+  &.disabled {
+    opacity: 0.6;
+  }
+}
+
+/* Accessibility nav-bar buttons*/
+.btn-access {
+  &.active {
+    opacity: 0.6;
+  }
+}
+
+/*.middle {
+  width: 100%;
+  display: inline-block;
+}
+
+.map-center {
+  text-align: center;
+}
+*/
+
+/* END FRONT PAGE FLOOR NAV */
+
+
+
+
+/* BEGIN LANDING */
+.landing-div {
+  height: 90vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.landing-ul {
+  margin: auto;
+  height: 100%;
+  display: inline-table;
+
+  li { /* Holds links to rest of site */
+    display: block;
+    height: 15vh; /* containing div is 90vh, divide by 5 and leave some extra */
+    text-align: left;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+
+    a { /* Anchors hold button images */
+      height: 100%;
+      display: inline-block;
+
+      img { /* Button imags scale to fit container */
+        height: 100%;
+        width: auto;
+        display: inline-block;
+      }
+    }
+
+    span { /* Can further style the text accompanying buttons */
+      display: inline-block;
+    }
+
+  }
+}
+/* END LANDING */
+
+/* BODY STYLING */
+
+
+
+
+
+/* END BODY STYLING */
+
+
+.btn-navbar-main {  //home button
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    padding: 3px 3px;
+	border-radius: 50%;
+}
+
+.text-logout { //toggle menu list text size
+  font-size: 2em;
+}
+
+.btn-logout-nav {
+	height: 4.5vh;
+	margin-top: 7px;
+	float: right;
+	border-radius: 4px;
+}
+
+.btn-text { //toggle menu list text size
+  font-size: 1.25em;
+}
+
+.btn-block {
+	text-align: left;
+	text-indent: 40%;
+}
+
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
+  max-height: 100%;
+}
+
+.navbar-toggle .icon-bar {
+	max-width: 6.5vh;
+}
+
+.navbar-collapse {
+	img {
+		height: 50px;	//icon size
+	}
+}
+
+//STOP NAVBAR FROM COLLAPSING
+.navbar-header {
+    float: none;
+	img {
+		height: 50px;	//icon size
+		max-height: 9vh;
+	}
+}
+.navbar-toggle {
+    display: block;
+    padding: 10px 10px;
+    margin-right: 10px;
+	margin-left: 10px;
+    margin-top: 10px;
+	max-height: 9vh;
+	max-width: 9vh;
+}
+.navbar-collapse {
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    max-height: 100%;
+}
+.navbar-collapse.collapse {
+    display: none!important;
+}
+
+.navbar-collapse.collapse.in {
+  display: block !important;
+}
+.navbar-nav {
+    float: none!important;
+    margin: 7.5px -15px;
+}
+.navbar-nav>li {
+    float: none;
+}
+.navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
