@@ -57,19 +57,24 @@
 	                <span class="icon-bar"></span>
 	            </button>
 
+				<!-- Logout shows if in /administration -->
+				<script type="text/javascript">
+					$(document).ready(function () {
+						if(window.location.href.indexOf("administration") < 0) {
+							$("#logout").hide();
+						}
+					});
+				</script>
+				<!-- Logout -->
+				<button type="button" class="btn-navbar-main btn btn-default btn-logout-nav" id="logout">
+					<a href="/logout" class="text-logout">Logout</a>
+				</button>
 	        </div>
+
 	         <!-- Hamburger Menu -->
 	        <div id="navbarCollapse" class="collapse navbar-collapse">
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
-
-	        <!--Search Results
-	        <div class="directory-list-search">
-	            <div id="scrubber-view" >
-	                <ul class="nav nav-list" id="slider-vertical"></ul>
-	            </div>
-	            <div id="result"></div>
-	        </div> <!--directory-list-search-->
 	    </div> <!-- container -->
 	</nav>
 

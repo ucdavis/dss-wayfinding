@@ -903,8 +903,23 @@ body {
     font-size: .7em;
 }
 
+.text-logout { //toggle menu list text size
+  font-size: 2em;
+}
+
+.btn-logout-nav {
+	height: 4.5vh;
+	margin-top: 7px;
+	float: right;
+}
+
 .btn-text { //toggle menu list text size
   font-size: 1.25em;
+}
+
+.btn-block {
+	text-align: left;
+	text-indent: 40%;
 }
 
 .navbar-fixed-top .navbar-collapse,
@@ -935,6 +950,7 @@ body {
     display: block;
     padding: 10px 10px;
     margin-right: 10px;
+	margin-left: 10px;
     margin-top: 10px;
 }
 .navbar-collapse {
