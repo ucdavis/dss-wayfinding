@@ -49,7 +49,7 @@ function onLoad(){
     for (var j = 0; j < 4; j++)
       views[i][j] = parseFloat(views[i][j]);
   }
-  
+
   draw = document.createElement('canvas');
   drawCtx = draw.getContext("2d");
   drawCtx.lineWidth = lineWidth;
@@ -163,7 +163,6 @@ function routingFunctions(){
         yMin = drawing[currentSet][i].y;
       if (drawing[currentSet][i].y > yMax)
         yMax = drawing[currentSet][i].y
-
     }
     xMin = (xMin - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
     yMin = (yMin - views[currentFloor][1]) * floors[currentFloor].height / views[currentFloor][3];
@@ -201,6 +200,7 @@ function routingFunctions(){
     shiftUnitsRemaining = zoomIterations;        
 
     window.requestAnimationFrame(routeZoom);
+
   }
 
   function routeZoom(){
@@ -334,6 +334,7 @@ function updateViewBox(){
            (shiftY*views[currentFloor][3]/can[currentFloor].height + views[currentFloor][1]) + " " + 
            views[currentFloor][2]/currentZoom + " " + views[currentFloor][3]/currentZoom);
   });
+
 }
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
@@ -343,6 +344,7 @@ function changeSVGFloor(newFloor){
             views[newFloor][2] + " " + views[newFloor][3]);
   });
 }
+
 function begin(){
   $("svg").on('mousedown', function(event){
     down = true;
@@ -464,7 +466,7 @@ function touchMove(event) {
   var touches = event.touches;
   var touch = [];
   touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
-  if (event.touches.length == 1 && down == true && Math.abs(touch[0].x - touchesRecord[0].pageX) < 30 && Math.abs(touch[0].y - touchesRecord[0].pageY) < 30){    
+  if (event.touches.length == 1 && down == true){    
     shiftX = shiftX - (touch[0].x - touchesRecord[0].pageX);
     shiftY = shiftY - (touch[0].y - touchesRecord[0].pageY);
     touchesRecord[0].pageX = touch[0].x;
@@ -497,22 +499,22 @@ function touchMove(event) {
     if (dx1 >= dx0 && dy1 >= dy0){
       var maxi;
       if (dx1 - dx0 > dy1 - dy0)
-        maxi = (dx1-dx0)/500;
+        maxi = (dx1-dx0)/200;
       else
-        maxi = (dy1-dy0)/500;
+        maxi = (dy1-dy0)/200;
         currentZoom = currentZoom + maxi;  
       } else if (dx1 <= dx0 && dy1 <= dy0){
         var maxi;
         if (dx0 - dx1 > dy0 - dy1)
-          maxi = (dx0-dx1)/500;
+          maxi = (dx0-dx1)/200;
         else
-          maxi = (dy0-dy1)/500;
+          maxi = (dy0-dy1)/200;
         currentZoom = currentZoom - maxi;
       }
       if (currentZoom < 1)
         currentZoom = 1;
       else if (currentZoom > 10)
-        currentZoom = 4;
+        currentZoom = 10;
       shiftX = currentShiftX - DWidth/currentZoom/2;
       shiftY = currentShiftY - DHeight/currentZoom/2;
       shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
@@ -526,12 +528,19 @@ function touchMove(event) {
                     currentZoom, 0, 0, c.width, c.height);
       updateViewBox();
     }
-
+    event.preventDefault();
   }
 
   function touchEnd(event) {
     if (event.touches.length == 0)
-    down = false;
+      down = false;
+    else if (event.touches.length == 1){
+      touchesRecord[0] = {
+        identifier : event.touches[0].identifier,
+        pageX : parseInt(event.touches[0].pageX),
+        pageY : parseInt(event.touches[0].pageY)
+      };
+    }
   }
 
   function resize(){
