@@ -1,36 +1,39 @@
 //= require wayfinding.datastore
 //= require jquery.wayfinding
 //= require redirect
-var maps = [];
-var floors = [];
-var c;
-var ctx;
-var touchesRecord = {};
-var currentFloor = 0;
-var nextFloor = 0;
-var can = [];
-var con = [];
-var animationSpeed = 20;
-var drawLength = 3;
-var lineWidth = 5;
-var lineColor = "#FF0000";
-var down = false;
-var mouseX;
-var mouseY;
-var mouseMoved = false;
-var shiftX = 0;
-var shiftY = 0;
-var shiftXMax = 0;
-var shiftYMax = 0;
-var drawing;
-var views = [];
-var bases = [];
-var currentZoom = 1;
+
+var draw;
+var drawCtx;
+var floors = [];            //stores img files for each floor
+var c;                      //variable that points to #myCanvas
+var ctx;                    //context for c
+var touchesRecord = {};     //Stores last set of touch values
+var currentFloor = 0;       //The current active floor
+var nextFloor = 0;          //The floor to switch to when floor change occurs
+var can = [];               //set of internal canvases that can be drawn to for each floor
+var con = [];               //set of contexts for can variable
+var animationSpeed = 20;    //time to wait between animation frames
+var drawLength = 3;         //number of pixels to draw per frame when drawing a line
+var lineWidth = 5;          //width of line to draw for routes
+var lineColor = "#FF0000";  //color of line to draw for routes
+var down = false;           //limits user panning on pc to when mouse button is held down over the image area
+var mouseX;                 //last recorded mouse x location during start/move events
+var mouseY;                 //last recorded mouse y location during start/move events
+var mouseMoved = false;     //whether mouse has moved since mouse button was pressed down (may no longer be used)
+var shiftX = 0;             //distance to shift left side of viewbox
+var shiftY = 0;             //distance to shift top of viewbox
+var shiftXMax = 0;          //maximum distance to shift left side of viewbox at current zoom level
+var shiftYMax = 0;          //maximum distance to shift top of viewbox at current zoom level
+var drawing;                //variable to hold route information
+var views = [];             //holds initial viewbox information for each floor: views[floor#][x] where 
+//                            0 <= x < 4, in order: minimum x, minimum y, width, height of SVG                            
+var bases = [];             //holds x and y displacement values for each floor
+var currentZoom = 1;        //current magnification level
 var destination;
 var animating = false;
-var routeTrigger;
-var loadComplete = false;
+var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
+//once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
   for (var i = 0; i < 6; i = i+1){
     can[i] = document.createElement('canvas');
@@ -65,6 +68,7 @@ function onLoad(){
   initialDraw();
 }
 
+//adds touch based listeners and resizing listener
 function addListeners(){
   document.getElementById('viewing').addEventListener('touchstart', touchStart);
   document.getElementById('viewing').addEventListener('touchmove', touchMove);
@@ -72,42 +76,50 @@ function addListeners(){
   window.addEventListener('resize', resize);
 }
 
+//sets up origin floor for display, and replaces the loading gif with the canvas/svg
 function initialDraw(){
   $("#mapLoading").remove();
-  $('#'+maps[currentFloor]).css("display", "inline");
+  $('#floor'+currentFloor).css("display", "inline");
   $("div.floor svg").attr({"width":c.width,"height":c.height});
   $("div.floor svg").css({"width":c.width,"height":c.height});
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   ctx.clearRect(0,0,c.height,c.width);
   ctx.drawImage(can[currentFloor],0,0,can[currentFloor].width,
                 can[currentFloor].height,0,0,c.width,c.height);
+  $("#floor" + currentFloor).css("display","inline");
+  //if destination was included in page call, run routing function
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }
+
+//collection of all route drawing functions
 function routingFunctions(){
-  var changeFloorPause = 1000;
-  var startFloorPause = 1500;
-  var currentX;
-  var currentY;
-  var currentSet;
-  var currentEntry;
-  var xDist;
-  var yDist;
-  var len;		
-  var unit;
-  var xMin;
-  var xMax;
-  var yMin;
-  var yMax;
-  var xWidth;
-  var yHeight;
-  var xUnitShift;
-  var yUnitShift;
-  var widthUnitShift;
-  var shiftUnitsRemaining;
-  var zoomIterations = 35;
+  var changeFloorPause = 1000;        //time to wait before changing floors during a route
+  var startFloorPause = 1500;         //time to wait before continuing to draw after floor change
+  var currentX;                       //current x coordinate of draw path
+  var currentY;                       //current y coordinate of draw path
+  var currentSet;                     //index of current floor path in route (if a floor is revisited
+                                      //during a route, it will have multiple indices here, it changes whenever floor changes 
+  var currentEntry;                   //current move/lineto/curveto command in the current set of the route
+  var xDist;                          //horizontal distance between start and end of next entry
+  var yDist;                          //vertical distance between start and end of next entry
+  var len;		                        //Used to calculate the distance each frame should extend line, then used to store 
+                                      //remaining number of frames for that line
+  var unit;                           //distance each frame should extend the line
+  var xMin;                           //minimum recorded x-value for that set, later adjusted for different aspect ratio
+  var xMax;                           //maximum recorded x-value for that set, later adjusted for different aspect ratio
+  var yMin;                           //minimum recorded y-value for that set, later adjusted for different aspect ratio
+  var yMax;                           //maximum recorded y-value for that set, later adjusted for different aspect ratio
+  var xWidth;                         //
+  var yHeight;                        //
+  var xUnitShift;                     //Distance to shift viewbox horizontally each frame
+  var yUnitShift;                     //Distance to shift viewbox vertically each frame
+  var widthUnitShift;                 //amount to change magnification level each frame
+  var shiftUnitsRemaining;            //number of frames left for zoom operation
+  var zoomIterations = 35;            //number of frames over which to change viewbox
   beginRoute();
 
+  //sets up starting values for each route, changes classes as necessary
   function beginRoute(){
     currentSet = 0
     currentEntry = 0;
@@ -115,19 +127,23 @@ function routingFunctions(){
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
+    //restores internal canvases to default floor images
     for (var i = 0; i < 6; i++){
       con[i].clearRect(0,0,can[i].width,can[i].height);
       con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width, 	
                        floors[i].height);
     }
+    //starts at full size on floor change
     if (parseInt(drawing[0][0].floor) != currentFloor){
       shiftX = 0;
       shiftY = 0;
       currentZoom = 1;
     }
+    //changes floors if necessary
     nextFloor = parseInt(drawing[0][0].floor);
     changeSVGFloor(nextFloor);
     currentFloor = nextFloor;
+    //sets up the canvas for line drawing
     draw.width = floors[currentFloor].width;
     draw.height = floors[currentFloor].height;
     drawCtx.lineWidth = lineWidth;
