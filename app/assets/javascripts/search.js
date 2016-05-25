@@ -1,3 +1,4 @@
+
 //= require redirect
 
 var pluralize = function (word) {
@@ -15,6 +16,7 @@ var addCategoryIfDoesNotExist = function (category) {
 }
 
 var displayResults = function () {
+	  $('.ui-input-clear').hide();	//hide Clear text
   var query = $("#search").val();
 
   $('ul#slider-vertical').empty();

@@ -42,6 +42,7 @@ class AdministrationController < ApplicationController
   # GET
   # Modifies the starting location passed via URL (QR Codes)
   # Passes starting location as the room number
+  # Redirects immediately to Map
   def start
     unless params[:origin].blank?
       params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
@@ -49,7 +50,7 @@ class AdministrationController < ApplicationController
       session[:start] = origin.upcase
     end
 
-    redirect_to root_path
+    redirect_to "/map"
   end
 
   # POST /logvisitor

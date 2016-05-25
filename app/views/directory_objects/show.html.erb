@@ -107,35 +107,145 @@
   });
 </script>
 
-<div class="show-map">
-  <ul class="horizontal-nav map-actions">
-    <span>Floors</span>
-    <li><a href="#" id="flr-btn0" class="btn-floor">L</a></li>
-    <li><a href="#" id="flr-btn1" class="btn-floor">1</a></li>
-    <li><a href="#" id="flr-btn2" class="btn-floor">2</a></li>
-    <li><a href="#" id="flr-btn3" class="btn-floor">3</a></li>
-    <li><a href="#" id="flr-btn4" class="btn-floor">4</a></li>
-    <li><a href="#" id="flr-btn5" class="btn-floor">5</a></li>
-  </ul>
-  <div id="map">
-    <div id="viewing" width = "100%" style="position:relative; display:none;">
-      <canvas id="myCanvas" style="position:relative; left:10vw; z=0; margin:auto; width:60vw; height:350;">
-      </canvas>
-      <div id="svgImage" style="position: absolute; margin:auto; left:10vw; top:2px; z=50;"></div>
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" id="flr-btn0" class="btn-floor">
+            <img src=<%= asset_path "Floor0Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn1" class="btn-floor">
+            <img src=<%= asset_path "Floor1Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn2" class="btn-floor">
+            <img src=<%= asset_path "Floor2Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn3" class="btn-floor">
+            <img src=<%= asset_path "Floor3Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn4" class="btn-floor">
+            <img src=<%= asset_path "Floor4Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn5" class="btn-floor">
+            <img src=<%= asset_path "Floor5Button.png" %>>
+          </a>
+        </li>
+      </ul>
     </div>
-    <div id="mapLoading">
-      <div id="mapLoadingInner">
-        <%= image_tag("loader.gif", alt: "Loading") %>
+  </div>
+
+  <div class="row">
+    <div id="map">
+      <div id="viewing">
+        <canvas id="myCanvas">
+        </canvas>
+        <div id="svgImage"></div>
       </div>
+
+      <div id="mapLoading">
+        <div id="mapLoadingInner">
+          <%= image_tag("loader.gif", alt: "Loading") %>
+        </div>
+      </div>
+
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src= <%= asset_path "accessButton.png" %> class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src= <%= asset_path "repeatButton.png" %> class="img-fill">
+          </a>
+        </li>
+      </ul>
     </div>
-  </div>      
-  <ul class="horizontal-nav map-actions">
-    <li><a href="#" class="btn-map-action icon-accessible accessible"></a></li>
-    <li><a href="#" class="btn-map-action icon-repeat replay disabled"></a></li>
-  </ul>
-</div>
+  </div>
 
 <div id="destination-view">
   <i class="btn-min-max icon-right-arrow min-max"></i>
   <h1>Destination</h1>
-</div> <!-- destination-view -->
+</div>
+
+<style>
+
+/* An aspect ration < 1 => device is in portrate mode*/
+@media (device-aspect-ratio: 9/16), 
+       (device-aspect-ratio: 3/4),
+       (device-aspect-ratio: 2/3),
+       (device-aspect-ratio: 5/8),
+       (device-aspect-ratio: 3/5) {
+  #myCanvas {
+    width: 95vw;
+  }
+
+  #svgImage {
+    width: 95vw;
+    height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
+  }
+}
+
+/* Aspect ratio > 1 => landscape or monitor */
+@media (device-aspect-ratio: 16/9), 
+       (device-aspect-ratio: 4/3),
+       (device-aspect-ratio: 3/2),
+       (device-aspect-ratio: 8/5),
+       (device-aspect-ratio: 5/3) {
+  #myCanvas {
+    width: calc((2/1.1) * 58vh);
+  }
+
+  #svgImage {
+    width: calc((2/1.1) * 58vh);
+    height: 58vh;
+  }
+}
+
+
+#myCanvas {
+  position:absolute;
+  z=0;
+
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+#svgImage {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z=50;
+}
+
+#viewing {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none;
+}
+</style>
