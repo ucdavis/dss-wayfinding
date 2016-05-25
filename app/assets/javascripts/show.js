@@ -33,21 +33,23 @@ var loadComplete = false;
 
 function onLoad(){
   for (var i = 0; i < 6; i = i+1){
-  can[i] = document.createElement('canvas');
-  can[i].width = floors[i].width;
-  can[i].height = floors[i].height;
-  con[i] = can[i].getContext('2d');
-  con[i].lineWidth = lineWidth;
-  con[i].strokeStyle = lineColor;
-  con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width, 	
-                   floors[i].height);
-  bases[i] = {x: $("#floor" + i + " svg").attr("x"),y:$("#floor" + i + " svg").attr("y")};
-  bases[i].x = parseFloat(bases[i].x);
-  bases[i].y = parseFloat(bases[i].y);
-  views[i] = $("#floor" + i + " svg").attr("viewbox").split(" ");
-  for (var j = 0; j < 4; j++)
-    views[i][j] = parseFloat(views[i][j]);
+    can[i] = document.createElement('canvas');
+    can[i].width = floors[i].width;
+    can[i].height = floors[i].height;
+    con[i] = can[i].getContext('2d');
+    con[i].lineWidth = lineWidth;
+    con[i].strokeStyle = lineColor;
+    con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width, 	
+                     floors[i].height);
+    bases[i] = {x: $("#floor" + i + " svg").attr("x"),y:$("#floor" + i + " svg").attr("y")};
+    bases[i].x = parseFloat(bases[i].x);
+    bases[i].y = parseFloat(bases[i].y);
+    views[i] = $("#floor" + i + " svg").attr("viewbox").split(" ");
+
+    for (var j = 0; j < 4; j++)
+      views[i][j] = parseFloat(views[i][j]);
   }
+  
   draw = document.createElement('canvas');
   drawCtx = draw.getContext("2d");
   drawCtx.lineWidth = lineWidth;

@@ -761,10 +761,11 @@ body {
 }
 
 /* this is the map display */
-#map>div {
+#map {
   width: 100%;
   height: calc(90vh - 28vw);
   min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
+  text-align: center;
 }
 
 /* Scale font size, line height, active, etc based on screen size */
