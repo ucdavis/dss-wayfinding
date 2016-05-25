@@ -39,14 +39,18 @@
 	    <div class="container">
 	        <div class="navbar-header">
 	            <!-- Home Button -->
-	            <button type="button" class="btn-navbar-main btn btn-xs btn-default">
-	                <a href="/" class="btn-home icon-home"></a>
-	            </button>
+				<a href="/">
+					<button type="button" class="btn-navbar-main btn btn-default">
+						<img src=<%= asset_path "icons/events-btn.png" %> >	<!--change icon here -->
+					</button>
+				</a>
 
 	            <!-- Search-->
-				<button type="button" class="btn-navbar-main btn btn-xs btn-default">
-	                <a href="/search" class="btn-search icon-search"></a>
-	            </button>
+				<a href="/search">
+					<button type="button" class="btn-navbar-main btn btn-default">
+						<img src=<%= asset_path "icons/about-btn.png" %> > <!--change icon here -->
+					</button>
+				</a>
 
 	            <!-- toggle hamburger menu -->
 	            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -57,19 +61,24 @@
 	                <span class="icon-bar"></span>
 	            </button>
 
+				<!-- Logout shows if in /administration -->
+				<script type="text/javascript">
+					$(document).ready(function () {
+						if(window.location.href.indexOf("administration") < 0) {
+							$("#logout").hide();
+						}
+					});
+				</script>
+				<!-- Logout -->
+				<button type="button" class="btn-navbar-main btn btn-default btn-logout-nav" id="logout">
+					<a href="/logout" class="text-logout">Logout</a>
+				</button>
 	        </div>
+
 	         <!-- Hamburger Menu -->
 	        <div id="navbarCollapse" class="collapse navbar-collapse">
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
-
-	        <!--Search Results
-	        <div class="directory-list-search">
-	            <div id="scrubber-view" >
-	                <ul class="nav nav-list" id="slider-vertical"></ul>
-	            </div>
-	            <div id="result"></div>
-	        </div> <!--directory-list-search-->
 	    </div> <!-- container -->
 	</nav>
 
