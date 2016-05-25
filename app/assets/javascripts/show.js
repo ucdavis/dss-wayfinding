@@ -74,6 +74,7 @@ function initialDraw(){
   $("#mapLoading").remove();
   $('#'+maps[currentFloor]).css("display", "inline");
   $("div.floor svg").attr({"width":c.width,"height":c.height});
+  $("div.floor svg").css({"width":c.width,"height":c.height});
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   ctx.clearRect(0,0,c.height,c.width);
   ctx.drawImage(can[currentFloor],0,0,can[currentFloor].width,
@@ -109,7 +110,6 @@ function routingFunctions(){
     currentSet = 0
     currentEntry = 0;
     animating = true;
-    console.log(drawing);
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
@@ -151,7 +151,6 @@ function routingFunctions(){
     yMin = floors[currentFloor].height;
     yMax = views[currentFloor][1];
     for (var i = 0; i < drawing[currentSet].length; i++){
-      console.log(drawing[currentSet][i].x + " " + xMin + " " + xMax + " " + drawing[currentSet][i].y + " " +  yMin + " " + yMax);
       drawing[currentSet][i].x = parseFloat(drawing[currentSet][i].x);
       drawing[currentSet][i].y = parseFloat(drawing[currentSet][i].y);
       if (drawing[currentSet][i].x < xMin)
@@ -162,7 +161,6 @@ function routingFunctions(){
         yMin = drawing[currentSet][i].y;
       if (drawing[currentSet][i].y > yMax)
         yMax = drawing[currentSet][i].y
-      console.log(xMin + " " + xMax + " " +  yMin + " " + yMax);
 
     }
     xMin = (xMin - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
@@ -389,11 +387,13 @@ function begin(){
     drawing = $("#svgImage").wayfinding('routeTo', destination);
     setRedirectToHome(); // reset the home page return timer
     if (drawing.length > 0)
-      toggleInfoPanel('min');
-      $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
-        showInfo(data);
-      });
-      routingFunctions();
+      if (drawing[0].length > 0){
+        toggleInfoPanel('min');
+        $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
+          showInfo(data);
+        });
+        routingFunctions();
+      }
   });
 
   $(".accessible").click(function(e) {
@@ -429,6 +429,7 @@ function begin(){
     shiftYMax = 0;
     c.height = c.width *floors[currentFloor].height/floors[currentFloor].width;
     $("#floor" + currentFloor + " svg").attr({"height":c.height,"width":c.width});
+    $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
     $("#myCanvas").css("height",c.height);
     ctx.clearRect(0,0,c.width,c.height);
     ctx.drawImage(can[currentFloor],shiftX,shiftX,floors[currentFloor].width/currentZoom, 
@@ -457,12 +458,13 @@ function touchStart(event) {
 }
 
 function touchMove(event) {
+  event.preventDefault();
   var touches = event.touches;
   var touch = [];
   touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
-  if (event.touches.length == 1 && down == true){    
-    shiftX = shiftX - (touch[0].x - touchesRecord[0].pageX) * currentZoom;
-    shiftY = shiftY - (touch[0].y - touchesRecord[0].pageY) * currentZoom;
+  if (event.touches.length == 1 && down == true && Math.abs(touch[0].x - touchesRecord[0].pageX) < 30 && Math.abs(touch[0].y - touchesRecord[0].pageY) < 30){    
+    shiftX = shiftX - (touch[0].x - touchesRecord[0].pageX);
+    shiftY = shiftY - (touch[0].y - touchesRecord[0].pageY);
     touchesRecord[0].pageX = touch[0].x;
     touchesRecord[0].pageY = touch[0].y;
     mouseMoved = true;
@@ -484,26 +486,30 @@ function touchMove(event) {
     var currentShiftY = shiftY;
     var DWidth = can[currentFloor].width;
     var DHeight = can[currentFloor].height;
+    touchesRecord[0].pageX = touch[0].x;
+    touchesRecord[1].pageX = touch[1].x;
+    touchesRecord[0].pageY = touch[0].y;
+    touchesRecord[1].pageY = touch[1].y;
     currentShiftX = Math.floor((2*currentShiftX+DWidth/currentZoom)/2);
     currentShiftY = Math.floor((2*currentShiftY+DHeight/currentZoom)/2);
     if (dx1 >= dx0 && dy1 >= dy0){
       var maxi;
       if (dx1 - dx0 > dy1 - dy0)
-        maxi = (dx1-dx0)/5000;
+        maxi = (dx1-dx0)/500;
       else
-        maxi = (dy1-dy0)/5000;
+        maxi = (dy1-dy0)/500;
         currentZoom = currentZoom + maxi;  
       } else if (dx1 <= dx0 && dy1 <= dy0){
         var maxi;
         if (dx0 - dx1 > dy0 - dy1)
-          maxi = (dx0-dx1)/5000;
+          maxi = (dx0-dx1)/500;
         else
-          maxi = (dy0-dy1)/5000;
+          maxi = (dy0-dy1)/500;
         currentZoom = currentZoom - maxi;
       }
       if (currentZoom < 1)
         currentZoom = 1;
-      else if (currentZoom > 4)
+      else if (currentZoom > 10)
         currentZoom = 4;
       shiftX = currentShiftX - DWidth/currentZoom/2;
       shiftY = currentShiftY - DHeight/currentZoom/2;
@@ -516,12 +522,9 @@ function touchMove(event) {
       ctx.clearRect(0,0,c.width,c.height);
       ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom, can[currentFloor].height/
                     currentZoom, 0, 0, c.width, c.height);
-      $('#' + maps[currentFloor] + " svg").attr("viewBox", function(){
-        return Math.floor(shiftX*convertX) + " " + Math.floor(shiftY*convertY) + " " + Math.floor(646/currentZoom) + " " + 
-               Math.floor(346/currentZoom);
-      });
+      updateViewBox();
     }
-    event.preventDefault();
+
   }
 
   function touchEnd(event) {
@@ -536,6 +539,7 @@ function touchMove(event) {
     });
     c.height = parseInt($('#myCanvas').css('height'));
     $('svg').attr({'width':c.width,'height':c.height});
+    $('svg').css({'width':c.width,'height':c.height});
     ctx.clearRect(0,0,c.width,c.height);
     ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom,
                   can[currentFloor].height/currentZoom, 0,0,c.width,c.height);
