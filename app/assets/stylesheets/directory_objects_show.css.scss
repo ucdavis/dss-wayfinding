@@ -976,7 +976,7 @@ body {
 
 
 //override view for landscape on mobiles
-@media only screen and (orientation: landscape) {
+@media only screen and (max-device-width: 1024px) and (orientation: landscape) {
 	body {
 		padding-top: 20vh;
 	}
