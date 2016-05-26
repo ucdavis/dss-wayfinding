@@ -757,14 +757,10 @@ table {
 
 /* Pad to accomodate static nav-bar */
 body {
-  padding-top: 10vh;
+  padding-top: 11vh;
   height: 100vh;
 }
 
-//override padding for landscape on mobiles
-@media only screen and (orientation: landscape) {
-	padding-top: 15vh;
-}
 
 /* this is the map display */
 #map {
@@ -893,15 +889,9 @@ body {
 }
 /* END LANDING */
 
-/* BODY STYLING */
 
 
-
-
-
-/* END BODY STYLING */
-
-
+//navbar stuffs
 .btn-navbar-main {  //home button
     margin-top: 5px;
     margin-bottom: 5px;
@@ -935,10 +925,6 @@ body {
   max-height: 100%;
 }
 
-.navbar-toggle .icon-bar {
-	max-width: 6.5vh;
-}
-
 .navbar-collapse {
 	img {
 		height: 50px;	//icon size
@@ -958,9 +944,8 @@ body {
     padding: 10px 10px;
     margin-right: 10px;
 	margin-left: 10px;
-    margin-top: 10px;
-	max-height: 9vh;
-	max-width: 9vh;
+	margin-top: 13px;
+	height: 40px;
 }
 .navbar-collapse {
     border-top: 1px solid transparent;
@@ -984,4 +969,23 @@ body {
 .navbar-nav>li>a {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+
+
+//override padding for landscape on mobiles
+@media only screen and (max-device-width: 850px) and (orientation: landscape) {
+	body {
+		padding-top: 15vh;
+	}
+
+	.navbar-toggle {
+    	height: 9vh;
+		margin-top: 10px;
+
+	}
+	.navbar-toggle .icon-bar {
+		max-width: 6.5vh;
+	}
+
 }
