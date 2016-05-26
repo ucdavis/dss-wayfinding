@@ -757,7 +757,7 @@ table {
 
 /* Pad to accomodate static nav-bar */
 body {
-  padding-top: 11vh;
+  padding-top: 13vh;
   height: 100vh;
 }
 
@@ -915,9 +915,11 @@ body {
   font-size: 1.25em;
 }
 
-.btn-block {
+.btn.btn-block {
 	text-align: left;
 	text-indent: 40%;
+	width: 102%;
+
 }
 
 .navbar-fixed-top .navbar-collapse,
@@ -927,7 +929,7 @@ body {
 
 .navbar-collapse {
 	img {
-		height: 50px;	//icon size
+		height: 45px;	//icon size
 	}
 }
 
@@ -935,8 +937,8 @@ body {
 .navbar-header {
     float: none;
 	img {
-		height: 50px;	//icon size
-		max-height: 9vh;
+		height: 40px;	//icon size
+		//max-height: 9vh;
 	}
 }
 .navbar-toggle {
@@ -944,7 +946,7 @@ body {
     padding: 10px 10px;
     margin-right: 10px;
 	margin-left: 10px;
-	margin-top: 13px;
+	margin-top: 11px;
 	height: 40px;
 }
 .navbar-collapse {
@@ -973,19 +975,44 @@ body {
 
 
 
-//override padding for landscape on mobiles
-@media only screen and (max-device-width: 850px) and (orientation: landscape) {
+//override view for landscape on mobiles
+@media only screen and (orientation: landscape) {
 	body {
-		padding-top: 15vh;
+		padding-top: 20vh;
 	}
 
 	.navbar-toggle {
-    	height: 9vh;
-		margin-top: 10px;
+    	height: 30px;
+		margin-top: 8px;
+    	padding: 5px 10px;
+	}
 
+	.navbar-header {
+		img {
+			height: 10vh;
+		}
+	}
+}
+
+//tablet  specific
+@media only screen and (device-width: 1024px) and (orientation: landscape) {
+	body {
+		padding-top: 10vh;
+	}
+	.navbar-toggle {
+		width: 7vh;
+    	height: 7vh;
 	}
 	.navbar-toggle .icon-bar {
-		max-width: 6.5vh;
+		width: 4vh;
+	}
+	.navbar-toggle .icon-bar + .icon-bar {
+		margin-top: 7px;
 	}
 
+	.navbar-header {
+		img {
+			height: 50px;
+		}
+	}
 }
