@@ -2,8 +2,8 @@
 //= require jquery.wayfinding
 //= require redirect
 
-var draw;
-var drawCtx;
+var draw;                   //internal canvas for line drawing
+var drawCtx;                //context for draw
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
 var ctx;                    //context for c
@@ -106,12 +106,12 @@ function routingFunctions(){
   var len;		                        //Used to calculate the distance each frame should extend line, then used to store 
                                       //remaining number of frames for that line
   var unit;                           //distance each frame should extend the line
-  var xMin;                           //minimum recorded x-value for that set, later adjusted for different aspect ratio
-  var xMax;                           //maximum recorded x-value for that set, later adjusted for different aspect ratio
-  var yMin;                           //minimum recorded y-value for that set, later adjusted for different aspect ratio
-  var yMax;                           //maximum recorded y-value for that set, later adjusted for different aspect ratio
-  var xWidth;                         //
-  var yHeight;                        //
+  var xMin;                           //minimum recorded x-value for that set, later adjusted for different floor dimensions
+  var xMax;                           //maximum recorded x-value for that set, later adjusted for different floor dimensions
+  var yMin;                           //minimum recorded y-value for that set, later adjusted for different floor dimensions
+  var yMax;                           //maximum recorded y-value for that set, later adjusted for different floor dimensions
+  var xWidth;                         //distance between xmin and xmax, later adjusted for different floor dimensions and to fit boundaries
+  var yHeight;                        //distance between ymin and ymax, later adjusted for different floor dimensions and to fit boundaries
   var xUnitShift;                     //Distance to shift viewbox horizontally each frame
   var yUnitShift;                     //Distance to shift viewbox vertically each frame
   var widthUnitShift;                 //amount to change magnification level each frame
@@ -148,10 +148,13 @@ function routingFunctions(){
     draw.height = floors[currentFloor].height;
     drawCtx.lineWidth = lineWidth;
     drawCtx.strokeStyle = lineColor;
+    //change active floor icon
     $("a.btn-floor").removeClass("active");
     $("#flr-btn" + currentFloor).addClass("active");
+    //clear canvas and draw floor
     ctx.clearRect(0,0,c.width,c.height);
     ctx.drawImage(can[currentFloor], 0,0,can[currentFloor].width, can[currentFloor].height, 0, 0, c.width,c.height);		
+    //calculate and set starting point drawing
     currentX = parseFloat(drawing[0][0].x - views[currentFloor][0])
                           *floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
     currentY = parseFloat(drawing[0][0].y - views[currentFloor][1])
@@ -162,12 +165,14 @@ function routingFunctions(){
             window.requestAnimationFrame(changeFocus);
   }
 
+  //sets up values for panning/zooming to the route
   function changeFocus(){
     var targetZoom;
     xMin = floors[currentFloor].width;
     xMax = views[currentFloor][0];
     yMin = floors[currentFloor].height;
     yMax = views[currentFloor][1];
+    //finds minimum and maximum x and y values for the current drawing set
     for (var i = 0; i < drawing[currentSet].length; i++){
       drawing[currentSet][i].x = parseFloat(drawing[currentSet][i].x);
       drawing[currentSet][i].y = parseFloat(drawing[currentSet][i].y);
@@ -180,10 +185,12 @@ function routingFunctions(){
       if (drawing[currentSet][i].y > yMax)
         yMax = drawing[currentSet][i].y
     }
+    //converts the minimum and maximum values to the floors dimensions
     xMin = (xMin - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
     yMin = (yMin - views[currentFloor][1]) * floors[currentFloor].height / views[currentFloor][3];
     xMax = (xMax - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
     yMax = (yMax - views[currentFloor][1]) * floors[currentFloor].height / views[currentFloor][3];
+    //adds 30% to width and height so route fits cleanly, then adjusts to ensure values remain within canvas
     xWidth = (xMax - xMin) * 0.3;
     yHeight = (yMax - yMin) * 0.3;
     if (xMin - xWidth < 0)
@@ -210,6 +217,7 @@ function routingFunctions(){
       xMin = floors[currentFloor].width - xWidth;
     targetZoom = floors[currentFloor].width / xWidth;
 
+    //calculate amount to shift each frame
     xUnitShift = (xMin-shiftX)/zoomIterations;
     yUnitShift = (yMin-shiftY)/zoomIterations;
     widthUnitShift = (targetZoom - currentZoom)/zoomIterations;
@@ -220,6 +228,8 @@ function routingFunctions(){
   }
 
   function routeZoom(){
+    //adjusts view values as calculates in changeFocus, draws the updated position.
+    //Repeats for zoomIterations frames then calls route
     shiftX = shiftX + xUnitShift;
     shiftY = shiftY + yUnitShift;
     currentZoom = currentZoom + widthUnitShift;
@@ -234,6 +244,8 @@ function routingFunctions(){
       window.requestAnimationFrame(route);
   }
 
+  //adjusts drawing set/entry, and then makes calulations/calls functions according
+  //to what type the current entry in drawing is.
   function route(){
     shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
     shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
@@ -277,6 +289,7 @@ function routingFunctions(){
     } 
   }
 
+  //changes floor displayed by canvas and svg
   function routeFloor(){
     con[currentFloor].drawImage(draw, 0, 0, draw.width, draw.height, 0, 0, can[currentFloor].width, can[currentFloor].height);
     $("#flr-btn" + currentFloor).removeClass("active");
@@ -302,7 +315,8 @@ function routingFunctions(){
     drawCtx.moveTo(currentX,currentY);
     window.setTimeout(changeFocus, startFloorPause);
   }
-
+  
+  //draws the line segment to the internal canvas
   function drawLine(){
     var nextX = currentX + unit*xDist;
     var nextY = currentY + unit*yDist;
@@ -313,6 +327,7 @@ function routingFunctions(){
     requestAnimationFrame(drawCanvas);				
   }
   
+  //draws route from internal canvas to visible canvas
   function drawCanvas(){
     ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
                   draw.height/currentZoom, 0,0,c.width,c.height);
@@ -323,6 +338,7 @@ function routingFunctions(){
      }
   }
   
+  //draws curve to internal canvas
   function drawQuad(){
     var curveX = (drawing[currentSet][currentEntry].cx - views[currentFloor][0]) 
                  * floors[currentFloor].width / views[currentFloor][2] + bases[currentFloor].x;
@@ -337,6 +353,7 @@ function routingFunctions(){
     window.requestAnimationFrame(drawQuadFrame);        
   }
 
+  //draws route from internal canvas to visible canvas
   function drawQuadFrame(){
     ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
                   draw.height/currentZoom, 0,0,c.width,c.height);
@@ -344,6 +361,7 @@ function routingFunctions(){
   }
 }  
 
+//updates the viewbox of the current svg
 function updateViewBox(){
   $("#floor" + currentFloor + " svg").attr("viewbox", function(){
     return ((shiftX*views[currentFloor][2]/can[currentFloor].width + views[currentFloor][0]) + " " +
@@ -352,6 +370,8 @@ function updateViewBox(){
   });
 
 }
+
+//changes the svg displayed
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
@@ -361,6 +381,7 @@ function changeSVGFloor(newFloor){
   });
 }
 
+//attaches listeners
 function begin(){
   $("svg").on('mousedown', function(event){
     down = true;
@@ -641,17 +662,5 @@ function touchMove(event) {
       console.warn('Object not found in directory');
       $('#destination-view').css('right', '-1000px');
       $('#destination-view-bg').css('right', '-1000px');
-    }
-  }
-
-  var minMaxInfo = function (state) {
-    state = state || 'toggle';
-    var width = $('#destination-view').outerWidth();
-    if (state == 'min' || $('#destination-view').css('right') == '0px') {
-      $('#destination-view').css('right', -width+20);
-      $('i.btn-min-max').removeClass('icon-right-arrow').addClass('icon-left-arrow');
-    } else {
-      $('#destination-view').css('right', 0);
-      $('i.btn-min-max').removeClass('icon-left-arrow').addClass('icon-right-arrow');
     }
   }
