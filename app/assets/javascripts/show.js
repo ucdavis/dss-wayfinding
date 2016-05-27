@@ -142,11 +142,11 @@ function routingFunctions(){
       shiftX = 0;
       shiftY = 0;
       currentZoom = 1;
+      nextFloor = parseInt(drawing[0][0].floor);
+      changeSVGFloor(nextFloor);
+      currentFloor = nextFloor;
     }
     //changes floors if necessary
-    nextFloor = parseInt(drawing[0][0].floor);
-    changeSVGFloor(nextFloor);
-    currentFloor = nextFloor;
     //sets up the canvas for line drawing
     draw.width = floors[currentFloor].width;
     draw.height = floors[currentFloor].height;
@@ -157,7 +157,7 @@ function routingFunctions(){
     $("#flr-btn" + currentFloor).addClass("active");
     //clear canvas and draw floor
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor], 0,0,can[currentFloor].width, can[currentFloor].height, 0, 0, c.width,c.height);		
+    ctx.drawImage(can[currentFloor], shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom, 0, 0, c.width,c.height);		
     //calculate and set starting point drawing
     currentX = parseFloat(drawing[0][0].x - views[currentFloor][0])
                           *floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
