@@ -1,7 +1,6 @@
 //= require wayfinding.datastore
 //= require jquery.wayfinding
 //= require redirect
-
 var draw;                   //internal canvas for line drawing
 var drawCtx;                //context for draw
 var floors = [];            //stores img files for each floor
@@ -12,10 +11,7 @@ var currentFloor = 0;       //The current active floor
 var nextFloor = 0;          //The floor to switch to when floor change occurs
 var can = [];               //set of internal canvases that can be drawn to for each floor
 var con = [];               //set of contexts for can variable
-var animationSpeed = 20;    //time to wait between animation frames
-var drawLength = 3;         //number of pixels to draw per frame when drawing a line
-var lineWidth = 5;          //width of line to draw for routes
-var lineColor = "#FF0000";  //color of line to draw for routes
+
 var down = false;           //limits user panning on pc to when mouse button is held down over the image area
 var mouseX;                 //last recorded mouse x location during start/move events
 var mouseY;                 //last recorded mouse y location during start/move events
@@ -25,13 +21,21 @@ var shiftY = 0;             //distance to shift top of viewbox
 var shiftXMax = 0;          //maximum distance to shift left side of viewbox at current zoom level
 var shiftYMax = 0;          //maximum distance to shift top of viewbox at current zoom level
 var drawing;                //variable to hold route information
-var views = [];             //holds initial viewbox information for each floor: views[floor#][x] where 
-//                            0 <= x < 4, in order: minimum x, minimum y, width, height of SVG                            
+var views = [];             /*holds initial viewbox information for each floor: views[floor#][x] where 
+                              0 <= x < 4, in order: minimum x, minimum y, width, height of SVG*/
 var bases = [];             //holds x and y displacement values for each floor
 var currentZoom = 1;        //current magnification level
+var maxZoom = 3;            //maximum allowed magnification.
 var destination;
-var animating = false;
+var animating = false;      /*currently does not effect operation, use as a check if you want something to
+                              NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
+
+//line constants
+var animationSpeed = 20;    //time to wait between animation frames
+var drawLength = 3;         //number of pixels to draw per frame when drawing a line
+var lineWidth = 5;          //width of line to draw for routes
+var lineColor = "#FF0000";  //color of line to draw for routes
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
@@ -168,6 +172,7 @@ function routingFunctions(){
   //sets up values for panning/zooming to the route
   function changeFocus(){
     var targetZoom;
+    var midPoint;
     xMin = floors[currentFloor].width;
     xMax = views[currentFloor][0];
     yMin = floors[currentFloor].height;
@@ -191,30 +196,32 @@ function routingFunctions(){
     xMax = (xMax - views[currentFloor][0]) * floors[currentFloor].width / views[currentFloor][2];
     yMax = (yMax - views[currentFloor][1]) * floors[currentFloor].height / views[currentFloor][3];
     //adds 30% to width and height so route fits cleanly, then adjusts to ensure values remain within canvas
-    xWidth = (xMax - xMin) * 0.3;
-    yHeight = (yMax - yMin) * 0.3;
-    if (xMin - xWidth < 0)
+    midPoint = {x: (xMin + xMax)/2, y: (yMin + yMax)/2};
+    xWidth = (xMax - xMin) * 1.5;
+    yHeight = (yMax - yMin) * 1.5;
+    if (yHeight > xWidth * can[currentFloor].height/can[currentFloor].width)
+      xWidth = yHeight * can[currentFloor].width/can[currentFloor].height;
+    if (xWidth < can[currentFloor].width/maxZoom){
+      xWidth = can[currentFloor].width/maxZoom;
+      yHeight = xWidth * can[currentFloor].height/can[currentFloor].width;
+    } else if (xWidth > can[currentFloor].width){
+      xWidth = can[currentFloor].width;
+      yHeight = xWidth * can[currentFloor].height/can[currentFloor].width;
+    }
+    
+    if (midPoint.x - xWidth/2 < 0)
       xMin = 0;
-    else
-      xMin = xMin - xWidth;
-    if (yMin - yHeight < 0)
+    else if (midPoint.x + xWidth/2 > can[currentFloor].width)
+      xMin = can[currentFloor].width - xWidth;
+    else  
+      xMin = midPoint.x - xWidth/2;
+
+    if (midPoint.y - yHeight/2 < 0)
       yMin = 0;
-    else
-      yMin = yMin - yHeight;
-    if (xMax + xWidth > floors[currentFloor].width)
-      xMax = floors[currentFloor].width;
-    else
-      xMax = xMax + xWidth;
-    if (yMax + yHeight > floors[currentFloor].height)
-      yMax = floors[currentFloor].height;
-    else
-      yMax = yMax + yHeight;
-    xWidth = xMax - xMin;
-    yHeight = yMax - yMin;
-    if (xWidth < yHeight * floors[currentFloor].width / floors[currentFloor].height)
-      xWidth = yHeight * floors[currentFloor].width / floors[currentFloor].height;
-    if (xWidth + xMin > floors[currentFloor].width)
-      xMin = floors[currentFloor].width - xWidth;
+    else if (midPoint.y + yHeight/2 > can[currentFloor].height)
+      yMin = can[currentFloor].height - yHeight;
+    else  
+      yMin = midPoint.y - yHeight/2;
     targetZoom = floors[currentFloor].width / xWidth;
 
     //calculate amount to shift each frame
@@ -550,8 +557,8 @@ function touchMove(event) {
       }
       if (currentZoom < 1)
         currentZoom = 1;
-      else if (currentZoom > 10)
-        currentZoom = 10;
+      else if (currentZoom > maxZoom)
+        currentZoom = maxZoom;
       shiftX = currentShiftX - DWidth/currentZoom/2;
       shiftY = currentShiftY - DHeight/currentZoom/2;
       shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
@@ -568,6 +575,7 @@ function touchMove(event) {
     event.preventDefault();
   }
 
+  //when finger is removed, update values
   function touchEnd(event) {
     if (event.touches.length == 0)
       down = false;
@@ -580,6 +588,7 @@ function touchMove(event) {
     }
   }
 
+  //change canvas and svg dimensions when window size changes
   function resize(){
     c.width = parseInt($('#myCanvas').css('width'));
     $('#myCanvas').css('height', function(){
@@ -593,6 +602,7 @@ function touchMove(event) {
                   can[currentFloor].height/currentZoom, 0,0,c.width,c.height);
   }
 
+  //add hooks to allow setting svg preserveAspectRatio and viewbox parameters
   $.attrHooks['viewbox'] = {
     get: function(elem) {
       return elem.getAttribute("viewBox");

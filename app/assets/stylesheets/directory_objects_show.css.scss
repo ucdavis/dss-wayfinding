@@ -12,6 +12,7 @@ $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
 $vertical-slider-element-height: 15px;
+$destination-floor-color: #e21603;
 
 .icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; }
@@ -86,7 +87,7 @@ body {
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   filter: blur(5px);
 
@@ -100,7 +101,7 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 19vw;
+  width: 90vw;
   overflow: auto;
   background-color: white;
 
@@ -108,7 +109,7 @@ body {
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
@@ -128,20 +129,18 @@ body {
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 
   h1 {
-    font-size: 2.25vw;
-    padding: 0.15em;
-    border-top: 5px double #fff;
-    border-bottom: 5px double #fff;
+    font-size: 2em;
+    padding: 10px;
   }
 
   h2 {
-    font-size: 1.5vw;
+    font-size: 3.5vmin;
     color: gray;
     text-transform: capitalize;
   }
 
   span {
-    font-size: 1.2vw;
+    font-size: 3.2vmin;
   }
 
   .min-max {
@@ -250,7 +249,7 @@ ul.vertical-nav {
 }
 
 .btn-min-max {
-  font-size: 2em;
+  font-size: 3em;
   line-height: 1.4em;
   height:1.4em;
   width:0.7em;
@@ -802,21 +801,17 @@ body {
   }
 
   .btn-floor.start { /* Circular border stylizing for start floor */
-    img {
       border-radius: 50%;
       border-width: 3px;
       border-style: solid;
       border-color: #00e13c;
-    }
   }
 
   .btn-floor.destination { /* Circular border stylizing for destination floor */
-    img {
       border-radius: 50%;
       border-width: 3px;
       border-style: solid;
-      border-color: #fc6355;
-    }
+      border-color: $destination-floor-color;
   }
 }
 
@@ -824,31 +819,27 @@ body {
 .btn-floor {
   display: block;
 
-  &.active {
+  img {
     opacity: 0.6;
+  }
+
+  &.active {
+    img { 
+      opacity: 1.0;
+    } 
   }
 
   &.disabled {
-    opacity: 0.6;
+    opacity: 0.3;
   }
 }
 
-/* Accessibility nav-bar buttons*/
+/* Accessibility buttons*/
 .btn-access {
   &.active {
     opacity: 0.6;
   }
 }
-
-/*.middle {
-  width: 100%;
-  display: inline-block;
-}
-
-.map-center {
-  text-align: center;
-}
-*/
 
 /* END FRONT PAGE FLOOR NAV */
 
@@ -893,13 +884,69 @@ body {
 }
 /* END LANDING */
 
-/* BODY STYLING */
+/* BEGIN MAP STYLING */
+
+/* An aspect ration < 1 => device is in portrate mode*/
+/* Map is given (90vh - 28vw) vertical space */
+/* show.js sets map related elements based on height of myCanvas
+    with an aspect ratio 1.1:2 => 1.1Width = 2Height */
+
+@media (max-device-aspect-ratio: 1/1) {
+  #myCanvas {
+    width: 95vw;
+  }
+
+  #svgImage {
+    width: 95vw;
+    height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
+  }
+}
+
+/* Aspect ratio > 1 => landscape or monitor */
+@media (min-device-aspect-ratio: 1/1) {
+  #myCanvas {
+    width: calc((2/1.1) * 58vh);
+  }
+
+  #svgImage {
+    width: calc((2/1.1) * 58vh);
+    height: 58vh;
+  }
+}
 
 
+#myCanvas {
+  position:absolute;
+  z-index: 0;
 
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
 
+#svgImage {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 50;
+}
 
-/* END BODY STYLING */
+#viewing {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none;
+}
+
+/* END MAP STYLING */
 
 
 .btn-navbar-main {  //home button
