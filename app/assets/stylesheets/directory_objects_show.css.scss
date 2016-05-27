@@ -881,12 +881,9 @@ body {
 /* END LANDING */
 
 /* BEGIN MAP STYLING */
+
 /* An aspect ration < 1 => device is in portrate mode*/
-@media (device-aspect-ratio: 9/16), 
-       (device-aspect-ratio: 3/4),
-       (device-aspect-ratio: 2/3),
-       (device-aspect-ratio: 5/8),
-       (device-aspect-ratio: 3/5) {
+@media (max-device-aspect-ratio: 1/1) {
   #myCanvas {
     width: 95vw;
   }
@@ -898,11 +895,7 @@ body {
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
-@media (device-aspect-ratio: 16/9), 
-       (device-aspect-ratio: 4/3),
-       (device-aspect-ratio: 3/2),
-       (device-aspect-ratio: 8/5),
-       (device-aspect-ratio: 5/3) {
+@media (min-device-aspect-ratio: 1/1) {
   #myCanvas {
     width: calc((2/1.1) * 58vh);
   }
