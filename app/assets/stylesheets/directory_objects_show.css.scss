@@ -87,7 +87,7 @@ body {
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   filter: blur(5px);
 
@@ -101,7 +101,7 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 19vw;
+  width: 90vw;
   overflow: auto;
   background-color: white;
 
@@ -109,7 +109,7 @@ body {
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
@@ -129,20 +129,18 @@ body {
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 
   h1 {
-    font-size: 2.25vw;
-    padding: 0.15em;
-    border-top: 5px double #fff;
-    border-bottom: 5px double #fff;
+    font-size: 2em;
+    padding: 10px;
   }
 
   h2 {
-    font-size: 1.5vw;
+    font-size: 3.5vmin;
     color: gray;
     text-transform: capitalize;
   }
 
   span {
-    font-size: 1.2vw;
+    font-size: 3.2vmin;
   }
 
   .min-max {
@@ -251,7 +249,7 @@ ul.vertical-nav {
 }
 
 .btn-min-max {
-  font-size: 2em;
+  font-size: 3em;
   line-height: 1.4em;
   height:1.4em;
   width:0.7em;
