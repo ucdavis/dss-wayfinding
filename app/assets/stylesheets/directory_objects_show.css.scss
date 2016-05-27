@@ -12,6 +12,7 @@ $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
 $vertical-slider-element-height: 15px;
+$destination-floor-color: #e21603;
 
 .icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; }
@@ -802,21 +803,17 @@ body {
   }
 
   .btn-floor.start { /* Circular border stylizing for start floor */
-    img {
       border-radius: 50%;
       border-width: 3px;
       border-style: solid;
       border-color: #00e13c;
-    }
   }
 
   .btn-floor.destination { /* Circular border stylizing for destination floor */
-    img {
       border-radius: 50%;
       border-width: 3px;
       border-style: solid;
-      border-color: #fc6355;
-    }
+      border-color: $destination-floor-color;
   }
 }
 
@@ -825,7 +822,9 @@ body {
   display: block;
 
   &.active {
-    opacity: 0.6;
+    img {
+      opacity: 0.6;
+    }
   }
 
   &.disabled {
@@ -833,22 +832,12 @@ body {
   }
 }
 
-/* Accessibility nav-bar buttons*/
+/* Accessibility buttons*/
 .btn-access {
   &.active {
     opacity: 0.6;
   }
 }
-
-/*.middle {
-  width: 100%;
-  display: inline-block;
-}
-
-.map-center {
-  text-align: center;
-}
-*/
 
 /* END FRONT PAGE FLOOR NAV */
 
@@ -893,13 +882,7 @@ body {
 }
 /* END LANDING */
 
-/* BODY STYLING */
 
-
-
-
-
-/* END BODY STYLING */
 
 
 .btn-navbar-main {  //home button

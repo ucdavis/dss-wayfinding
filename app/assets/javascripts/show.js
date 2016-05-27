@@ -13,7 +13,7 @@ var con = [];
 var animationSpeed = 20;
 var drawLength = 3;
 var lineWidth = 5;
-var lineColor = "#FF0000";
+var lineColor = "#e21603";
 var down = false;
 var mouseX;
 var mouseY;
