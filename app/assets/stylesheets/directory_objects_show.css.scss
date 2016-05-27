@@ -883,6 +883,10 @@ body {
 /* BEGIN MAP STYLING */
 
 /* An aspect ration < 1 => device is in portrate mode*/
+/* Map is given (90vh - 28vw) vertical space */
+/* show.js sets map related elements based on height of myCanvas
+    with an aspect ratio 1.1:2 => 1.1Width = 2Height */
+
 @media (max-device-aspect-ratio: 1/1) {
   #myCanvas {
     width: 95vw;
