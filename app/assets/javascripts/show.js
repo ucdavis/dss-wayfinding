@@ -109,6 +109,10 @@ function routingFunctions(){
   var yDist;                          //vertical distance between start and end of next entry
   var len;		                        //Used to calculate the distance each frame should extend line, then used to store 
                                       //remaining number of frames for that line
+  var xControl;                       //x coordinate of control point
+  var yControl;                       //y coordinate of control point
+  var curvePoint;                     //control variable to calculate end position of next line in curve
+  var curveIteration;                 //amount to adjust curvePoint each frame
   var unit;                           //distance each frame should extend the line
   var xMin;                           //minimum recorded x-value for that set, later adjusted for different floor dimensions
   var xMax;                           //maximum recorded x-value for that set, later adjusted for different floor dimensions
@@ -289,6 +293,21 @@ function routingFunctions(){
             window.requestAnimationFrame(drawLine);
             break;
       case "Q":
+            xMax = (parseFloat(drawing[currentSet][currentEntry].x) - views[currentFloor][0])
+                    * floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
+            yMax = (parseFloat(drawing[currentSet][currentEntry].y) - views[currentFloor][1])
+                    * floors[currentFloor].height/views[currentFloor][3] + bases[currentFloor].y;
+            xControl = (parseFloat(drawing[currentSet][currentEntry].cx) - views[currentFloor][0])
+                    * floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
+            yControl = (parseFloat(drawing[currentSet][currentEntry].cy) - views[currentFloor][1])
+                    * floors[currentFloor].height/views[currentFloor][3] + bases[currentFloor].y;
+            minX = currentX;
+            minY = currentY;
+            xDist = xMax - minX;
+            yDist = yMax - minY;
+            len = Math.sqrt(xDist * xDist + yDist * yDist);
+            curvePoint = 0;
+            curveIteration = drawLength / Math.ceil(len);
             window.requestAnimationFrame(drawQuad);
             break;
       default:
@@ -339,24 +358,21 @@ function routingFunctions(){
     ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
                   draw.height/currentZoom, 0,0,c.width,c.height);
     len = len-1;
-    if (len > 0) setTimeout(drawLine, animationSpeed);
+    if (len > 0) 
+        setTimeout(drawLine, animationSpeed);
     else {
        requestAnimationFrame(route);
-     }
+    }
   }
   
   //draws curve to internal canvas
   function drawQuad(){
-    var curveX = (drawing[currentSet][currentEntry].cx - views[currentFloor][0]) 
-                 * floors[currentFloor].width / views[currentFloor][2] + bases[currentFloor].x;
-    var curveY = (drawing[currentSet][currentEntry].cy - views[currentFloor][1]) 
-                 * floors[currentFloor].height / views[currentFloor][3] + bases[currentFloor].y;
-    currentX = (drawing[currentSet][currentEntry].x - views[currentFloor][0]) 
-                 * floors[currentFloor].width / views[currentFloor][2] + bases[currentFloor].x;
-    currentY = (drawing[currentSet][currentEntry].y - views[currentFloor][1]) 
-                 * floors[currentFloor].height / views[currentFloor][3] + bases[currentFloor].y;
-    drawCtx.quadraticCurveTo(curveX, curveY, currentX, currentY);
+    var nextX = (1-curvePoint)*(1-curvePoint)*(minX) + 2 * curvePoint * (1-curvePoint) * xControl + curvePoint * curvePoint * xMax;
+    var nextY = (1-curvePoint)*(1-curvePoint)*(minY) + 2 * curvePoint * (1-curvePoint) * yControl + curvePoint * curvePoint * yMax;
+    drawCtx.lineTo(nextX, nextY);
     drawCtx.stroke();
+    currentX = nextX;
+    currentY = nextY;
     window.requestAnimationFrame(drawQuadFrame);        
   }
 
@@ -364,7 +380,15 @@ function routingFunctions(){
   function drawQuadFrame(){
     ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
                   draw.height/currentZoom, 0,0,c.width,c.height);
-    window.requestAnimationFrame(route);
+    if (curvePoint < 1){
+      if (curvePoint + curveIteration < 1)
+        curvePoint = curvePoint + curveIteration;
+      else
+        curvePoint = 1;
+      setTimeout(drawQuad, animationSpeed);
+    }
+    else 
+       requestAnimationFrame(route);
   }
 }  
 
