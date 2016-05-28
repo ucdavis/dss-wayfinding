@@ -651,6 +651,28 @@
             $(cssDiv).panzoom('pan', fx * scale, fy * scale);
         }
 
+        function checkIfConnectionAtx1y1(previousLine, currentLine) {
+            var previousFromDatastore = WayfindingDataStore.dataStore[previousLine.type]
+                                                   [previousLine.floor]
+                                                   [previousLine.segment];
+
+            var currentFromDatatstore = WayfindingDataStore.dataStore[currentLine.type]
+                                                  [currentLine.floor]
+                                                  [currentLine.segment];
+
+            if ((currentFromDatatstore.x1 === previousFromDatastore.x1 &&
+                 currentFromDatatstore.y1 === previousFromDatastore.y1) ||
+                (currentFromDatatstore.x1 === previousFromDatastore.x2 &&
+                 currentFromDatatstore.y1 === previousFromDatastore.y2))
+            {
+                return true;
+            }
+            else { // We're assuming the two passed in lines are connected
+                return false;
+            }
+        }
+
+
         // The combined routing function
         // revise to only interate if startpoint has changed since last time?
         function RouteToForRecursive(destination) {
@@ -981,7 +1003,7 @@
             //clear all rooms
             $('#Rooms *.wayfindingRoom', obj).removeAttr('class');
 
-            solution = [];
+            var solution = [];
 
             //if startpoint != destination
             if (startpoint !== destination) {
@@ -1299,7 +1321,6 @@
 
                     });
                     return drawing;
-
                     //animatePath(0);
 
                     //on switch which floor is displayed reset path svgStrokeDashOffset to minPath and the reanimate
