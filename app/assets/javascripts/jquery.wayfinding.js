@@ -974,7 +974,6 @@
                 draw,
                 stepNum,
                 level,
-                //reversePathStart,
                 portalsEntered,
                 lastStep,
                 ax,
@@ -994,7 +993,6 @@
                 ny,
                 drawLength,
                 thisPath;
-                //pick;
 
             options.endpoint = destination;
 
