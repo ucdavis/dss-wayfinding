@@ -23,7 +23,7 @@ WayfindingDataStore = {
   dataStore: null,
   portalSegments: [],
   accessible: false,
-  idToIndex: {}, // maps floor IDs to an index used by the datastore
+  idToIndex: {},
   queue: null,
 
   // Needs to be here in WayfindingDataStore and not in jQuery.Wayfinding as it
@@ -559,7 +559,7 @@ WayfindingDataStore = {
     WayfindingDataStore.generateRoutes(startpoint, maps);
 
     return WayfindingDataStore.dataStore;
-  } // function buildDatastoreForRecursive
+  }, // function buildDatastoreForRecursive
 
   // Orders points based on x, y, and ID in that order.
   comparePoints: function (pointA, pointB) {
@@ -572,7 +572,7 @@ WayfindingDataStore = {
      else {
          return pointA.id - pointB.id;
      }
-  }
+  },
 
   buildDoors: function (floor, map) {
       WayfindingDataStore.dataStore.doors[floor] = [];
@@ -611,7 +611,7 @@ WayfindingDataStore = {
               type: 'doors'
           });
       });
-  }
+  },
 
   buildPaths: function (floor, map) {
       WayfindingDataStore.dataStore.paths[floor] = [];
@@ -650,7 +650,7 @@ WayfindingDataStore = {
               type: 'paths'
           });
       });
-  }
+  },
 
   buildPortalsForEmscripten: function (floor, map) {
       WayfindingDataStore.dataStore.portals[floor] = [];
@@ -706,7 +706,7 @@ WayfindingDataStore = {
               type: 'portals'
           });
       });
-  }
+  },
 
   buildConnections: function (floor) {
       if (WayfindingDataStore.queue.length === 0 ) {
@@ -742,12 +742,13 @@ WayfindingDataStore = {
       }
 
       connectLines(connected, floor);
-  }
+  },
 
   matchPortals: function () {
       // Go through each portal
       $.each(WayfindingDataStore.dataStore.portals, function(floor, floorPortals) {
         $.each(floorPortals, function(i, portal) {
+
           if (portal.match === -1) {
             // For each portal, go through linked floor portals
             // -1 indicates that the other floor does not exist
@@ -764,7 +765,7 @@ WayfindingDataStore = {
           }
         });
       });
-  }
+  },
 
   buildDatastoreForEmscripten: function(maps) {
       WayfindingDataStore.dataStore = {
@@ -782,13 +783,14 @@ WayfindingDataStore = {
           WayfindingDataStore.buildConnections(i);
       });
 
-      WayfindingDataStorematchPortals();
+      WayfindingDataStore.matchPortals();
 
       return WayfindingDataStore.dataStore;
-  } // function buildDatastoreForEmscripten
+  }, // function buildDatastoreForEmscripten
 
-  build: function (startpoint, maps, accessible, emscriptenBackend) {
+  build: function (startpoint, maps, accessible, emscriptenBackend, idToIndex) {
       if (emscriptenBackend) {
+          WayfindingDataStore.idToIndex = idToIndex;
           return WayfindingDataStore.buildDatastoreForEmscripten(maps);
       }
       else {

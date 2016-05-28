@@ -18,7 +18,7 @@
 
 (function ($) {
     'use strict';
-  
+
   var loaded = false;
     var defaults = {
         // Defaults to a local file called floorplan.svg
@@ -78,6 +78,7 @@
             startpoint, // the result of either the options.startpoint value or the value of the function
             portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to datastore
             result, // used to return non jQuery results
+            idToIndex = {}, // maps floor IDs to an index used by the datastore
             drawing;
         //Takes x and y coordinates and makes a location indicating pin for those
         //coordinates. Returns the pin element, not yet attached to the DOM.
@@ -167,7 +168,7 @@
 
             drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
             options = $.extend(true, {}, defaults, options);
-            
+
             // check for settings attached to the current object
             if (optionsPrior !== undefined) {
                 options = optionsPrior;
@@ -273,7 +274,7 @@
         // Hide SVG div, hide path lines (they're data, not visuals), make rooms clickable
         function activateSVG(obj, svgDiv) {
             // Hide maps until explicitly displayed
-            
+
 
             // jQuery.panzoom() only works after element is attached to DOM
             //if(options.pinchToZoom) initializePanZoom($(svgDiv));
@@ -319,8 +320,8 @@
             // Load SVGs off the network
             $.each(maps, function (i, map) {
                 var svgDiv = $('<div id="' + map.id + '"><\/div>');
+                idToIndex[map.id] = i;
 
-                // TODO: May need to add idToIndex
                 //create svg in that div
                 svgDiv.load(
                     map.path,
@@ -350,7 +351,7 @@
                                 endInit();
                                 if (typeof callback === 'function') {
                                     callback();
-                  
+
                                 }
                             });
                         }
@@ -393,8 +394,7 @@
                     }).fail(function () {
                         console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
 
-                        // TODO: Update our build function signature
-                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend);
+                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
 
                         if(typeof(onReadyCallback) === 'function') {
                             onReadyCallback();
@@ -404,7 +404,7 @@
             } else {
                 console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
 
-                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend);
+                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
 
                 if(typeof(onReadyCallback) === 'function') {
                     onReadyCallback();
@@ -675,7 +675,7 @@
 
         // The combined routing function
         // revise to only interate if startpoint has changed since last time?
-        function RouteToForRecursive(destination) {
+        function routeToForRecursive(destination) {
             var i,
                 draw,
                 stepNum,
@@ -967,7 +967,7 @@
                     //notify animation loop?
                 }
             }
-        } //RouteToForRecursive
+        } //routeToForRecursive
 
         function routeToForEmscripten(destination) {
             var i,
@@ -992,6 +992,7 @@
                 curve,
                 nx,
                 ny,
+                drawLength,
                 thisPath;
                 //pick;
 
@@ -1081,8 +1082,8 @@
                         }
                         else
                         {
-                            console.log('Not a path or portal');
-                            console.log(pathResult.get(i));
+                            console.warn('Not a path or portal');
+                            console.warn(pathResult.get(i));
                         }
                     }
 
@@ -1317,7 +1318,7 @@
 
                         drawing[j].path = thisPath;
 
-                        drawLength = drawing[i].routeLength;
+                        drawLength = drawing[j].routeLength;
 
                     });
                     return drawing;
@@ -1331,10 +1332,10 @@
 
         function routeTo(destination) {
             if (options.emscriptenBackend) {
-                routeToForEmscripten(destination);
+                return routeToForEmscripten(destination);
             }
             else {
-                routeToForRecursive(destination);
+                return routeToForRecursive(destination);
             }
         } //routeTo
 
