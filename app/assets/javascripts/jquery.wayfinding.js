@@ -394,7 +394,7 @@
                         console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
 
                         // TODO: Update our build function signature
-                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend);
 
                         if(typeof(onReadyCallback) === 'function') {
                             onReadyCallback();
@@ -404,7 +404,7 @@
             } else {
                 console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
 
-                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible);
+                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend);
 
                 if(typeof(onReadyCallback) === 'function') {
                     onReadyCallback();
@@ -996,7 +996,7 @@
 
                 try {
                     pathResult = Module.pathfinding(
-                        JSON.stringify(dataStore),
+                        JSON.stringify(WayfindingDataStore.dataStore),
                         startpoint,
                         destination,
                         options.accessibleRoute);
@@ -1088,7 +1088,7 @@
                     }
 
                     checkIfConnectionAtx1y1(startDoor, solution[0]);
-                    var lineFromDatastore = dataStore[solution[0].type]
+                    var lineFromDatastore = WayfindingDataStore.dataStore[solution[0].type]
                                                        [solution[0].floor]
                                                        [solution[0].segment];
 
@@ -1132,7 +1132,7 @@
                     // for each floor that we have to deal with
                     for (i = 0; i < portalsEntered + 1; i++) {
                         for (stepNum = lastStep; stepNum < solution.length; stepNum++) {
-                            lineFromDatastore = dataStore[solution[stepNum].type]
+                            lineFromDatastore = WayfindingDataStore.dataStore[solution[stepNum].type]
                                                            [solution[stepNum].floor]
                                                            [solution[stepNum].segment];
 
@@ -1313,7 +1313,7 @@
                 routeToForEmscripten(destination);
             }
             else {
-                RouteToForRecursive(destination);
+                routeToForRecursive(destination);
             }
         } //routeTo
 
@@ -1412,11 +1412,13 @@
                 case 'getRoutes':
                     //gets the length of the shortest route to one or more
                     //destinations.
-                    if (passed === undefined) {
-                        result = WayfindingDataStore.getShortestRoute(maps, options.endpoint, startpoint);
-                    } else {
-                        result = WayfindingDataStore.getShortestRoute(maps, passed, startpoint);
-                    }
+                    if (!options.emscriptenBackend) {
+                    	if (passed === undefined) {
+                        	result = WayfindingDataStore.getShortestRoute(maps, options.endpoint, startpoint);
+                    	} else {
+                        	result = WayfindingDataStore.getShortestRoute(maps, passed, startpoint);
+	                    }
+	                }
                     break;
                 case 'destroy':
                     //remove all traces of wayfinding from the obj
