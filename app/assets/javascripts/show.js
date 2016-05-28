@@ -510,9 +510,11 @@ function touchMove(event) {
   var touches = event.touches;
   var touch = [];
   touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
-  if (event.touches.length == 1 && down == true){    
-    shiftX = shiftX - (touch[0].x - touchesRecord[0].pageX);
-    shiftY = shiftY - (touch[0].y - touchesRecord[0].pageY);
+  if (event.touches.length == 1 && down == true){
+    var shiftValue = (touch[0].x - touchesRecord[0].pageX) * (can[currentFloor].width / c.width);
+    shiftX = shiftX - shiftValue / currentZoom;
+    shiftValue = (touch[0].y - touchesRecord[0].pageY) * (can[currentFloor].height / c.height);
+    shiftY = shiftY - shiftValue/currentZoom;
     touchesRecord[0].pageX = touch[0].x;
     touchesRecord[0].pageY = touch[0].y;
     mouseMoved = true;
