@@ -1,8 +1,6 @@
 //= require wayfinding.datastore
 //= require jquery.wayfinding
 //= require redirect
-var draw;                   //internal canvas for line drawing
-var drawCtx;                //context for draw
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
 var ctx;                    //context for c
@@ -56,11 +54,6 @@ function onLoad(){
     for (var j = 0; j < 4; j++)
       views[i][j] = parseFloat(views[i][j]);
   }
-
-  draw = document.createElement('canvas');
-  drawCtx = draw.getContext("2d");
-  drawCtx.lineWidth = lineWidth;
-  drawCtx.strokeStyle = lineColor;
   c = document.getElementById("myCanvas");
   ctx = c.getContext("2d");
   c.width = parseInt($('#myCanvas').css('width'));
@@ -152,10 +145,6 @@ function routingFunctions(){
     }
     //changes floors if necessary
     //sets up the canvas for line drawing
-    draw.width = floors[currentFloor].width;
-    draw.height = floors[currentFloor].height;
-    drawCtx.lineWidth = lineWidth;
-    drawCtx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = lineColor;
     //change active floor icon
@@ -169,8 +158,8 @@ function routingFunctions(){
                           *floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
     currentY = parseFloat(drawing[0][0].y - views[currentFloor][1])
                           *floors[currentFloor].height/views[currentFloor][3] + bases[currentFloor].y;
-    drawCtx.beginPath();
-    drawCtx.moveTo(currentX, currentY);
+    con[currentFloor].beginPath();
+    con[currentFloor].moveTo(currentX, currentY);
     if (drawing[currentSet].length > 2 || drawing.length > 2)
             window.requestAnimationFrame(changeFocus);
   }
@@ -275,11 +264,6 @@ function routingFunctions(){
     } else {
       $(".replay").removeClass("disabled");
       toggleInfoPanel('min');
-      /*ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom,
-                    0,0,c.width, c.height);
-      ctx.drawImage(draw,shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom,
-                    0,0,c.width, c.height);*/
       con[currentFloor].drawImage(draw, 0, 0, draw.width, draw.height, 0, 0, can[currentFloor].width, can[currentFloor].height);
       animating = false;
       return;
@@ -322,15 +306,9 @@ function routingFunctions(){
 
   //changes floor displayed by canvas and svg
   function routeFloor(){
-    con[currentFloor].drawImage(draw, 0, 0, draw.width, draw.height, 0, 0, can[currentFloor].width, can[currentFloor].height);
     $("#flr-btn" + currentFloor).removeClass("active");
     changeSVGFloor(nextFloor);
     currentFloor = nextFloor;
-    drawCtx.clearRect(0,0,draw.width,draw.height);
-    draw.width = can[currentFloor].width;
-    draw.height = can[currentFloor].height;
-    drawCtx.lineWidth = lineWidth;
-    drawCtx.strokeStyle = lineColor;
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = lineColor;
     $("#flr-btn" + currentFloor).addClass("active");
@@ -344,19 +322,19 @@ function routingFunctions(){
     shiftX = 0;
     shiftY = 0;
     currentZoom = 1;
-    drawCtx.beginPath();
-    drawCtx.moveTo(currentX,currentY);
+    con[currentFloor].beginPath();
+    con[currentFloor].moveTo(currentX,currentY);
     ctx.beginPath();
     ctx.moveTo(currentX * c.width/floors[currentFloor].width, currentY * c.height / floors[currentFloor].height);
     window.setTimeout(changeFocus, startFloorPause);
   }
   
-  //draws the line segment to the internal canvas
+  //draws the line segment to the internal canvas and myCanvas
   function drawLine(){
     var nextX = currentX + unit*xDist;
     var nextY = currentY + unit*yDist;
-    drawCtx.lineTo(nextX, nextY);
-    drawCtx.stroke();
+    con[currentFloor].lineTo(nextX, nextY);
+    con[currentFloor].stroke();
     ctx.lineTo((nextX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
     ctx.stroke();
     currentX = nextX;
@@ -369,24 +347,12 @@ function routingFunctions(){
     }
   }
   
-  //draws route from internal canvas to visible canvas
-  function drawCanvas(){
-    ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
-                  draw.height/currentZoom, 0,0,c.width,c.height);
-    len = len-1;
-    if (len > 0) 
-        setTimeout(drawLine, animationSpeed);
-    else {
-       requestAnimationFrame(route);
-    }
-  }
-  
-  //draws curve to internal canvas
+  //draws curve to internal canvas and myCanvas
   function drawQuad(){
     var nextX = (1-curvePoint)*(1-curvePoint)*(minX) + 2 * curvePoint * (1-curvePoint) * xControl + curvePoint * curvePoint * xMax;
     var nextY = (1-curvePoint)*(1-curvePoint)*(minY) + 2 * curvePoint * (1-curvePoint) * yControl + curvePoint * curvePoint * yMax;
-    drawCtx.lineTo(nextX, nextY);
-    drawCtx.stroke();
+    con[currentFloor].lineTo(nextX, nextY);
+    con[currentFloor].stroke();
     ctx.lineTo((nextX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
     ctx.stroke();
     currentX = nextX;
@@ -399,22 +365,7 @@ function routingFunctions(){
       setTimeout(drawQuad, animationSpeed);
     }
     else 
-       requestAnimationFrame(route);
-  }
-
-  //draws route from internal canvas to visible canvas
-  function drawQuadFrame(){
-    ctx.drawImage(draw, shiftX, shiftY, draw.width/currentZoom, 
-                  draw.height/currentZoom, 0,0,c.width,c.height);
-    if (curvePoint < 1){
-      if (curvePoint + curveIteration < 1)
-        curvePoint = curvePoint + curveIteration;
-      else
-        curvePoint = 1;
-      setTimeout(drawQuad, animationSpeed);
-    }
-    else 
-       requestAnimationFrame(route);
+      requestAnimationFrame(route);
   }
 }  
 
