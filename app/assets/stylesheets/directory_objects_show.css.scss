@@ -767,6 +767,28 @@ body {
 	padding-top: 15vh;
 }
 
+/* Need to get around safari mobiles bottom nav, shift contents up by 70px */
+/* Applied to the body of the page, landing, and accessibility buttons by js on page load */
+
+body {
+  &.safari-mobile-compatibility {
+    height: calc(100vh - 70px); /* Effectively prevents scrolling on pages that don't need it */  
+  }
+}
+
+#accessibility-nav {
+  &.safari-mobile-compatibility {
+    margin-top: -70px; /* Effective move up contents of page to accomodate nav bad */
+  }
+}
+
+#map {
+  &.safari-mobile-compatibility {
+    margin-top: -35px;
+    margin-bottom: 35px;
+  }
+}
+
 /* this is the map display */
 #map {
   width: 100%;
