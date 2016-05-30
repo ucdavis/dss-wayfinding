@@ -156,6 +156,8 @@ function routingFunctions(){
     draw.height = floors[currentFloor].height;
     drawCtx.lineWidth = lineWidth;
     drawCtx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = lineColor;
     //change active floor icon
     $("a.btn-floor").removeClass("active");
     $("#flr-btn" + currentFloor).addClass("active");
@@ -251,8 +253,11 @@ function routingFunctions(){
     updateViewBox();
     if (shiftUnitsRemaining > 0)
       window.setTimeout(routeZoom, animationSpeed);
-    else
+    else {
+      ctx.beginPath();
+      ctx.moveTo((currentX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (currentY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
       window.requestAnimationFrame(route);
+    }
   }
 
   //adjusts drawing set/entry, and then makes calulations/calls functions according
@@ -270,11 +275,11 @@ function routingFunctions(){
     } else {
       $(".replay").removeClass("disabled");
       toggleInfoPanel('min');
-      ctx.clearRect(0,0,c.width,c.height);
+      /*ctx.clearRect(0,0,c.width,c.height);
       ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom,
                     0,0,c.width, c.height);
       ctx.drawImage(draw,shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom,
-                    0,0,c.width, c.height);
+                    0,0,c.width, c.height);*/
       con[currentFloor].drawImage(draw, 0, 0, draw.width, draw.height, 0, 0, can[currentFloor].width, can[currentFloor].height);
       animating = false;
       return;
@@ -326,6 +331,8 @@ function routingFunctions(){
     draw.height = can[currentFloor].height;
     drawCtx.lineWidth = lineWidth;
     drawCtx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = lineColor;
     $("#flr-btn" + currentFloor).addClass("active");
     currentX = (parseFloat(drawing[currentSet][currentEntry].x) - views[currentFloor][0])
                  *floors[currentFloor].width/views[currentFloor][2];
@@ -339,6 +346,8 @@ function routingFunctions(){
     currentZoom = 1;
     drawCtx.beginPath();
     drawCtx.moveTo(currentX,currentY);
+    ctx.beginPath();
+    ctx.moveTo(currentX * c.width/floors[currentFloor].width, currentY * c.height / floors[currentFloor].height);
     window.setTimeout(changeFocus, startFloorPause);
   }
   
@@ -348,9 +357,16 @@ function routingFunctions(){
     var nextY = currentY + unit*yDist;
     drawCtx.lineTo(nextX, nextY);
     drawCtx.stroke();
+    ctx.lineTo((nextX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
+    ctx.stroke();
     currentX = nextX;
     currentY = nextY;
-    requestAnimationFrame(drawCanvas);				
+    len = len-1;
+    if (len > 0) 
+        setTimeout(drawLine, animationSpeed);
+    else {
+       requestAnimationFrame(route);
+    }
   }
   
   //draws route from internal canvas to visible canvas
@@ -371,9 +387,19 @@ function routingFunctions(){
     var nextY = (1-curvePoint)*(1-curvePoint)*(minY) + 2 * curvePoint * (1-curvePoint) * yControl + curvePoint * curvePoint * yMax;
     drawCtx.lineTo(nextX, nextY);
     drawCtx.stroke();
+    ctx.lineTo((nextX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
+    ctx.stroke();
     currentX = nextX;
     currentY = nextY;
-    window.requestAnimationFrame(drawQuadFrame);        
+    if (curvePoint < 1){
+      if (curvePoint + curveIteration < 1)
+        curvePoint = curvePoint + curveIteration;
+      else
+        curvePoint = 1;
+      setTimeout(drawQuad, animationSpeed);
+    }
+    else 
+       requestAnimationFrame(route);
   }
 
   //draws route from internal canvas to visible canvas
