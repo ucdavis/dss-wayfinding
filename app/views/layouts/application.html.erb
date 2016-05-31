@@ -36,19 +36,18 @@
 <body data-spy="scroll" data-target="#side-nav">
 	<!-- static navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
-	    <div class="container">
 	        <div class="navbar-header">
 	            <!-- Home Button -->
 				<a href="/">
 					<button type="button" class="btn-navbar-main btn btn-default">
-						<img src=<%= asset_path "icons/events-btn.png" %> >	<!--change icon here -->
+						<img src=<%= asset_path "icons/home-btn.png" %> >
 					</button>
 				</a>
 
 	            <!-- Search-->
 				<a href="/search">
 					<button type="button" class="btn-navbar-main btn btn-default">
-						<img src=<%= asset_path "icons/about-btn.png" %> > <!--change icon here -->
+						<img src=<%= asset_path "icons/search-btn.png" %> >
 					</button>
 				</a>
 
@@ -73,13 +72,12 @@
 				<button type="button" class="btn-navbar-main btn btn-default btn-logout-nav" id="logout">
 					<a href="/logout" class="text-logout">Logout</a>
 				</button>
-	        </div>
+	        </div> <!-- navbar-header -->
 
 	         <!-- Hamburger Menu -->
 	        <div id="navbarCollapse" class="collapse navbar-collapse">
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
-	    </div> <!-- container -->
 	</nav>
 
   <% if action_name == "landing" %>
