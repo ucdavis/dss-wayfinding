@@ -278,37 +278,6 @@
 		} //function activateSVG
 
 		function replaceLoadScreen(el) {
-			var displayNum,
-			mapNum;
-
-			$('#mapLoading').remove();
-
-			// loop ensures defaultMap is in fact one of the maps
-			/*displayNum = 0;
-			for (mapNum = 0; mapNum < maps.length; mapNum++) {
-				if (defaultMap === maps[mapNum].id) {
-					displayNum = mapNum;
-				}
-			}
-
-			// highlight starting floor
-			$('#' + maps[displayNum].id, el).show();
-
-			$(this).trigger('wayfinding:mapsVisible');
-
-			// Ensure SVG w/h are divisble by 2 (to avoid webkit blurriness bug on pan/zoom)
-			var elem = $('#' + maps[displayNum].id + '>svg', el)[0];
-			$(elem).attr('height', (Math.ceil($(elem).outerHeight() / 2) * 2) + 'px');
-			$(elem).attr('width', (Math.ceil($(elem).outerWidth() / 2) * 2) + 'px');*/
-
-			// if endpoint was specified, route to there.
-			if (typeof(options.endpoint) === 'function') {
-				routeTo(options.endpoint());
-			} else if (typeof(options.endpoint) === 'string') {
-				routeTo(options.endpoint);
-			}
-
-			$.event.trigger('wayfinding:ready');
 		} //function replaceLoadScreen
 
 		// Initialize the jQuery target object
@@ -316,7 +285,7 @@
 			var mapsProcessed = 0;
 			// Load SVGs off the network
 			$.each(maps, function (i, map) {
-				var svgDiv = $('<div id="' + map.id + '"><\/div>');
+				var svgDiv = $('<div id="' + map.id + '" class="floor"><\/div>');
 
 				//create svg in that div
 				svgDiv.load(
@@ -333,7 +302,7 @@
 
 						WayfindingDataStore.cleanupSVG(maps[i].el);
 
-						activateSVG(obj, svgDiv);
+       			$(obj).append(svgDiv);
 
 						mapsProcessed = mapsProcessed + 1;
 
@@ -343,7 +312,6 @@
 								// SVGs are loaded, dataStore is set, ready the DOM
 								setStartPoint(options.startpoint, obj);
 								setOptions(obj);
-								replaceLoadScreen(obj);
                 endInit();
 								if (typeof callback === 'function') {
 									callback();

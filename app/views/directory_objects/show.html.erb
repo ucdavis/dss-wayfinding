@@ -1,49 +1,38 @@
 <script>
 
   $(document).ready(function() {
+    //Only load page if origin is set.
     <% if @origin %>
-      var mapsProcessed = 0;
-      maps.push("floor0");
-      maps.push("floor1");
-      maps.push("floor2");
-      maps.push("floor3");
-      maps.push("floor4");
-      maps.push("floor5");
-
-      var start = '<div id="';
-      var end = '" class="floor" style="pointer-events: auto; display: none;"><\/div>'
-      $.each(maps, function(i, map){
-        var svgDiv = $(start + map + end);
-        svgDiv.load("/maps/" + map + ".svg", function(){
-          $("#svgImage").append(svgDiv);
-          WayfindingDataStore.cleanupSVG(svgDiv);
-          mapsProcessed = mapsProcessed + 1;
-          if (mapsProcessed === maps.length) {
-            loadImage();
-          } 
-        });
-      });
-  
+      loadImage();
+      
+      //Load png files, once all png files have successfully loaded move on, if one or more fail
+      //to load, stop processing and display error.
       function loadImage(){
         var counter = 0;
-      
+        var imageLoading = true;
         for (var i = 0; i < 6; i++){
           src = "/maps/floor" + i + ".png";
           floors[i] = new Image();
           floors[i].onload = loader;
+          floors[i].onerror = loadFailed;
           floors[i].src= src;
 
         }
 
         function loader(){
-          if (counter < 5){
+          if (counter < 5 && imageLoading){
             counter++;
-          } else {
-
+          } else if (imageLoading) {
             rails();
           }
         }
 
+        function loadFailed(){
+          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
+        }
+
+        //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
+        //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
         function rails(){
           try {
             directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
@@ -61,7 +50,7 @@
             console.error('Error parsing @object to JSON', e)
           }
           $("div.ui-loader").remove();
-          setVisibilities();
+
           <% @svg_paths = ["/maps/floor0.svg",
                            "/maps/floor1.svg",
                            "/maps/floor2.svg",
@@ -75,19 +64,24 @@
           wait();
         }
 
+        //waits for wayfinding initialization to flag svg load complete, then calls function to 
+        //set default styles for each object in the floor divs.
         function wait(){
           if ($("#svgImage").wayfinding('fullyLoaded') == true){
             begin();
-            onLoad();
+            setVisibilities();
           } else {
             window.setTimeout(wait, 100);
           }
         }
 
+        //sets all default styles in/under floor divs, so program is ready to activate that floor
+        //by toggling floor display value, and svg dimensions.
         function setVisibilities(){
           $("svg").css("pointer-events", "auto");
           $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
           $("#Rooms a").find('*').css("pointer-events", "auto");
+          $(".floor").css("display", "none");
           $(".floor").find('*').css("display", "none");
           $("svg").attr({"height":"350","width":"650"});
           $(".floor svg").css("display", "inline");
@@ -96,8 +90,9 @@
           $(".floor svg #data_x5F_layer").css("display", "inline");
           $(".floor svg #Rooms").find('*').css("display", "inline");
           $(".floor svg #Paths").find('*').css("display", "inline");
+          $(".startPin").css({"display":"inline","opacity":"1.0"});
           $("#viewing").css("display", "block");
-
+          onLoad();
         }
       }
     <% else %>
@@ -162,7 +157,7 @@
   </div>
 
   <div class="row">
-    <div class="floor-nav">
+    <div class="floor-nav" id="accessibility-nav">
       <ul>
         <li>
           <a href="#" class="btn-access accessible">
@@ -184,68 +179,4 @@
 </div>
 
 <style>
-
-/* An aspect ration < 1 => device is in portrate mode*/
-@media (device-aspect-ratio: 9/16), 
-       (device-aspect-ratio: 3/4),
-       (device-aspect-ratio: 2/3),
-       (device-aspect-ratio: 5/8),
-       (device-aspect-ratio: 3/5) {
-  #myCanvas {
-    width: 95vw;
-  }
-
-  #svgImage {
-    width: 95vw;
-    height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
-  }
-}
-
-/* Aspect ratio > 1 => landscape or monitor */
-@media (device-aspect-ratio: 16/9), 
-       (device-aspect-ratio: 4/3),
-       (device-aspect-ratio: 3/2),
-       (device-aspect-ratio: 8/5),
-       (device-aspect-ratio: 5/3) {
-  #myCanvas {
-    width: calc((2/1.1) * 58vh);
-  }
-
-  #svgImage {
-    width: calc((2/1.1) * 58vh);
-    height: 58vh;
-  }
-}
-
-
-#myCanvas {
-  position:absolute;
-  z=0;
-
-  display: block;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-#svgImage {
-  position: absolute;
-  display: block;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  z=50;
-}
-
-#viewing {
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: none;
-}
 </style>
