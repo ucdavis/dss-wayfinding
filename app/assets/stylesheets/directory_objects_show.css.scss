@@ -798,7 +798,7 @@ body {
 .floor-nav {
   text-align: center; /* UL centered in this top div */
   padding-bottom: 0;
-  z-index: 9001;
+  z-index: 1;
   position: relative;
 
   ul {
@@ -882,7 +882,7 @@ body {
 
   li { /* Holds links to rest of site */
     display: block;
-    height: 15vh; /* containing div is 90vh, divide by 5 and leave some extra */
+    height: 15vh; /* containing div is 90vh, divide by 6 */
     text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
@@ -902,6 +902,12 @@ body {
       display: inline-block;
     }
 
+  }  
+
+  &.safari-mobile-compatibility {
+    li {
+      height: calc(15vh - (70px/6));
+    }
   }
 }
 /* END LANDING */
