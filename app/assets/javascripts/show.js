@@ -118,6 +118,7 @@ function routingFunctions(){
   var widthUnitShift;                 //amount to change magnification level each frame
   var shiftUnitsRemaining;            //number of frames left for zoom operation
   var zoomIterations = 35;            //number of frames over which to change viewbox
+  var routeComplete = false;
   beginRoute();
 
   //sets up starting values for each route, changes classes as necessary
@@ -125,6 +126,7 @@ function routingFunctions(){
     currentSet = 0
     currentEntry = 0;
     animating = true;
+    routeComplete = false;
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
@@ -242,10 +244,15 @@ function routingFunctions(){
     updateViewBox();
     if (shiftUnitsRemaining > 0)
       window.setTimeout(routeZoom, animationSpeed);
-    else {
+    else if (!routeComplete){
       ctx.beginPath();
       ctx.moveTo((currentX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (currentY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
       window.requestAnimationFrame(route);
+    } else {
+      $(".replay").removeClass("disabled");
+      toggleInfoPanel('min');
+      animating = false;
+      return;
     }
   }
 
@@ -254,20 +261,25 @@ function routingFunctions(){
   function route(){
     shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
     shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
-    if (currentEntry < drawing[currentSet].length - 1)
-    currentEntry = currentEntry + 1;
-    else if (currentSet < drawing.length - 1){
+    if (currentEntry < drawing[currentSet].length - 1) {
+      currentEntry = currentEntry + 1;
+      switchOver();
+    } else if (currentSet < drawing.length - 1){
       currentSet++;
       currentEntry = 0;
       nextFloor = drawing[currentSet][currentFloor].floor;
       window.setTimeout(routeFloor, changeFloorPause);
     } else {
-      $(".replay").removeClass("disabled");
-      toggleInfoPanel('min');
-      con[currentFloor].drawImage(draw, 0, 0, draw.width, draw.height, 0, 0, can[currentFloor].width, can[currentFloor].height);
-      animating = false;
-      return;
+      routeComplete = true;
+      xUnitShift = (0-shiftX)/zoomIterations;
+      yUnitShift = (0-shiftY)/zoomIterations;
+      widthUnitShift = (1 - currentZoom)/zoomIterations;
+      shiftUnitsRemaining = zoomIterations;        
+      window.setTimeout(routeZoom, changeFloorPause);
     }
+  }
+
+  function switchOver(){
     switch (drawing[currentSet][currentEntry].type){
       case "L": 
             xDist = (parseFloat(drawing[currentSet][currentEntry].x) - views[currentFloor][0])
@@ -303,7 +315,7 @@ function routingFunctions(){
             return;
     } 
   }
-
+  
   //changes floor displayed by canvas and svg
   function routeFloor(){
     $("#flr-btn" + currentFloor).removeClass("active");
