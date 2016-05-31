@@ -778,7 +778,7 @@ body {
 
 #accessibility-nav {
   &.safari-mobile-compatibility {
-    margin-top: -70px; /* Effective move up contents of page to accomodate nav bad */
+    top: -70px; /* Effective move up contents of page to accomodate nav bad */
   }
 }
 
@@ -802,6 +802,8 @@ body {
 .floor-nav {
   text-align: center; /* UL centered in this top div */
   padding-bottom: 0;
+  z-index: 9001;
+  position: relative;
 
   ul {
     display: inline-block;
@@ -915,7 +917,7 @@ body {
 /* show.js sets map related elements based on height of myCanvas
     with an aspect ratio 1.1:2 => 1.1Width = 2Height */
 
-@media (max-device-aspect-ratio: 1/1) {
+@media (orientation: portrait) {
   #myCanvas {
     width: 95vw;
   }
@@ -927,7 +929,7 @@ body {
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
-@media (min-device-aspect-ratio: 1/1) {
+@media (orientation: landscape) {
   #myCanvas {
     width: calc((2/1.1) * 58vh);
   }
