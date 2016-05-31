@@ -257,7 +257,7 @@ function routingFunctions(){
       window.requestAnimationFrame(route);
     } else {
       $(".replay").removeClass("disabled");
-      toggleInfoPanel('min');
+      toggleInfoPanel();
       animating = false;
       shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
       shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
