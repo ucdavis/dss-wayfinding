@@ -67,7 +67,7 @@
         'zoomPadding': 25,
         // milliseconds to wait during animation when a floor change occurs
         'floorChangeAnimationDelay': 1250,
-        'emscriptenBackend': true
+        'emscriptenBackend': false
     };
 
     $.fn.wayfinding = function (action, options, callback) {
