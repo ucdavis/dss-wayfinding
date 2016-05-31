@@ -1,9 +1,9 @@
 <script>
-
+var count = 0;
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
-      loadImage();
+      rails();
       
       //Load png files, once all png files have successfully loaded move on, if one or more fail
       //to load, stop processing and display error.
@@ -11,25 +11,25 @@
         var counter = 0;
         var imageLoading = true;
         for (var i = 0; i < 6; i++){
-          src = "/maps/floor" + i + ".png";
-          floors[i] = new Image();
-          floors[i].onload = loader;
-          floors[i].onerror = loadFailed;
-          floors[i].src= src;
-
+          $("#floor" + i + " svg .startPin").css("display", "none");
+          var svg  = $("#floor" + i + " svg");
+          var widthAttr = parseFloat(svg.attr("width"));
+          var heightAttr = parseFloat($("#floor" + i + " svg").attr("height"));
+          var widthCss = parseFloat(svg.css("width"));
+          var heightCss = parseFloat($("#floor" + i + " svg").css("height"));
+          svg.css({"width":2000, "height":(2000*heightCss/widthCss)});
+          svg.attr({"width":2000, "height":(2000*heightAttr/widthAttr)});
+          xml  = new XMLSerializer().serializeToString(svg[0]);
+          data = "data:image/svg+xml;base64," + btoa(xml);
+          floors[i]  = new Image(2000,2000*heightAttr/widthAttr );
+          floors[i].setAttribute('src', data);
+          svg.css({"width":widthCss, "height":heightCss});
+          svg.attr({"width":widthAttr, "height":heightAttr});
         }
-
-        function loader(){
-          if (counter < 5 && imageLoading){
-            counter++;
-          } else if (imageLoading) {
-            rails();
-          }
-        }
-
-        function loadFailed(){
-          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
-        }
+        setVisibilities();
+      }
+      
+      
 
         //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
         //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
@@ -69,7 +69,7 @@
         function wait(){
           if ($("#svgImage").wayfinding('fullyLoaded') == true){
             begin();
-            setVisibilities();
+            loadImage();
           } else {
             window.setTimeout(wait, 100);
           }
@@ -94,7 +94,7 @@
           $("#viewing").css("display", "block");
           onLoad();
         }
-      }
+      
     <% else %>
     // Origin is not set
       $("#mapLoadingInner").html('Kiosk location must be set in <%= link_to "administration", administration_index_path %>.');
