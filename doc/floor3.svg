@@ -406,7 +406,6 @@
 		</a>
 	</g>
 	<g id="Portals">
-		
 			<line id="Stair.19.floor2" fill="none" stroke="#000000" stroke-miterlimit="10" x1="425.8369" y1="253.1074" x2="426.3408" y2="250.1758"/>
 		
 			<line id="Elev.2.floor4" fill="none" stroke="#000000" stroke-miterlimit="10" x1="363.1846" y1="165.2622" x2="361.0391" y2="164.418"/>
@@ -478,28 +477,39 @@
 			<line id="Stair.3.floor0" fill="none" stroke="#000000" stroke-miterlimit="10" x1="205.1689" y1="235.1387" x2="210.231" y2="229.4805"/>
 	</g>
 	<g id="Doors">
-		<line id="R3102_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="75.376" y1="90.23" x2="75.376" y2="84.541"/>
-		<line id="R3101_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="67.1392" y1="98.4678" x2="58.999" y2="98.4678"/>
-		<line id="R3104_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="82.667" y1="97.814" x2="82.667" y2="90.7451"/>
-		<line id="R3103_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="74.4048" y1="106.0752" x2="65.248" y2="106.0752"/>
-		<line id="R3106_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="89.5742" y1="106.7749" x2="89.5742" y2="99.48"/>
-		<line id="R3105_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="83.4199" y1="112.9302" x2="75.376" y2="112.9302"/>
-		<line id="R3108_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="98.104" y1="113.5898" x2="98.104" y2="106.6108"/>
-		<line id="R3107_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="90.354" y1="121.3408" x2="82.8188" y2="121.3408"/>
+			<line id="R3102_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="75.376" y1="90.23" x2="75.376" y2="84.541"/>
+
+			<line id="R3101_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="67.1392" y1="98.4678" x2="58.999" y2="98.4678"/>
+
+			<line id="R3104_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="82.667" y1="97.814" x2="82.667" y2="90.7451"/>
+
+			<line id="R3103_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="74.4048" y1="106.0752" x2="65.248" y2="106.0752"/>
+
+			<line id="R3106_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="89.5742" y1="106.7749" x2="89.5742" y2="99.48"/>
+
+			<line id="R3105_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="83.4199" y1="112.9302" x2="75.376" y2="112.9302"/>
+
+			<line id="R3108_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="98.104" y1="113.5898" x2="98.104" y2="106.6108"/>
+
+			<line id="R3107_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="90.354" y1="121.3408" x2="82.8188" y2="121.3408"/>
 		
 			<line id="R3110_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="106.1309" y1="122.1602" x2="106.1309" y2="114.002"/>
-		<line id="R3109_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="98.7109" y1="129.5801" x2="91.374" y2="129.5801"/>
+
+			<line id="R3109_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="98.7109" y1="129.5801" x2="91.374" y2="129.5801"/>
 		
 			<line id="R3112_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="114.1079" y1="130.0088" x2="114.1079" y2="122.25"/>
-		<line id="R3111_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="105.8262" y1="138.291" x2="96.0229" y2="138.291"/>
+
+			<line id="R3111_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="105.8262" y1="138.291" x2="96.0229" y2="138.291"/>
 		
 			<line id="R3114_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="120.9941" y1="136.3418" x2="120.9941" y2="131.2471"/>
 		
 			<line id="R3116_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="131.5449" y1="146.8931" x2="136.271" y2="151.6182"/>
-		<line id="R3118_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="144.2529" y1="159.064" x2="148.23" y2="155.0869"/>
+
+			<line id="R3118_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="144.2529" y1="159.064" x2="148.23" y2="155.0869"/>
 		
 			<line id="R3117_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="135.7339" y1="167.583" x2="128.2261" y2="167.583"/>
-		<line id="R3120_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="152.02" y1="166.9502" x2="152.02" y2="159.2891"/>
+
+			<line id="R3120_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="152.02" y1="166.9502" x2="152.02" y2="159.2891"/>
 		
 			<line id="R3119_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="143.3501" y1="175.6201" x2="134.2612" y2="175.6201"/>
 		
@@ -530,12 +540,14 @@
 			<line id="R3131B_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="229.3052" y1="265.4805" x2="237.5142" y2="265.4805"/>
 		
 			<line id="R3131C_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="248.1709" y1="248.8125" x2="252.5649" y2="248.8125"/>
-		<line id="R3236_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="440.5254" y1="275.8398" x2="446.6875" y2="279"/>
+
+			<line id="R3236_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="440.5254" y1="275.8398" x2="446.6875" y2="279"/>
 		
 			<line id="R3238_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="427.6396" y1="289.5703" x2="433.0049" y2="289.5703"/>
 		
 			<line id="R3237_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="421.2852" y1="286.751" x2="421.1338" y2="293.4453"/>
-		<line id="R3235_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.1172" y1="279" x2="414.7852" y2="279.3496"/>
+
+			<line id="R3235_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.1172" y1="279" x2="414.7852" y2="279.3496"/>
 		
 			<line id="R3234_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="428.7832" y1="267.8691" x2="437.2363" y2="267.4297"/>
 		
@@ -564,7 +576,8 @@
 			<line id="R3221_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="382.501" y1="212.3203" x2="376.9043" y2="212.3203"/>
 		
 			<line id="R3220_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="389.1377" y1="197.3574" x2="396.1826" y2="196.8457"/>
-		<line id="R3219_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="377.623" y1="202.5137" x2="370.5" y2="202.5137"/>
+
+			<line id="R3219_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="377.623" y1="202.5137" x2="370.5" y2="202.5137"/>
 		
 			<line id="R3218_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="385.5391" y1="192.9932" x2="388.1914" y2="190.4258"/>
 		
@@ -575,19 +588,26 @@
 			<line id="R3214_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="363.5107" y1="153.6372" x2="365.6299" y2="147.9902"/>
 		
 			<line id="R3213_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="345.0947" y1="146.4258" x2="338.4434" y2="149.3701"/>
-		<line id="r3212" fill="none" stroke="#000000" stroke-miterlimit="10" x1="356.1006" y1="138.3979" x2="359.4082" y2="141.9448"/>
+
+			<line id="R3212_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="356.1006" y1="138.3979" x2="359.4082" y2="141.9448"/>
 		
 			<line id="R3211_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="339.9697" y1="136.2471" x2="336.7773" y2="141.436"/>
 		
 			<line id="R3210_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="348.5273" y1="124.7998" x2="347.748" y2="121.689"/>
-		<line id="r3209" fill="none" stroke="#000000" stroke-miterlimit="10" x1="338.2119" y1="132.2749" x2="329.0537" y2="132.0142"/>
+
+			<line id="R3209_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="338.2119" y1="132.2749" x2="329.0537" y2="132.0142"/>
 		
 			<line id="R3207_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="328.9902" y1="116.9941" x2="325.6377" y2="122.5659"/>
-		<line id="R3206_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="336.5" y1="107.4619" x2="340.7754" y2="101.333"/>
-		<line id="R3204_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="327.75" y1="92.0352" x2="336.0518" y2="91.3521"/>
-		<line id="R3203_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="317.5" y1="98.4839" x2="313.5" y2="103.5752"/>
-		<line id="R3202_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="325.1191" y1="87.707" x2="329.4375" y2="81.3408"/>
-		<line id="R3201_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="314.6133" y1="93.521" x2="308.6875" y2="93.6709"/>
+
+			<line id="R3206_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="336.5" y1="107.4619" x2="340.7754" y2="101.333"/>
+
+			<line id="R3204_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="327.75" y1="92.0352" x2="336.0518" y2="91.3521"/>
+
+			<line id="R3203_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="317.5" y1="98.4839" x2="313.5" y2="103.5752"/>
+
+			<line id="R3202_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="325.1191" y1="87.707" x2="329.4375" y2="81.3408"/>
+
+			<line id="R3201_1_" fill="none" stroke="#000000" stroke-miterlimit="10" x1="314.6133" y1="93.521" x2="308.6875" y2="93.6709"/>
 	</g>
 	<g id="Paths">
 		<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="430.5908" y1="281.3086" x2="440.5254" y2="275.8398"/>
