@@ -251,7 +251,6 @@
 
             // Set endpoint
             endpoint = passed;
-
             if (options.showLocation) {
                 end = $('#Doors #' + endpoint, el);
 
@@ -288,6 +287,7 @@
             // Load SVGs off the network
             $.each(maps, function (i, map) {
                 var svgDiv = $('<div id="' + map.id + '" class="floor"><\/div>');
+
                 idToIndex[map.id] = i;
 
                 //create svg in that div
@@ -304,7 +304,6 @@
                         maps[i].el = svgDiv;
 
                         WayfindingDataStore.cleanupSVG(maps[i].el);
-
                         $(obj).append(svgDiv);
 
                         mapsProcessed = mapsProcessed + 1;
