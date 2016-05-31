@@ -9,6 +9,6 @@ $(EMJS): $(CPPFILE)
 	$(EMCC) $(CPPFLAGS) $(CPPFILE) $(EMPPFLAGS) -o $(EMJS)
 
 # CLEAN SECTION
-JUNK = src/*.dSYM src/*.mem src/*.map
+JUNK = app/assets/javascripts/*.dSYM app/assets/javascripts/*.mem app/assets/javascripts/*.map
 clean:
 	rm -rf $(EMJS) $(JUNK)
