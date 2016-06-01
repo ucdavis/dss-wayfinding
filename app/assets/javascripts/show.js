@@ -508,7 +508,7 @@ function begin(){
     $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
     $("#myCanvas").css("height",c.height);
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor],shiftX,shiftX,floors[currentFloor].width/currentZoom, 
+    ctx.drawImage(can[currentFloor],shiftX,shiftY,floors[currentFloor].width/currentZoom, 
                   floors[currentFloor].height/currentZoom,0,0,c.width,c.height);
   });
 
