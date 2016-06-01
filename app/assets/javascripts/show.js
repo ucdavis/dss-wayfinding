@@ -128,6 +128,7 @@ function routingFunctions(){
     currentEntry = 0;
     animating = true;
     routeComplete = false;
+    clearTimeout();
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
@@ -449,10 +450,11 @@ function begin(){
   });
 
   $("#Rooms a").click(function(event){
-    destination = $(this).attr('id');
-    $(document).trigger('show:roomClick', [ { room_id : $(this).attr('id') } ] );
-    
     event.preventDefault();
+    if (!animating){
+      destination = $(this).attr('id');
+      $(document).trigger('show:roomClick', [ { room_id : $(this).attr('id') } ] );
+    }   
   });
 
   $(document).on('show:roomClick', function(e, data){
@@ -475,7 +477,7 @@ function begin(){
     $("a.accessible").toggleClass('active');
     $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'), 
                               function() {
-      if($('.replay').hasClass("disabled") == false) {
+      if($('.replay').hasClass("disabled") == false && !animating) {
         drawing = $('#svgImage').wayfinding('routeTo', destination);
         $('.replay').addClass('disabled');
         routingFunctions();
@@ -484,9 +486,11 @@ function begin(){
   });
 
   $("a.btn-floor").click(function(event){
-    console.log($(this).attr('id'));
-    $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
     event.preventDefault();
+    if (!animating){
+      console.log($(this).attr('id'));
+      $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
+    }
   });
 
   $(document).on('show:floorChange', function(e, data){
@@ -511,7 +515,7 @@ function begin(){
 
   $('.replay').click(function(e) {
     e.preventDefault();
-    if (drawing.length > 0 && !$(this).hasClass('disabled')) {
+    if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
       routingFunctions();
       toggleInfoPanel('min');
     }
