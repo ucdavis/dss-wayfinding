@@ -259,6 +259,9 @@ function routingFunctions(){
       $(".replay").removeClass("disabled");
       toggleInfoPanel();
       animating = false;
+      shiftX = 0;
+      shiftY = 0;
+      currentZoom = 1;
       shiftXMax = 0;
       shiftYMax = 0;
       return;
