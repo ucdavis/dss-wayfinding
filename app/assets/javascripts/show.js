@@ -502,7 +502,7 @@ function begin(){
     shiftY = 0;
     currentZoom = 1;
     shiftXMax = 0;
-    shiftYMax = 0;
+    shiftYMax = 100;
     c.height = c.width *floors[currentFloor].height/floors[currentFloor].width;
     $("#floor" + currentFloor + " svg").attr({"height":c.height,"width":c.width});
     $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
