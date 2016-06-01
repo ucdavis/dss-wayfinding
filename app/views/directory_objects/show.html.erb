@@ -1,39 +1,33 @@
 <script>
-  var count = 0;
+  var counter = 0;
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
-      rails();
+      loadImage();
       
       //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
       function loadImage(){
         var imageLoading = true;
         for (var i = 0; i < 6; i++){
-          $("#floor" + i + " svg .startPin").css("display", "none");
-          var svg  = $("#floor" + i + " svg");
-          var widthAttr = parseFloat(svg.attr("width"));
-          var heightAttr = parseFloat($("#floor" + i + " svg").attr("height"));
-          var widthCss = parseFloat(svg.css("width"));
-          var heightCss = parseFloat($("#floor" + i + " svg").css("height"));
-          svg.css({"width":2000, "height":(2000*heightCss/widthCss)});
-          svg.attr({"width":2000, "height":(2000*heightAttr/widthAttr)});
-          xml = svg[0].outerHTML;
-          data = "data:image/svg+xml;base64," + btoa(xml);
-          floors[i]  = new Image(2000,2000*heightAttr/widthAttr );
-          floors[i].setAttribute('src', data);
+          src = "/maps/floor" + i + ".png";
+          floors[i] = new Image();
           floors[i].onload = loader;
-          svg.css({"width":widthCss, "height":heightCss});
-          svg.attr({"width":widthAttr, "height":heightAttr});
+          floors[i].onerror = loadFailed;
+          floors[i].src= src;
+        }
+
+        function loader(){
+          if (counter < 5 && imageLoading){
+            counter++;
+          } else if (imageLoading) {
+            rails();
+          }
+        }
+
+        function loadFailed(){
+          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
         }
       }
-      
-      function loader(){
-        if (count < 5)
-          count = count + 1;
-        else
-          setVisibilities();
-      }
-
       //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
       //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
       function rails(){
@@ -72,7 +66,7 @@
       function wait(){
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
           begin();
-          loadImage();
+          setVisibilities();
         } else {
           window.setTimeout(wait, 100);
         }
