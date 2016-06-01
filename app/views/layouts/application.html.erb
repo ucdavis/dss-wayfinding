@@ -20,59 +20,77 @@
 
   <script type="text/javascript">
   document.origin = '<%= @origin %>';
-  
+
   /* Do not use the development_mode flag to enable access or otherwise
    * alter security. It is very easy to fake.
    * It is merely used to turn off the auto-redirect in redirect.js
    * as this annoys developers who may wish to linger on a page.
    */
-  
+
   document.development_mode = '<%= Rails.env %>' == "development";
   </script>
+
+
 </head>
+
 <body data-spy="scroll" data-target="#side-nav">
+	<!-- static navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+	        <div class="navbar-header">
+	            <!-- Home Button -->
+				<a href="/">
+					<button type="button" class="btn-navbar-main btn btn-default">
+						<img src=<%= asset_path "icons/home-btn.png" %> >
+					</button>
+				</a>
 
-  <div class="container-fluid">
-    <div class="right-btn-container search">
-    <% unless controller_name == "administration" %>
-      <a href="/search" class="btn-search icon-search"></a>
-    <% else %>
-      <a href="/logout" class="btn-logout icon-logout"></a>
-    <% end %>
-    </div>
-    <% if action_name == "landing" %>
-    <div class="right-btn-container about">
-      <a href="/about" class="btn-about icon-about"></a>
-    </div>
-    <% else %>
-    <div class="right-btn-container home">
-      <a href="/" class="btn-home icon-home"></a>
-    </div>
-    <% end %>
+	            <!-- Search-->
+				<a href="/search">
+					<button type="button" class="btn-navbar-main btn btn-default">
+						<img src=<%= asset_path "icons/search-btn.png" %> >
+					</button>
+				</a>
 
-    <div class="row">
-      <% if ["landing"].include?(action_name) || ["administration", "site"].include?(controller_name) %>
-        <% col_xs_12_style = "width: 100%;" %>
-      <% else %>
-        <% col_xs_12_style = "width: calc(100% - 130px); margin-left: 130px;" %>
-      <% end %>
+	            <!-- toggle hamburger menu -->
+	            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+	                <span class="sr-only">Toggle navigation</span>
+	                <!-- 3 layer hamburger icon -->
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
 
-      <div class="col-xs-12" style="<%= col_xs_12_style %>">
-        <% if action_name == "landing" %>
-          <%= yield :javascript %>
-          <%= yield %>
-        <% else %>
-          <!-- Inner-div required to pad all pages except 'landing' -->
-          <div class="main-content">
-            <%= yield :javascript %>
-            <%= yield %>
-          </div> <!-- main-content -->
-        <% end %>
+				<!-- Logout shows if in /administration -->
+				<script type="text/javascript">
+					$(document).ready(function () {
+						if(window.location.href.indexOf("administration") < 0) {
+							$("#logout").hide();
+						}
+					});
+				</script>
+				<!-- Logout -->
+				<button type="button" class="btn-navbar-main btn btn-default btn-logout-nav" id="logout">
+					<a href="/logout" class="text-logout">Logout</a>
+				</button>
+	        </div> <!-- navbar-header -->
+
+	         <!-- Hamburger Menu -->
+	        <div id="navbarCollapse" class="collapse navbar-collapse">
+	            <%= render("layouts/vertical_navigation") %>
+	        </div> <!-- navbarCollapse -->
+	</nav>
+
+  <% if action_name == "landing" %>
+    <%= yield :javascript %>
+    <%= yield %>
+  <% else %>
+    <div class="main-content">
+      <div class="container-fluid">
+        <%= yield :javascript %>
+        <%= yield %>
       </div>
-      <%= render "layouts/vertical_navigation" unless (["landing","access_denied"].include?(action_name) || ["administration"].include?(controller_name)) %>
-    </div> <!-- row -->
-  </div> <!-- container-fluid -->
+    </div> <!-- main-content -->
+  <% end %>
 
-  <%= render "shared/analytics" %>
 </body>
 </html>

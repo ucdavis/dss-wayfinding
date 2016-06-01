@@ -4,9 +4,9 @@ require 'fileutils'
 
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin, except: [:index]
-  before_action :set_directory_object, only: [:show, :update, :destroy]
-  before_filter :require_login, except: [:index, :show, :search, :unroutable]
-  before_filter :authenticate, except: [:index, :show, :search, :unroutable]
+  before_action :set_directory_object, only: [:test, :show, :update, :destroy]
+  before_filter :require_login, except: [:index, :test, :show, :search, :unroutable]
+  before_filter :authenticate, except: [:index, :test, :show, :search, :unroutable]
 
   protect_from_forgery :except => :unroutable
 
@@ -245,6 +245,9 @@ class DirectoryObjectsController < ApplicationController
       format.html
       format.json { render json: @object }
     end
+  end
+
+  def test
   end
 
   private

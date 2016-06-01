@@ -1,7 +1,7 @@
 module DirectoryObjectsHelper
   def wayfinding_plugin(svg_paths, dataStoreCacheUrl, accessibleDataStoreCacheUrl, origin, dest = nil)
     dest = '\'' + dest + '\'' unless dest.nil?
-    str = "$('#map').wayfinding({
+    str = "$('#svgImage').wayfinding({
     'maps': ["
 
     svg_paths.each_with_index do |svg, i|
@@ -35,11 +35,6 @@ module DirectoryObjectsHelper
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "
-
-    unless dest.nil?
-        str += "$('#map').trigger('wayfinding:roomClicked',
-                    [ { room_id: " + dest + " } ] );"
-    end
 
     return str.html_safe
   end

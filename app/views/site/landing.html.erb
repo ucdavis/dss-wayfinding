@@ -1,26 +1,30 @@
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
-  <div style="height: 90vh;">
-    <ul class="horizontal-nav landing">
+  <div class="landing-div">
+    <ul class="landing-ul">
       <li>
-        <a href="/people" class="btn-people icon-people"></a>
-        <span>People</span>
+        <a href="/people"><img src=<%= asset_path "icons/people-btn.png" %> ></a>
+        <span class="text-people">People</span>
       </li>
       <li>
-        <a href="/departments" class="btn-departments icon-departments"></a>
-        <span>Departments</span>
+        <a href="/departments"><img src=<%= asset_path "icons/departments-btn.png" %> ></a>
+        <span class="text-departments">Departments</span>
       </li>
       <li>
-        <a href="/events" class="btn-events icon-events"></a>
-        <span>Events</span>
+        <a href="/events"><img src=<%= asset_path "icons/events-btn.png" %> ></a>
+        <span class="text-events">Events</span>
       </li>
       <li>
-        <a href="/rooms" class="btn-rooms icon-rooms"></a>
-        <span>Rooms</span>
+        <a href="/rooms"><img src=<%= asset_path "icons/rooms-btn.png" %> ></a>
+        <span class="text-rooms">Rooms</span>
       </li>
       <li>
-        <a href="/map" class="btn-map icon-map"></a>
-        <span>Map</span>
+        <a href="/map"><img src=<%= asset_path "icons/map-btn.png" %> ></a>
+        <span class="text-map">Map</span>
+      </li>
+      <li>
+        <a href="/about"><img src=<%= asset_path "icons/about-btn.png" %> ></a>
+        <span class="text-about">About the building</span>
       </li>
     </ul>
   </div>

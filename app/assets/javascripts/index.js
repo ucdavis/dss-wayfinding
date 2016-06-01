@@ -66,7 +66,6 @@ ready = function() {
   $('#slider-vertical').on("touchstart", function(e){
     $("[id^=scrubber-category]").removeClass("active");
   });
-
 };
 
 $(document).ready(ready);

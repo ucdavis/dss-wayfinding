@@ -7,11 +7,12 @@ $rooms-color: #C26E60;
 $departments-color: #E6A65D;
 $map-color: #00573F;
 $floor-color: #ACA39A;
-$about-color: #B1B3B3;
+$about-color: #636363;
 $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
 $vertical-slider-element-height: 15px;
+$destination-floor-color: #e21603;
 
 .icon-home:after     { content: "\E805"; }
 .icon-people:after     { content: "\E802"; }
@@ -48,28 +49,22 @@ body {
   background: white;
 }
 
-/* Used on every page except 'landing' */
-.main-content {
-  width: 100%;
-}
 
-#map>div {
-  width: 100%;
-  height: 73vh; //calc(100vh - 200px);
-}
 
 #mapLoading {
 	font-size: 7vw;
   color: #777;
   text-align: center;
   height: 8vw;
-  position: relative;
+  position: static;
+	top: 50%;
+	left: 50%;
 
   #mapLoadingInner {
     width: 100%;
     height: auto;
 
-    position: relative;
+    position: absolute;
     top: 45%;
     -webkit-transform: translateY(-45%);
     -ms-transform: translateY(-45%);
@@ -94,13 +89,13 @@ body {
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   filter: blur(5px);
-  
-  z-index: 1;
-  
-  background-color: rgba(255, 255, 255, 0.9);
+
+  z-index: 100;
+
+  background-color: white;
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 }
 
@@ -108,18 +103,19 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 19vw;
+  width: 90vw;
   overflow: auto;
+  background-color: white;
 
   position: fixed;
   top: 100px;
   bottom: 100px;
   margin-bottom: 0;
-  right: -1000px;
+  right: -3000px;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
-  z-index: 10;
+  z-index: 100;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -135,20 +131,18 @@ body {
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 
   h1 {
-    font-size: 2.25vw;
-    padding: 0.15em;
-    border-top: 5px double #fff;
-    border-bottom: 5px double #fff;
+    font-size: 2em;
+    padding-bottom: 1em;
   }
 
   h2 {
-    font-size: 1.5vw;
+    font-size: 3.5vmin;
     color: gray;
     text-transform: capitalize;
   }
 
   span {
-    font-size: 1.2vw;
+    font-size: 3.2vmin;
   }
 
   .min-max {
@@ -177,173 +171,6 @@ body {
     img { padding:0px; border:1px solid #021a40; background-color:#ff0; height: 2in; width: 2in; margin: auto; }
     .right-btn-container {display: none;}
     .vertical-nav {display: none;}
-  }
-}
-
-ul.horizontal-nav {
-  list-style: none;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  padding-left: 0;
-
-  &.landing {
-    padding-left: 0;
-    margin: auto auto;
-    width: 83.33333%;
-
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-
-    li {
-      width: 19%;
-      font-size: 2vw;
-
-      a {
-        margin: 0.15em;
-        line-height: 1.95em;
-        border: 0.12em solid #fff;
-
-        &:before {
-          top: -0.22em;
-          left: -0.22em;
-          bottom: -0.22em;
-          right: -0.22em;
-        }
-      }
-    }
-  }
-
-  &.map-actions {
-    font-size: 1.9vw;
-
-    width: 75%;
-    margin: auto auto;
-
-    span {
-      text-transform: uppercase;
-      color: $floor-color;
-      position: absolute;
-      top: 30%;
-      left: 30px;
-
-      font-size: 100%;
-      line-height: 100%;
-    }
-
-    li {
-      width: 9%;
-
-      a {
-        margin: 0.15em;
-        line-height: 225%;
-        font-size: 100%;
-        border: 0.12em solid #fff;
-
-        &.active {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #5B7F95;
-        }
-
-        &.disabled {
-          box-shadow: 0 0 8px 0 rgba(0,0,0,.3);
-          background-color: #DFD6CD;
-          cursor: default;
-        }
-
-        &:before {
-          top: -0.25em;
-          left: -0.25em;
-          bottom: -0.25em;
-          right: -0.25em;
-        }
-
-        &.start:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #00e13c;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-
-        &.destination:after {
-          content: ".";
-          position: absolute;
-          width: 100%;
-          top: 20%;
-          color: #fc6355;
-          font-size: 120%;
-          display: block;
-          text-align: center;
-        }
-      }
-    }
-  }
-
-  li {
-    position: relative;
-    display: inline-block;
-
-    span {
-      color: #777;
-      font-size: 1.2vw;
-      text-transform: uppercase;
-      white-space: normal;
-      position: absolute;
-      left: 0;
-      width: 100%;
-      text-align: center;
-    }
-
-    &:before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      padding-top: 100%;
-    }
-
-    a {
-      position: absolute;
-      text-align: center;
-      border-radius: 50%;
-      box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-
-      &:before {
-        content: "";
-        display: block;
-        background: #fff;
-        border-top: 2px solid #ddd;
-        position: absolute;
-        z-index: -1;
-        border-radius: 50%;
-        box-shadow: inset 0px 8px 48px #ddd;
-      }
-    }
-
-    &:hover {
-      a {
-        color: #eee;
-        text-decoration: none;
-
-        &.disabled {
-          color: #fff;
-        }
-      }
-      span {
-        color: #333;
-      }
-    }
   }
 }
 
@@ -424,7 +251,7 @@ ul.vertical-nav {
 }
 
 .btn-min-max {
-  font-size: 2em;
+  font-size: 3em;
   line-height: 1.4em;
   height:1.4em;
   width:0.7em;
@@ -469,11 +296,6 @@ ul.vertical-nav {
 
 .btn-logout {
   background: $logout-color;
-  color: white;
-}
-
-.btn-floor {
-  background: $floor-color;
   color: white;
 }
 
@@ -681,14 +503,20 @@ ul.directory-list {
   }
 }
 
+//inside the searchbar
 input.search {
   height: 2em;
-  margin: 1.2em 0.3em 2em;
+  margin-top: .7em;
+  margin-left: .1em;
   background: white;
-  font-size: 2em;
+  font-size: 1.2em;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) inset;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.form-control {
+  padding: 5px 5px;
 }
 
 input.search:focus {
@@ -700,12 +528,7 @@ input.search:focus {
     width: 15%;
 }
 
-.show-map
-{
-  width: 100%;
-  height: 100vh;
-  padding-top: 2vh;
-}
+
 
 .admin-view
 {
@@ -926,4 +749,348 @@ table {
   height: 15px;
   width: 50px;
   display: block;
+}
+
+
+/*
+ * FRONT PAGE MAP NAVIGATION
+ */
+
+/* Pad to accomodate static nav-bar */
+body {
+  padding-top: 10vh;
+  height: 100vh;
+}
+
+
+/* Need to get around safari mobiles bottom nav, shift contents up by 70px */
+/* Applied to the body of the page, landing, and accessibility buttons by js on page load */
+
+body {
+  &.safari-mobile-compatibility {
+    height: calc(100vh - 70px); /* Effectively prevents scrolling on pages that don't need it */  
+  }
+}
+
+#accessibility-nav {
+  &.safari-mobile-compatibility {
+    top: -70px; /* Effective move up contents of page to accomodate nav bad */
+  }
+}
+
+#map {
+  &.safari-mobile-compatibility {
+    margin-top: -35px;
+    margin-bottom: 35px;
+  }
+}
+
+/* this is the map display */
+#map {
+  width: 100%;
+  height: calc(90vh - 28vw);
+  min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
+  text-align: center;
+
+}
+
+/* Scale font size, line height, active, etc based on screen size */
+.floor-nav {
+  text-align: center; /* UL centered in this top div */
+  padding-bottom: 0;
+  z-index: 1;
+  position: relative;
+
+  ul {
+    display: inline-block;
+    padding: 0; /* Padding is non-zero by default */
+    margin-bottom: 0;
+
+    li {
+      display: inline-block;
+      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
+      padding-left: 0.5vw;
+      padding-right: 0.5vw;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      img { /* images will maintain aspect ratio => height of this div == width of li */
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  .btn-floor.start { /* Circular border stylizing for start floor */
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: #00e13c;
+  }
+
+  .btn-floor.destination { /* Circular border stylizing for destination floor */
+      border-radius: 50%;
+      border-width: 3px;
+      border-style: solid;
+      border-color: $destination-floor-color;
+  }
+}
+
+/* Used for floor anchors */
+.btn-floor {
+  display: block;
+
+  img {
+    opacity: 0.6;
+  }
+
+  &.active {
+    img { 
+      opacity: 1.0;
+    } 
+  }
+
+  &.disabled {
+    opacity: 0.3;
+  }
+}
+
+/* Accessibility buttons*/
+.btn-access {
+  &.active {
+    opacity: 0.6;
+  }
+}
+
+/* END FRONT PAGE FLOOR NAV */
+
+
+
+
+/* BEGIN LANDING */
+.landing-div {
+  height: 90vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.landing-ul {
+  margin: auto;
+  height: 100%;
+  display: inline-table;
+
+  li { /* Holds links to rest of site */
+    display: block;
+    height: 15vh; /* containing div is 90vh, divide by 6 */
+    text-align: left;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+
+    a { /* Anchors hold button images */
+      height: 100%;
+      display: inline-block;
+
+      img { /* Button imags scale to fit container */
+        height: 100%;
+        width: auto;
+        display: inline-block;
+      }
+    }
+
+    span { /* Can further style the text accompanying buttons */
+      display: inline-block;
+    }
+
+  }  
+
+  &.safari-mobile-compatibility {
+    li {
+      height: calc(15vh - (70px/6));
+    }
+  }
+}
+/* END LANDING */
+
+/* BEGIN MAP STYLING */
+
+/* An aspect ration < 1 => device is in portrate mode*/
+/* Map is given (90vh - 28vw) vertical space */
+/* show.js sets map related elements based on height of myCanvas
+    with an aspect ratio 1.1:2 => 1.1Width = 2Height */
+
+@media (orientation: portrait) {
+  #myCanvas {
+    width: 95vw;
+  }
+
+  #svgImage {
+    width: 95vw;
+    height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
+  }
+}
+
+/* Aspect ratio > 1 => landscape or monitor */
+@media (orientation: landscape) {
+  #myCanvas {
+    width: calc((2/1.1) * 58vh);
+  }
+
+  #svgImage {
+    width: calc((2/1.1) * 58vh);
+    height: 58vh;
+  }
+}
+
+
+#myCanvas {
+  position:absolute;
+  z-index: 0;
+
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+#svgImage {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 50;
+}
+
+#viewing {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: none;
+}
+
+/* END MAP STYLING */
+
+
+//navbar stuffs
+.navbar {
+	height: 9vh;
+	min-height: 10px;
+	background-color: rgba(235,235,235,1);
+	border-color: #D6D6D6;
+}
+
+.btn-navbar-main {  //home, search buttons
+	margin: .5vh;
+    padding: .5vh;
+    border-radius: 50%;
+}
+
+.btn-logout-nav {
+	height: 7.5vh;
+    margin: .75vh;
+    padding: 1vh;
+    float: right;
+    border-radius: 4px;
+    background-color: #CCCCCC;
+}
+
+.text-logout { //toggle menu admin-logout text size
+  font-size: 3vh;
+}
+
+
+.btn-text { //toggle menu list text size
+  font-size: 1.25em;
+}
+
+.btn.btn-block {
+	text-align: left;
+	text-indent: 35%;
+	width: 93vw;
+    background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+}
+
+.navbar-toggle .icon-bar {
+	width: 100%;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+	margin-top: 1vh;
+}
+
+.navbar-fixed-top .navbar-collapse,
+.navbar-fixed-bottom .navbar-collapse {
+  max-height: 90vh;	//toggle menu max height
+}
+
+.navbar-collapse {
+	img {
+		height: 7.5vh;	//icon size
+	}
+}
+
+//toggle menu button when pressed
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #CCCCCC
+}
+
+//BEGIN: STOP NAVBAR MENU FROM COLLAPSING WHEN BUTTON PRESSED
+.navbar-header {
+    float: none;
+	img {
+		height: 6.5vh;
+	}
+}
+.navbar-toggle {
+	display: block;
+    padding: .5vh;
+    margin-right: 1vh;
+    margin-left: .5vh;
+    margin-top: 1vh;
+    height: 7vh;
+    width: 7vh;
+    background-color: #CCCCCC;		//toggle menu button
+}
+.navbar-collapse {
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    max-height: 100%;
+	background-color: rgba(180,180,180,.5);	//transparent toggle menu
+}
+.navbar-collapse.collapse {
+    display: none!important;
+}
+
+.navbar-collapse.collapse.in {
+  display: block !important;
+
+}
+.navbar-nav {
+    float: none!important;
+    margin: 7.5px -15px;
+}
+.navbar-nav>li {
+    float: none;
+}
+.navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+//END
+
+//fix some defaults
+@media (min-width: 768px) {
+	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    	padding-left: 2vh;
+    	padding-right: 2vh;
+	}
+
+	.btn.btn-block {
+		text-indent: 40%;
+	}
 }
