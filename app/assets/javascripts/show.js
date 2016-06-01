@@ -1,5 +1,7 @@
 //= require wayfinding.datastore
 //= require jquery.wayfinding
+//= require emscripten.pathfinding.js
+//= require priority-queue.min.js
 //= require redirect
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
