@@ -43,6 +43,7 @@ function onLoad(){
     can[i] = document.createElement('canvas');
     can[i].width = floors[i].width;
     can[i].height = floors[i].height;
+    
     con[i] = can[i].getContext('2d');
     con[i].lineWidth = lineWidth;
     con[i].strokeStyle = lineColor;
@@ -240,6 +241,12 @@ function routingFunctions(){
     shiftY = shiftY + yUnitShift;
     currentZoom = currentZoom + widthUnitShift;
     shiftUnitsRemaining = shiftUnitsRemaining - 1;
+    if (shiftX < 0)
+      shiftX = 0;
+    if (shiftY < 0)
+      shiftY = 0;
+    if (currentZoom < 1)
+      currentZoom = 1;
     ctx.clearRect(0,0,c.width,c.height);
     ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom,
                   can[currentFloor].height/currentZoom, 0,0,c.width,c.height);
@@ -252,8 +259,13 @@ function routingFunctions(){
       window.requestAnimationFrame(route);
     } else {
       $(".replay").removeClass("disabled");
-      toggleInfoPanel('min');
+      toggleInfoPanel();
       animating = false;
+      shiftX = 0;
+      shiftY = 0;
+      currentZoom = 1;
+      shiftXMax = 0;
+      shiftYMax = 0;
       return;
     }
   }
@@ -439,10 +451,11 @@ function begin(){
   });
 
   $("#Rooms a").click(function(event){
-    destination = $(this).attr('id');
-    $(document).trigger('show:roomClick', [ { room_id : $(this).attr('id') } ] );
-    
     event.preventDefault();
+    if (!animating){
+      destination = $(this).attr('id');
+      $(document).trigger('show:roomClick', [ { room_id : $(this).attr('id') } ] );
+    }   
   });
 
   $(document).on('show:roomClick', function(e, data){
@@ -465,7 +478,7 @@ function begin(){
     $("a.accessible").toggleClass('active');
     $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'), 
                               function() {
-      if($('.replay').hasClass("disabled") == false) {
+      if($('.replay').hasClass("disabled") == false && !animating) {
         drawing = $('#svgImage').wayfinding('routeTo', destination);
         $('.replay').addClass('disabled');
         routingFunctions();
@@ -474,9 +487,11 @@ function begin(){
   });
 
   $("a.btn-floor").click(function(event){
-    console.log($(this).attr('id'));
-    $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
     event.preventDefault();
+    if (!animating){
+      console.log($(this).attr('id'));
+      $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
+    }
   });
 
   $(document).on('show:floorChange', function(e, data){
@@ -495,13 +510,13 @@ function begin(){
     $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
     $("#myCanvas").css("height",c.height);
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor],shiftX,shiftX,floors[currentFloor].width/currentZoom, 
+    ctx.drawImage(can[currentFloor],shiftX,shiftY,floors[currentFloor].width/currentZoom, 
                   floors[currentFloor].height/currentZoom,0,0,c.width,c.height);
   });
 
   $('.replay').click(function(e) {
     e.preventDefault();
-    if (drawing.length > 0 && !$(this).hasClass('disabled')) {
+    if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
       routingFunctions();
       toggleInfoPanel('min');
     }
@@ -522,74 +537,75 @@ function touchStart(event) {
 
 function touchMove(event) {
   event.preventDefault();
-  var touches = event.touches;
-  var touch = [];
-  touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
-  if (event.touches.length == 1 && down == true){
-    var shiftValue = (touch[0].x - touchesRecord[0].pageX) * (can[currentFloor].width / c.width);
-    shiftX = shiftX - shiftValue / currentZoom;
-    shiftValue = (touch[0].y - touchesRecord[0].pageY) * (can[currentFloor].height / c.height);
-    shiftY = shiftY - shiftValue/currentZoom;
-    touchesRecord[0].pageX = touch[0].x;
-    touchesRecord[0].pageY = touch[0].y;
-    mouseMoved = true;
-    if (shiftX < 0) shiftX = 0;
-    else if (shiftX > shiftXMax) shiftX = shiftXMax;
-    if (shiftY < 0) shiftY = 0;
-    else if (shiftY > shiftYMax) shiftY = shiftYMax;
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, 
-                  can[currentFloor].height/currentZoom,0,0,c.width,c.height);
-    updateViewBox();
-  } else if (event.touches.length > 1 && down == true) {
-    touch[1] = {x: parseInt(touches[1].pageX), y: parseInt(touches[1].pageY)};
-    var dx1 = Math.abs(touch[0].x-touch[1].x);
-    var dy1 = Math.abs(touch[0].y-touch[1].y);
-    var dx0 = Math.abs(touchesRecord[0].pageX-touchesRecord[1].pageX);
-    var dy0 = Math.abs(touchesRecord[0].pageY-touchesRecord[1].pageY);
-    var currentShiftX = shiftX;
-    var currentShiftY = shiftY;
-    var DWidth = can[currentFloor].width;
-    var DHeight = can[currentFloor].height;
-    touchesRecord[0].pageX = touch[0].x;
-    touchesRecord[1].pageX = touch[1].x;
-    touchesRecord[0].pageY = touch[0].y;
-    touchesRecord[1].pageY = touch[1].y;
-    currentShiftX = Math.floor((2*currentShiftX+DWidth/currentZoom)/2);
-    currentShiftY = Math.floor((2*currentShiftY+DHeight/currentZoom)/2);
-    if (dx1 >= dx0 && dy1 >= dy0){
-      var maxi;
-      if (dx1 - dx0 > dy1 - dy0)
-        maxi = (dx1-dx0)/200;
-      else
-        maxi = (dy1-dy0)/200;
-        currentZoom = currentZoom + maxi;  
-      } else if (dx1 <= dx0 && dy1 <= dy0){
-        var maxi;
-        if (dx0 - dx1 > dy0 - dy1)
-          maxi = (dx0-dx1)/200;
-        else
-          maxi = (dy0-dy1)/200;
-        currentZoom = currentZoom - maxi;
-      }
-      if (currentZoom < 1)
-        currentZoom = 1;
-      else if (currentZoom > maxZoom)
-        currentZoom = maxZoom;
-      shiftX = currentShiftX - DWidth/currentZoom/2;
-      shiftY = currentShiftY - DHeight/currentZoom/2;
-      shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
-      shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
+  if (!animating){
+    var touches = event.touches;
+    var touch = [];
+    touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
+    if (event.touches.length == 1 && down == true){
+      var shiftValue = (touch[0].x - touchesRecord[0].pageX) * (can[currentFloor].width / c.width);
+      shiftX = shiftX - shiftValue / currentZoom;
+      shiftValue = (touch[0].y - touchesRecord[0].pageY) * (can[currentFloor].height / c.height);
+      shiftY = shiftY - shiftValue/currentZoom;
+      touchesRecord[0].pageX = touch[0].x;
+      touchesRecord[0].pageY = touch[0].y;
+      mouseMoved = true;
       if (shiftX < 0) shiftX = 0;
       else if (shiftX > shiftXMax) shiftX = shiftXMax;
       if (shiftY < 0) shiftY = 0;
       else if (shiftY > shiftYMax) shiftY = shiftYMax;
       ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom, can[currentFloor].height/
-                    currentZoom, 0, 0, c.width, c.height);
+      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, 
+                    can[currentFloor].height/currentZoom,0,0,c.width,c.height);
       updateViewBox();
+    } else if (event.touches.length > 1 && down == true) {
+      touch[1] = {x: parseInt(touches[1].pageX), y: parseInt(touches[1].pageY)};
+      var dx1 = Math.abs(touch[0].x-touch[1].x);
+      var dy1 = Math.abs(touch[0].y-touch[1].y);
+      var dx0 = Math.abs(touchesRecord[0].pageX-touchesRecord[1].pageX);
+      var dy0 = Math.abs(touchesRecord[0].pageY-touchesRecord[1].pageY);
+      var currentShiftX = shiftX;
+      var currentShiftY = shiftY;
+      var DWidth = can[currentFloor].width;
+      var DHeight = can[currentFloor].height;
+      touchesRecord[0].pageX = touch[0].x;
+      touchesRecord[1].pageX = touch[1].x;
+      touchesRecord[0].pageY = touch[0].y;
+      touchesRecord[1].pageY = touch[1].y;
+      currentShiftX = Math.floor((2*currentShiftX+DWidth/currentZoom)/2);
+      currentShiftY = Math.floor((2*currentShiftY+DHeight/currentZoom)/2);
+      if (dx1 >= dx0 && dy1 >= dy0){
+        var maxi;
+        if (dx1 - dx0 > dy1 - dy0)
+          maxi = (dx1-dx0)/200;
+        else
+          maxi = (dy1-dy0)/200;
+          currentZoom = currentZoom + maxi;  
+        } else if (dx1 <= dx0 && dy1 <= dy0){
+          var maxi;
+          if (dx0 - dx1 > dy0 - dy1)
+            maxi = (dx0-dx1)/200;
+          else
+            maxi = (dy0-dy1)/200;
+          currentZoom = currentZoom - maxi;
+        }
+        if (currentZoom < 1)
+          currentZoom = 1;
+        else if (currentZoom > maxZoom)
+          currentZoom = maxZoom;
+        shiftX = currentShiftX - DWidth/currentZoom/2;
+        shiftY = currentShiftY - DHeight/currentZoom/2;
+        shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
+        shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
+        if (shiftX < 0) shiftX = 0;
+        else if (shiftX > shiftXMax) shiftX = shiftXMax;
+        if (shiftY < 0) shiftY = 0;
+        else if (shiftY > shiftYMax) shiftY = shiftYMax;
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom, can[currentFloor].height/
+                      currentZoom, 0, 0, c.width, c.height);
+        updateViewBox();
+      }
     }
-    event.preventDefault();
   }
 
   //when finger is removed, update values

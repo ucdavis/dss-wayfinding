@@ -1,14 +1,12 @@
 <script>
-
+  var counter = 0;
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
       loadImage();
       
-      //Load png files, once all png files have successfully loaded move on, if one or more fail
-      //to load, stop processing and display error.
+      //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
       function loadImage(){
-        var counter = 0;
         var imageLoading = true;
         for (var i = 0; i < 6; i++){
           src = "/maps/floor" + i + ".png";
@@ -16,7 +14,6 @@
           floors[i].onload = loader;
           floors[i].onerror = loadFailed;
           floors[i].src= src;
-
         }
 
         function loader(){
@@ -30,71 +27,71 @@
         function loadFailed(){
           $("#mapLoadingInner").html('Image file not present, please contact administrator.');
         }
+      }
+      //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
+      //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
+      function rails(){
+        try {
+          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
 
-        //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
-        //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
-        function rails(){
-          try {
-            directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
+          if (directory_object) {
+            showInfo(directory_object);
+            routeTrigger = true;
+            destination = 'R' + directory_object.room_number;
 
-            if (directory_object) {
-              showInfo(directory_object);
-              routeTrigger = true;
-              destination = 'R' + directory_object.room_number;
-
-              if (destination.length > 0) {
-                console.debug("destination = ", destination);
-              }
+            if (destination.length > 0) {
+              console.debug("destination = ", destination);
             }
-          } catch(e) {
-            console.error('Error parsing @object to JSON', e)
           }
-          $("div.ui-loader").remove();
-
-          <% @svg_paths = ["/maps/floor0.svg",
-                           "/maps/floor1.svg",
-                           "/maps/floor2.svg",
-                           "/maps/floor3.svg",
-                           "/maps/floor4.svg",
-                           "/maps/floor5.svg"]
-          %>
-          <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
-            asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
-          currentFloor = parseInt("<%=@origin%>".substr(1,1));
-          wait();
+        } catch(e) {
+          console.error('Error parsing @object to JSON', e)
         }
+        $("div.ui-loader").remove();
 
-        //waits for wayfinding initialization to flag svg load complete, then calls function to 
-        //set default styles for each object in the floor divs.
-        function wait(){
-          if ($("#svgImage").wayfinding('fullyLoaded') == true){
-            begin();
-            setVisibilities();
-          } else {
-            window.setTimeout(wait, 100);
-          }
-        }
+        <% @svg_paths = ["/maps/floor0.svg",
+                         "/maps/floor1.svg",
+                         "/maps/floor2.svg",
+                         "/maps/floor3.svg",
+                         "/maps/floor4.svg",
+                         "/maps/floor5.svg"]
+        %>
+        <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
+          asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
+        currentFloor = parseInt("<%=@origin%>".substr(1,1));
+        wait();
+      }
 
-        //sets all default styles in/under floor divs, so program is ready to activate that floor
-        //by toggling floor display value, and svg dimensions.
-        function setVisibilities(){
-          $("svg").css("pointer-events", "auto");
-          $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
-          $("#Rooms a").find('*').css("pointer-events", "auto");
-          $(".floor").css("display", "none");
-          $(".floor").find('*').css("display", "none");
-          $("svg").attr({"height":"350","width":"650"});
-          $(".floor svg").css("display", "inline");
-          $(".floor svg").find('#Rooms').css("display", "inline");
-          $(".floor svg #data_layer").css("display", "inline");
-          $(".floor svg #data_x5F_layer").css("display", "inline");
-          $(".floor svg #Rooms").find('*').css("display", "inline");
-          $(".floor svg #Paths").find('*').css("display", "inline");
-          $(".startPin").css({"display":"inline","opacity":"1.0"});
-          $("#viewing").css("display", "block");
-          onLoad();
+      //waits for wayfinding initialization to flag svg load complete, then calls function to 
+      //set default styles for each object in the floor divs.
+      function wait(){
+        if ($("#svgImage").wayfinding('fullyLoaded') == true){
+          begin();
+          setVisibilities();
+        } else {
+          window.setTimeout(wait, 100);
         }
       }
+
+      //sets all default styles in/under floor divs, so program is ready to activate that floor
+      //by toggling floor display value, and svg dimensions.
+      function setVisibilities(){
+        $("svg").css("pointer-events", "auto");
+        $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
+        $("#Rooms a").find('*').css("pointer-events", "auto");
+        $(".floor").css("display", "none");
+        $(".floor").find('*').css("display", "none");
+        $("svg").attr({"height":"350","width":"650"});
+        $(".floor svg").css("display", "inline");
+        $(".floor svg").find('#Rooms').css("display", "inline");
+        $(".floor svg #data_layer").css("display", "inline");
+        $(".floor svg #data_x5F_layer").css("display", "inline");
+        $(".floor svg #Rooms").find('*').css("display", "inline");
+        $(".floor svg #Paths").find('*').css("display", "inline");
+        $(".startPin").css({"display":"inline","opacity":"1.0"});
+        $("#viewing").css("display", "block");
+        onLoad();
+      }
+      
     <% else %>
     // Origin is not set
       $("#mapLoadingInner").html('Kiosk location must be set in <%= link_to "administration", administration_index_path %>.');

@@ -13,7 +13,7 @@
 *
 {
 	font-family: 'Segoe UI', sans-serif !important;
-	font-style: normal !important;
+	font-style: normal ;
 	font-variant: normal !important;
 	/*OLDER 	font-family: 'Segoe UI', sans-serif;*/
 
@@ -27,6 +27,11 @@
       }
     p,textarea,input, div{
 	font-size:12px;
+      }
+
+     p.important{
+	font-style: italic;
+        font-size:14px;
       }
       
     button{
@@ -163,6 +168,7 @@
  	text-shadow: none;
 	visibility: hidden;
       }
+	
 	
 }
 
