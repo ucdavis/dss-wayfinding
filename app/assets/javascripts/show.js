@@ -499,10 +499,10 @@ function begin(){
     currentFloor = next;
     $("#flr-btn" + currentFloor).addClass("active");
     shiftX = 0;
-    shiftY = 0;
+    shiftY = 200;
     currentZoom = 1;
     shiftXMax = 0;
-    shiftYMax = 100;
+    shiftYMax = 1;
     c.height = c.width *floors[currentFloor].height/floors[currentFloor].width;
     $("#floor" + currentFloor + " svg").attr({"height":c.height,"width":c.width});
     $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
