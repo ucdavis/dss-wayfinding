@@ -26,6 +26,7 @@ config/dss_rm.yml
 # Ignore map data caches
 public/dataStore/*
 public/map_stats.json
+public/maps.tmp
 
 # Ignore node_modules (may vary from architecture to architecture, just use 'npm install')
 node_modules
