@@ -7,7 +7,7 @@ $rooms-color: #C26E60;
 $departments-color: #E6A65D;
 $map-color: #00573F;
 $floor-color: #ACA39A;
-$about-color: #B1B3B3;
+$about-color: #636363;
 $vertical-nav-width: 130px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
@@ -762,9 +762,27 @@ body {
   height: 100vh;
 }
 
-//override padding for landscape on mobiles
-@media only screen and (orientation: landscape) {
-	padding-top: 15vh;
+
+/* Need to get around safari mobiles bottom nav, shift contents up by 70px */
+/* Applied to the body of the page, landing, and accessibility buttons by js on page load */
+
+body {
+  &.safari-mobile-compatibility {
+    height: calc(100vh - 70px); /* Effectively prevents scrolling on pages that don't need it */  
+  }
+}
+
+#accessibility-nav {
+  &.safari-mobile-compatibility {
+    top: -70px; /* Effective move up contents of page to accomodate nav bad */
+  }
+}
+
+#map {
+  &.safari-mobile-compatibility {
+    margin-top: -35px;
+    margin-bottom: 35px;
+  }
 }
 
 /* this is the map display */
@@ -780,6 +798,8 @@ body {
 .floor-nav {
   text-align: center; /* UL centered in this top div */
   padding-bottom: 0;
+  z-index: 1;
+  position: relative;
 
   ul {
     display: inline-block;
@@ -862,7 +882,7 @@ body {
 
   li { /* Holds links to rest of site */
     display: block;
-    height: 15vh; /* containing div is 90vh, divide by 5 and leave some extra */
+    height: 15vh; /* containing div is 90vh, divide by 6 */
     text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
@@ -882,6 +902,12 @@ body {
       display: inline-block;
     }
 
+  }  
+
+  &.safari-mobile-compatibility {
+    li {
+      height: calc(15vh - (70px/6));
+    }
   }
 }
 /* END LANDING */
@@ -893,7 +919,7 @@ body {
 /* show.js sets map related elements based on height of myCanvas
     with an aspect ratio 1.1:2 => 1.1Width = 2Height */
 
-@media (max-device-aspect-ratio: 1/1) {
+@media (orientation: portrait) {
   #myCanvas {
     width: 95vw;
   }
@@ -905,7 +931,7 @@ body {
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
-@media (min-device-aspect-ratio: 1/1) {
+@media (orientation: landscape) {
   #myCanvas {
     width: calc((2/1.1) * 58vh);
   }
@@ -951,70 +977,90 @@ body {
 /* END MAP STYLING */
 
 
-.btn-navbar-main {  //home button
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    padding: 3px 3px;
-	border-radius: 50%;
+//navbar stuffs
+.navbar {
+	height: 9vh;
+	min-height: 10px;
+	background-color: rgba(235,235,235,1);
+	border-color: #D6D6D6;
 }
 
-.text-logout { //toggle menu list text size
-  font-size: 2em;
+.btn-navbar-main {  //home, search buttons
+	margin: .5vh;
+    padding: .5vh;
+    border-radius: 50%;
 }
 
 .btn-logout-nav {
-	height: 4.5vh;
-	margin-top: 7px;
-	float: right;
-	border-radius: 4px;
+	height: 7.5vh;
+    margin: .75vh;
+    padding: 1vh;
+    float: right;
+    border-radius: 4px;
+    background-color: #CCCCCC;
 }
+
+.text-logout { //toggle menu admin-logout text size
+  font-size: 3vh;
+}
+
 
 .btn-text { //toggle menu list text size
   font-size: 1.25em;
 }
 
-.btn-block {
+.btn.btn-block {
 	text-align: left;
-	text-indent: 40%;
+	text-indent: 35%;
+	width: 93vw;
+    background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+}
+
+.navbar-toggle .icon-bar {
+	width: 100%;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+	margin-top: 1vh;
 }
 
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
-  max-height: 100%;
-}
-
-.navbar-toggle .icon-bar {
-	max-width: 6.5vh;
+  max-height: 90vh;	//toggle menu max height
 }
 
 .navbar-collapse {
 	img {
-		height: 50px;	//icon size
+		height: 7.5vh;	//icon size
 	}
 }
 
-//STOP NAVBAR FROM COLLAPSING
+//toggle menu button when pressed
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color: #CCCCCC
+}
+
+//BEGIN: STOP NAVBAR MENU FROM COLLAPSING WHEN BUTTON PRESSED
 .navbar-header {
     float: none;
 	img {
-		height: 50px;	//icon size
-		max-height: 9vh;
+		height: 6.5vh;
 	}
 }
 .navbar-toggle {
-    display: block;
-    padding: 10px 10px;
-    margin-right: 10px;
-	margin-left: 10px;
-    margin-top: 10px;
-	max-height: 9vh;
-	max-width: 9vh;
+	display: block;
+    padding: .5vh;
+    margin-right: 1vh;
+    margin-left: .5vh;
+    margin-top: 1vh;
+    height: 7vh;
+    width: 7vh;
+    background-color: #CCCCCC;		//toggle menu button
 }
 .navbar-collapse {
     border-top: 1px solid transparent;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     max-height: 100%;
+	background-color: rgba(180,180,180,.5);	//transparent toggle menu
 }
 .navbar-collapse.collapse {
     display: none!important;
@@ -1022,6 +1068,7 @@ body {
 
 .navbar-collapse.collapse.in {
   display: block !important;
+
 }
 .navbar-nav {
     float: none!important;
@@ -1033,4 +1080,17 @@ body {
 .navbar-nav>li>a {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+//END
+
+//fix some defaults
+@media (min-width: 768px) {
+	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    	padding-left: 2vh;
+    	padding-right: 2vh;
+	}
+
+	.btn.btn-block {
+		text-indent: 40%;
+	}
 }

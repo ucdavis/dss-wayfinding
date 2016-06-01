@@ -128,7 +128,6 @@ function routingFunctions(){
     currentEntry = 0;
     animating = true;
     routeComplete = false;
-    clearTimeout();
     $(".replay").addClass("disabled");
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
