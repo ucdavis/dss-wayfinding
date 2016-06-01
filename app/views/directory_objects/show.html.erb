@@ -17,7 +17,7 @@
           var heightCss = parseFloat($("#floor" + i + " svg").css("height"));
           svg.css({"width":2000, "height":(2000*heightCss/widthCss)});
           svg.attr({"width":2000, "height":(2000*heightAttr/widthAttr)});
-          xml  = new XMLSerializer().serializeToString(svg[0]);
+          xml = svg[0].outerHTML;
           data = "data:image/svg+xml;base64," + btoa(xml);
           floors[i]  = new Image(2000,2000*heightAttr/widthAttr );
           floors[i].setAttribute('src', data);
