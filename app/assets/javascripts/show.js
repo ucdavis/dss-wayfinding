@@ -259,8 +259,8 @@ function routingFunctions(){
       $(".replay").removeClass("disabled");
       toggleInfoPanel();
       animating = false;
-      shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
-      shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
+      shiftXMax = 0;
+      shiftYMax = 0;
       return;
     }
   }
