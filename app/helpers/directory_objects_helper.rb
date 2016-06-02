@@ -32,7 +32,7 @@ module DirectoryObjectsHelper
     'pinchToZoom' : true,
     'zoomToRoute' : false,
     'showLocation' : true,
-    'emscriptenBackend' : false,
+    'emscriptenBackend' : true,
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "
