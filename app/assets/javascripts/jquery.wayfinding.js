@@ -996,7 +996,7 @@
                 }
                 catch (e) {
                     console.error(e.stack);
-                    console.error('Did you forget to include emscripten.pathinding.js?');
+                    console.error('Did you forget to include emscripten.pathfinding.js?');
                     error = true;
                 }
 
