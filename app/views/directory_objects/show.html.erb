@@ -1,10 +1,11 @@
-<script>
+<script type="text/javascript">
   var counter = 0;
+
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
       loadImage();
-      
+
       //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
       function loadImage(){
         var imageLoading = true;
@@ -16,7 +17,7 @@
           floors[i].src= src;
         }
 
-        function loader(){
+        function loader() {
           if (counter < 5 && imageLoading){
             counter++;
           } else if (imageLoading) {
@@ -48,20 +49,24 @@
         }
         $("div.ui-loader").remove();
 
-        <% @svg_paths = ["/maps/floor0.svg",
+        <%
+          @svg_paths = ["/maps/floor0.svg",
                          "/maps/floor1.svg",
                          "/maps/floor2.svg",
                          "/maps/floor3.svg",
                          "/maps/floor4.svg",
                          "/maps/floor5.svg"]
         %>
+
         <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
           asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
-        currentFloor = parseInt("<%=@origin%>".substr(1,1));
+
+        currentFloor = parseInt("<%= @origin %>".substr(1,1));
+
         wait();
       }
 
-      //waits for wayfinding initialization to flag svg load complete, then calls function to 
+      //waits for wayfinding initialization to flag svg load complete, then calls function to
       //set default styles for each object in the floor divs.
       function wait(){
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
@@ -91,7 +96,7 @@
         $("#viewing").css("display", "block");
         onLoad();
       }
-      
+
     <% else %>
     // Origin is not set
       $("#mapLoadingInner").html('Kiosk location must be set in <%= link_to "administration", administration_index_path %>.');
@@ -150,7 +155,7 @@
         </div>
       </div>
 
-    </div>    
+    </div>
   </div>
 
   <div class="row">

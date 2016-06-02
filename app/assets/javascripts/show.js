@@ -3,6 +3,7 @@
 //= require emscripten.pathfinding.js
 //= require priority-queue.min.js
 //= require redirect
+
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
 var ctx;                    //context for c
@@ -21,7 +22,7 @@ var shiftY = 0;             //distance to shift top of viewbox
 var shiftXMax = 0;          //maximum distance to shift left side of viewbox at current zoom level
 var shiftYMax = 0;          //maximum distance to shift top of viewbox at current zoom level
 var drawing;                //variable to hold route information
-var views = [];             /*holds initial viewbox information for each floor: views[floor#][x] where 
+var views = [];             /*holds initial viewbox information for each floor: views[floor#][x] where
                               0 <= x < 4, in order: minimum x, minimum y, width, height of SVG*/
 var bases = [];             //holds x and y displacement values for each floor
 var currentZoom = 1;        //current magnification level
@@ -43,11 +44,11 @@ function onLoad(){
     can[i] = document.createElement('canvas');
     can[i].width = floors[i].width;
     can[i].height = floors[i].height;
-    
+
     con[i] = can[i].getContext('2d');
     con[i].lineWidth = lineWidth;
     con[i].strokeStyle = lineColor;
-    con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width, 	
+    con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width,
                      floors[i].height);
     bases[i] = {x: $("#floor" + i + " svg").attr("x"),y:$("#floor" + i + " svg").attr("y")};
     bases[i].x = parseFloat(bases[i].x);
@@ -92,18 +93,18 @@ function initialDraw(){
     $(document).trigger('show:roomClick', {room_id: destination});
 }
 
-//collection of all route drawing functions
-function routingFunctions(){
+// Collection of all route drawing functions
+function drawRoute() {
   var changeFloorPause = 1000;        //time to wait before changing floors during a route
   var startFloorPause = 1500;         //time to wait before continuing to draw after floor change
   var currentX;                       //current x coordinate of draw path
   var currentY;                       //current y coordinate of draw path
   var currentSet;                     //index of current floor path in route (if a floor is revisited
-                                      //during a route, it will have multiple indices here, it changes whenever floor changes 
+                                      //during a route, it will have multiple indices here, it changes whenever floor changes
   var currentEntry;                   //current move/lineto/curveto command in the current set of the route
   var xDist;                          //horizontal distance between start and end of next entry
   var yDist;                          //vertical distance between start and end of next entry
-  var len;		                        //Used to calculate the distance each frame should extend line, then used to store 
+  var len;		                        //Used to calculate the distance each frame should extend line, then used to store
                                       //remaining number of frames for that line
   var xControl;                       //x coordinate of control point
   var yControl;                       //y coordinate of control point
@@ -122,10 +123,11 @@ function routingFunctions(){
   var shiftUnitsRemaining;            //number of frames left for zoom operation
   var zoomIterations = 35;            //number of frames over which to change viewbox
   var routeComplete = false;
+
   beginRoute();
 
   //sets up starting values for each route, changes classes as necessary
-  function beginRoute(){
+  function beginRoute() {
     currentSet = 0
     currentEntry = 0;
     animating = true;
@@ -136,9 +138,10 @@ function routingFunctions(){
     //restores internal canvases to default floor images
     for (var i = 0; i < 6; i++){
       con[i].clearRect(0,0,can[i].width,can[i].height);
-      con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width, 	
+      con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width,
                        floors[i].height);
     }
+
     //starts at full size on floor change
     if (parseInt(drawing[0][0].floor) != currentFloor){
       shiftX = 0;
@@ -148,16 +151,18 @@ function routingFunctions(){
       changeSVGFloor(nextFloor);
       currentFloor = nextFloor;
     }
+
     //changes floors if necessary
     //sets up the canvas for line drawing
     ctx.lineWidth = lineWidth;
     ctx.strokeStyle = lineColor;
+
     //change active floor icon
     $("a.btn-floor").removeClass("active");
     $("#flr-btn" + currentFloor).addClass("active");
     //clear canvas and draw floor
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor], shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom, 0, 0, c.width,c.height);		
+    ctx.drawImage(can[currentFloor], shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom, 0, 0, c.width,c.height);
     //calculate and set starting point drawing
     currentX = parseFloat(drawing[0][0].x - views[currentFloor][0])
                           *floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
@@ -208,19 +213,19 @@ function routingFunctions(){
       xWidth = can[currentFloor].width;
       yHeight = xWidth * can[currentFloor].height/can[currentFloor].width;
     }
-    
+
     if (midPoint.x - xWidth/2 < 0)
       xMin = 0;
     else if (midPoint.x + xWidth/2 > can[currentFloor].width)
       xMin = can[currentFloor].width - xWidth;
-    else  
+    else
       xMin = midPoint.x - xWidth/2;
 
     if (midPoint.y - yHeight/2 < 0)
       yMin = 0;
     else if (midPoint.y + yHeight/2 > can[currentFloor].height)
       yMin = can[currentFloor].height - yHeight;
-    else  
+    else
       yMin = midPoint.y - yHeight/2;
     targetZoom = floors[currentFloor].width / xWidth;
 
@@ -228,10 +233,9 @@ function routingFunctions(){
     xUnitShift = (xMin-shiftX)/zoomIterations;
     yUnitShift = (yMin-shiftY)/zoomIterations;
     widthUnitShift = (targetZoom - currentZoom)/zoomIterations;
-    shiftUnitsRemaining = zoomIterations;        
+    shiftUnitsRemaining = zoomIterations;
 
     window.requestAnimationFrame(routeZoom);
-
   }
 
   function routeZoom(){
@@ -275,6 +279,7 @@ function routingFunctions(){
   function route(){
     shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
     shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
+
     if (currentEntry < drawing[currentSet].length - 1) {
       currentEntry = currentEntry + 1;
       switchOver();
@@ -288,24 +293,27 @@ function routingFunctions(){
       xUnitShift = (0-shiftX)/zoomIterations;
       yUnitShift = (0-shiftY)/zoomIterations;
       widthUnitShift = (1 - currentZoom)/zoomIterations;
-      shiftUnitsRemaining = zoomIterations;        
+      shiftUnitsRemaining = zoomIterations;
       window.setTimeout(routeZoom, changeFloorPause);
     }
   }
 
-  function switchOver(){
+  // Determine whether we need to draw a line or a B-curve
+  function switchOver() {
     switch (drawing[currentSet][currentEntry].type){
-      case "L": 
+      case "L":
             xDist = (parseFloat(drawing[currentSet][currentEntry].x) - views[currentFloor][0])
-                    * floors[currentFloor].width/views[currentFloor][2] - currentX 
+                    * floors[currentFloor].width/views[currentFloor][2] - currentX
                     + bases[currentFloor].x;
             yDist = (parseFloat(drawing[currentSet][currentEntry].y) - views[currentFloor][1])
                     * floors[currentFloor].height/views[currentFloor][3] - currentY
                     + bases[currentFloor].y;
             len = Math.sqrt(xDist*xDist + yDist*yDist);
-            unit = drawLength/len;
-            len = Math.ceil(len/drawLength);
+            unit = drawLength / len;
+            len = Math.ceil(len / drawLength);
+
             window.requestAnimationFrame(drawLine);
+
             break;
       case "Q":
             xMax = (parseFloat(drawing[currentSet][currentEntry].x) - views[currentFloor][0])
@@ -323,15 +331,17 @@ function routingFunctions(){
             len = Math.sqrt(xDist * xDist + yDist * yDist);
             curvePoint = 0;
             curveIteration = drawLength / Math.ceil(len);
+
             window.requestAnimationFrame(drawQuad);
+
             break;
       default:
             return;
-    } 
+    }
   }
-  
+
   //changes floor displayed by canvas and svg
-  function routeFloor(){
+  function routeFloor() {
     $("#flr-btn" + currentFloor).removeClass("active");
     changeSVGFloor(nextFloor);
     currentFloor = nextFloor;
@@ -354,25 +364,30 @@ function routingFunctions(){
     ctx.moveTo(currentX * c.width/floors[currentFloor].width, currentY * c.height / floors[currentFloor].height);
     window.setTimeout(changeFocus, startFloorPause);
   }
-  
+
   //draws the line segment to the internal canvas and myCanvas
   function drawLine(){
-    var nextX = currentX + unit*xDist;
-    var nextY = currentY + unit*yDist;
+    var nextX = currentX + unit * xDist;
+    var nextY = currentY + unit * yDist;
+
     con[currentFloor].lineTo(nextX, nextY);
     con[currentFloor].stroke();
-    ctx.lineTo((nextX - shiftX) * c.width * currentZoom /floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
+
+    ctx.lineTo((nextX - shiftX) * c.width * currentZoom / floors[currentFloor].width, (nextY - shiftY) * c.height * currentZoom /floors[currentFloor].height);
     ctx.stroke();
+
     currentX = nextX;
     currentY = nextY;
+
     len = len-1;
-    if (len > 0) 
-        setTimeout(drawLine, animationSpeed);
-    else {
-       requestAnimationFrame(route);
+
+    if (len > 0) {
+      setTimeout(drawLine, animationSpeed);
+    } else {
+      requestAnimationFrame(route);
     }
   }
-  
+
   //draws curve to internal canvas and myCanvas
   function drawQuad(){
     var nextX = (1-curvePoint)*(1-curvePoint)*(minX) + 2 * curvePoint * (1-curvePoint) * xControl + curvePoint * curvePoint * xMax;
@@ -390,16 +405,16 @@ function routingFunctions(){
         curvePoint = 1;
       setTimeout(drawQuad, animationSpeed);
     }
-    else 
+    else
       requestAnimationFrame(route);
   }
-}  
+}
 
 //updates the viewbox of the current svg
 function updateViewBox(){
   $("#floor" + currentFloor + " svg").attr("viewbox", function(){
     return ((shiftX*views[currentFloor][2]/can[currentFloor].width + views[currentFloor][0]) + " " +
-           (shiftY*views[currentFloor][3]/can[currentFloor].height + views[currentFloor][1]) + " " + 
+           (shiftY*views[currentFloor][3]/can[currentFloor].height + views[currentFloor][1]) + " " +
            views[currentFloor][2]/currentZoom + " " + views[currentFloor][3]/currentZoom);
   });
 
@@ -410,7 +425,7 @@ function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
   $("#floor" + newFloor + " svg").attr("viewbox", function(){
-    return (views[newFloor][0] + " " + views[newFloor][1] + "  " + 
+    return (views[newFloor][0] + " " + views[newFloor][1] + "  " +
             views[newFloor][2] + " " + views[newFloor][3]);
   });
 }
@@ -439,7 +454,7 @@ function begin(){
       if (shiftY < 0) shiftY = 0;
       else if (shiftY > shiftYMax) shiftY = shiftYMax;
       ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, 
+      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom,
                     can[currentFloor].height/currentZoom,0,0,c.width,c.height);
       updateViewBox();
     }
@@ -455,33 +470,46 @@ function begin(){
     if (!animating){
       destination = $(this).attr('id');
       $(document).trigger('show:roomClick', [ { room_id : $(this).attr('id') } ] );
-    }   
+    }
   });
 
   $(document).on('show:roomClick', function(e, data){
-    console.log("Clicked room: " + data.room_id);
+    console.debug("Clicked room: " + data.room_id);
+
+    // Get the shortest path
     drawing = $("#svgImage").wayfinding('routeTo', destination);
-    setRedirectToHome(); // reset the home page return timer
-    if (drawing.length > 0)
+
+    // Reset the home page return timer
+    setRedirectToHome();
+
+    // If there's a valid path ...
+    if (drawing.length > 0) {
+      // ... still if there's a shortest path ...
       if (drawing[0].length > 0){
+        // Ensure the info panel is minimized
         toggleInfoPanel('min');
+
+        // Get details of the room
         $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
+          // TODO: showInfo is really "setInfo" as it doesn't show the panel
           showInfo(data);
         });
-        routingFunctions();
+
+        drawRoute();
       }
+    }
   });
 
   $(".accessible").click(function(e) {
     e.preventDefault();
     setRedirectToHome();
     $("a.accessible").toggleClass('active');
-    $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'), 
+    $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
                               function() {
       if($('.replay').hasClass("disabled") == false && !animating) {
         drawing = $('#svgImage').wayfinding('routeTo', destination);
         $('.replay').addClass('disabled');
-        routingFunctions();
+        drawRoute();
       }
     });
   });
@@ -510,19 +538,19 @@ function begin(){
     $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
     $("#myCanvas").css("height",c.height);
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor],shiftX,shiftY,floors[currentFloor].width/currentZoom, 
+    ctx.drawImage(can[currentFloor],shiftX,shiftY,floors[currentFloor].width/currentZoom,
                   floors[currentFloor].height/currentZoom,0,0,c.width,c.height);
   });
 
   $('.replay').click(function(e) {
     e.preventDefault();
     if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
-      routingFunctions();
+      drawRoute();
       toggleInfoPanel('min');
     }
   });
 }
-    
+
 function touchStart(event) {
   down = true;
   touches = event.touches;
@@ -554,7 +582,7 @@ function touchMove(event) {
       if (shiftY < 0) shiftY = 0;
       else if (shiftY > shiftYMax) shiftY = shiftYMax;
       ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom, 
+      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom,
                     can[currentFloor].height/currentZoom,0,0,c.width,c.height);
       updateViewBox();
     } else if (event.touches.length > 1 && down == true) {
@@ -579,7 +607,7 @@ function touchMove(event) {
           maxi = (dx1-dx0)/200;
         else
           maxi = (dy1-dy0)/200;
-          currentZoom = currentZoom + maxi;  
+          currentZoom = currentZoom + maxi;
         } else if (dx1 <= dx0 && dy1 <= dy0){
           var maxi;
           if (dx0 - dx1 > dy0 - dy1)
