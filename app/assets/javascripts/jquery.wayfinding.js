@@ -330,7 +330,7 @@
                 $(el).trigger('wayfinding:floorChanged', { map_id: floor });
             });
 
-            //turn floor into mapNum, look for that in drawing
+            // turn floor into mapNum, look for that in drawing
             // if there get drawing[level].routeLength and use that.
 
             var i, level, mapNum, pathLength;
@@ -721,7 +721,6 @@
                         return;
                     }
 
-                    checkIfConnectionAtx1y1(startDoor, solution[0]);
                     var lineFromDatastore = WayfindingDataStore.dataStore[solution[0].type]
                                                        [solution[0].floor]
                                                        [solution[0].segment];
