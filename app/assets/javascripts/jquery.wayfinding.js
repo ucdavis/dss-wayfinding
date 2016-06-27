@@ -941,12 +941,7 @@
         } //routeToForEmscripten
 
         function routeTo(destination) {
-            if (options.emscriptenBackend) {
-                return routeToForEmscripten(destination);
-            }
-            else {
-                return routeToForRecursive(destination);
-            }
+          return routeToForEmscripten(destination);
         } //routeTo
 
 
