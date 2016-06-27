@@ -34,7 +34,7 @@ module DirectoryObjectsHelper
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "
-
+  
     return str.html_safe
   end
 

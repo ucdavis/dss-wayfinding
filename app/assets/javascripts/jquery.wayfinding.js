@@ -707,12 +707,12 @@
                         }
                     }
 
-                    //break this into a new function?
+                    // break this into a new function?
                     drawing = new Array(portalsEntered); // Problem at line 707 character 40: Use the array literal notation [].
 
                     drawing[0] = [];
 
-                    //build drawing and modify solution for text generation by adding .direction to solution segments?
+                    // build drawing and modify solution for text generation by adding .direction to solution segments?
 
                     draw = {};
 
@@ -822,8 +822,8 @@
                         }
                     }
 
-                    //go back through the drawing and insert curves if requested
-                    //consolidate colinear line segments?
+                    // go back through the drawing and insert curves if requested
+                    // consolidate colinear line segments?
                     if (options.path.radius > 0) {
                         for (level = 0; level < drawing.length; level++) {
                             for (i = 1; i < drawing[level].length - 1; i++) {
