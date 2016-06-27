@@ -562,18 +562,18 @@
         }
 
         function checkIfConnectionAtx1y1(previousLine, currentLine) {
-            var previousFromDatastore = WayfindingDataStore.dataStore[previousLine.type]
+            var previousFromDataStore = WayfindingDataStore.dataStore[previousLine.type]
                                                    [previousLine.floor]
                                                    [previousLine.segment];
 
-            var currentFromDatatstore = WayfindingDataStore.dataStore[currentLine.type]
+            var currentFromDataStore = WayfindingDataStore.dataStore[currentLine.type]
                                                   [currentLine.floor]
                                                   [currentLine.segment];
 
-            if ((currentFromDatatstore.x1 === previousFromDatastore.x1 &&
-                 currentFromDatatstore.y1 === previousFromDatastore.y1) ||
-                (currentFromDatatstore.x1 === previousFromDatastore.x2 &&
-                 currentFromDatatstore.y1 === previousFromDatastore.y2))
+            if ((currentFromDataStore.x1 === previousFromDataStore.x1 &&
+                 currentFromDataStore.y1 === previousFromDataStore.y1) ||
+                (currentFromDataStore.x1 === previousFromDataStore.x2 &&
+                 currentFromDataStore.y1 === previousFromDataStore.y2))
             {
                 return true;
             }
@@ -621,7 +621,7 @@
             if (startpoint !== destination) {
                 // get accessibleRoute option -- options.accessibleRoute
 
-                //highlight the destination room
+                // highlight the destination room
                 $('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
                 setEndPoint(options.endpoint);
 
@@ -721,7 +721,7 @@
                         return;
                     }
 
-                    var lineFromDatastore = WayfindingDataStore.dataStore[solution[0].type]
+                    var lineFromDataStore = WayfindingDataStore.dataStore[solution[0].type]
                                                        [solution[0].floor]
                                                        [solution[0].segment];
 
@@ -729,16 +729,16 @@
                         draw = {};
                         draw.floor = solution[0].floor;
                         draw.type = 'M';
-                        draw.x = lineFromDatastore.x1;
-                        draw.y = lineFromDatastore.y1;
+                        draw.x = lineFromDataStore.x1;
+                        draw.y = lineFromDataStore.y1;
                         draw.length = 0;
                         drawing[0].push(draw);
                         draw = {};
                         draw.type = 'L';
                         draw.floor = solution[0].floor;
-                        draw.x = lineFromDatastore.x2;
-                        draw.y = lineFromDatastore.y2;
-                        draw.length = lineFromDatastore.length;
+                        draw.x = lineFromDataStore.x2;
+                        draw.y = lineFromDataStore.y2;
+                        draw.length = lineFromDataStore.length;
                         drawing[0].push(draw);
                         drawing[0].routeLength = draw.length;
                     }
@@ -746,16 +746,16 @@
                         draw = {};
                         draw.type = 'M';
                         draw.floor = solution[0].floor;
-                        draw.x = lineFromDatastore.x2;
-                        draw.y = lineFromDatastore.y2;
+                        draw.x = lineFromDataStore.x2;
+                        draw.y = lineFromDataStore.y2;
                         draw.length = 0;
                         drawing[0].push(draw);
                         draw = {};
                         draw.type = 'L';
                         draw.floor = solution[0].floor;
-                        draw.x = lineFromDatastore.x1;
-                        draw.y = lineFromDatastore.y1;
-                        draw.length = lineFromDatastore.length;
+                        draw.x = lineFromDataStore.x1;
+                        draw.y = lineFromDataStore.y1;
+                        draw.length = lineFromDataStore.length;
                         drawing[0].push(draw);
                         drawing[0].routeLength = draw.length;
                     }
@@ -765,15 +765,15 @@
                     // for each floor that we have to deal with
                     for (i = 0; i < portalsEntered + 1; i++) {
                         for (stepNum = lastStep; stepNum < solution.length; stepNum++) {
-                            lineFromDatastore = WayfindingDataStore.dataStore[solution[stepNum].type]
+                            lineFromDataStore = WayfindingDataStore.dataStore[solution[stepNum].type]
                                                            [solution[stepNum].floor]
                                                            [solution[stepNum].segment];
 
                             if (solution[stepNum].type === 'paths') {
-                                ax = lineFromDatastore.x1;
-                                ay = lineFromDatastore.y1;
-                                bx = lineFromDatastore.x2;
-                                by = lineFromDatastore.y2;
+                                ax = lineFromDataStore.x1;
+                                ay = lineFromDataStore.y1;
+                                bx = lineFromDataStore.x2;
+                                by = lineFromDataStore.y2;
 
                                 draw = {};
                                 draw.floor = solution[stepNum].floor;
@@ -784,7 +784,7 @@
                                     draw.x = ax;
                                     draw.y = ay;
                                 }
-                                draw.length = lineFromDatastore.length;
+                                draw.length = lineFromDataStore.length;
                                 draw.type = 'L';
                                 drawing[i].push(draw);
                                 drawing[i].routeLength += draw.length;
@@ -800,8 +800,8 @@
                                     draw = {};
                                     draw.floor = solution[stepNum].floor;
                                     draw.type = 'M';
-                                    draw.x = lineFromDatastore.x1;
-                                    draw.y = lineFromDatastore.y1;
+                                    draw.x = lineFromDataStore.x1;
+                                    draw.y = lineFromDataStore.y1;
                                     draw.length = 0;
                                     drawing[i + 1].push(draw);
                                     drawing[i + 1].routeLength = draw.length;
@@ -809,8 +809,8 @@
                                     draw = {};
                                     draw.floor = solution[stepNum].floor;
                                     draw.type = 'M';
-                                    draw.x = lineFromDatastore.x2;
-                                    draw.y = lineFromDatastore.y2;
+                                    draw.x = lineFromDataStore.x2;
+                                    draw.y = lineFromDataStore.y2;
                                     draw.length = 0;
                                     drawing[i + 1].push(draw);
                                     drawing[i + 1].routeLength = draw.length;
