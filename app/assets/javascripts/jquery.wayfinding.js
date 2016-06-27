@@ -68,13 +68,13 @@
             maps, // the array of maps populated from options each time
             defaultMap, // the floor to show at start propulated from options
             startpoint, // the result of either the options.startpoint value or the value of the function
-            portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to datastore
+            portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to dataStore
             result, // used to return non jQuery results
-            idToIndex = {}, // maps floor IDs to an index used by the datastore
+            idToIndex = {}, // maps floor IDs to an index used by the dataStore
             drawing;
-        //Takes x and y coordinates and makes a location indicating pin for those
-        //coordinates. Returns the pin element, not yet attached to the DOM.
 
+        // Takes x and y coordinates and makes a location indicating pin for those
+        // coordinates. Returns the pin element, not yet attached to the DOM.
         function makePin(x, y, type) {
             var indicator,
             height,
@@ -260,18 +260,6 @@
                 }
             }
         } //function setEndPoint
-
-        // Hide SVG div, hide path lines (they're data, not visuals), make rooms clickable
-        function activateSVG(obj, svgDiv) {
-            // Hide maps until explicitly displayed
-
-
-            // jQuery.panzoom() only works after element is attached to DOM
-            //if(options.pinchToZoom) initializePanZoom($(svgDiv));
-        } //function activateSVG
-
-        function replaceLoadScreen(el) {
-        } //function replaceLoadScreen
 
         // Initialize the jQuery target object
         function initialize(obj, callback) {
