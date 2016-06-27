@@ -940,11 +940,6 @@
             }
         } //routeToForEmscripten
 
-        function routeTo(destination) {
-          return routeToForEmscripten(destination);
-        } //routeTo
-
-
         if (WayfindingDataStore == null) {
             console.error('Please include wayfinding.datastore.js before jquery.wayfinding.js.');
         }
@@ -971,7 +966,7 @@
           break;
                 case 'routeTo':
                     // call method
-                    result = routeTo(passed);
+                    result = routeToForEmscripten(passed);
                     break;
                 case 'animatePath':
                     hidePath(obj);
