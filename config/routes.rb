@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get "/logout" => 'application#logout'
   get "test" => 'directory_objects#test'
 
-  get 'start/:location', to: redirect('/administration/start?location=%{location}')
+  #get 'start/:location', to: redirect('/administration/start?location=%{location}')
+  get 'start/:start_loc', to: 'directory_objects#show'
   get 'start/:start_loc/end/:end_loc', to: 'directory_objects#show'
   get 'start/:start_loc/directory/:id', to: 'directory_objects#show'
   post 'logvisitor', to: 'administration#logvisitor'
