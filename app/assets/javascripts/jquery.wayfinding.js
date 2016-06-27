@@ -47,14 +47,6 @@
         'defaultMap': function () {
             return 'map.1';
         },
-        // should dataStoreCache should be used
-        // null is cache should not be used
-        // string representing url if it should be used
-        // object if cache is being passed
-        'dataStoreCache': null,
-        // if dataStoreCache is string, this is string
-        // of url to accessible cache
-        'accessibleDataStoreCache': null,
         // place marker for "you are here"
         'showLocation': false,
         //styling for the "you are here pin"
@@ -329,8 +321,7 @@
           loaded = true;
         }
 
-        // Ensure a dataStore exists and is set, whether from a cache
-        // or by building it.
+        // Ensure a dataStore exists and is set by building it
         function establishDataStore(accessible, onReadyCallback) {
             if(accessible === undefined) {
                 accessible = false;
