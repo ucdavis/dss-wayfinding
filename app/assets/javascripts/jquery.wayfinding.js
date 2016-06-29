@@ -316,7 +316,7 @@
             }
 
             console.debug("Building dataStore with startpoint '" + options.startpoint + "' ...");
-            WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
+            WayfindingDataStore.dataStore = WayfindingDataStore.build(maps, idToIndex);
             if(typeof(onReadyCallback) === 'function') {
                 onReadyCallback();
             }
