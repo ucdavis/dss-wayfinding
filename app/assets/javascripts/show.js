@@ -35,7 +35,7 @@ var routeTrigger;           //if true, destination already exists so run the rou
 //line constants
 var animationSpeed = 20;    //time to wait between animation frames
 var drawLength = 3;         //number of pixels to draw per frame when drawing a line
-var lineWidth = 6;          //width of line to draw for routes
+var lineWidth = 5;          //width of line to draw for routes
 var lineColor = "#C26E60";  //color of line to draw for routes
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
