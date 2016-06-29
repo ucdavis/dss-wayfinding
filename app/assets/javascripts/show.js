@@ -95,7 +95,6 @@ function initialDraw(){
 
 // Collection of all route drawing functions
 function drawRoute() {
-  console.log("drawRoute is called!");
   var changeFloorPause = 1000;        //time to wait before changing floors during a route
   var startFloorPause = 1500;         //time to wait before continuing to draw after floor change
   var currentX;                       //current x coordinate of draw path
@@ -517,7 +516,6 @@ function begin(){
   $("a.btn-floor").click(function(event){
     event.preventDefault();
     if (!animating){
-      console.log($(this).attr('id'));
       $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
     }
   });
