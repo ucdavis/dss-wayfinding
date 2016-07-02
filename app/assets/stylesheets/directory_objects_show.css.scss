@@ -454,6 +454,27 @@ ul.directory-list {
 }
 
 /* Search interface styling below */
+.search-icon {
+  position: absolute !important;
+  z-index: 10;
+  top: 10px;
+  left: 10px;
+  color: gray;
+}
+
+.nav-search-icon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: gray;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .right-btn-container {
   position: fixed;
   z-index: 999;
@@ -870,8 +891,8 @@ body {
 
 /* BEGIN LANDING */
 .landing-div {
-  height: 90vh;
-  width: 100vw;
+  //height: 90vh;
+  //width: 100vw;
   text-align: center;
 }
 
@@ -879,6 +900,7 @@ body {
   margin: auto;
   height: 100%;
   display: inline-table;
+  padding: 0px;
 
   li { /* Holds links to rest of site */
     display: block;
@@ -886,23 +908,27 @@ body {
     text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
+    float: left;
+    padding-right: 30px;
+    padding-left: 30px;
 
     a { /* Anchors hold button images */
       height: 100%;
       display: inline-block;
 
       img { /* Button imags scale to fit container */
-        height: 100%;
+        height: 80%;
         width: auto;
         display: inline-block;
       }
     }
 
     span { /* Can further style the text accompanying buttons */
-      display: inline-block;
+      display:block;
+      text-align: center;
     }
 
-  }  
+  }
 
   &.safari-mobile-compatibility {
     li {
@@ -981,8 +1007,6 @@ body {
 .navbar {
 	height: 9vh;
 	min-height: 10px;
-	background-color: rgba(235,235,235,1);
-	border-color: #D6D6D6;
 }
 
 .btn-navbar-main {  //home, search buttons
@@ -992,12 +1016,12 @@ body {
 }
 
 .btn-logout-nav {
-	height: 7.5vh;
+    height: 7.5vh;
     margin: .75vh;
     padding: 1vh;
     float: right;
     border-radius: 4px;
-    background-color: #CCCCCC;
+    //background-color: #CCCCCC;
 }
 
 .text-logout { //toggle menu admin-logout text size
@@ -1013,7 +1037,7 @@ body {
 	text-align: left;
 	text-indent: 35%;
 	width: 93vw;
-    background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+  //background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
 }
 
 .navbar-toggle .icon-bar {
@@ -1036,7 +1060,6 @@ body {
 
 //toggle menu button when pressed
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #CCCCCC
 }
 
 //BEGIN: STOP NAVBAR MENU FROM COLLAPSING WHEN BUTTON PRESSED
@@ -1047,20 +1070,20 @@ body {
 	}
 }
 .navbar-toggle {
-	display: block;
+    display: block;
     padding: .5vh;
     margin-right: 1vh;
     margin-left: .5vh;
     margin-top: 1vh;
     height: 7vh;
-    width: 7vh;
-    background-color: #CCCCCC;		//toggle menu button
+    //width: 7vh;
+    //background-color: #CCCCCC;		//toggle menu button
 }
 .navbar-collapse {
     border-top: 1px solid transparent;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    //box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     max-height: 100%;
-	background-color: rgba(180,180,180,.5);	//transparent toggle menu
+	//background-color: rgba(180,180,180,.5);	//transparent toggle menu
 }
 .navbar-collapse.collapse {
     display: none!important;
@@ -1093,4 +1116,13 @@ body {
 	.btn.btn-block {
 		text-indent: 40%;
 	}
+}
+
+
+//new css
+.wayfinding-logo {
+  img {
+    margin-right: 20px;
+    float: left;
+  }
 }

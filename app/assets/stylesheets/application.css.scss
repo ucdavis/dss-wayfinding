@@ -13,3 +13,18 @@
 .col-xs-10-modified {
   width: 88%;
 }
+
+/* bootstrap-overwrite */
+
+.navbar-default {
+    background-color: white !important;
+    border-color: white !important;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: white !important;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background: none;
+}
