@@ -124,7 +124,7 @@
             var start, attachPinLocation,
             x, y,
             pin;
-            //clears locationIndicators from the maps
+            // clears locationIndicators from the maps
             $('path.locationIndicator', el).remove();
 
             // set startpoint correctly
@@ -148,7 +148,7 @@
 
                     attachPinLocation.after(pin);
                 } else {
-                    return; //startpoint does not exist
+                    return; // startpoint does not exist
                 }
             }
         } //function setStartPoint
@@ -157,7 +157,6 @@
         function getOptions(el) {
             var optionsPrior = el.data('wayfinding:options');
 
-            drawing = el.data('wayfinding:drawing'); // load a drawn path, if it exists
             options = $.extend(true, {}, defaults, options);
 
             // check for settings attached to the current object
@@ -186,7 +185,7 @@
             } else {
                 startpoint = options.startpoint;
             }
-        } //function getOptions
+        } // function getOptions
 
         function setOptions(el) {
             el.data('wayfinding:options', options);
@@ -255,10 +254,10 @@
                 } else {
 
 
-                    return; //endpoint does not exist
+                    return; // endpoint does not exist
                 }
             }
-        } //function setEndPoint
+        } // function setEndPoint
 
         // Initialize the jQuery target object
         function initialize(obj, callback) {
@@ -521,7 +520,7 @@
                     }
                 }
             }, animationDuration + options.floorChangeAnimationDelay);
-        } //function animatePath
+        } // function animatePath
 
 
         // Uses jQuery.panzoom to pan/zoom to the SVG viewbox coordinate equivalent of (x, y, w, h)
@@ -937,7 +936,7 @@
                     //notify animation loop?
                 }
             }
-        } //routeToForEmscripten
+        } // function routeToForEmscripten
 
         if (WayfindingDataStore == null) {
             console.error('Please include wayfinding.datastore.js before jquery.wayfinding.js.');
@@ -962,7 +961,7 @@
                 case 'initialize':
                     checkIds();
                     result = initialize(obj, callback);
-          break;
+                    break;
                 case 'routeTo':
                     // call method
                     result = routeToForEmscripten(passed);
