@@ -1029,17 +1029,6 @@
                     result = JSON.stringify(WayfindingDataStore.dataStore);
                     $('body').replaceWith(result);
                     break;
-                case 'getRoutes':
-                    //gets the length of the shortest route to one or more
-                    //destinations.
-                    if (!options.emscriptenBackend) {
-                        if (passed === undefined) {
-                            result = WayfindingDataStore.getShortestRoute(maps, options.endpoint, startpoint);
-                        } else {
-                            result = WayfindingDataStore.getShortestRoute(maps, passed, startpoint);
-                        }
-                    }
-                    break;
                 case 'destroy':
                     //remove all traces of wayfinding from the obj
                     $(obj).remove();
