@@ -35,7 +35,6 @@
       function rails(){
         try {
           directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
-
           if (directory_object) {
             showInfo(directory_object);
             routeTrigger = true;
@@ -72,6 +71,12 @@
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
           begin();
           setVisibilities();
+          // console.log("Went in here");
+          // routeTrigger = true;
+          <% if @dest %>
+            destination = "<%= @dest %>";
+            $(document).trigger('show:roomClick', {room_id: destination});
+          <% end %>
         } else {
           window.setTimeout(wait, 100);
         }
