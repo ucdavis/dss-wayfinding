@@ -68,7 +68,6 @@
             maps, // the array of maps populated from options each time
             defaultMap, // the floor to show at start propulated from options
             startpoint, // the result of either the options.startpoint value or the value of the function
-            portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to dataStore
             result, // used to return non jQuery results
             idToIndex = {}, // maps floor IDs to an index used by the dataStore
             drawing;
