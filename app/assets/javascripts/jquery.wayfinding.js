@@ -321,8 +321,7 @@
           loaded = true;
         }
 
-        // Ensure a dataStore exists and is set, whether from a cache
-        // or by building it.
+        // Ensure a dataStore exists and is set
         function establishDataStore(accessible, onReadyCallback) {
             if(accessible === undefined) {
                 accessible = false;
