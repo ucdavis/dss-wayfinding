@@ -18,7 +18,7 @@
 
 (function ($) {
     'use strict';
-    
+
     var loaded = false;
     var defaults = {
         // Defaults to a local file called floorplan.svg
@@ -47,14 +47,6 @@
         'defaultMap': function () {
             return 'map.1';
         },
-        // should dataStoreCache should be used
-        // null is cache should not be used
-        // string representing url if it should be used
-        // object if cache is being passed
-        'dataStoreCache': null,
-        // if dataStoreCache is string, this is string
-        // of url to accessible cache
-        'accessibleDataStoreCache': null,
         // place marker for "you are here"
         'showLocation': false,
         //styling for the "you are here pin"
