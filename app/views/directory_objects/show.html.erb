@@ -29,25 +29,15 @@
           $("#mapLoadingInner").html('Image file not present, please contact administrator.');
         }
       }
-      //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
-      //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
-      function rails(){
-        try {
-          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
 
-          if (directory_object) {
-            showInfo(directory_object);
-            routeTrigger = true;
-            destination = 'R' + directory_object.room_number;
-
-            if (destination.length > 0) {
-              console.debug("destination = ", destination);
-            }
-          }
-        } catch(e) {
-          console.error('Error parsing @object to JSON', e)
-        }
+      // plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
+      function rails() {
         $("div.ui-loader").remove();
+
+        <% if @dest %>
+          routeTrigger = true;
+          destination = "<%= @dest %>";
+        <% end %>
 
         <%
           @svg_paths = ["/maps/floor0.svg",
@@ -58,16 +48,15 @@
                          "/maps/floor5.svg"]
         %>
 
-        <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
-          asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
+        <%= wayfinding_plugin(@svg_paths, @origin, @dest) %>
 
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
         wait();
       }
 
-      //waits for wayfinding initialization to flag svg load complete, then calls function to
-      //set default styles for each object in the floor divs.
+      // waits for wayfinding initialization to flag svg load complete, then calls function to
+      // set default styles for each object in the floor divs.
       function wait(){
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
           begin();
@@ -77,8 +66,8 @@
         }
       }
 
-      //sets all default styles in/under floor divs, so program is ready to activate that floor
-      //by toggling floor display value, and svg dimensions.
+      // sets all default styles in/under floor divs, so program is ready to activate that floor
+      // by toggling floor display value, and svg dimensions.
       function setVisibilities(){
         $("svg").css("pointer-events", "auto");
         $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});

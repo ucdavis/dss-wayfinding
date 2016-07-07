@@ -36,7 +36,7 @@ var routeTrigger;           //if true, destination already exists so run the rou
 var animationSpeed = 20;    //time to wait between animation frames
 var drawLength = 3;         //number of pixels to draw per frame when drawing a line
 var lineWidth = 5;          //width of line to draw for routes
-var lineColor = "#FF00FF";  //color of line to draw for routes
+var lineColor = "#C26E60";  //color of line to draw for routes
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
@@ -172,10 +172,10 @@ function drawRoute() {
     con[currentFloor].moveTo(currentX, currentY);
     if (drawing[currentSet].length > 2 || drawing.length > 2)
             window.requestAnimationFrame(changeFocus);
-  }
+  } // function beginRoute
 
   //sets up values for panning/zooming to the route
-  function changeFocus(){
+  function changeFocus() {
     var targetZoom;
     var midPoint;
     xMin = floors[currentFloor].width;
@@ -236,9 +236,9 @@ function drawRoute() {
     shiftUnitsRemaining = zoomIterations;
 
     window.requestAnimationFrame(routeZoom);
-  }
+  } // function changeFocus
 
-  function routeZoom(){
+  function routeZoom() {
     //adjusts view values as calculates in changeFocus, draws the updated position.
     //Repeats for zoomIterations frames then calls route
     shiftX = shiftX + xUnitShift;
@@ -272,11 +272,11 @@ function drawRoute() {
       shiftYMax = 0;
       return;
     }
-  }
+  } // function routeZoom
 
-  //adjusts drawing set/entry, and then makes calulations/calls functions according
-  //to what type the current entry in drawing is.
-  function route(){
+  // adjusts drawing set/entry, and then makes calulations/calls functions according
+  // to what type the current entry in drawing is.
+  function route() {
     shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
     shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
 
@@ -296,7 +296,7 @@ function drawRoute() {
       shiftUnitsRemaining = zoomIterations;
       window.setTimeout(routeZoom, changeFloorPause);
     }
-  }
+  } // function route()
 
   // Determine whether we need to draw a line or a B-curve
   function switchOver() {
@@ -338,7 +338,7 @@ function drawRoute() {
       default:
             return;
     }
-  }
+  } // function switchOver
 
   //changes floor displayed by canvas and svg
   function routeFloor() {
@@ -363,10 +363,10 @@ function drawRoute() {
     ctx.beginPath();
     ctx.moveTo(currentX * c.width/floors[currentFloor].width, currentY * c.height / floors[currentFloor].height);
     window.setTimeout(changeFocus, startFloorPause);
-  }
+  } // function routeFloor()
 
-  //draws the line segment to the internal canvas and myCanvas
-  function drawLine(){
+  // draws the line segment to the internal canvas and myCanvas
+  function drawLine() {
     var nextX = currentX + unit * xDist;
     var nextY = currentY + unit * yDist;
 
@@ -386,10 +386,10 @@ function drawRoute() {
     } else {
       requestAnimationFrame(route);
     }
-  }
+  } // function drawLine()
 
-  //draws curve to internal canvas and myCanvas
-  function drawQuad(){
+  // draws curve to internal canvas and myCanvas
+  function drawQuad() {
     var nextX = (1-curvePoint)*(1-curvePoint)*(minX) + 2 * curvePoint * (1-curvePoint) * xControl + curvePoint * curvePoint * xMax;
     var nextY = (1-curvePoint)*(1-curvePoint)*(minY) + 2 * curvePoint * (1-curvePoint) * yControl + curvePoint * curvePoint * yMax;
     con[currentFloor].lineTo(nextX, nextY);
@@ -407,21 +407,20 @@ function drawRoute() {
     }
     else
       requestAnimationFrame(route);
-  }
-}
+  } // function drawQuad
+} // function drawRoute
 
-//updates the viewbox of the current svg
+// updates the viewbox of the current svg
 function updateViewBox(){
   $("#floor" + currentFloor + " svg").attr("viewbox", function(){
     return ((shiftX*views[currentFloor][2]/can[currentFloor].width + views[currentFloor][0]) + " " +
            (shiftY*views[currentFloor][3]/can[currentFloor].height + views[currentFloor][1]) + " " +
            views[currentFloor][2]/currentZoom + " " + views[currentFloor][3]/currentZoom);
   });
-
 }
 
-//changes the svg displayed
-function changeSVGFloor(newFloor){
+// changes the svg displayed
+function changeSVGFloor(newFloor) {
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
   $("#floor" + newFloor + " svg").attr("viewbox", function(){
@@ -430,7 +429,7 @@ function changeSVGFloor(newFloor){
   });
 }
 
-//attaches listeners
+// attaches listeners
 function begin(){
   $("svg").on('mousedown', function(event){
     down = true;
@@ -517,7 +516,6 @@ function begin(){
   $("a.btn-floor").click(function(event){
     event.preventDefault();
     if (!animating){
-      console.log($(this).attr('id'));
       $(document).trigger('show:floorChange', [ { floor_id : $(this).attr('id') } ] );
     }
   });
