@@ -328,45 +328,12 @@
                 accessible = false;
             }
 
-            if (options.dataStoreCache) {
-                if (typeof(options.dataStoreCache) === 'object') {
-                    console.debug('Using passed dataStoreCache object.');
+            WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
 
-                    WayfindingDataStore.dataStore = options.dataStoreCache;
-
-                    if(typeof(onReadyCallback) === 'function') {
-                        onReadyCallback();
-                    }
-                } else if (typeof(options.dataStoreCache) === 'string') {
-                    console.debug("Attempting to load dataStoreCache from URL ...");
-                    var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
-
-                    $.getJSON(cacheUrl, function (result) {
-                        console.debug('Using dataStoreCache from remote.');
-                        WayfindingDataStore.dataStore = result;
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    }).fail(function () {
-                        console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
-
-                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    });
-                }
-            } else {
-                console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
-
-                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                if(typeof(onReadyCallback) === 'function') {
-                    onReadyCallback();
-                }
+            if(typeof(onReadyCallback) === 'function') {
+                onReadyCallback();
             }
+
         }
 
         // Called when animatePath() is switching the floor and also when
