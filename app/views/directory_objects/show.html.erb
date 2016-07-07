@@ -48,8 +48,7 @@
                          "/maps/floor5.svg"]
         %>
 
-        <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
-          asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
+        <%= wayfinding_plugin(@svg_paths, @origin, @dest,) %>
 
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
