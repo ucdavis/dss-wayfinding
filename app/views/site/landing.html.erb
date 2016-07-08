@@ -2,13 +2,11 @@
   <!-- div required for the transformY/top vertical centering technique -->
   
   <!-- phone view-->
-  <div class="container-fluid visible-xs-block">
-  <div class="row" style="margin-top:70px;">
-  <div class="col-sm-2">
-      <img src=<%= asset_path "icons/wayfinding-logo.png" %> >
-  </div>
-  <div class="col-sm-12 wayfinding-logo">
-    <h3>WAYFINDING</h3>
+  <div class="container-fluid visible-xs-block top-margin">
+  <div class="row">
+  <div class="wayfinding-logo" style="padding-left: 0px;">
+    <img style="height: 35px;" src=<%= asset_path "icons/wayfinding-logo.png" %> >
+    <h4>Welcome to WAYFINDING</h4>
   </div>
   </div>
   </div>
@@ -16,13 +14,13 @@
   <!-- tablet/desktop view -->
   <div class="container-fluid hidden-xs">
   <div class="row" style="margin-top:100px;">
-  <div class="col-sm-10 col-sm-offset-2 wayfinding-logo">
+  <div class="wayfinding-logo">
     <img src=<%= asset_path "icons/wayfinding-logo.png" %> >
     <h1>Welcome to WAYFINDING</h1>
   </div>
   </div>
   </div>
-  
+
   <div class="container-fluid visible-xs-block">
   <div class="row" style="margin-top:70px;">
   <div class="col-sm-6 col-sm-offset-3">
@@ -39,7 +37,7 @@
   </div>
   
   <div class="container-fluid visible-xs-block">
-    <div class="row" style="margin-top:70px;">
+    <div class="row" style="margin-top:60px;">
       <div class="col-xs-6 col-xs-offset-3">
         <button type="button" class="btn btn-primary" style="width:100%">Let's Go</button>
       </div>
@@ -48,9 +46,9 @@
   
   <!-- search-bar -->
   <div class="container-fluid hidden-xs">
-  <div class="row" style="margin-top:50px;">
-  <div class="col-sm-8 col-sm-offset-2">
-    <div class="input-group" style="width:100%">
+  <div class="row" style="margin-top:80px;">
+  <div class="wayfinding-logo">
+    <div class="input-group" style="width:50%">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
       <input type="text" class="form-control" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px;">
     </div>
@@ -74,10 +72,10 @@
         <a href="/events"><img src=<%= asset_path "icons/events-btn.png" %> ></a>
         <span class="text-events">Events</span>
       </li>
-      <li>
+      <!-- <li>
         <a href="/rooms"><img src=<%= asset_path "icons/rooms-btn.png" %> ></a>
         <span class="text-rooms">Rooms</span>
-      </li>
+      </li> -->
       <li>
         <a href="/map"><img src=<%= asset_path "icons/map-btn.png" %> ></a>
         <span class="text-map">Map</span>

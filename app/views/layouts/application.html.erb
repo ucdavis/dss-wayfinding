@@ -34,19 +34,56 @@
 </head>
 
 <body data-spy="scroll" data-target="#side-nav">
+
+	<!-- static side-navbar -->
+	<ul class="vertical-nav hidden-xs">
+  <li>
+    <a href="/people" class="btn-people icon-people">
+      <span class="text-people">people</span>
+    </a>
+  </li>
+  <li>
+    <a href="/departments" class="btn-departments icon-departments">
+      <span class="text-departments">departments</span>
+    </a>
+  </li>
+  <li>
+    <a href="/events" class="btn-events icon-events">
+      <span class="text-events">events</span>
+    </a>
+  </li>
+  <li>
+    <a href="/map" class="btn-map icon-map">
+      <span class="text-map">map</span>
+    </a>
+  </li>
+  <li>
+    <a href="/about" class="btn-about icon-about">
+      <span class="text-about">about</span>
+    </a>
+  </li>
+</ul>
+
 	<!-- static navbar -->
-	<nav class="navbar navbar-default navbar-fixed-top visible-xs-block">
+	<nav class="navbar navbar-default navbar-fixed-top <visible-xs-block></visible-xs-block>">
 	        <div class="navbar-header">
 
 	            <!-- toggle hamburger menu -->
-							<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-								<span class="glyphicon glyphicon-align-justify" style="color:gray;" aria-hidden="true"></span>
+							<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs">
+								<span class="glyphicon glyphicon-align-justify nav-icon" aria-hidden="true"></span>
 							</button>
 
 	            <!-- Search-->
 				<a href="/search">
-					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-						<span class="glyphicon glyphicon-search nav-search-icon " aria-hidden="true"></span>
+					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs">
+						<span class="glyphicon glyphicon-search nav-search-icon nav-icon" aria-hidden="true"></span>
+					</button>
+				</a>
+
+	            <!-- about -->
+				<a href="/about" class="pull-left">
+					<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs">
+						<span class="glyphicon glyphicon-info-sign nav-icon" id="about-icon" aria-hidden="true"></span>
 					</button>
 				</a>
 
@@ -64,8 +101,8 @@
 				</button>
 	        </div> <!-- navbar-header -->
 
-	         <!-- Hamburger Menu -->
-	        <div id="navbarCollapse" class="collapse navbar-collapse">
+	         <!-- Hamburger Menu --> <!-- background drop down white -->
+	        <div id="navbarCollapse" class="collapse navbar-collapse" style="background-color: white;"> 
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
 	</nav>
@@ -74,7 +111,7 @@
     <%= yield :javascript %>
     <%= yield %>
   <% else %>
-    <div class="main-content">
+    <div class="main-content" style="width: calc(100% - 130px); margin-left: 130px;">
       <div class="container-fluid">
         <%= yield :javascript %>
         <%= yield %>

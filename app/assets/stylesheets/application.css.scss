@@ -28,3 +28,11 @@
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
     background: none;
 }
+
+.nav > li > a {
+  padding: 0px;
+}
+
+  .btn-block {
+    width: inherit !important;
+  }

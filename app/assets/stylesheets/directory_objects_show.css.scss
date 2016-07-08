@@ -186,21 +186,20 @@ ul.vertical-nav {
   height: calc(100vh - 15px);
 
   li {
-    margin: 5px 10px 5vh;
-
+    margin: 5px 1px 3vh;
     height: 11vh;
     width: 11vh;
     font-size: 1.8vh;
 
     a {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
       position: relative;
       text-align: center;
       border-radius: 50%;
       border: 7px solid #fff;
-      font-size: 3em;
+      font-size: 2.5em;
       box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
 
       span {
@@ -213,7 +212,7 @@ ul.vertical-nav {
         width: 200%;
         text-align: center;
         margin-top: 2.65vh;
-        font-size: 0.3em;
+        font-size: 0.35em;
         line-height: 1em;
       }
 
@@ -905,7 +904,7 @@ body {
   li { /* Holds links to rest of site */
     display: block;
     height: 15vh; /* containing div is 90vh, divide by 6 */
-    text-align: left;
+    //text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
     float: left;
@@ -949,6 +948,9 @@ body {
   #myCanvas {
     width: 95vw;
   }
+    .top-margin {
+      margin-top: 20%;
+  }
 
   #svgImage {
     width: 95vw;
@@ -960,6 +962,10 @@ body {
 @media (orientation: landscape) {
   #myCanvas {
     width: calc((2/1.1) * 58vh);
+  }
+
+  .top-margin {
+      margin-top: 10%;
   }
 
   #svgImage {
@@ -1030,14 +1036,15 @@ body {
 
 
 .btn-text { //toggle menu list text size
-  font-size: 1.25em;
+  font-size: 0.9em;
 }
 
 .btn.btn-block {
-	text-align: left;
-	text-indent: 35%;
-	width: 93vw;
+	text-align: center;
+	//text-indent: 35%;
+	//width: 93vw;
   //background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+  span {display: block;}
 }
 
 .navbar-toggle .icon-bar {
@@ -1054,7 +1061,7 @@ body {
 
 .navbar-collapse {
 	img {
-		height: 7.5vh;	//icon size
+		height: 11vh;	//icon size
 	}
 }
 
@@ -1120,7 +1127,23 @@ body {
 
 
 //new css
+
+#about-icon {
+  font-size: 18pt;
+}
+.nav-icon {
+  font-size: 15pt;
+  color: gray;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+}
+
 .wayfinding-logo {
+  display: flex;
+  justify-content: center;
   img {
     margin-right: 20px;
     float: left;
