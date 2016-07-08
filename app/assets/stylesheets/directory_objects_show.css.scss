@@ -180,10 +180,11 @@ ul.vertical-nav {
   position: fixed;
   list-style: none;
   text-align: center;
-  padding: 2vh 15px 0;
+  //padding: 2vh 15px 0;
   // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
+  padding-top: 7%;
 
   li {
     margin: 5px 1px 3vh;
@@ -348,7 +349,7 @@ ul.vertical-nav {
   height: 7%;
 }
 
-h1#directory-title {
+h2#directory-title {
   color: gray;
   text-transform: uppercase;
   margin: 1em 0.2em;
@@ -588,9 +589,13 @@ ul li.room {
     background-color: white;
 }
 
+#scrubber-view #slider-vertical {
+  margin-right: 35px;
+}
+
 #slider-vertical li {
-    height: $vertical-slider-element-height;
-    padding: 0px 0px 0px 0px;
+  height: 21px; //$vertical-slider-element-height;
+  padding: 0px 0px 0px 0px;
 }
 
 #slider-vertical {
@@ -602,13 +607,14 @@ ul li.room {
 
 .nav > li > a {
     padding-top: 0px;
+    color: gray;
 }
 
 #scrubber-view {
   position: fixed;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: calc(100vh + 100px);
 
   ul.nav {
     position: relative;
@@ -630,9 +636,9 @@ table {
 
   tbody {
     tr.category-header > td {
-      font-size: 2em;
+      font-size: 1.5em;
       font-weight: bold;
-      border-top: 1px solid black;
+      //border-top: 1px solid black;
       margin-bottom: 30px;
       margin-top: 30px;
       float: left;
@@ -1148,4 +1154,9 @@ body {
     margin-right: 20px;
     float: left;
   }
+}
+
+.test1 {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
