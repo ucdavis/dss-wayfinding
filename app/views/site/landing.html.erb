@@ -1,5 +1,63 @@
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
+  
+  <!-- phone view-->
+  <div class="container-fluid visible-xs-block top-margin">
+  <div class="row">
+  <div class="wayfinding-logo" style="padding-left: 0px;">
+    <img style="height: 35px;" src=<%= asset_path "icons/wayfinding-logo.png" %> >
+    <h4>Welcome to WAYFINDING</h4>
+  </div>
+  </div>
+  </div>
+  
+  <!-- tablet/desktop view -->
+  <div class="container-fluid hidden-xs">
+  <div class="row" style="margin-top:100px;">
+  <div class="wayfinding-logo">
+    <img src=<%= asset_path "icons/wayfinding-logo.png" %> >
+    <h1>Welcome to WAYFINDING</h1>
+  </div>
+  </div>
+  </div>
+
+  <div class="container-fluid visible-xs-block">
+  <div class="row" style="margin-top:70px;">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="input-group" style="width:100%">
+      <i class="glyphicon glyphicon glyphicon-share-alt search-icon" aria-hidden="true"></i>
+      <input type="text" class="form-control" placeholder="Set Your Current Location" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
+    </div>
+    <div class="input-group" style="width:100%">
+      <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
+      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;"">
+    </div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="container-fluid visible-xs-block">
+    <div class="row" style="margin-top:60px;">
+      <div class="col-xs-6 col-xs-offset-3">
+        <button type="button" class="btn btn-primary" style="width:100%">Let's Go</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- search-bar -->
+  <div class="container-fluid hidden-xs">
+  <div class="row" style="margin-top:80px;">
+  <div class="wayfinding-logo">
+    <div class="input-group" style="width:50%">
+      <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
+      <input type="text" class="form-control" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px;">
+    </div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="container-fluid hidden-xs">
+    <div class="row" style="margin-top:70px;">
   <div class="landing-div">
     <ul class="landing-ul">
       <li>
@@ -14,18 +72,20 @@
         <a href="/events"><img src=<%= asset_path "icons/events-btn.png" %> ></a>
         <span class="text-events">Events</span>
       </li>
-      <li>
+      <!-- <li>
         <a href="/rooms"><img src=<%= asset_path "icons/rooms-btn.png" %> ></a>
         <span class="text-rooms">Rooms</span>
-      </li>
+      </li> -->
       <li>
         <a href="/map"><img src=<%= asset_path "icons/map-btn.png" %> ></a>
         <span class="text-map">Map</span>
       </li>
       <li>
         <a href="/about"><img src=<%= asset_path "icons/about-btn.png" %> ></a>
-        <span class="text-about">About the building</span>
+        <span class="text-about">About</span>
       </li>
     </ul>
   </div>
+    </div>
+    </div>
 <% end %>

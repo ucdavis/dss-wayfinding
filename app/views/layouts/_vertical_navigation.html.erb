@@ -1,8 +1,18 @@
 <!--Toggeable hamburger menu-->
+<div class="container-fluid">
+<div class="content-center">
 <ul class="nav navbar-nav navbar-left btn-block">
+        <li>
+        <a href="">
+            <button type="button" class="btn btn-block" style="background:none;">
+				<img src=<%= asset_path "icons/home-btn.png" %> >
+                <span class="btn-text text-rooms">Home</span>
+            </button>
+        </a>
+    </li>
     <li>
         <a href="/people">
-            <button type="button" class="btn btn-block">
+            <button type="button" class="btn btn-block" style="background:none;">
 				<img src=<%= asset_path "icons/people-btn.png" %> >
                 <span class="btn-text text-people">People</span>
             </button>
@@ -10,7 +20,7 @@
     </li>
     <li>
         <a href="/departments">
-            <button type="button" class="btn btn-block">
+            <button type="button" class="btn btn-block" style="background:none;">
 				<img src=<%= asset_path "icons/departments-btn.png" %> >
                 <span class="btn-text text-departments">Departments</span>
             </button>
@@ -18,34 +28,28 @@
     </li>
     <li>
         <a href="/events">
-            <button type="button" class="btn btn-block">
+            <button type="button" class="btn btn-block" style="background:none;">
 				<img src=<%= asset_path "icons/events-btn.png" %> >
                 <span class="btn-text text-events">Events</span>
             </button>
         </a>
     </li>
     <li>
-        <a href="/rooms">
-            <button type="button" class="btn btn-block">
-				<img src=<%= asset_path "icons/rooms-btn.png" %> >
-                <span class="btn-text text-rooms">Rooms</span>
-            </button>
-        </a>
-    </li>
-    <li>
         <a href="/map">
-            <button type="button" class="btn btn-block">
+            <button type="button" class="btn btn-block" style="background:none;">
 				<img src=<%= asset_path "icons/map-btn.png" %> >
                 <span class="btn-text text-map">Map</span>
             </button>
         </a>
     </li>
-    <li>
+    <!-- <li>
         <a href="/about">
-            <button type="button" class="btn btn-block">
+            <button type="button" class="btn btn-block" style="background:none;">
 				<img src=<%= asset_path "icons/about-btn.png" %> >
                 <span class="btn-text text-about">About</span>
             </button>
         </a>
-    </li>
+    </li> -->
 </ul> <!-- toggle menu items -->
+</div>
+</div>
