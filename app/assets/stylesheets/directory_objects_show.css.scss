@@ -103,15 +103,16 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 90vw;
+  width: 30vw;
   overflow: auto;
   background-color: white;
 
   position: fixed;
-  top: 100px;
+  top: 0px;
   bottom: 100px;
   margin-bottom: 0;
   right: -3000px;
+  height: 100vh;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
@@ -614,7 +615,7 @@ ul li.room {
   position: fixed;
   right: 0;
   top: 0;
-  height: calc(100vh + 100px);
+  height: calc(100vh + 60px);
 
   ul.nav {
     position: relative;
@@ -822,11 +823,11 @@ body {
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
-  text-align: center; /* UL centered in this top div */
+  text-align: right; /* UL centered in this top div */
   padding-bottom: 0;
   z-index: 1;
   position: relative;
-
+  margin-right: 40px !important;
   ul {
     display: inline-block;
     padding: 0; /* Padding is non-zero by default */
@@ -834,12 +835,13 @@ body {
 
     li {
       display: inline-block;
-      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      //width: calc(100vw / 7); /* Spread evenly and leave some extra */
       max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
       padding-left: 0.5vw;
       padding-right: 0.5vw;
       padding-bottom: 0;
       padding-top: 0;
+      width: 50px;
 
       img { /* images will maintain aspect ratio => height of this div == width of li */
         width: 100%;
@@ -1006,10 +1008,13 @@ body {
 
 #viewing {
   text-align: center;
-  width: 100%;
-  height: 100%;
+  //width: 100%;
+  width: 95%;
+  height: 120%;
   position: relative;
   display: none;
+  border: 2px solid rgb(235, 235, 235);
+  top: 3%;
 }
 
 /* END MAP STYLING */
@@ -1019,6 +1024,7 @@ body {
 .navbar {
 	height: 9vh;
 	min-height: 10px;
+  z-index: 1;
 }
 
 .btn-navbar-main {  //home, search buttons
@@ -1133,6 +1139,11 @@ body {
 
 
 //new css
+
+#accessibility-nav{
+  top: 45px;
+  left: 5px;
+}
 
 #about-icon {
   font-size: 18pt;
