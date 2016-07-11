@@ -185,7 +185,7 @@ ul.vertical-nav {
   // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
-  padding-top: 7%;
+  padding-top: 5%;
 
   li {
     margin: 5px 1px 3vh;
@@ -943,6 +943,7 @@ body {
     }
   }
 }
+
 /* END LANDING */
 
 /* BEGIN MAP STYLING */
@@ -964,6 +965,20 @@ body {
     width: 95vw;
     height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
   }
+
+  .navbar-collapse img {
+    height: 11vh;
+  }
+
+.drop-down-portrait {
+  display: block;
+  } /* incon-size*/
+
+.drop-down-landscape {
+  display: none;
+  height: 100vh;
+  }
+
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
@@ -980,6 +995,19 @@ body {
     width: calc((2/1.1) * 58vh);
     height: 58vh;
   }
+
+  .navbar-collapse img {
+    height: 25vh;
+  } /* incon-size*/
+
+  .drop-down-portrait {
+  display: none;
+  }
+
+.drop-down-landscape {
+  display: block;
+  }
+
 }
 
 
@@ -1071,11 +1099,11 @@ body {
   max-height: 90vh;	//toggle menu max height
 }
 
-.navbar-collapse {
-	img {
-		height: 11vh;	//icon size
-	}
-}
+//.navbar-collapse {
+	//img {
+		//height: 11vh;	//icon size
+	//}
+//}
 
 //toggle menu button when pressed
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
@@ -1130,13 +1158,19 @@ body {
 	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     	padding-left: 2vh;
     	padding-right: 2vh;
+      
 	}
 
 	.btn.btn-block {
 		text-indent: 40%;
 	}
-}
 
+    .margin-left-120 {
+    width: calc(100% - 130px);
+    margin-left: 130px;
+  }
+
+}
 
 //new css
 
