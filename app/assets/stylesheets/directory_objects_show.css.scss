@@ -103,15 +103,16 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 90vw;
+  width: 30vw;
   overflow: auto;
   background-color: white;
 
   position: fixed;
-  top: 100px;
+  top: 0px;
   bottom: 100px;
   margin-bottom: 0;
   right: -3000px;
+  height: 100vh;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
@@ -180,27 +181,27 @@ ul.vertical-nav {
   position: fixed;
   list-style: none;
   text-align: center;
-  padding: 2vh 15px 0;
+  //padding: 2vh 15px 0;
   // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
+  padding-top: 5%;
 
   li {
-    margin: 5px 10px 5vh;
-
+    margin: 5px 1px 3vh;
     height: 11vh;
     width: 11vh;
     font-size: 1.8vh;
 
     a {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
       position: relative;
       text-align: center;
       border-radius: 50%;
       border: 7px solid #fff;
-      font-size: 3em;
+      font-size: 2.5em;
       box-shadow: 0px 3px 8px 0 rgba(0,0,0,.3);
 
       span {
@@ -213,7 +214,7 @@ ul.vertical-nav {
         width: 200%;
         text-align: center;
         margin-top: 2.65vh;
-        font-size: 0.3em;
+        font-size: 0.35em;
         line-height: 1em;
       }
 
@@ -349,7 +350,7 @@ ul.vertical-nav {
   height: 7%;
 }
 
-h1#directory-title {
+h2#directory-title {
   color: gray;
   text-transform: uppercase;
   margin: 1em 0.2em;
@@ -454,6 +455,27 @@ ul.directory-list {
 }
 
 /* Search interface styling below */
+.search-icon {
+  position: absolute !important;
+  z-index: 10;
+  top: 10px;
+  left: 10px;
+  color: gray;
+}
+
+.nav-search-icon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  color: gray;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .right-btn-container {
   position: fixed;
   z-index: 999;
@@ -568,9 +590,13 @@ ul li.room {
     background-color: white;
 }
 
+#scrubber-view #slider-vertical {
+  margin-right: 35px;
+}
+
 #slider-vertical li {
-    height: $vertical-slider-element-height;
-    padding: 0px 0px 0px 0px;
+  height: 21px; //$vertical-slider-element-height;
+  padding: 0px 0px 0px 0px;
 }
 
 #slider-vertical {
@@ -582,13 +608,14 @@ ul li.room {
 
 .nav > li > a {
     padding-top: 0px;
+    color: gray;
 }
 
 #scrubber-view {
   position: fixed;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: calc(100vh + 60px);
 
   ul.nav {
     position: relative;
@@ -610,9 +637,9 @@ table {
 
   tbody {
     tr.category-header > td {
-      font-size: 2em;
+      font-size: 1.5em;
       font-weight: bold;
-      border-top: 1px solid black;
+      //border-top: 1px solid black;
       margin-bottom: 30px;
       margin-top: 30px;
       float: left;
@@ -796,11 +823,11 @@ body {
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
-  text-align: center; /* UL centered in this top div */
+  text-align: right; /* UL centered in this top div */
   padding-bottom: 0;
   z-index: 1;
   position: relative;
-
+  margin-right: 40px !important;
   ul {
     display: inline-block;
     padding: 0; /* Padding is non-zero by default */
@@ -808,12 +835,13 @@ body {
 
     li {
       display: inline-block;
-      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      //width: calc(100vw / 7); /* Spread evenly and leave some extra */
       max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
       padding-left: 0.5vw;
       padding-right: 0.5vw;
       padding-bottom: 0;
       padding-top: 0;
+      width: 50px;
 
       img { /* images will maintain aspect ratio => height of this div == width of li */
         width: 100%;
@@ -870,8 +898,8 @@ body {
 
 /* BEGIN LANDING */
 .landing-div {
-  height: 90vh;
-  width: 100vw;
+  //height: 90vh;
+  //width: 100vw;
   text-align: center;
 }
 
@@ -879,30 +907,35 @@ body {
   margin: auto;
   height: 100%;
   display: inline-table;
+  padding: 0px;
 
   li { /* Holds links to rest of site */
     display: block;
     height: 15vh; /* containing div is 90vh, divide by 6 */
-    text-align: left;
+    //text-align: left;
     padding-top: 1vh;
     padding-bottom: 1vh;
+    float: left;
+    padding-right: 30px;
+    padding-left: 30px;
 
     a { /* Anchors hold button images */
       height: 100%;
       display: inline-block;
 
       img { /* Button imags scale to fit container */
-        height: 100%;
+        height: 80%;
         width: auto;
         display: inline-block;
       }
     }
 
     span { /* Can further style the text accompanying buttons */
-      display: inline-block;
+      display:block;
+      text-align: center;
     }
 
-  }  
+  }
 
   &.safari-mobile-compatibility {
     li {
@@ -910,6 +943,7 @@ body {
     }
   }
 }
+
 /* END LANDING */
 
 /* BEGIN MAP STYLING */
@@ -923,11 +957,28 @@ body {
   #myCanvas {
     width: 95vw;
   }
+    .top-margin {
+      margin-top: 20%;
+  }
 
   #svgImage {
     width: 95vw;
     height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
   }
+
+  .navbar-collapse img {
+    height: 11vh;
+  }
+
+.drop-down-portrait {
+  display: block;
+  } /* incon-size*/
+
+.drop-down-landscape {
+  display: none;
+  height: 100vh;
+  }
+
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
@@ -936,10 +987,27 @@ body {
     width: calc((2/1.1) * 58vh);
   }
 
+  .top-margin {
+      margin-top: 10%;
+  }
+
   #svgImage {
     width: calc((2/1.1) * 58vh);
     height: 58vh;
   }
+
+  .navbar-collapse img {
+    height: 25vh;
+  } /* incon-size*/
+
+  .drop-down-portrait {
+  display: none;
+  }
+
+.drop-down-landscape {
+  display: block;
+  }
+
 }
 
 
@@ -968,10 +1036,13 @@ body {
 
 #viewing {
   text-align: center;
-  width: 100%;
-  height: 100%;
+  //width: 100%;
+  width: 95%;
+  height: 120%;
   position: relative;
   display: none;
+  border: 2px solid rgb(235, 235, 235);
+  top: 3%;
 }
 
 /* END MAP STYLING */
@@ -981,8 +1052,7 @@ body {
 .navbar {
 	height: 9vh;
 	min-height: 10px;
-	background-color: rgba(235,235,235,1);
-	border-color: #D6D6D6;
+  z-index: 1;
 }
 
 .btn-navbar-main {  //home, search buttons
@@ -992,12 +1062,12 @@ body {
 }
 
 .btn-logout-nav {
-	height: 7.5vh;
+    height: 7.5vh;
     margin: .75vh;
     padding: 1vh;
     float: right;
     border-radius: 4px;
-    background-color: #CCCCCC;
+    //background-color: #CCCCCC;
 }
 
 .text-logout { //toggle menu admin-logout text size
@@ -1006,14 +1076,15 @@ body {
 
 
 .btn-text { //toggle menu list text size
-  font-size: 1.25em;
+  font-size: 0.9em;
 }
 
 .btn.btn-block {
-	text-align: left;
-	text-indent: 35%;
-	width: 93vw;
-    background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+	text-align: center;
+	//text-indent: 35%;
+	//width: 93vw;
+  //background: rgba(255, 255, 255, 0.8);	//colors toggle menu buttons
+  span {display: block;}
 }
 
 .navbar-toggle .icon-bar {
@@ -1028,15 +1099,14 @@ body {
   max-height: 90vh;	//toggle menu max height
 }
 
-.navbar-collapse {
-	img {
-		height: 7.5vh;	//icon size
-	}
-}
+//.navbar-collapse {
+	//img {
+		//height: 11vh;	//icon size
+	//}
+//}
 
 //toggle menu button when pressed
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #CCCCCC
 }
 
 //BEGIN: STOP NAVBAR MENU FROM COLLAPSING WHEN BUTTON PRESSED
@@ -1047,20 +1117,20 @@ body {
 	}
 }
 .navbar-toggle {
-	display: block;
+    display: block;
     padding: .5vh;
     margin-right: 1vh;
     margin-left: .5vh;
     margin-top: 1vh;
     height: 7vh;
-    width: 7vh;
-    background-color: #CCCCCC;		//toggle menu button
+    //width: 7vh;
+    //background-color: #CCCCCC;		//toggle menu button
 }
 .navbar-collapse {
     border-top: 1px solid transparent;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    //box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     max-height: 100%;
-	background-color: rgba(180,180,180,.5);	//transparent toggle menu
+	//background-color: rgba(180,180,180,.5);	//transparent toggle menu
 }
 .navbar-collapse.collapse {
     display: none!important;
@@ -1088,9 +1158,50 @@ body {
 	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     	padding-left: 2vh;
     	padding-right: 2vh;
+      
 	}
 
 	.btn.btn-block {
 		text-indent: 40%;
 	}
+
+    .margin-left-120 {
+    width: calc(100% - 130px);
+    margin-left: 130px;
+  }
+
+}
+
+//new css
+
+#accessibility-nav{
+  top: 45px;
+  left: 5px;
+}
+
+#about-icon {
+  font-size: 18pt;
+}
+.nav-icon {
+  font-size: 15pt;
+  color: gray;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+}
+
+.wayfinding-logo {
+  display: flex;
+  justify-content: center;
+  img {
+    margin-right: 20px;
+    float: left;
+  }
+}
+
+.test1 {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }

@@ -5460,13 +5460,13 @@ tbody.collapse.in {
 }
 
 /* line 394, /home/lloyd/workspace/dss-wayfinding/vendor/assets/stylesheets/bootstrap/_navbar.scss */
-.navbar-default {
+/*.navbar-default {
   background-color: #f8f8f8;
-  border-color: #e7e7e7;
+  border-color: #e7e7e7;*/
 }
 /* line 398, /home/lloyd/workspace/dss-wayfinding/vendor/assets/stylesheets/bootstrap/_navbar.scss */
-.navbar-default .navbar-brand {
-  color: #777777;
+/*.navbar-default .navbar-brand {
+  color: #777777;*/
 }
 /* line 401, /home/lloyd/workspace/dss-wayfinding/vendor/assets/stylesheets/bootstrap/_navbar.scss */
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
