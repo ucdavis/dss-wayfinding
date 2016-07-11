@@ -1,14 +1,14 @@
 <% cache directory_object do %>
   <!-- Generate Initial Anchor -->
   <% if @initial_category == false %>
-      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>" ><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
+      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>" style="margin: 0px; background-color: #EBEBEB;" ><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
       <% @initial_category = true %>
   <% end %>
 
   <!-- Generate Category Anchors -->
   <% while directory_object.last.first.upcase != @scrubber_categories[@scrubber_category_index] do %>
       <% @scrubber_category_index += 1 %>
-      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
+      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>" style="margin: 0px; background-color: #EBEBEB;"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
   <% end %>
 
   <!-- Generate a row for a person -->
