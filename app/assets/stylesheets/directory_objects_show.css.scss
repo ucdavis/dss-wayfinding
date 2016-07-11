@@ -103,15 +103,16 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  width: 90vw;
+  width: 30vw;
   overflow: auto;
   background-color: white;
 
   position: fixed;
-  top: 100px;
+  top: 0px;
   bottom: 100px;
   margin-bottom: 0;
   right: -3000px;
+  height: 100vh;
 
   border: none;
   box-shadow: 0 20px 100px 0 rgba(0,0,0,.2);
@@ -180,10 +181,11 @@ ul.vertical-nav {
   position: fixed;
   list-style: none;
   text-align: center;
-  padding: 2vh 15px 0;
+  //padding: 2vh 15px 0;
   // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
+  padding-top: 5%;
 
   li {
     margin: 5px 1px 3vh;
@@ -348,7 +350,7 @@ ul.vertical-nav {
   height: 7%;
 }
 
-h1#directory-title {
+h2#directory-title {
   color: gray;
   text-transform: uppercase;
   margin: 1em 0.2em;
@@ -588,9 +590,13 @@ ul li.room {
     background-color: white;
 }
 
+#scrubber-view #slider-vertical {
+  margin-right: 35px;
+}
+
 #slider-vertical li {
-    height: $vertical-slider-element-height;
-    padding: 0px 0px 0px 0px;
+  height: 21px; //$vertical-slider-element-height;
+  padding: 0px 0px 0px 0px;
 }
 
 #slider-vertical {
@@ -602,13 +608,14 @@ ul li.room {
 
 .nav > li > a {
     padding-top: 0px;
+    color: gray;
 }
 
 #scrubber-view {
   position: fixed;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: calc(100vh + 60px);
 
   ul.nav {
     position: relative;
@@ -630,9 +637,9 @@ table {
 
   tbody {
     tr.category-header > td {
-      font-size: 2em;
+      font-size: 1.5em;
       font-weight: bold;
-      border-top: 1px solid black;
+      //border-top: 1px solid black;
       margin-bottom: 30px;
       margin-top: 30px;
       float: left;
@@ -816,11 +823,11 @@ body {
 
 /* Scale font size, line height, active, etc based on screen size */
 .floor-nav {
-  text-align: center; /* UL centered in this top div */
+  text-align: right; /* UL centered in this top div */
   padding-bottom: 0;
   z-index: 1;
   position: relative;
-
+  margin-right: 40px !important;
   ul {
     display: inline-block;
     padding: 0; /* Padding is non-zero by default */
@@ -828,12 +835,13 @@ body {
 
     li {
       display: inline-block;
-      width: calc(100vw / 7); /* Spread evenly and leave some extra */
+      //width: calc(100vw / 7); /* Spread evenly and leave some extra */
       max-width: 15vh; /* Only occurs when device is wider than tall (iPad)*/
       padding-left: 0.5vw;
       padding-right: 0.5vw;
       padding-bottom: 0;
       padding-top: 0;
+      width: 50px;
 
       img { /* images will maintain aspect ratio => height of this div == width of li */
         width: 100%;
@@ -935,6 +943,7 @@ body {
     }
   }
 }
+
 /* END LANDING */
 
 /* BEGIN MAP STYLING */
@@ -956,6 +965,20 @@ body {
     width: 95vw;
     height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
   }
+
+  .navbar-collapse img {
+    height: 11vh;
+  }
+
+.drop-down-portrait {
+  display: block;
+  } /* incon-size*/
+
+.drop-down-landscape {
+  display: none;
+  height: 100vh;
+  }
+
 }
 
 /* Aspect ratio > 1 => landscape or monitor */
@@ -972,6 +995,19 @@ body {
     width: calc((2/1.1) * 58vh);
     height: 58vh;
   }
+
+  .navbar-collapse img {
+    height: 25vh;
+  } /* incon-size*/
+
+  .drop-down-portrait {
+  display: none;
+  }
+
+.drop-down-landscape {
+  display: block;
+  }
+
 }
 
 
@@ -1000,10 +1036,13 @@ body {
 
 #viewing {
   text-align: center;
-  width: 100%;
-  height: 100%;
+  //width: 100%;
+  width: 95%;
+  height: 120%;
   position: relative;
   display: none;
+  border: 2px solid rgb(235, 235, 235);
+  top: 3%;
 }
 
 /* END MAP STYLING */
@@ -1013,6 +1052,7 @@ body {
 .navbar {
 	height: 9vh;
 	min-height: 10px;
+  z-index: 1;
 }
 
 .btn-navbar-main {  //home, search buttons
@@ -1059,11 +1099,11 @@ body {
   max-height: 90vh;	//toggle menu max height
 }
 
-.navbar-collapse {
-	img {
-		height: 11vh;	//icon size
-	}
-}
+//.navbar-collapse {
+	//img {
+		//height: 11vh;	//icon size
+	//}
+//}
 
 //toggle menu button when pressed
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
@@ -1118,15 +1158,26 @@ body {
 	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     	padding-left: 2vh;
     	padding-right: 2vh;
+      
 	}
 
 	.btn.btn-block {
 		text-indent: 40%;
 	}
+
+    .margin-left-120 {
+    width: calc(100% - 130px);
+    margin-left: 130px;
+  }
+
 }
 
-
 //new css
+
+#accessibility-nav{
+  top: 45px;
+  left: 5px;
+}
 
 #about-icon {
   font-size: 18pt;
@@ -1148,4 +1199,9 @@ body {
     margin-right: 20px;
     float: left;
   }
+}
+
+.test1 {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
