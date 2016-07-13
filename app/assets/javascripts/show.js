@@ -40,31 +40,7 @@ var lineColor = "#FF00FF";  //color of line to draw for routes
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
-  for (var i = 0; i < 6; i = i+1){
-    can[i] = document.createElement('canvas');
-    can[i].width = floors[i].width;
-    can[i].height = floors[i].height;
 
-    con[i] = can[i].getContext('2d');
-    con[i].lineWidth = lineWidth;
-    con[i].strokeStyle = lineColor;
-    con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width,
-                     floors[i].height);
-    bases[i] = {x: $("#floor" + i + " svg").attr("x"),y:$("#floor" + i + " svg").attr("y")};
-    bases[i].x = parseFloat(bases[i].x);
-    bases[i].y = parseFloat(bases[i].y);
-    views[i] = $("#floor" + i + " svg").attr("viewbox").split(" ");
-
-    for (var j = 0; j < 4; j++)
-      views[i][j] = parseFloat(views[i][j]);
-  }
-  c = document.getElementById("myCanvas");
-  ctx = c.getContext("2d");
-  c.width = parseInt($('#myCanvas').css('width'));
-  $('#myCanvas').css('height', function(){
-    return c.width * floors[currentFloor].height/floors[currentFloor].width;
-  });
-  c.height = parseInt($('#myCanvas').css('height'));
   addListeners();
   initialDraw();
 }
@@ -81,12 +57,12 @@ function addListeners(){
 function initialDraw(){
   $("#mapLoading").remove();
   $('#floor'+currentFloor).css("display", "inline");
-  $("div.floor svg").attr({"width":c.width,"height":c.height});
-  $("div.floor svg").css({"width":c.width,"height":c.height});
+  // $("div.floor svg").attr({"width":c.width,"height":c.height});
+  // $("div.floor svg").css({"width":c.width,"height":c.height});
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
-  ctx.clearRect(0,0,c.height,c.width);
-  ctx.drawImage(can[currentFloor],0,0,can[currentFloor].width,
-                can[currentFloor].height,0,0,c.width,c.height);
+  // ctx.clearRect(0,0,c.height,c.width);
+  // ctx.drawImage(can[currentFloor],0,0,can[currentFloor].width,
+                // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
   //if destination was included in page call, run routing function
   if (routeTrigger == true)

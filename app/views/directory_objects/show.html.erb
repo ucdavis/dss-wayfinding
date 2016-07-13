@@ -10,11 +10,8 @@
       function loadImage(){
         var imageLoading = true;
         for (var i = 0; i < 6; i++){
-          src = "/maps/floor" + i + ".svg";
-          floors[i] = new Image();
-          floors[i].onload = loader;
-          floors[i].onerror = loadFailed;
-          floors[i].src= src;
+          loadFloor(i);
+          loader();
         }
 
         function loader() {
@@ -23,6 +20,33 @@
           } else if (imageLoading) {
             rails();
           }
+        }
+
+        function loadFloor(floorNumber) {
+          let floorID = "floor" + floorNumber;
+          $('<svg id="' + floorID + '" style="display: none;" class="floor"></svg>').appendTo($("#svgImage"));
+          $.ajax({
+            url: "/maps/floor" + floorNumber + ".svg",
+            type: "GET",
+            dataType: "text",
+            success: function(data) {
+              $(data).appendTo($("#floor" + floorNumber));
+              $.ajax({
+                url: "/maps/data-floor" + floorNumber + ".svg",
+                type: "GET",
+                dataType: "text",
+                success: function(data) {
+                  $(data).appendTo($("#floor" + floorNumber));
+                },
+                error: function(data) {
+                  loadFailed();
+                }
+              });
+            },
+            error: function(data) {
+              loadFailed();
+            }
+          });
         }
 
         function loadFailed(){
@@ -70,17 +94,17 @@
       //by toggling floor display value, and svg dimensions.
       function setVisibilities(){
         $("svg").css("pointer-events", "auto");
-        $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
-        $("#Rooms a").find('*').css("pointer-events", "auto");
-        $(".floor").css("display", "none");
-        $(".floor").find('*').css("display", "none");
-        $("svg").attr({"height":"350","width":"650"});
-        $(".floor svg").css("display", "inline");
-        $(".floor svg").find('#Rooms').css("display", "inline");
-        $(".floor svg #data_layer").css("display", "inline");
-        $(".floor svg #data_x5F_layer").css("display", "inline");
-        $(".floor svg #Rooms").find('*').css("display", "inline");
-        $(".floor svg #Paths").find('*').css("display", "inline");
+        // $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
+        // $("#Rooms a").find('*').css("pointer-events", "auto");
+        // $(".floor").css("display", "none");
+        // $(".floor").find('*').css("display", "none");
+        // // $("svg").attr({"height":"350","width":"650"});
+        // $(".floor").css("display", "inline");
+        // $(".floor").find('#Rooms').css("display", "inline");
+        // $(".floor #data_layer").css("display", "inline");
+        // $(".floor #data_x5F_layer").css("display", "inline");
+        // $(".floor #Rooms").find('*').css("display", "inline");
+        // $(".floor #Paths").find('*').css("display", "inline");
         $(".startPin").css({"display":"inline","opacity":"1.0"});
         $("#viewing").css("display", "block");
         onLoad();
@@ -133,9 +157,8 @@
   <div class="row">
     <div id="map">
       <div id="viewing">
-        <canvas id="myCanvas">
-        </canvas>
-        <div id="svgImage"></div>
+        <svg id="svgImage">
+        </svg>
       </div>
 
       <div id="mapLoading">
