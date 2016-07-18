@@ -72,9 +72,9 @@
             result, // used to return non jQuery results
             idToIndex = {}, // maps floor IDs to an index used by the datastore
             drawing;
-        //Takes x and y coordinates and makes a location indicating pin for those
-        //coordinates. Returns the pin element, not yet attached to the DOM.
 
+        //Takes x and y coordinates and makes a location indicating pin for those
+        //coordinates. Returns the pin element, not yet attached to the DOM.)
         function makePin(x, y, type) {
             var indicator,
             height,

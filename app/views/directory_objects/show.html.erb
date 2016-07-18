@@ -69,11 +69,16 @@
                          "/maps/floor2.svg",
                          "/maps/floor3.svg",
                          "/maps/floor4.svg",
-                         "/maps/floor5.svg"]
+                         "/maps/floor5.svg",
+                         "/maps/data-floor0.svg",
+                         "/maps/data-floor1.svg",
+                         "/maps/data-floor2.svg",
+                         "/maps/data-floor3.svg",
+                         "/maps/data-floor4.svg",
+                         "/maps/data-floor5.svg"]
         %>
 
         <%= wayfinding_plugin(@svg_paths, @origin, @dest,) %>
-
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
         wait();

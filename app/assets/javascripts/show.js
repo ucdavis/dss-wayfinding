@@ -400,10 +400,10 @@ function updateViewBox(){
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
-  $("#floor" + newFloor + " svg").attr("viewbox", function(){
-    return (views[newFloor][0] + " " + views[newFloor][1] + "  " +
-            views[newFloor][2] + " " + views[newFloor][3]);
-  });
+  // $("#floor" + newFloor + " svg").attr("viewbox", function(){
+  //   return (views[newFloor][0] + " " + views[newFloor][1] + "  " +
+  //           views[newFloor][2] + " " + views[newFloor][3]);
+  // });
 }
 
 //attaches listeners
