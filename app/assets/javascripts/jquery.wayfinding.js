@@ -139,8 +139,6 @@
             if (options.showLocation) {
                 start = $('#Doors #' + startpoint, el);
 
-                console.log("el + " + el);
-                console.log(el);
                 var startMap = el.children().has($('#' + startpoint));
                 attachPinLocation = $('svg', startMap).children().last();
                 if (start.length) {
@@ -148,9 +146,6 @@
                     y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
 
                     pin = makePin(x, y, 'startPin');
-                    console.log("pin is: ");
-                    console.log(pin);
-
                     attachPinLocation.after(pin);
                 } else {
                     return; //startpoint does not exist
@@ -320,9 +315,6 @@
                             // All SVGs have finished loading
                             establishDataStore(options.accessibleRoute, function() {
                                 // SVGs are loaded, dataStore is set, ready the DOM
-                                console.log("Setting startpoint at === ");
-                                console.log(options.startpoint);
-                                console.log(obj);
                                 setStartPoint(options.startpoint, obj);
                                 setOptions(obj);
                                 endInit();
