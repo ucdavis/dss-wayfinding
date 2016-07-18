@@ -55,6 +55,7 @@ function addListeners(){
 
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
 function initialDraw(){
+  console.log("initial draw");
   $("#mapLoading").remove();
   $('#floor'+currentFloor).css("display", "inline");
   // $("div.floor svg").attr({"width":c.width,"height":c.height});
