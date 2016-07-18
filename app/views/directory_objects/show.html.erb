@@ -10,7 +10,7 @@
       function loadImage(){
         var imageLoading = true;
         for (var i = 0; i < 6; i++){
-          loadFloor(i);
+          // loadFloor(i);
           loader();
         }
 
@@ -69,13 +69,7 @@
                          "/maps/floor2.svg",
                          "/maps/floor3.svg",
                          "/maps/floor4.svg",
-                         "/maps/floor5.svg",
-                         "/maps/data-floor0.svg",
-                         "/maps/data-floor1.svg",
-                         "/maps/data-floor2.svg",
-                         "/maps/data-floor3.svg",
-                         "/maps/data-floor4.svg",
-                         "/maps/data-floor5.svg"]
+                         "/maps/floor5.svg"]
         %>
 
         <%= wayfinding_plugin(@svg_paths, @origin, @dest,) %>
@@ -100,14 +94,12 @@
       function setVisibilities(){
         $("svg").css("pointer-events", "auto");
         // $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
-        // $("#Rooms a").find('*').css("pointer-events", "auto");
+        $("#Rooms a").find('*').css("pointer-events", "auto");
         // $(".floor").css("display", "none");
         // $(".floor").find('*').css("display", "none");
-        // // $("svg").attr({"height":"350","width":"650"});
         // $(".floor").css("display", "inline");
         // $(".floor").find('#Rooms').css("display", "inline");
         // $(".floor #data_layer").css("display", "inline");
-        // $(".floor #data_x5F_layer").css("display", "inline");
         // $(".floor #Rooms").find('*').css("display", "inline");
         // $(".floor #Paths").find('*').css("display", "inline");
         $(".startPin").css({"display":"inline","opacity":"1.0"});

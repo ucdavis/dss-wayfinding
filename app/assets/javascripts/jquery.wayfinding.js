@@ -278,8 +278,7 @@
             var mapsProcessed = 0;
             // Load SVGs off the network
             $.each(maps, function (i, map) {
-                var svgDiv = $('<div id="' + map.id + '" class="floor"><\/div>');
-
+                var svgDiv = $('<svg id="' + map.id + '" class="floor"><\/div>');
                 idToIndex[map.id] = i;
 
                 //create svg in that div
@@ -292,11 +291,23 @@
                                 // + map.path +
                             maps[i].el = svgDiv;
                         }
+
                         maps[i].svgHandle = svg;
                         maps[i].el = svgDiv;
 
                         WayfindingDataStore.cleanupSVG(maps[i].el);
                         $(obj).append(svgDiv);
+
+                        $.ajax({
+                          url: "/maps/data-floor" + i + ".svg",
+                          type: "GET",
+                          dataType: "html",
+                          async: false,
+                          success: function(dataSVG, status, xhr) {
+                            WayfindingDataStore.cleanupSVG(dataSVG);
+                            $(dataSVG).appendTo(svgDiv);
+                          }
+                        });
 
                         mapsProcessed = mapsProcessed + 1;
 
