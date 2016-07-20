@@ -70,21 +70,27 @@ function initialDraw(){
 }
 
 // Draw SVG route
-function drawSVGRoute() {
+function drawSVGRoute(solution) {
   // L draws a line from origin to x y coordinates
   // M moves the origin to x y coordinates
   // <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
-  console.log(drawing);
-  let stringPath = '<path d="';
-  for(let i = 0; i < drawing[0].length; i++) {
-    let command = drawing[0][i].type + drawing[0][i].x + " " + drawing[0][i].y + " ";
-    stringPath += command;
+  console.log("IN drawSVGRoute");
+  console.log(solution);
+  for(let i in solution) {
+    let floorID = "#floor" + solution[i].floor + " #Paths";
+    let segment = solution[i].segment;
+    // console.log(solution[i].segment);
+    $(floorID).children()[segment].style = {opacity: "1"};
   }
-  stringPath += 'Z"\/>';
-
-  $('<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />').appendTo($("#floor1"));
-
-  console.log(stringPath);
+  // let stringPath = '<svg><path d="';
+  // for(let i = 0; i < drawing[0].length; i++) {
+  //   let command = drawing[0][i].type + drawing[0][i].x + " " + drawing[0][i].y + " ";
+  //   stringPath += command;
+  // }
+  // stringPath += 'Z"\/ style="stroke:rgb(255,0,0);stroke-width:2"></svg>';
+  // console.log(stringPath);
+  //
+  // $("#floor1 #Paths").children()[398].style = {opacity: "1"};
 }
 
 

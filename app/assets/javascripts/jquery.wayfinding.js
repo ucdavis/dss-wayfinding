@@ -968,11 +968,13 @@
                     console.error('Did you forget to include emscripten.pathfinding.js?');
                     error = true;
                 }
-                
+
+                let object = {};
                 console.log("pathResult is ");
                 for (let index = pathResult.size() - 1; index >= 0; index--) {
-                  console.log(pathResult.get(index));
+                  object[index] = pathResult.get(index);
                 }
+                console.log(object);
                 // console.log(pathResult.get(pathResult.size() - 1));
                 // return pathResult;
 
@@ -1049,6 +1051,9 @@
                         return;
                     }
 
+                    console.log("Returning Solution");
+                    drawSVGRoute(solution);
+                    return solution;
                     checkIfConnectionAtx1y1(startDoor, solution[0]);
                     var lineFromDatastore = WayfindingDataStore.dataStore[solution[0].type]
                                                        [solution[0].floor]
@@ -1090,7 +1095,12 @@
                     }
 
                     lastStep = 1;
-
+                    console.log("lineFromDatastore");
+                    console.log(lineFromDatastore);
+                    console.log("draw");
+                    console.log(draw);
+                    console.log("drawing");
+                    console.log(drawing);
                     // for each floor that we have to deal with
                     for (i = 0; i < portalsEntered + 1; i++) {
                         for (stepNum = lastStep; stepNum < solution.length; stepNum++) {
