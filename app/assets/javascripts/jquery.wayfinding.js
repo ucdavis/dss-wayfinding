@@ -968,6 +968,13 @@
                     console.error('Did you forget to include emscripten.pathfinding.js?');
                     error = true;
                 }
+                
+                console.log("pathResult is ");
+                for (let index = pathResult.size() - 1; index >= 0; index--) {
+                  console.log(pathResult.get(index));
+                }
+                // console.log(pathResult.get(pathResult.size() - 1));
+                // return pathResult;
 
                 if (!error)
                 {

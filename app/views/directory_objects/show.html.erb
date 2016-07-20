@@ -98,6 +98,9 @@
         // $(".floor").css("display", "none");
         $(".floor").css("display", "none");
         // $(".floor").find('#Rooms').css("display", "inline");
+        $(".floor #data_layer").css("opacity", "1");
+        $(".floor #data_layer").children().css("opacity", "1");
+        $(".floor #data_layer").children().children().css("opacity", "0");
         $(".floor #data_layer").css("display", "inline");
         $(".floor #Rooms").find('*').css("display", "inline");
         $(".floor #Paths").find('*').css("display", "inline");

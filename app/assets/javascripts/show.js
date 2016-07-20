@@ -69,6 +69,27 @@ function initialDraw(){
     $(document).trigger('show:roomClick', {room_id: destination});
 }
 
+// Draw SVG route
+function drawSVGRoute() {
+  // L draws a line from origin to x y coordinates
+  // M moves the origin to x y coordinates
+  // <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+  console.log(drawing);
+  let stringPath = '<path d="';
+  for(let i = 0; i < drawing[0].length; i++) {
+    let command = drawing[0][i].type + drawing[0][i].x + " " + drawing[0][i].y + " ";
+    stringPath += command;
+  }
+  stringPath += 'Z"\/>';
+
+  $('<line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />').appendTo($("#floor1"));
+
+  console.log(stringPath);
+}
+
+
+
+
 // Collection of all route drawing functions
 function drawRoute() {
   var changeFloorPause = 1000;        //time to wait before changing floors during a route
@@ -104,6 +125,7 @@ function drawRoute() {
 
   //sets up starting values for each route, changes classes as necessary
   function beginRoute() {
+    console.log(drawing);
     currentSet = 0
     currentEntry = 0;
     animating = true;
@@ -112,11 +134,11 @@ function drawRoute() {
     $("a.btn-floor").removeClass("destination");
     $("#flr-btn" + drawing[drawing.length - 1][0].floor).addClass("destination");
     //restores internal canvases to default floor images
-    for (var i = 0; i < 6; i++){
-      con[i].clearRect(0,0,can[i].width,can[i].height);
-      con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width,
-                       floors[i].height);
-    }
+    // for (var i = 0; i < 6; i++){
+    //   con[i].clearRect(0,0,can[i].width,can[i].height);
+    //   con[i].drawImage(floors[i], 0, 0, floors[i].width, floors[i].height, 0, 0, floors[i].width,
+    //                    floors[i].height);
+    // }
 
     //starts at full size on floor change
     if (parseInt(drawing[0][0].floor) != currentFloor){
@@ -130,15 +152,15 @@ function drawRoute() {
 
     //changes floors if necessary
     //sets up the canvas for line drawing
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
+    // ctx.lineWidth = lineWidth;
+    // ctx.strokeStyle = lineColor;
 
     //change active floor icon
     $("a.btn-floor").removeClass("active");
     $("#flr-btn" + currentFloor).addClass("active");
     //clear canvas and draw floor
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor], shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom, 0, 0, c.width,c.height);
+    // ctx.clearRect(0,0,c.width,c.height);
+    // ctx.drawImage(can[currentFloor], shiftX,shiftY,can[currentFloor].width/currentZoom, can[currentFloor].height/currentZoom, 0, 0, c.width,c.height);
     //calculate and set starting point drawing
     currentX = parseFloat(drawing[0][0].x - views[currentFloor][0])
                           *floors[currentFloor].width/views[currentFloor][2] + bases[currentFloor].x;
@@ -471,7 +493,8 @@ function begin(){
           showInfo(data);
         });
 
-        drawRoute();
+        // drawRoute();
+        drawSVGRoute();
       }
     }
   });
