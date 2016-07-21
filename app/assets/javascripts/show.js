@@ -426,6 +426,7 @@ function updateViewBox(){
 
 //changes the svg displayed
 function changeSVGFloor(newFloor){
+  console.log("Changing floor " + currentFloor + " to floor " + newFloor);
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
   // $("#floor" + newFloor + " svg").attr("viewbox", function(){
@@ -527,6 +528,7 @@ function begin(){
   });
 
   $(document).on('show:floorChange', function(e, data){
+    console.log("Changing floors");
     var next = parseInt(data.floor_id.substr(7,7));
     changeSVGFloor(next);
     $("#flr-btn" + currentFloor).removeClass("active");

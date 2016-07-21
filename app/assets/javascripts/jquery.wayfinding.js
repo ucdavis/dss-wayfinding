@@ -348,9 +348,13 @@
 
         // Called when animatePath() is switching the floor and also when
         function switchFloor(floor, el) {
-            $('div', el).hide();
-
-            $('#' + floor, el).show(0, function() {
+            // $('div', el).hide();
+            debugger;
+            changeSVGFloor(floor);
+            let trigger = '#' + floor;
+            console.log("showing " + trigger);
+            $(trigger, el).show(0, function() {
+              console.log("TRIGGERING");
                 $(el).trigger('wayfinding:floorChanged', { map_id: floor });
             });
 
