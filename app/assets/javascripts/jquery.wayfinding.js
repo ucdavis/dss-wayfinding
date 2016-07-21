@@ -437,7 +437,6 @@
 
             drawLength = drawing[drawingSegment].routeLength;
             animationDuration = drawLength * options.path.speed;
-
             switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
             // Get the complete path for this particular floor-route
@@ -1259,7 +1258,6 @@
 
                     });
 
-                    animatePath(drawing, 0);
                     return drawing;
                     //animatePath(0);
 

@@ -499,8 +499,7 @@ function begin(){
           showInfo(data);
         });
 
-        // drawRoute();
-        drawSVGRoute();
+        $("#svgImage").wayfinding('animatePath');
       }
     }
   });
@@ -533,18 +532,6 @@ function begin(){
     $("#flr-btn" + currentFloor).removeClass("active");
     currentFloor = next;
     $("#flr-btn" + currentFloor).addClass("active");
-    shiftX = 0;
-    shiftY = 0;
-    currentZoom = 1;
-    shiftXMax = 0;
-    shiftYMax = 0;
-    c.height = c.width *floors[currentFloor].height/floors[currentFloor].width;
-    $("#floor" + currentFloor + " svg").attr({"height":c.height,"width":c.width});
-    $("#floor" + currentFloor + " svg").css({"height":c.height,"width":c.width});
-    $("#myCanvas").css("height",c.height);
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor],shiftX,shiftY,floors[currentFloor].width/currentZoom,
-                  floors[currentFloor].height/currentZoom,0,0,c.width,c.height);
   });
 
   $('.replay').click(function(e) {
