@@ -148,7 +148,27 @@
     </div>
   </div>
 
-  <div class="row">
+
+<!-- portrait accessibility-nav -->
+<div class="row portrait-accessbility-nav">
+  <div class="floor-nav pull-left" id="accessibility-nav">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src="/accessButton.png" class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src="/repeatButton.png" class="img-fill">
+          </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- landscape accessibility-nav -->
+  <div class="row landscape-accessbility-nav">
     <div class="floor-nav pull-left" id="accessibility-nav">
       <ul>
         <li>
@@ -166,9 +186,36 @@
   </div>
 
 <div id="destination-view">
-  <i class="btn-min-max icon-right-arrow min-max"></i>
+  <i class="btn-min-max icon-right-arrow min-max expand-arrow-icon"></i>
   <h1 style="margin-top: 0px; padding-top: 10px; padding-bottom: 10px;">Destination</h1>
 </div>
+
+<!-- start/destination input -->
+ <div class="container-fluid visible-xs-block padding-none">
+  <div style="margin-top:10%;">
+  <div class="flex-box">
+    <div class="input-group flex-box--width--100">
+      <i class="glyphicon glyphicon glyphicon-share-alt search-icon" aria-hidden="true"></i>
+      <input type="text" class="form-control" placeholder="Set Your Current Location" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
+    </div>
+    <div class="input-group flex-box--width--100">
+      <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
+      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;"">
+    </div>
+  </div>
+  </div>
+  </div>
+
+<!-- destination submit   button -->
+  <div class="container-fluid visible-xs-block">
+    <div class="flex-box">
+      <div class="flex-box--width--20"></div>
+      <div class="flex-box--width--60">
+        <button type="button" class="btn btn-primary" style="width:100%; margin-bottom: 50px;">Let's Go</button>
+      </div>
+      <div class="flex-box--width--20"></div>
+    </div>
+  </div>
 
 <style>
 </style>

@@ -6,18 +6,14 @@
 </script>
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
-
   <!-- phone view-->
+  <!-- phone view header -->
   <div class="container-fluid visible-xs-block top-margin">
-  <div class="row">
   <div class="wayfinding-logo" style="padding-left: 0px;">
     <img style="height: 35px;" src=<%= asset_path "icons/wayfinding-logo.png" %> >
     <h4>Welcome to WAYFINDING</h4>
   </div>
   </div>
-  </div>
-
-  <!-- tablet/desktop view -->
   <div class="container-fluid hidden-xs">
   <div class="row" style="margin-top:100px;">
   <div class="wayfinding-logo">
@@ -28,14 +24,15 @@
   </div>
 
 <!-- phone view search -->
+<!-- phone view search-destination -->
   <div class="container-fluid visible-xs-block">
-  <div class="row" style="margin-top:70px;">
-  <div class="col-sm-6 col-sm-offset-3">
-    <div class="input-group" style="width:100%">
+  <div style="margin-top:15%;">
+  <div class="flex-box">
+    <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon glyphicon-share-alt search-icon" aria-hidden="true"></i>
       <input type="text" class="form-control" placeholder="Set Your Current Location" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
     </div>
-    <div class="input-group" style="width:100%">
+    <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
       <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
     </div>
@@ -43,17 +40,21 @@
   </div>
   </div>
 
+<!-- destination submit   button -->
   <div class="container-fluid visible-xs-block">
-    <div class="row" style="margin-top:60px;">
-      <div class="col-xs-6 col-xs-offset-3">
+    <div class="flex-box" style="margin-top:15%;">
+      <div class="flex-box--width--20"></div>
+      <div class="flex-box--width--60">
         <button type="button" class="btn btn-primary" style="width:100%">Let's Go</button>
       </div>
+      <div class="flex-box--width--20"></div>
     </div>
   </div>
 
   <!-- search-bar -->
+  <!-- desktop/tablet search-bar -->
   <div class="container-fluid hidden-xs">
-  <div class="row" style="margin-top:80px;">
+  <div style="margin-top:80px;">
   <div class="wayfinding-logo">
     <div class="input-group" style="width:50%">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
@@ -64,7 +65,7 @@
   </div>
 
   <div class="container-fluid hidden-xs">
-    <div class="row" style="margin-top:70px;">
+    <div style="margin-top:70px;">
   <div class="landing-div">
     <ul class="landing-ul">
       <li>
