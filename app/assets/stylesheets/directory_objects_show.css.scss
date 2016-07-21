@@ -1058,7 +1058,7 @@ body {
 
 //navbar stuffs
 .navbar {
-	height: 9vh;
+	height: 10vh;
 	min-height: 10px;
   z-index: 2;
 }
@@ -1190,6 +1190,10 @@ body {
   margin-right: 7px;
   }
 
+  .directory-table--view {
+    height: calc(100vh - 120px);
+  }
+
   .floor-nav {
     margin-right: 0px !important; //align floor nav bar on mobile viewe
   }
@@ -1220,6 +1224,12 @@ body {
     	padding-right: 2vh;
       
 	}
+
+.directory-table--view {
+  display: flex;
+  height: calc(100vh - 160px);
+  overflow-y:scroll;
+}
 
   #viewing {
     left: 15px; //fix left distance in tablet/desktop view
@@ -1254,6 +1264,37 @@ body {
 }
 
 //new css
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-box--width--100 {
+  width: 100%;
+  flex: 1 1 100%;
+}
+
+.flex-box--width--20 {
+  flex: 1 1 20%;
+}
+
+.flex-box--width--60 {
+  flex: 1 1 60%;
+}
+
+.directory-title--margin {
+  margin-top: 10px; 
+  margin-bottom: 5px;
+}
+
+.directory-table--border {
+  border: 2px solid rgb(235, 235, 235);
+}
+
+.directory-table--view {
+  display: flex;
+  overflow-y:scroll;
+}
 
 #about-icon {
   font-size: 18pt;
@@ -1263,9 +1304,16 @@ body {
   color: gray;
 }
 
-.content-center {
+.content-flex--center {
   display: flex;
   justify-content: center;
+}
+
+.content-flex--item--center {
+justify-content: center;
+display: flex;
+flex-direction: row;
+flex: 1 1 100%;
 }
 
 .wayfinding-logo {
@@ -1275,11 +1323,6 @@ body {
     margin-right: 20px;
     float: left;
   }
-}
-
-.test1 {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .expand-arrow-icon {
