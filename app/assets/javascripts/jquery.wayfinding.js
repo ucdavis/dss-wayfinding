@@ -427,7 +427,13 @@
             }
 
             var mapIdx = drawing[drawingSegment][0].floor;
-            svg = $('#' + maps[mapIdx].id + ' svg')[0];
+            // changed svg to #data_layer because the new svg svg structure is
+            // #svgImage
+              // svg id=floor<x>
+                // map svg
+                // data svg
+              // end svg id
+            svg = $('#' + maps[mapIdx].id + ' #data_layer')[0];
 
             drawLength = drawing[drawingSegment].routeLength;
             animationDuration = drawLength * options.path.speed;
@@ -1052,6 +1058,7 @@
                     }
 
                     console.log("Returning Solution");
+                    animatePath(solution, 0);
                     drawSVGRoute(solution);
                     return solution;
                     checkIfConnectionAtx1y1(startDoor, solution[0]);
