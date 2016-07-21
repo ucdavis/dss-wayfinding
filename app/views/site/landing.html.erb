@@ -1,6 +1,12 @@
+<script>
+  // This is temporary until we can figure out where to actually put it
+  $(document).ready(function() {
+    $(".vertical-nav, .navbar-header").hide();
+  });
+</script>
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
-  
+
   <!-- phone view-->
   <div class="container-fluid visible-xs-block top-margin">
   <div class="row">
@@ -10,7 +16,7 @@
   </div>
   </div>
   </div>
-  
+
   <!-- tablet/desktop view -->
   <div class="container-fluid hidden-xs">
   <div class="row" style="margin-top:100px;">
@@ -20,7 +26,7 @@
   </div>
   </div>
   </div>
-  
+
 <!-- phone view search -->
   <div class="container-fluid visible-xs-block">
   <div class="row" style="margin-top:70px;">
@@ -31,12 +37,12 @@
     </div>
     <div class="input-group" style="width:100%">
       <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
-      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;"">
+      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
     </div>
   </div>
   </div>
   </div>
-  
+
   <div class="container-fluid visible-xs-block">
     <div class="row" style="margin-top:60px;">
       <div class="col-xs-6 col-xs-offset-3">
@@ -44,7 +50,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- search-bar -->
   <div class="container-fluid hidden-xs">
   <div class="row" style="margin-top:80px;">
@@ -56,7 +62,7 @@
   </div>
   </div>
   </div>
-  
+
   <div class="container-fluid hidden-xs">
     <div class="row" style="margin-top:70px;">
   <div class="landing-div">
