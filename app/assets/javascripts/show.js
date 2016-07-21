@@ -76,6 +76,7 @@ function drawSVGRoute(solution) {
   // <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
   console.log("IN drawSVGRoute");
   console.log(solution);
+  $(".floor #data_layer").children().children().css("opacity", "0");
   for(let i in solution) {
     let floorID = "#floor" + solution[i].floor + " #Paths";
     let segment = solution[i].segment;
