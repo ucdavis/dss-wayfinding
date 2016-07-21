@@ -75,7 +75,7 @@ function drawSVGRoute(solution) {
   // M moves the origin to x y coordinates
   // <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
   console.log("IN drawSVGRoute");
-  console.log(solution);
+  // animatePath(drawing, 0);
   $(".floor #data_layer").children().children().css("opacity", "0");
   for(let i in solution) {
     let floorID = "#floor" + solution[i].floor + " #Paths";
@@ -132,7 +132,6 @@ function drawRoute() {
 
   //sets up starting values for each route, changes classes as necessary
   function beginRoute() {
-    console.log(drawing);
     currentSet = 0
     currentEntry = 0;
     animating = true;
