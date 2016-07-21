@@ -1162,13 +1162,25 @@ body {
 }
 //END
  @media only screen and (min-device-width: 480px) and (max-device-width: 767px) { //mobile-landscape
-   #viewing {
+  #viewing {
     margin-left: 2.5%; //fix left-margin in mobile view
      height: 120%;
-   }
-   #accessibility-nav {
+  }
+  #accessibility-nav {
     left: 25px;
   }
+  input[type=search]:focus {
+    width: 380px;
+  }
+
+  .landscape-accessbility-nav {
+    display: block;
+  }
+
+  .portrait-accessbility-nav {
+    display: none;
+  }
+
  }
  
  @media only screen and (min-device-width: 100px) and (max-device-width: 479px) { //mobile-portrait
@@ -1179,6 +1191,20 @@ body {
   #accessibility-nav{
     top: 10px;
     left: 5px;
+  }
+  input[type=search]:focus {
+      width: 210px;
+  }
+
+  .portrait-accessbility-nav {
+    display: block;
+    position: absolute;
+    top: 75%;
+    left: 10%;
+  }  
+
+  .landscape-accessbility-nav {
+    display: none;
   }
   
  }
@@ -1342,3 +1368,62 @@ flex: 1 1 100%;
   background-color: white;
   text-indent: -23px;
 } 
+
+.padding-none {
+  padding: 0px;
+}
+
+//search-bar expand//
+
+.glyphicon-search--position {
+  left: 40px;
+  top: 3px;
+}
+
+input {
+	outline: none;
+  cursor: pointer;
+}
+input[type=search] {
+	-webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	font-family: inherit;
+	font-size: 100%;
+}
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+	display: none; 
+}
+
+
+input[type=search] {
+	background: white no-repeat 9px center;
+  border: solid 1px white;
+  padding: 3px 10px 0px 40px;
+  width: 35px;
+	
+	-webkit-border-radius: 10em;
+	-moz-border-radius: 10em;
+	border-radius: 10em;
+	
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+}
+input[type=search]:focus {
+	//width: 210px;
+	background-color: #fff;
+	border-color: $people-color;
+	
+	-webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+	-moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+	box-shadow: 0 0 5px rgba(109,207,246,.5);
+}
+
+
+input:-moz-placeholder {
+	color: #999;
+}
+input::-webkit-input-placeholder {
+	color: #999;
+}

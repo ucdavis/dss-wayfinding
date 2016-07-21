@@ -8,3 +8,4 @@ Admin.controller("NavigationCtrl", ["$scope", "$location",
         };
     }
 ]);
+
