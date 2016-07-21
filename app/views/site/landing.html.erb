@@ -1,6 +1,12 @@
+<script>
+  // This is temporary until we can figure out where to actually put it
+  $(document).ready(function() {
+    $(".vertical-nav, .navbar-header").hide();
+  });
+</script>
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
-  
+  <!-- phone view-->
   <!-- phone view header -->
   <div class="container-fluid visible-xs-block top-margin">
   <div class="wayfinding-logo" style="padding-left: 0px;">
@@ -8,8 +14,6 @@
     <h4>Welcome to WAYFINDING</h4>
   </div>
   </div>
-  
-  <!-- tablet/desktop view header -->
   <div class="container-fluid hidden-xs">
   <div class="row" style="margin-top:100px;">
   <div class="wayfinding-logo">
@@ -18,7 +22,8 @@
   </div>
   </div>
   </div>
-  
+
+<!-- phone view search -->
 <!-- phone view search-destination -->
   <div class="container-fluid visible-xs-block">
   <div style="margin-top:15%;">
@@ -29,7 +34,7 @@
     </div>
     <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
-      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;"">
+      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
     </div>
   </div>
   </div>
@@ -45,7 +50,8 @@
       <div class="flex-box--width--20"></div>
     </div>
   </div>
-  
+
+  <!-- search-bar -->
   <!-- desktop/tablet search-bar -->
   <div class="container-fluid hidden-xs">
   <div style="margin-top:80px;">
@@ -57,7 +63,7 @@
   </div>
   </div>
   </div>
-  
+
   <div class="container-fluid hidden-xs">
     <div style="margin-top:70px;">
   <div class="landing-div">

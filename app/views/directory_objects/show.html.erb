@@ -32,22 +32,12 @@
       //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
       //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
       function rails(){
-        try {
-          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
-
-          if (directory_object) {
-            showInfo(directory_object);
-            routeTrigger = true;
-            destination = 'R' + directory_object.room_number;
-
-            if (destination.length > 0) {
-              console.debug("destination = ", destination);
-            }
-          }
-        } catch(e) {
-          console.error('Error parsing @object to JSON', e)
-        }
         $("div.ui-loader").remove();
+
+        <% if @dest %>
+          routeTrigger = true;
+          destination = "<%=@dest%>";
+        <% end %>
 
         <%
           @svg_paths = ["/maps/floor0.svg",
