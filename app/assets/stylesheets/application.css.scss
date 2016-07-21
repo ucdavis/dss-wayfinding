@@ -16,9 +16,16 @@
 
 /* bootstrap-overwrite */
 
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-bottom: 7px;
+}
+
 .navbar-default {
     background-color: white !important;
     border-color: white !important;
+    z-index: 50 !important; 
 }
 
 .navbar-default .navbar-toggle {
@@ -33,6 +40,11 @@
   padding: 0px;
 }
 
-  .btn-block {
-    width: inherit !important;
-  }
+.btn-block {
+  width: inherit !important;
+}
+
+.glyphicon {
+  color: gray;
+  font-size: 14pt;
+}

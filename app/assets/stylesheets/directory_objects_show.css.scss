@@ -103,7 +103,7 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  overflow: auto;
+  //overflow: auto;
   background-color: white;
 
   position: fixed;
@@ -1058,7 +1058,7 @@ body {
 
 //navbar stuffs
 .navbar {
-	height: 9vh;
+	height: 10vh;
 	min-height: 10px;
   z-index: 2;
 }
@@ -1162,13 +1162,25 @@ body {
 }
 //END
  @media only screen and (min-device-width: 480px) and (max-device-width: 767px) { //mobile-landscape
-   #viewing {
+  #viewing {
     margin-left: 2.5%; //fix left-margin in mobile view
      height: 120%;
-   }
-   #accessibility-nav {
+  }
+  #accessibility-nav {
     left: 25px;
   }
+  input[type=search]:focus {
+    width: 380px;
+  }
+
+  .landscape-accessbility-nav {
+    display: block;
+  }
+
+  .portrait-accessbility-nav {
+    display: none;
+  }
+
  }
  
  @media only screen and (min-device-width: 100px) and (max-device-width: 479px) { //mobile-portrait
@@ -1180,6 +1192,20 @@ body {
     top: 10px;
     left: 5px;
   }
+  input[type=search]:focus {
+      width: 210px;
+  }
+
+  .portrait-accessbility-nav {
+    display: block;
+    position: absolute;
+    top: 75%;
+    left: 10%;
+  }  
+
+  .landscape-accessbility-nav {
+    display: none;
+  }
   
  }
  
@@ -1188,6 +1214,10 @@ body {
 @media (max-width: 767px) {
   #scrubber-view #slider-vertical {
   margin-right: 7px;
+  }
+
+  .directory-table--view {
+    height: calc(100vh - 120px);
   }
 
   .floor-nav {
@@ -1220,6 +1250,12 @@ body {
     	padding-right: 2vh;
       
 	}
+
+.directory-table--view {
+  display: flex;
+  height: calc(100vh - 160px);
+  overflow-y:scroll;
+}
 
   #viewing {
     left: 15px; //fix left distance in tablet/desktop view
@@ -1254,6 +1290,37 @@ body {
 }
 
 //new css
+.flex-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-box--width--100 {
+  width: 100%;
+  flex: 1 1 100%;
+}
+
+.flex-box--width--20 {
+  flex: 1 1 20%;
+}
+
+.flex-box--width--60 {
+  flex: 1 1 60%;
+}
+
+.directory-title--margin {
+  margin-top: 10px; 
+  margin-bottom: 5px;
+}
+
+.directory-table--border {
+  border: 2px solid rgb(235, 235, 235);
+}
+
+.directory-table--view {
+  display: flex;
+  overflow-y:scroll;
+}
 
 #about-icon {
   font-size: 18pt;
@@ -1263,9 +1330,16 @@ body {
   color: gray;
 }
 
-.content-center {
+.content-flex--center {
   display: flex;
   justify-content: center;
+}
+
+.content-flex--item--center {
+justify-content: center;
+display: flex;
+flex-direction: row;
+flex: 1 1 100%;
 }
 
 .wayfinding-logo {
@@ -1277,11 +1351,6 @@ body {
   }
 }
 
-.test1 {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-
 .expand-arrow-icon {
   display: block;
   top: 50%;
@@ -1289,13 +1358,72 @@ body {
   cursor: pointer;
   z-index: 1000;
   position: absolute;
-  color: white;
+  color: black;
   width: 60px;
   height: 60px;
   box-shadow: -5px 0px 5px -2px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   text-align: center;
-  left: 97%;
+  left: -13% !important;
   background-color: white;
-  text-indent: -15px;
+  text-indent: -23px;
 } 
+
+.padding-none {
+  padding: 0px;
+}
+
+//search-bar expand//
+
+.glyphicon-search--position {
+  left: 40px;
+  top: 3px;
+}
+
+input {
+	outline: none;
+  cursor: pointer;
+}
+input[type=search] {
+	-webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	font-family: inherit;
+	font-size: 100%;
+}
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+	display: none; 
+}
+
+
+input[type=search] {
+	background: white no-repeat 9px center;
+  border: solid 1px white;
+  padding: 3px 10px 0px 40px;
+  width: 35px;
+	
+	-webkit-border-radius: 10em;
+	-moz-border-radius: 10em;
+	border-radius: 10em;
+	
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+}
+input[type=search]:focus {
+	//width: 210px;
+	background-color: #fff;
+	border-color: $people-color;
+	
+	-webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+	-moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+	box-shadow: 0 0 5px rgba(109,207,246,.5);
+}
+
+
+input:-moz-placeholder {
+	color: #999;
+}
+input::-webkit-input-placeholder {
+	color: #999;
+}
