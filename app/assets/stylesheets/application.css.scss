@@ -25,7 +25,7 @@ h3, .h3 {
 .navbar-default {
     background-color: white !important;
     border-color: white !important;
-    z-index: 50 !important; 
+    z-index: 50 !important;
 }
 
 .navbar-default .navbar-toggle {
@@ -47,4 +47,15 @@ h3, .h3 {
 .glyphicon {
   color: gray;
   font-size: 13pt;
+}
+
+#result {
+  position: absolute;
+  border: 1px solid #d1d1d1;
+  top: 103%;
+  width: 100%;
+  z-index: 50;
+  background-color: white;
+  max-height: 150px;
+  overflow: auto;
 }

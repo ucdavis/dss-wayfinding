@@ -51,7 +51,10 @@
   <div class="content-flex--center margin-top--kiosk-search">
     <div class="input-group" style="width:50%">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
-      <input type="text" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px;">
+      <input id="search" type="text" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px;">
+      <div id="result">
+        <!-- Result of query will be in here -->
+      </div>
     </div>
   </div>
   </div>
@@ -88,19 +91,4 @@
   </div>
     </div>
     </div>
-<% end %>
-
-<% content_for :javascript do %>
-  <script>
-    // This is temporary until we can figure out where to actually put it
-    $(document).ready(function() {
-      $(".vertical-nav, .navbar-header").hide();
-    });
-
-    function navigate() {
-      let start_loc = $("input[name=start_loc]").val();
-      let end_loc = $("input[name=end_loc]").val();
-      window.location.href = "/start/" + start_loc + "/end/" + end_loc;
-    }
-  </script>
 <% end %>
