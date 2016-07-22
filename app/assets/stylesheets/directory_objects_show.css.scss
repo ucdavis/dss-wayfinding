@@ -138,16 +138,6 @@ body {
     text-transform: capitalize;
   }
 
-  a {                                     // remove text-decoration on the left "Wayfinding" header
-    text-decoration: none !important;
-    color: black !important;
-  }
-
-  a:hover {                              // remove hover-style on the left "Wayfinding" header
-    text-decoration: none !important;
-    color: black !important;
-  }
-
   span {
     font-size: 3.2vmin;
   }
@@ -1420,6 +1410,21 @@ flex: 1 1 100%;
     float: left;
   }
 
+  a {                                     // remove text-decoration on the left "Wayfinding" header
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  a:hover {                              // remove hover-style on the left "Wayfinding" header
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  a:focus {                              // remove hover-style on the left "Wayfinding" header
+    text-decoration: none !important;
+    color: black !important;
+  }
+
 }
 
 .expand-arrow-icon {
@@ -1493,4 +1498,13 @@ input:-moz-placeholder {
 
 input::-webkit-input-placeholder {
 	color: #999;
+}
+
+.margin-none {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.directory-table1 {
+  width: 100%;
 }
