@@ -1,9 +1,3 @@
-<script>
-  // This is temporary until we can figure out where to actually put it
-  $(document).ready(function() {
-    $(".vertical-nav, .navbar-header").hide();
-  });
-</script>
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
   <!-- phone view-->
@@ -30,11 +24,11 @@
   <div class="flex-box">
     <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon glyphicon-share-alt search-icon" aria-hidden="true"></i>
-      <input type="text" class="form-control form-control--style--mobile" placeholder="Set Your Current Location" aria-describedby="basic-addon1" style="text-indent: 30px;">
+      <input type="text" class="form-control form-control--style--mobile" placeholder="Set Your Current Location" aria-describedby="basic-addon1" name="start_loc" style="text-indent: 30px;">
     </div>
     <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
-      <input type="text" class="form-control form-control--style--mobile" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px;">
+      <input type="text" class="form-control form-control--style--mobile" placeholder="Enter Your Destination" aria-describedby="basic-addon1" name="end_loc" style="text-indent: 30px;">
     </div>
   </div>
   </div>
@@ -45,7 +39,7 @@
     <div class="flex-box margin-top--submit-btn">
       <div class="flex-box--width--20"></div>
       <div class="flex-box--width--60">
-        <button type="button" class="btn btn-primary" style="width:100%">Let's Go</button>
+        <button type="button" class="btn btn-primary" style="width:100%" onclick="navigate()">Let's Go</button>
       </div>
       <div class="flex-box--width--20"></div>
     </div>
@@ -94,4 +88,19 @@
   </div>
     </div>
     </div>
+<% end %>
+
+<% content_for :javascript do %>
+  <script>
+    // This is temporary until we can figure out where to actually put it
+    $(document).ready(function() {
+      $(".vertical-nav, .navbar-header").hide();
+    });
+
+    function navigate() {
+      let start_loc = $("input[name=start_loc]").val();
+      let end_loc = $("input[name=end_loc]").val();
+      window.location.href = "/start/" + start_loc + "/end/" + end_loc;
+    }
+  </script>
 <% end %>
