@@ -69,34 +69,6 @@ function initialDraw(){
     $(document).trigger('show:roomClick', {room_id: destination});
 }
 
-// Draw SVG route
-function drawSVGRoute(solution) {
-  // L draws a line from origin to x y coordinates
-  // M moves the origin to x y coordinates
-  // <line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
-  console.log("IN drawSVGRoute");
-  // animatePath(drawing, 0);
-  $(".floor #data_layer").children().children().css("opacity", "0");
-  for(let i in solution) {
-    let floorID = "#floor" + solution[i].floor + " #Paths";
-    let segment = solution[i].segment;
-    // console.log(solution[i].segment);
-    $(floorID).children()[segment].style = {opacity: "1"};
-  }
-  // let stringPath = '<svg><path d="';
-  // for(let i = 0; i < drawing[0].length; i++) {
-  //   let command = drawing[0][i].type + drawing[0][i].x + " " + drawing[0][i].y + " ";
-  //   stringPath += command;
-  // }
-  // stringPath += 'Z"\/ style="stroke:rgb(255,0,0);stroke-width:2"></svg>';
-  // console.log(stringPath);
-  //
-  // $("#floor1 #Paths").children()[398].style = {opacity: "1"};
-}
-
-
-
-
 // Collection of all route drawing functions
 function drawRoute() {
   var changeFloorPause = 1000;        //time to wait before changing floors during a route
@@ -426,9 +398,9 @@ function updateViewBox(){
 
 //changes the svg displayed
 function changeSVGFloor(newFloor){
-  console.log("Changing floor " + currentFloor + " to floor " + newFloor);
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
+  currentFloor = newFloor;
   // $("#floor" + newFloor + " svg").attr("viewbox", function(){
   //   return (views[newFloor][0] + " " + views[newFloor][1] + "  " +
   //           views[newFloor][2] + " " + views[newFloor][3]);
@@ -528,7 +500,6 @@ function begin(){
   });
 
   $(document).on('show:floorChange', function(e, data){
-    console.log("Changing floors");
     var next = parseInt(data.floor_id.substr(7,7));
     changeSVGFloor(next);
     $("#flr-btn" + currentFloor).removeClass("active");
