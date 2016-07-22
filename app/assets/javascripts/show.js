@@ -401,10 +401,6 @@ function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
   currentFloor = newFloor;
-  // $("#floor" + newFloor + " svg").attr("viewbox", function(){
-  //   return (views[newFloor][0] + " " + views[newFloor][1] + "  " +
-  //           views[newFloor][2] + " " + views[newFloor][3]);
-  // });
 }
 
 //attaches listeners
@@ -505,6 +501,10 @@ function begin(){
     $("#flr-btn" + currentFloor).removeClass("active");
     currentFloor = next;
     $("#flr-btn" + currentFloor).addClass("active");
+  });
+
+  $(document).on('wayfinding:animationComplete', function(e, data) {
+    toggleInfoPanel();
   });
 
   $('.replay').click(function(e) {
