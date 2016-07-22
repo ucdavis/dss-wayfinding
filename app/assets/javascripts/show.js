@@ -462,10 +462,13 @@ function begin(){
         // Ensure the info panel is minimized
         toggleInfoPanel('min');
 
-        // Get details of the room
-        $.get( "/room/" + destination.substr(1) + ".json", function( data ) {
-          // TODO: showInfo is really "setInfo" as it doesn't show the panel
-          showInfo(data);
+        $.get({
+          url: "/room/" + destination.substr(1) + ".json",
+          async: false,
+          success: function (data) {
+            // TODO: showInfo is really "setInfo" as it doesn't show the panel
+            showInfo(data);
+          }
         });
 
         $("#svgImage").wayfinding('animatePath');
