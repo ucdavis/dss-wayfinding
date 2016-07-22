@@ -52,7 +52,7 @@ body {
 
 
 #mapLoading {
-	font-size: 7vw;
+  font-size: 7vw;
   color: #777;
   text-align: center;
   height: 8vw;
@@ -538,6 +538,15 @@ input.search {
 
 .form-control {
   padding: 5px 5px;
+}
+
+.form-control--style {
+  text-indent: 30px;
+  width: 60%;
+}
+
+.form-control--style--mobile {
+  margin-bottom: 20px !important;
 }
 
 input.search:focus {
@@ -1161,6 +1170,22 @@ body {
     padding-bottom: 10px;
 }
 //END
+
+  @media only screen and (min-width: 768px) {
+    .kiosk-accessbility-nav {
+      display: block;      
+    }
+
+    .portrait-accessbility-nav {
+      display: none;
+    }
+
+    .landscape-accessbility-nav {
+      display: none;
+    }
+    
+  }
+
  @media only screen and (min-device-width: 480px) and (max-device-width: 767px) { //mobile-landscape
   #viewing {
     margin-left: 2.5%; //fix left-margin in mobile view
@@ -1173,12 +1198,27 @@ body {
     width: 380px;
   }
 
+  .margin-top--title {
+    margin-top: 0px;
+  }
+
+  .margin-top--submit-btn {
+    margin-top: 5%;
+  }
+
+  .margin-top--search-input {
+    margin-top: 10%;
+  }
+
   .landscape-accessbility-nav {
     display: block;
   }
 
   .portrait-accessbility-nav {
     display: none;
+  }
+  .kiosk-accessbility-nav {
+    display: none;      
   }
 
  }
@@ -1193,7 +1233,19 @@ body {
     left: 5px;
   }
   input[type=search]:focus {
-      width: 210px;
+    width: 210px;
+  }
+
+  .margin-top--title {
+    margin-top: 20%;
+  }
+
+  .margin-top--submit-btn {
+    margin-top: 15%;
+  }
+
+  .margin-top--search-input {
+    margin-top: 15%;
   }
 
   .portrait-accessbility-nav {
@@ -1205,6 +1257,10 @@ body {
 
   .landscape-accessbility-nav {
     display: none;
+  }
+
+  .kiosk-accessbility-nav {
+    display: none;      
   }
   
  }
@@ -1230,7 +1286,7 @@ body {
   }
 
   .floor-nav ul li { 
-    max-width: 10vh !important; //fix icon size on floor nav 
+    max-width: 9vh !important; //fix icon size on floor nav 
   }
 
   
@@ -1325,6 +1381,17 @@ body {
 #about-icon {
   font-size: 18pt;
 }
+
+.margin-top--kiosk-search {
+  margin-top: 80px;
+}
+
+.navbar-header--flex-start {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
 .nav-icon {
   font-size: 15pt;
   color: gray;
@@ -1342,9 +1409,11 @@ flex-direction: row;
 flex: 1 1 100%;
 }
 
-.wayfinding-logo {
+.wayfinding-logo--style {
   display: flex;
   justify-content: center;
+  padding-left: 10px;
+  margin-right: 13px;
   img {
     margin-right: 20px;
     float: left;
