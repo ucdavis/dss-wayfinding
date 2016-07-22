@@ -23,9 +23,25 @@ $(function() {
   // from search.js
 
   //= require redirect
-  function searchJS() {
-    console.log("search JS is imported");
-  }
+  $("#search").on("keyup", function() {
+    if ($("#search").val() != "") {
+      $("#result").show();
+    }
+  });
+
+  $("#search").on("focus", function() {
+    if ($("#search").val() != "") {
+      $("#result").show();
+    }
+  });
+
+  $(document).mouseup(function(e) {
+    let container = $("#result, #search");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      $("#result").hide();
+    }
+  });
+
   var pluralize = function (word) {
     if (word == 'Person') return 'People';
     else return word + 's';
