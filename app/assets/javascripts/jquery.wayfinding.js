@@ -244,8 +244,8 @@
             endpoint = passed;
             if (options.showLocation) {
                 end = $('#Doors #' + endpoint, el);
-
-            attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
+                
+            attachPinLocation = $('.floor svg').has('#Rooms a[id="' + passed + '"]');
 
                 if (end.length) {
                     x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
