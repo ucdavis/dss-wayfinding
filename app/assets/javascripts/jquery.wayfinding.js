@@ -18,7 +18,7 @@
 
 (function ($) {
     'use strict';
-    
+
     var loaded = false;
     var defaults = {
         // Defaults to a local file called floorplan.svg
@@ -47,14 +47,6 @@
         'defaultMap': function () {
             return 'map.1';
         },
-        // should dataStoreCache should be used
-        // null is cache should not be used
-        // string representing url if it should be used
-        // object if cache is being passed
-        'dataStoreCache': null,
-        // if dataStoreCache is string, this is string
-        // of url to accessible cache
-        'accessibleDataStoreCache': null,
         // place marker for "you are here"
         'showLocation': false,
         //styling for the "you are here pin"
@@ -80,9 +72,9 @@
             result, // used to return non jQuery results
             idToIndex = {}, // maps floor IDs to an index used by the datastore
             drawing;
-        //Takes x and y coordinates and makes a location indicating pin for those
-        //coordinates. Returns the pin element, not yet attached to the DOM.
 
+        //Takes x and y coordinates and makes a location indicating pin for those
+        //coordinates. Returns the pin element, not yet attached to the DOM.)
         function makePin(x, y, type) {
             var indicator,
             height,
@@ -154,7 +146,6 @@
                     y = (Number(start.attr('y1')) + Number(start.attr('y2'))) / 2;
 
                     pin = makePin(x, y, 'startPin');
-
                     attachPinLocation.after(pin);
                 } else {
                     return; //startpoint does not exist
@@ -253,8 +244,8 @@
             endpoint = passed;
             if (options.showLocation) {
                 end = $('#Doors #' + endpoint, el);
-
-            attachPinLocation = $('svg').has('#Rooms a[id="' + passed + '"]');
+                
+            attachPinLocation = $('.floor svg').has('#Rooms a[id="' + passed + '"]');
 
                 if (end.length) {
                     x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
@@ -286,8 +277,7 @@
             var mapsProcessed = 0;
             // Load SVGs off the network
             $.each(maps, function (i, map) {
-                var svgDiv = $('<div id="' + map.id + '" class="floor"><\/div>');
-
+                var svgDiv = $('<svg id="' + map.id + '" class="floor"><\/div>');
                 idToIndex[map.id] = i;
 
                 //create svg in that div
@@ -300,8 +290,21 @@
                                 // + map.path +
                             maps[i].el = svgDiv;
                         }
+
                         maps[i].svgHandle = svg;
                         maps[i].el = svgDiv;
+
+                        // Load Corresponding Data Layer
+                        $.ajax({
+                          url: "/maps/data-floor" + i + ".svg",
+                          type: "GET",
+                          dataType: "html",
+                          async: false,
+                          success: function(dataSVG, status, xhr) {
+                            WayfindingDataStore.cleanupSVG(dataSVG);
+                            $(dataSVG).appendTo(svgDiv);
+                          }
+                        });
 
                         WayfindingDataStore.cleanupSVG(maps[i].el);
                         $(obj).append(svgDiv);
@@ -329,58 +332,23 @@
           loaded = true;
         }
 
-        // Ensure a dataStore exists and is set, whether from a cache
-        // or by building it.
+        // Ensure a dataStore exists and is set
         function establishDataStore(accessible, onReadyCallback) {
             if(accessible === undefined) {
                 accessible = false;
             }
 
-            if (options.dataStoreCache) {
-                if (typeof(options.dataStoreCache) === 'object') {
-                    console.debug('Using passed dataStoreCache object.');
+            WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
 
-                    WayfindingDataStore.dataStore = options.dataStoreCache;
-
-                    if(typeof(onReadyCallback) === 'function') {
-                        onReadyCallback();
-                    }
-                } else if (typeof(options.dataStoreCache) === 'string') {
-                    console.debug("Attempting to load dataStoreCache from URL ...");
-                    var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
-
-                    $.getJSON(cacheUrl, function (result) {
-                        console.debug('Using dataStoreCache from remote.');
-                        WayfindingDataStore.dataStore = result;
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    }).fail(function () {
-                        console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
-
-                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    });
-                }
-            } else {
-                console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
-
-                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                if(typeof(onReadyCallback) === 'function') {
-                    onReadyCallback();
-                }
+            if(typeof(onReadyCallback) === 'function') {
+                onReadyCallback();
             }
+
         }
 
         // Called when animatePath() is switching the floor and also when
         function switchFloor(floor, el) {
-            $('div', el).hide();
-
+            changeSVGFloor(floor.substring(5));
             $('#' + floor, el).show(0, function() {
                 $(el).trigger('wayfinding:floorChanged', { map_id: floor });
             });
@@ -458,11 +426,16 @@
             }
 
             var mapIdx = drawing[drawingSegment][0].floor;
-            svg = $('#' + maps[mapIdx].id + ' svg')[0];
+            // changed svg to #data_layer because the new svg svg structure is
+            // #svgImage
+              // svg id=floor<x>
+                // map svg
+                // data svg
+              // end svg id
+            svg = $('#' + maps[mapIdx].id + ' #data_layer')[0];
 
             drawLength = drawing[drawingSegment].routeLength;
             animationDuration = drawLength * options.path.speed;
-
             switchFloor(maps[drawing[drawingSegment][0].floor].id, obj);
 
             // Get the complete path for this particular floor-route
@@ -491,45 +464,45 @@
             }
 
             // Zooming logic...
-            var steps = 35;
-            var duration = 650; // Zoom animation in milliseconds
-
-            // Store the original SVG viewBox in order to zoom out back to it after path animation
-            var oldViewBox = svg.getAttribute('viewBox');
-            var oldViewX = parseFloat(oldViewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
-            var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
-            var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
-            var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
-
-            // Calculate single step size from each direction
-            var newViewX = pathRect.x - pad;
-                    newViewX = newViewX > 0 ? newViewX : 0;
-            var newViewW = pathRect.width + (2 * pad);
-            var newViewY = pathRect.y - pad;
-                    newViewY = newViewY > 0 ? newViewY : 0;
-            var newViewH = pathRect.height + (2 * pad);
-
-            if (options.zoomToRoute) {
-                // Loop the specified number of steps to create the zoom in animation
-                for (var i = 0; i <= steps; i++) {
-                    (function(i) {
-                        setTimeout(function() {
-                            var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
-                            var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
-                            var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
-                            var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
-
-                            if(options.pinchToZoom) {
-                                // Use CSS 3-based zooming
-                                panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
-                            } else {
-                                // Use SVG viewBox-based zooming
-                                svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY + ' ' + zoomInW + ' ' + zoomInH);
-                            }
-                        }, i * (duration / steps));
-                    }(i));
-                }
-            }
+            // var steps = 35;
+            // var duration = 650; // Zoom animation in milliseconds
+            //
+            // // Store the original SVG viewBox in order to zoom out back to it after path animation
+            // var oldViewBox = svg.getAttribute('viewBox');
+            // var oldViewX = parseFloat(oldViewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
+            // var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
+            // var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
+            // var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
+            //
+            // // Calculate single step size from each direction
+            // var newViewX = pathRect.x - pad;
+            //         newViewX = newViewX > 0 ? newViewX : 0;
+            // var newViewW = pathRect.width + (2 * pad);
+            // var newViewY = pathRect.y - pad;
+            //         newViewY = newViewY > 0 ? newViewY : 0;
+            // var newViewH = pathRect.height + (2 * pad);
+            //
+            // if (options.zoomToRoute) {
+            //     // Loop the specified number of steps to create the zoom in animation
+            //     for (var i = 0; i <= steps; i++) {
+            //         (function(i) {
+            //             setTimeout(function() {
+            //                 var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
+            //                 var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
+            //                 var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
+            //                 var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
+            //
+            //                 if(options.pinchToZoom) {
+            //                     // Use CSS 3-based zooming
+            //                     panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
+            //                 } else {
+            //                     // Use SVG viewBox-based zooming
+            //                     svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY + ' ' + zoomInW + ' ' + zoomInH);
+            //                 }
+            //             }, i * (duration / steps));
+            //         }(i));
+            //     }
+            // }
 
             // Call animatePath after 'animationDuration' milliseconds to animate the next segment of the path,
             // if any.
@@ -1114,7 +1087,6 @@
                     }
 
                     lastStep = 1;
-
                     // for each floor that we have to deal with
                     for (i = 0; i < portalsEntered + 1; i++) {
                         for (stepNum = lastStep; stepNum < solution.length; stepNum++) {
@@ -1284,6 +1256,7 @@
                         drawLength = drawing[j].routeLength;
 
                     });
+
                     return drawing;
                     //animatePath(0);
 

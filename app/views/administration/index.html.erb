@@ -6,19 +6,6 @@
 
 <h1 id="directory-title">Administration</h1>
 
-<div class="row cache-building hidden">
-  <div class="col-sm-3 text-right">
-    Cache building progress
-  </div>
-  <div class="col-sm-7">
-    <div class="progress">
-      <div id="cache-progress" class="progress-bar" role="progressbar" style="width: 100%;">
-        No cache building in progress
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="admin-view" ng-app="AdminApp">
   <div ng-controller="AlertsCtrl" class="alert" role="alert" ng-class="status">
     <span class="notice" compile="mesg"></span>
@@ -86,7 +73,7 @@
     <div class="tab-content">
       <div ng-view role="tabpanel" class="tab-pane active">
       </div>
- 
+
 
       <% permitted_to? :administer_directory, :administration do %>
 <!--      <div role="tabpanel" class="tab-pane" id="dir_dept">
