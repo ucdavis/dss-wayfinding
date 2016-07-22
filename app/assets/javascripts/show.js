@@ -689,8 +689,8 @@ function touchMove(event) {
     var width = $('#destination-view').outerWidth();
 
     if (state == 'min' || $('#destination-view').css('right') == '0px') {
-      $('#destination-view').css('right', -width + 20);
-      $('#destination-view-bg').css('right', -width + 20);
+      $('#destination-view').css('right', -width + 0);
+      $('#destination-view-bg').css('right', -width + 0);
       $('#destination-view-bg').outerWidth(width);
       $('i.btn-min-max').removeClass('icon-right-arrow').addClass('icon-left-arrow');
     } else {
