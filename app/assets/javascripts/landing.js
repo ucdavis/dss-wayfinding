@@ -37,7 +37,7 @@ $(function() {
 
     categories.push(category);
     $('ul#slider-vertical').append("<li><a href='#category_" + category + "'>" + pluralize(category) + "</a></li>");
-    $('#result table').append("<tr class='category-header' id='category_" + category + "'><td>" + pluralize(category) + "</td></tr>");
+    $('#result table').append("<tr class='category-header' id='category_" + category + "'><td class=\"margin-none\">" + pluralize(category) + "</td></tr>");
   }
 
   var displayResults = function () {
@@ -58,7 +58,7 @@ $(function() {
 
     $.post( "/search", {q: query.trim(), authenticity_token: document.csrf}, function( data ) {
       if(data.directory_objects.length) {
-        $('#result').html('<table class="table directory-table"></table>');
+        $('#result').html('<table class="table directory-table1"></table>');
         categories.length = 0;
       } else {
         $('#result').html('<div class="search-error" align="center">No results found for your query</div>');
