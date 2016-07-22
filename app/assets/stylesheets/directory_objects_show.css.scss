@@ -90,11 +90,8 @@ body {
   bottom: 100px;
   margin-bottom: 0;
   right: -3000px;
-
   filter: blur(5px);
-
   z-index: 100;
-
   background-color: white;
   transition: all 0.5s cubic-bezier(0.4,0,.2,1);
 }
@@ -139,6 +136,16 @@ body {
     font-size: 3.5vmin;
     color: gray;
     text-transform: capitalize;
+  }
+
+  a {                                     // remove text-decoration on the left "Wayfinding" header
+    text-decoration: none !important;
+    color: black !important;
+  }
+
+  a:hover {                              // remove hover-style on the left "Wayfinding" header
+    text-decoration: none !important;
+    color: black !important;
   }
 
   span {
@@ -623,7 +630,7 @@ ul li.room {
   position: fixed;
   right: 0;
   top: 0;
-  height: calc(100vh + 60px);
+  height: calc(100vh + 90px);
 
   ul.nav {
     position: relative;
@@ -907,8 +914,6 @@ body {
 /* END FRONT PAGE FLOOR NAV */
 
 
-
-
 /* BEGIN LANDING */
 .landing-div {
   //height: 90vh;
@@ -1048,7 +1053,7 @@ body {
   top: 0;
   bottom: 0;
   margin: auto;
-  z-index: 50;
+  z-index: 1;
 }
 
 #viewing {
@@ -1186,44 +1191,46 @@ body {
     
   }
 
- @media only screen and (min-device-width: 480px) and (max-device-width: 767px) { //mobile-landscape
-  #viewing {
-    margin-left: 2.5%; //fix left-margin in mobile view
-     height: 120%;
-  }
-  #accessibility-nav {
-    left: 25px;
-  }
-  input[type=search]:focus {
-    width: 380px;
+/* view: mobile-landscape */
+  @media only screen and (min-device-width: 480px) and (max-device-width: 767px) {
+    #viewing {
+      margin-left: 2.5%; //fix left-margin in mobile view
+      height: 120%;
+    }
+    #accessibility-nav {
+      left: 25px;
+    }
+    input[type=search]:focus {
+      width: 380px;
+    }
+
+    .margin-top--title {
+      margin-top: 0px;
+    }
+
+    .margin-top--submit-btn {
+      margin-top: 5%;
+    }
+
+    .margin-top--search-input {
+      margin-top: 10%;
+    }
+
+    .landscape-accessbility-nav {
+      display: block;
+    }
+
+    .portrait-accessbility-nav {
+      display: none;
+    }
+    .kiosk-accessbility-nav {
+      display: none;      
+    }
+
   }
 
-  .margin-top--title {
-    margin-top: 0px;
-  }
-
-  .margin-top--submit-btn {
-    margin-top: 5%;
-  }
-
-  .margin-top--search-input {
-    margin-top: 10%;
-  }
-
-  .landscape-accessbility-nav {
-    display: block;
-  }
-
-  .portrait-accessbility-nav {
-    display: none;
-  }
-  .kiosk-accessbility-nav {
-    display: none;      
-  }
-
- }
- 
- @media only screen and (min-device-width: 100px) and (max-device-width: 479px) { //mobile-portrait
+/* view: mobile-portrait */
+ @media only screen and (min-device-width: 100px) and (max-device-width: 479px) {
   #viewing {
     margin-left: 2.5%; //fix left-margin in mobile view
     height: 95%;
@@ -1260,12 +1267,10 @@ body {
   }
 
   .kiosk-accessbility-nav {
-    display: none;      
+    display: none;
   }
-  
- }
- 
 
+ }
 
 @media (max-width: 767px) {
   #scrubber-view #slider-vertical {
@@ -1285,13 +1290,12 @@ body {
     width: 100%;
   }
 
-  .floor-nav ul li { 
+  .floor-nav ul li {
     max-width: 9vh !important; //fix icon size on floor nav 
   }
 
-  
   #destination-view { // mobile destination view
-    width: 100vw;
+    width: 80vw;
   }
 
 
@@ -1321,10 +1325,6 @@ body {
     margin-right: 35px;
   }
 
-//	.btn.btn-block {
-//		text-indent: 40%;
-//	}
-
   .margin-left-120 {
     width: calc(100% - 130px);
     margin-left: 130px;
@@ -1345,7 +1345,7 @@ body {
 
 }
 
-//new css
+/* new css */
 .flex-box {
   display: flex;
   flex-wrap: wrap;
@@ -1414,10 +1414,12 @@ flex: 1 1 100%;
   justify-content: center;
   padding-left: 10px;
   margin-right: 13px;
+
   img {
     margin-right: 20px;
     float: left;
   }
+
 }
 
 .expand-arrow-icon {
@@ -1436,21 +1438,20 @@ flex: 1 1 100%;
   left: -13% !important;
   background-color: white;
   text-indent: -23px;
-} 
+}
 
 .padding-none {
   padding: 0px;
 }
 
-//search-bar expand//
-
+/* search-bar expand */
 .glyphicon-search--position {
   left: 40px;
   top: 3px;
 }
 
 input {
-	outline: none;
+  outline: none;
   cursor: pointer;
 }
 input[type=search] {
@@ -1461,7 +1462,7 @@ input[type=search] {
 }
 input::-webkit-search-decoration,
 input::-webkit-search-cancel-button {
-	display: none; 
+	display: none;
 }
 
 
@@ -1470,29 +1471,26 @@ input[type=search] {
   border: solid 1px white;
   padding: 3px 10px 0px 40px;
   width: 35px;
-	
 	-webkit-border-radius: 10em;
 	-moz-border-radius: 10em;
 	border-radius: 10em;
-	
 	-webkit-transition: all .5s;
 	-moz-transition: all .5s;
 	transition: all .5s;
 }
+
 input[type=search]:focus {
-	//width: 210px;
 	background-color: #fff;
 	border-color: $people-color;
-	
 	-webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
 	-moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
 	box-shadow: 0 0 5px rgba(109,207,246,.5);
 }
 
-
 input:-moz-placeholder {
 	color: #999;
 }
+
 input::-webkit-input-placeholder {
 	color: #999;
 }
