@@ -3,6 +3,7 @@
 //= require emscripten.pathfinding.js
 //= require priority-queue.min.js
 //= require redirect
+//= require svg-pan-zoom.min.js
 
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
@@ -43,6 +44,8 @@ function onLoad(){
 
   addListeners();
   initialDraw();
+
+  svgPanZoom('#svgImage');
 }
 
 //adds touch based listeners and resizing listener
