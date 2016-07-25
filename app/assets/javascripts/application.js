@@ -31,24 +31,16 @@ $(document).ready(function() {
     $("#map").addClass("safari-mobile-compatibility");
     $(".landing-ul").addClass("safari-mobile-compatibility");
   }
-});
 
-// from search.js
-
-//= require redirect
-
-$(document).ready(function() {
   $("#search").on("keyup", function() {
     if ($("#search").val() != "") {
       $("#result").show();
-      console.log("Showing");
     }
   });
 
   $("#search").on("focus", function() {
     if ($("#search").val() != "") {
       $("#result").show();
-      console.log("Showing");
     }
   });
 
@@ -56,11 +48,11 @@ $(document).ready(function() {
     let container = $("#result, #search");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
       $("#result").hide();
-      console.log("Hiding");
     }
   });
 });
 
+// Searching
 var pluralize = function (word) {
   if (word == 'Person') return 'People';
   else return word + 's';
@@ -76,9 +68,8 @@ var addCategoryIfDoesNotExist = function (category) {
 }
 
 var displayResults = function () {
-    $('.ui-input-clear').hide();	//hide Clear text
+  $('.ui-input-clear').hide();	//hide Clear text
   var query = $("#search").val();
-  console.log("Siplahing results");
 
   $('ul#slider-vertical').empty();
 
@@ -104,7 +95,7 @@ var displayResults = function () {
       var tmpl;
       addCategoryIfDoesNotExist(directory_object.type);
       if (directory_object.type == 'Person') {
-        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'" >'
+        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.rooms[0].room_number +'" >'
         + '<td><h3>' + directory_object.first + ' ' + directory_object.last +'</h3>';
         if (directory_object.rooms.length > 0) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.rooms[0].room_number + '</span>';
@@ -131,7 +122,7 @@ var displayResults = function () {
         }
         tmpl = tmpl + '</td></tr>';
       } else if (directory_object.type == 'Department') {
-        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
+        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.room.room_number +'">'
         + '<td><h3>' + directory_object.title +'</h3>';
         if (directory_object.room) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.room.room_number + '</span>';
