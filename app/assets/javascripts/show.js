@@ -48,7 +48,29 @@ function onLoad(){
   addListeners();
   initialDraw();
 
-  svgControl = svgPanZoom("#svgImage", {minZoom: 1, fit: false});
+  var svgBBox = $("#svgImage")[0].getBBox();
+
+  // http://ariutta.github.io/svg-pan-zoom/demo/limit-pan.html
+  beforePan = function(oldPan, newPan){
+    var stopHorizontal = false
+      , stopVertical = false
+      , gutterWidth = svgBBox.width
+      , gutterHeight = svgBBox.height
+        // Computed variables
+      , sizes = this.getSizes()
+      , leftLimit = -((sizes.viewBox.x + sizes.viewBox.width) * sizes.realZoom) + gutterWidth
+      , rightLimit = sizes.width - gutterWidth - (sizes.viewBox.x * sizes.realZoom)
+      , topLimit = -((sizes.viewBox.y + sizes.viewBox.height) * sizes.realZoom) + gutterHeight
+      , bottomLimit = sizes.height - gutterHeight - (sizes.viewBox.y * sizes.realZoom)
+
+    customPan = {}
+    customPan.x = Math.max(leftLimit, Math.min(rightLimit, newPan.x))
+    customPan.y = Math.max(topLimit, Math.min(bottomLimit, newPan.y))
+
+    return customPan
+  }
+
+  svgControl = svgPanZoom("#svgImage", {minZoom: 1, fit: false, beforePan: beforePan});
 }
 
 //adds touch based listeners and resizing listener
