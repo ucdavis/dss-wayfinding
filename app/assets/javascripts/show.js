@@ -45,10 +45,11 @@ var svgControl;
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
-
   addListeners();
   initialDraw();
+}
 
+function setPanZoom() {
   var svgBBox = $("#svgImage")[0].getBBox();
 
   // http://ariutta.github.io/svg-pan-zoom/demo/limit-pan.html
@@ -154,6 +155,7 @@ function initialDraw(){
                 // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
   //if destination was included in page call, run routing function
+  setPanZoom();
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }
