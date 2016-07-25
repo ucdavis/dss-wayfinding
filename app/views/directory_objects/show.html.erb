@@ -4,55 +4,8 @@
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
-      loadImage();
+      rails();
 
-      //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
-      function loadImage(){
-        var imageLoading = true;
-        for (var i = 0; i < 6; i++){
-          // loadFloor(i);
-          loader();
-        }
-
-        function loader() {
-          if (counter < 5 && imageLoading){
-            counter++;
-          } else if (imageLoading) {
-            rails();
-          }
-        }
-
-        function loadFloor(floorNumber) {
-          let floorID = "floor" + floorNumber;
-          $('<svg id="' + floorID + '" style="display: none;" class="floor"></svg>').appendTo($("#svgImage"));
-          $.ajax({
-            url: "/maps/floor" + floorNumber + ".svg",
-            type: "GET",
-            dataType: "text",
-            success: function(data) {
-              $(data).appendTo($("#floor" + floorNumber));
-              $.ajax({
-                url: "/maps/data-floor" + floorNumber + ".svg",
-                type: "GET",
-                dataType: "text",
-                success: function(data) {
-                  $(data).appendTo($("#floor" + floorNumber));
-                },
-                error: function(data) {
-                  loadFailed();
-                }
-              });
-            },
-            error: function(data) {
-              loadFailed();
-            }
-          });
-        }
-
-        function loadFailed(){
-          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
-        }
-      }
       //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
       //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
       function rails(){
@@ -72,7 +25,7 @@
                          "/maps/floor5.svg"]
         %>
 
-        <%= wayfinding_plugin(@svg_paths, @origin, @dest,) %>
+        <%= wayfinding_plugin(@svg_paths, @origin, @dest) %>
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
         wait();
