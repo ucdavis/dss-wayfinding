@@ -4,6 +4,7 @@
 //= require priority-queue.min.js
 //= require redirect
 //= require svg-pan-zoom.min.js
+//= require hammer.min.js
 
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
@@ -70,7 +71,67 @@ function onLoad(){
     return customPan
   }
 
-  svgControl = svgPanZoom("#svgImage", {minZoom: 1, fit: false, beforePan: beforePan});
+  // http://ariutta.github.io/svg-pan-zoom/demo/mobile.html
+  var eventsHandler;
+
+  eventsHandler = {
+    haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel']
+  , init: function(options) {
+      var instance = options.instance
+        , initialScale = 1
+        , pannedX = 0
+        , pannedY = 0
+
+      // Init Hammer
+      // Listen only for pointer and touch events
+      this.hammer = Hammer(options.svgElement, {
+        inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput
+      })
+
+      // Enable pinch
+      this.hammer.get('pinch').set({enable: true})
+
+      // Handle double tap
+      this.hammer.on('doubletap', function(ev){
+        instance.zoomIn()
+      })
+
+      // Handle pan
+      this.hammer.on('panstart panmove', function(ev){
+        // On pan start reset panned variables
+        if (ev.type === 'panstart') {
+          pannedX = 0
+          pannedY = 0
+        }
+
+        // Pan only the difference
+        instance.panBy({x: ev.deltaX - pannedX, y: ev.deltaY - pannedY})
+        pannedX = ev.deltaX
+        pannedY = ev.deltaY
+      })
+
+      // Handle pinch
+      this.hammer.on('pinchstart pinchmove', function(ev){
+        // On pinch start remember initial zoom
+        if (ev.type === 'pinchstart') {
+          initialScale = instance.getZoom()
+          instance.zoom(initialScale * ev.scale)
+        }
+
+        instance.zoom(initialScale * ev.scale)
+
+      })
+
+      // Prevent moving the page on some devices when panning over SVG
+      options.svgElement.addEventListener('touchmove', function(e){ e.preventDefault(); });
+    }
+
+  , destroy: function(){
+      this.hammer.destroy()
+    }
+  }
+
+  svgControl = svgPanZoom("#svgImage", {minZoom: 1, fit: false, beforePan: beforePan, customEventsHandler: eventsHandler});
 }
 
 //adds touch based listeners and resizing listener
