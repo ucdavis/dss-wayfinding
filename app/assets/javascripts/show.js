@@ -39,13 +39,16 @@ var drawLength = 3;         //number of pixels to draw per frame when drawing a 
 var lineWidth = 5;          //width of line to draw for routes
 var lineColor = "#FF00FF";  //color of line to draw for routes
 
+// svgPanZoom
+var svgControl;
+
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
 
   addListeners();
   initialDraw();
 
-  svgPanZoom('#svgImage');
+  svgControl = svgPanZoom("#svgImage", {minZoom: 1, fit: false});
 }
 
 //adds touch based listeners and resizing listener
