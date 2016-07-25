@@ -122,7 +122,7 @@ var displayResults = function () {
         }
         tmpl = tmpl + '</td></tr>';
       } else if (directory_object.type == 'Department') {
-        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.room.room_number +'">'
+        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
         + '<td><h3>' + directory_object.title +'</h3>';
         if (directory_object.room) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.room.room_number + '</span>';
