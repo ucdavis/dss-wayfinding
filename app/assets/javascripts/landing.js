@@ -11,8 +11,8 @@ $(function() {
     })
   });
 
-  // Hide the buttons, then ease them in on page load
-  $(".vertical-nav, .navbar-header").hide();
+  // Remove static side
+  $(".vertical-nav, .navbar-header").remove();
 
   function navigate() {
     let start_loc = $("input[name=start_loc]").val();

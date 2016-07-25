@@ -1,8 +1,4 @@
-
 //= require redirect
-function searchJS() {
-  console.log("search JS is imported");
-}
 var pluralize = function (word) {
   if (word == 'Person') return 'People';
   else return word + 's';
@@ -18,7 +14,8 @@ var addCategoryIfDoesNotExist = function (category) {
 }
 
 var displayResults = function () {
-	  $('.ui-input-clear').hide();	//hide Clear text
+  $('.ui-input-clear').hide();	//hide Clear text
+  $("#result").css("display", "inline");
   var query = $("#search").val();
 
   $('ul#slider-vertical').empty();
