@@ -68,24 +68,24 @@
 <nav class="navbar navbar-default navbar-fixed-top <visible-xs-block></visible-xs-block>">
   <div class="navbar-header navbar-header--flex-start hidden-xs">
     <div class="wayfinding-logo--style">
-      <a href="/"><img style="height: 30px; margin-right: 5px;" src="/assets/icons/wayfinding-logo-e5ca4ad67894f5b4179cfac8a491d00d8211d2643d6310cfb1f75f79298423d6.png"></a>
+      <a href="/"><img src="/assets/icons/wayfinding-logo-e5ca4ad67894f5b4179cfac8a491d00d8211d2643d6310cfb1f75f79298423d6.png"></a>
       <h5><a href="/">WAYFINDING</a></h5>
     </div>
     <div class="input-group" style="width: 50%;">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
-      <input class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px; width: 60%;" type="text">
+      <input class="form-control form-control--style nav-search--width text-indent--30" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" type="text">
     </div>
   </div>
 						
 
   <!-- toggle hamburger menu -->
-  <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs">
+  <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs" style="margin-top:3px;">
     <span class="glyphicon glyphicon-align-justify nav-icon" aria-hidden="true"></span>
   </button>
 
   <!-- Search-->
   <form class="navbar-toggle visible-xs">
-    <span class="glyphicon glyphicon-search glyphicon-search--position" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-search glyphicon-search--position nav-icon"" aria-hidden="true"></span>
     <input type="search" placeholder="Search">
   </form>
 
@@ -111,7 +111,7 @@
 	        </div> <!-- navbar-header -->
 
 	         <!-- Hamburger Menu --> <!-- background drop down white -->
-	        <div id="navbarCollapse" class="collapse navbar-collapse" style="background-color: white;"> 
+	        <div id="navbarCollapse" class="collapse navbar-collapse"> 
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
 	</nav>
@@ -120,7 +120,7 @@
     <%= yield :javascript %>
     <%= yield %>
   <% else %>
-    <div class="main-content margin-left-120">
+    <div class="main-content margin-left--130">
       <div class="container-fluid">
         <%= yield :javascript %>
         <%= yield %>
