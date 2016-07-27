@@ -95,7 +95,7 @@ var displayResults = function () {
       var tmpl;
       addCategoryIfDoesNotExist(directory_object.type);
       if (directory_object.type == 'Person') {
-        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.rooms[0].room_number +'" >'
+        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'" >'
         + '<td><h3>' + directory_object.first + ' ' + directory_object.last +'</h3>';
         if (directory_object.rooms.length > 0) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.rooms[0].room_number + '</span>';
@@ -122,17 +122,16 @@ var displayResults = function () {
         }
         tmpl = tmpl + '</td></tr>';
       } else if (directory_object.type == 'Department') {
+        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
+        + '<td><h3>' + directory_object.title +'</h3>';
+
         if (directory_object.room) {
-          tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.room.room_number +'">'
-          + '<td><h3>' + directory_object.title +'</h3>';
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.room.room_number + '</span>';
-        } else {
-          tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
-          + '<td><h3>' + directory_object.title +'</h3>';
         }
+
         tmpl = tmpl + '</td></tr>';
       } else if (directory_object.type == 'Room') {
-        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.room_number +'">'
+        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
         + '<td><h3>' + directory_object.room_number +'</h3>';
         if (directory_object.name) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.name + '</span>';

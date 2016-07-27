@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   get 'start/:start_loc', to: 'directory_objects#show'
   get 'start/:start_loc/end/:end_loc', to: 'directory_objects#show'
   get 'start/:start_loc/directory/:id', to: 'directory_objects#show'
-  get 'end/:end_loc', to: 'directory_objects#show'
   post 'logvisitor', to: 'administration#logvisitor'
 
   get '/access_denied' => 'site#access_denied'
