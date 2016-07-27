@@ -161,17 +161,17 @@
   <div class="floor-nav pull-right" id="accessibility-nav">
       <ul>
         <li>
-          <button onclick="svgControl.zoomIn();" class="btn-zoom">
+          <button onclick="svgControl.panzoom('zoom');" class="btn-zoom">
             Zoom In
           </a>
         </li>
         <li>
-          <button onclick="svgControl.zoomOut();" class="btn-zoom">
+          <button onclick="svgControl.panzoom('zoom', true);" class="btn-zoom">
             Zoom Out
           </a>
         </li>
         <li>
-          <button onclick="svgControl.reset();" class="btn-zoom">
+          <button onclick="svgControl.panzoom('reset');" class="btn-zoom">
             Reset
           </a>
         </li>
