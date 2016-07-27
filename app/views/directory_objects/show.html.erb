@@ -25,8 +25,6 @@
           console.error('Error parsing @object to JSON', e)
         }
 
-        $("div.ui-loader").remove();
-
         <% if @dest %>
           routeTrigger = true;
           destination = "<%=@dest%>";
@@ -51,6 +49,7 @@
       //set default styles for each object in the floor divs.
       function wait(){
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
+          $("div.ui-loader").remove();
           begin();
           setVisibilities();
         } else {
@@ -131,7 +130,9 @@
 
       <div id="mapLoading">
         <div id="mapLoadingInner">
-          <%= image_tag("loader.gif", alt: "Loading") %>
+          <div class="ui-loader">
+            <%= image_tag("loader.gif", alt: "Loading") %>
+          </div>
         </div>
       </div>
 
@@ -161,19 +162,19 @@
   <div class="floor-nav pull-right" id="accessibility-nav">
       <ul>
         <li>
-          <button onclick="svgControl.panzoom('zoom');" class="btn-zoom">
+          <button class="btn-zoom zoom-in">
             Zoom In
           </a>
         </li>
         <li>
-          <button onclick="svgControl.panzoom('zoom', true);" class="btn-zoom">
+          <button class="btn-zoom zoom-out">
             Zoom Out
           </a>
         </li>
         <li>
-          <button onclick="svgControl.panzoom('reset');" class="btn-zoom">
+          <button class="btn-zoom zoom-reset">
             Reset
-          </a>
+          </button>
         </li>
     </ul>
   </div>

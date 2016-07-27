@@ -49,7 +49,15 @@ function onLoad(){
 }
 
 function setPanZoom() {
-  $("#svgImage").panzoom();
+  svgControl = $("#svgImage");
+  svgControl.panzoom({
+    $zoomIn: $(".zoom-in"),
+    $zoomOut: $(".zoom-out"),
+    $reset: $(".zoom-reset"),
+    panOnlyWhenZoomed: true,
+    minScale: 1,
+    maxScale: 5
+  });
 }
 
 //adds touch based listeners and resizing listener
@@ -72,7 +80,7 @@ function initialDraw(){
                 // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
   //if destination was included in page call, run routing function
-  setPanZoom();
+  // setPanZoom();
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }
