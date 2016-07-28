@@ -50,7 +50,7 @@ function onLoad(){
 
 function setPanZoom() {
   svgControl = $("#svgImage");
-  svgControl.on('mousedown touchstart', function( e ) {
+  $("#svgImage a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
   svgControl.panzoom({
@@ -150,9 +150,6 @@ function begin(){
 
   $(document).on('show:roomClick', function(e, data){
     console.debug("Clicked room: " + data.room_id);
-
-    // Disable replay
-    $(".btn-access.replay").addClass("disabled");
 
     // Get the shortest path
     drawing = $("#svgImage").wayfinding('routeTo', destination);
