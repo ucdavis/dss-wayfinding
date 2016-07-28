@@ -433,7 +433,7 @@
                 // map svg
                 // data svg
               // end svg id
-            svg = $('#' + maps[mapIdx].id + ' #data_layer')[0];
+            svg = $('#' + maps[mapIdx].id + ' svg')[0];
 
             drawLength = drawing[drawingSegment].routeLength;
             animationDuration = drawLength * options.path.speed;
@@ -465,45 +465,45 @@
             }
 
             // Zooming logic...
-            // var steps = 35;
-            // var duration = 650; // Zoom animation in milliseconds
-            //
-            // // Store the original SVG viewBox in order to zoom out back to it after path animation
-            // var oldViewBox = svg.getAttribute('viewBox');
-            // var oldViewX = parseFloat(oldViewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
-            // var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
-            // var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
-            // var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
-            //
-            // // Calculate single step size from each direction
-            // var newViewX = pathRect.x - pad;
-            //         newViewX = newViewX > 0 ? newViewX : 0;
-            // var newViewW = pathRect.width + (2 * pad);
-            // var newViewY = pathRect.y - pad;
-            //         newViewY = newViewY > 0 ? newViewY : 0;
-            // var newViewH = pathRect.height + (2 * pad);
-            //
-            // if (options.zoomToRoute) {
-            //     // Loop the specified number of steps to create the zoom in animation
-            //     for (var i = 0; i <= steps; i++) {
-            //         (function(i) {
-            //             setTimeout(function() {
-            //                 var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
-            //                 var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
-            //                 var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
-            //                 var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
-            //
-            //                 if(options.pinchToZoom) {
-            //                     // Use CSS 3-based zooming
-            //                     panzoomWithViewBoxCoords($(svg).parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
-            //                 } else {
-            //                     // Use SVG viewBox-based zooming
-            //                     svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY + ' ' + zoomInW + ' ' + zoomInH);
-            //                 }
-            //             }, i * (duration / steps));
-            //         }(i));
-            //     }
-            // }
+            var steps = 35;
+            var duration = 650; // Zoom animation in milliseconds
+
+            // Store the original SVG viewBox in order to zoom out back to it after path animation
+            var oldViewBox = svg.getAttribute('viewBox');
+            var oldViewX = parseFloat(oldViewBox.split(/\s+|,/)[0]); // viewBox is [x, y, w, h], x == [0]
+            var oldViewY = parseFloat(oldViewBox.split(/\s+|,/)[1]);
+            var oldViewW = parseFloat(oldViewBox.split(/\s+|,/)[2]);
+            var oldViewH = parseFloat(oldViewBox.split(/\s+|,/)[3]);
+
+            // Calculate single step size from each direction
+            var newViewX = pathRect.x - pad;
+                newViewX = newViewX > 0 ? newViewX : 0;
+            var newViewW = pathRect.width + (2 * pad);
+            var newViewY = pathRect.y - pad;
+                newViewY = newViewY > 0 ? newViewY : 0;
+            var newViewH = pathRect.height + (2 * pad);
+
+            if (options.zoomToRoute) {
+                // Loop the specified number of steps to create the zoom in animation
+                for (var i = 0; i <= steps; i++) {
+                    (function(i) {
+                        setTimeout(function() {
+                            var zoomInX = interpolateValue(oldViewX, newViewX, i, steps);
+                            var zoomInY = interpolateValue(oldViewY, newViewY, i, steps);
+                            var zoomInW = interpolateValue(oldViewW, newViewW, i, steps);
+                            var zoomInH = interpolateValue(oldViewH, newViewH, i, steps);
+
+                            if(options.pinchToZoom) {
+                                // Use CSS 3-based zooming
+                                panzoomWithViewBoxCoords($(svg).parent().parent()[0], svg, zoomInX, zoomInY, zoomInW, zoomInH);
+                            } else {
+                                // Use SVG viewBox-based zooming
+                                svg.setAttribute('viewBox', zoomInX + ' ' + zoomInY + ' ' + zoomInW + ' ' + zoomInH);
+                            }
+                        }, i * (duration / steps));
+                    }(i));
+                }
+            }
 
             // Call animatePath after 'animationDuration' milliseconds to animate the next segment of the path,
             // if any.
