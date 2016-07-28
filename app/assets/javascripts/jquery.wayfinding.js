@@ -1305,6 +1305,8 @@
                     result = routeTo(passed);
                     break;
                 case 'animatePath':
+                    // Disable replay
+                    $(".btn-access.replay").addClass("disabled");
                     hidePath(obj);
                     animatePath(drawing, 0);
                     break;

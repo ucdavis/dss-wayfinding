@@ -151,6 +151,9 @@ function begin(){
   $(document).on('show:roomClick', function(e, data){
     console.debug("Clicked room: " + data.room_id);
 
+    // Disable replay
+    $(".btn-access.replay").addClass("disabled");
+
     // Get the shortest path
     drawing = $("#svgImage").wayfinding('routeTo', destination);
 
@@ -210,6 +213,9 @@ function begin(){
 
   $(document).on('wayfinding:animationComplete', function(e, data) {
     toggleInfoPanel();
+
+    // Enable Replay
+    $(".btn-access.replay").removeClass("disabled");
   });
 
   $('.replay').click(function(e) {
