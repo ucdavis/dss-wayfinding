@@ -819,6 +819,12 @@ body {
   }
 }
 
+#map-zoom-nav {
+  top: 105px;
+  position: relative;
+  left: -30px;
+}
+
 #map {
   &.safari-mobile-compatibility {
     margin-top: -35px;
@@ -1069,7 +1075,7 @@ body {
 
 //navbar stuffs
 .navbar {
-	height: 10vh;
+	height: 8vh;
 	min-height: 10px;
   z-index: 2;
 }
@@ -1329,7 +1335,7 @@ body {
 
 .directory-table--view {
   display: flex;
-  height: calc(100vh - 160px);
+  height: calc(100vh - 180px);
   overflow-y:scroll;
 }
 
