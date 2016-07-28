@@ -202,8 +202,8 @@ function begin(){
 
   $(document).on('show:floorChange', function(e, data){
     var next = parseInt(data.floor_id.substr(7,7));
-    changeSVGFloor(next);
     $("#flr-btn" + currentFloor).removeClass("active");
+    changeSVGFloor(next);
     currentFloor = next;
     $("#flr-btn" + currentFloor).addClass("active");
   });
