@@ -1307,6 +1307,7 @@
                     break;
                 case 'animatePath':
                     hidePath(obj);
+                    $(".btn-access.replay").addClass("disabled")
                     animatePath(drawing, 0);
                     break;
                 case 'startpoint':
