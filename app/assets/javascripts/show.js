@@ -50,6 +50,9 @@ function onLoad(){
 
 function setPanZoom() {
   svgControl = $("#svgImage");
+  svgControl.on('mousedown touchstart', function( e ) {
+    e.stopImmediatePropagation();
+  });
   svgControl.panzoom({
     $zoomIn: $(".zoom-in"),
     $zoomOut: $(".zoom-out"),
@@ -80,7 +83,7 @@ function initialDraw(){
                 // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
   //if destination was included in page call, run routing function
-  // setPanZoom();
+  setPanZoom();
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }
