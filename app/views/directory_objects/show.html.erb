@@ -4,59 +4,26 @@
   $(document).ready(function() {
     //Only load page if origin is set.
     <% if @origin %>
-      loadImage();
+      rails();
 
-      //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
-      function loadImage(){
-        var imageLoading = true;
-        for (var i = 0; i < 6; i++){
-          // loadFloor(i);
-          loader();
-        }
-
-        function loader() {
-          if (counter < 5 && imageLoading){
-            counter++;
-          } else if (imageLoading) {
-            rails();
-          }
-        }
-
-        function loadFloor(floorNumber) {
-          let floorID = "floor" + floorNumber;
-          $('<svg id="' + floorID + '" style="display: none;" class="floor"></svg>').appendTo($("#svgImage"));
-          $.ajax({
-            url: "/maps/floor" + floorNumber + ".svg",
-            type: "GET",
-            dataType: "text",
-            success: function(data) {
-              $(data).appendTo($("#floor" + floorNumber));
-              $.ajax({
-                url: "/maps/data-floor" + floorNumber + ".svg",
-                type: "GET",
-                dataType: "text",
-                success: function(data) {
-                  $(data).appendTo($("#floor" + floorNumber));
-                },
-                error: function(data) {
-                  loadFailed();
-                }
-              });
-            },
-            error: function(data) {
-              loadFailed();
-            }
-          });
-        }
-
-        function loadFailed(){
-          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
-        }
-      }
       //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
       //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
       function rails(){
-        $("div.ui-loader").remove();
+        try {
+          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
+
+          if (directory_object) {
+            showInfo(directory_object);
+            routeTrigger = true;
+            destination = 'R' + directory_object.room_number;
+
+            if (destination.length > 0) {
+              console.debug("destination = ", destination);
+            }
+          }
+        } catch(e) {
+          console.error('Error parsing @object to JSON', e)
+        }
 
         <% if @dest %>
           routeTrigger = true;
@@ -72,7 +39,7 @@
                          "/maps/floor5.svg"]
         %>
 
-        <%= wayfinding_plugin(@svg_paths, @origin, @dest,) %>
+        <%= wayfinding_plugin(@svg_paths, @origin, @dest) %>
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
         wait();
@@ -82,6 +49,7 @@
       //set default styles for each object in the floor divs.
       function wait(){
         if ($("#svgImage").wayfinding('fullyLoaded') == true){
+          $("div.ui-loader").remove();
           begin();
           setVisibilities();
         } else {
@@ -162,7 +130,9 @@
 
       <div id="mapLoading">
         <div id="mapLoadingInner">
-          <%= image_tag("loader.gif", alt: "Loading") %>
+          <div class="ui-loader">
+            <%= image_tag("loader.gif", alt: "Loading") %>
+          </div>
         </div>
       </div>
 
@@ -183,6 +153,29 @@
             <img src="/repeatButton.png" class="img-fill">
           </a>
       </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Kiosk accessibility-nav -->
+<div class="row zoom-nav">
+  <div class="floor-nav pull-right" id="accessibility-nav">
+      <ul>
+        <li>
+          <button class="btn-zoom zoom-in">
+            Zoom In
+          </a>
+        </li>
+        <li>
+          <button class="btn-zoom zoom-out">
+            Zoom Out
+          </a>
+        </li>
+        <li>
+          <button class="btn-zoom zoom-reset">
+            Reset
+          </button>
+        </li>
     </ul>
   </div>
 </div>
@@ -238,7 +231,7 @@
     </div>
     <div class="input-group flex-box--width--100">
       <i class="glyphicon glyphicon-map-marker search-icon" aria-hidden="true" style="margin-bottom: 20px;"></i>
-      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;"">
+      <input type="text" class="form-control" placeholder="Enter Your Destination" aria-describedby="basic-addon1" style="text-indent: 30px; margin-bottom: 20px;">
     </div>
   </div>
   </div>

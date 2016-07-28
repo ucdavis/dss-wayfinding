@@ -73,7 +73,13 @@
     </div>
     <div class="input-group" style="width: 50%;">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
-      <input class="form-control form-control--style nav-search--width text-indent--30" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" type="text">
+
+
+      <input id="search" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px; width: 60%;" type="text">
+      <div id="result">
+        <!-- Search query will go here -->
+      </div>
+
     </div>
   
     <div class="floor-nav">
@@ -112,7 +118,7 @@
     </div>
 
   </div>
-						
+
 
   <!-- toggle hamburger menu -->
   <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggle--margin-top visible-xs">

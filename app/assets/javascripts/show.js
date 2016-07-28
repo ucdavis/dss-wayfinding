@@ -3,7 +3,7 @@
 //= require emscripten.pathfinding.js
 //= require priority-queue.min.js
 //= require redirect
-//= require svg-pan-zoom.min.js
+//= require jquery.panzoom.js
 
 var floors = [];            //stores img files for each floor
 var c;                      //variable that points to #myCanvas
@@ -39,13 +39,28 @@ var drawLength = 3;         //number of pixels to draw per frame when drawing a 
 var lineWidth = 5;          //width of line to draw for routes
 var lineColor = "#FF00FF";  //color of line to draw for routes
 
+// svgPanZoom
+var svgControl;
+
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
-
   addListeners();
   initialDraw();
+}
 
-  svgPanZoom('#svgImage');
+function setPanZoom() {
+  svgControl = $("#svgImage");
+  svgControl.on('mousedown touchstart', function( e ) {
+    e.stopImmediatePropagation();
+  });
+  svgControl.panzoom({
+    $zoomIn: $(".zoom-in"),
+    $zoomOut: $(".zoom-out"),
+    $reset: $(".zoom-reset"),
+    panOnlyWhenZoomed: true,
+    minScale: 1,
+    maxScale: 5
+  });
 }
 
 //adds touch based listeners and resizing listener
@@ -68,6 +83,7 @@ function initialDraw(){
                 // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
   //if destination was included in page call, run routing function
+  setPanZoom();
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }

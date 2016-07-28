@@ -809,7 +809,7 @@ body {
 
 body {
   &.safari-mobile-compatibility {
-    height: calc(100vh - 70px); /* Effectively prevents scrolling on pages that don't need it */  
+    height: calc(100vh - 70px); /* Effectively prevents scrolling on pages that don't need it */
   }
 }
 
@@ -888,9 +888,9 @@ body {
   }
 
   &.active {
-    img { 
+    img {
       opacity: 1.0;
-    } 
+    }
   }
 
   &.disabled {
@@ -1171,7 +1171,7 @@ body {
 
   @media only screen and (min-width: 768px) {
     .kiosk-accessbility-nav {
-      display: block;      
+      display: block;
     }
 
     .portrait-accessbility-nav {
@@ -1181,7 +1181,7 @@ body {
     .landscape-accessbility-nav {
       display: none;
     }
-    
+
   }
 
 /* view: mobile-landscape */
@@ -1217,7 +1217,7 @@ body {
       display: none;
     }
     .kiosk-accessbility-nav {
-      display: none;      
+      display: none;
     }
 
     #scrubber-view #slider-vertical{
@@ -1266,7 +1266,7 @@ body {
     position: absolute;
     top: 75%;
     left: 10%;
-  }  
+  }
 
   .landscape-accessbility-nav {
     display: none;
@@ -1324,7 +1324,7 @@ body {
 	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     	padding-left: 2vh;
     	padding-right: 2vh;
-      
+
 	}
 
 .directory-table--view {
@@ -1430,6 +1430,10 @@ body {
 .content-flex--center {
   display: flex;
   justify-content: center;
+}
+.directory-title--margin {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .content-flex--item--center {
@@ -1576,4 +1580,22 @@ input::-webkit-input-placeholder {
 
 .directory-table--width-100 {
   width: 100%;
+}
+
+#result {
+  display: none;
+  position: absolute;
+  border: 1px solid #d1d1d1;
+  top: 103%;
+  width: 100%;
+  z-index: 50;
+  background-color: white;
+  max-height: 150px;
+  overflow: auto;
+  right: 0%;
+}
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
 }
