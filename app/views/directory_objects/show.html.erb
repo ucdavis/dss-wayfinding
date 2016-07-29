@@ -47,8 +47,8 @@
 
       //waits for wayfinding initialization to flag svg load complete, then calls function to
       //set default styles for each object in the floor divs.
-      function wait(){
-        if ($("#svgImage").wayfinding('fullyLoaded') == true){
+      function wait() {
+        if($("#svgImage").wayfinding('fullyLoaded') == true) {
           $("div.ui-loader").remove();
           begin();
           setVisibilities();
@@ -63,7 +63,7 @@
       //       Why is it in our kiosk code then?
       function setVisibilities() {
         // TODO: Can these selectors be cleaned up? They take 2s to run!
-        $("svg").css("pointer-events", "auto"); // This can be done in CSS instead of JS, right?
+        //$("svg").css("pointer-events", "auto"); // This can be done in CSS instead of JS, right?
         //$("#Rooms a").find('*').css("pointer-events", "auto"); // Isn't this the default?
         $(".floor").css("display", "none");
         $(".floor #data_layer").css("opacity", "1");
