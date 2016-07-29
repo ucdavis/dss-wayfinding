@@ -100,9 +100,7 @@ body {
 #destination-view {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  //overflow: auto;
   background-color: white;
-
   position: fixed;
   top: 0px;
   bottom: 100px;
@@ -177,8 +175,6 @@ ul.vertical-nav {
   position: fixed;
   list-style: none;
   text-align: center;
-  //padding: 2vh 15px 0;
-  // left: 0;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
   padding-top: 8%;
@@ -463,19 +459,6 @@ ul.directory-list {
   color: gray;
 }
 
-/*.nav-search-icon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  color: gray;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-
 .nav-icon {
   font-size: 15pt;
   color: gray;
@@ -604,10 +587,6 @@ ul li.room {
 .nav > li > a:hover {
     background-color: white;
 }
-
-//#scrubber-view #slider-vertical {
-//  margin-right: 35px;
-//}
 
 #slider-vertical li {
   height: 21px; //$vertical-slider-element-height;
@@ -792,7 +771,6 @@ table {
   display: block;
 }
 
-
 /*
  * FRONT PAGE MAP NAVIGATION
  */
@@ -802,7 +780,6 @@ body {
   padding-top: 10vh;
   height: 100vh;
 }
-
 
 /* Need to get around safari mobiles bottom nav, shift contents up by 70px */
 /* Applied to the body of the page, landing, and accessibility buttons by js on page load */
@@ -1037,7 +1014,6 @@ body {
 
 }
 
-
 #myCanvas {
   position:absolute;
   z-index: 0;
@@ -1138,8 +1114,6 @@ body {
     margin-left: .5vh;
     margin-top: 1vh;
     height: 7vh;
-    //width: 7vh;
-    //background-color: #CCCCCC;		//toggle menu button
 }
 
 .navbar-toggle--margin-top {
@@ -1326,18 +1300,18 @@ body {
 }
 
 //fix some defaults
-@media (min-width: 768px) {
-	.navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+@media (min-width: 768px) { //kiosk&desktop view
+  .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     	padding-left: 2vh;
     	padding-right: 2vh;
 
 	}
 
-.directory-table--view {
+  .directory-table--view {
   display: flex;
   height: calc(100vh - 180px);
   overflow-y:scroll;
-}
+  }
 
   #viewing {
     left: 15px; //fix left distance in tablet/desktop view
@@ -1347,11 +1321,11 @@ body {
     margin-right: 35px;
   }
 
+  /* MARGIN FOR KIOSK AND DESKTOP VIEW */
   .margin-top--kiosk-search {
     margin-top: 80px;
   }
 
-/* margin & padding-style */
   .margin-top--9vh {
     margin-top: 9vh;
   }
@@ -1515,7 +1489,7 @@ body {
 
 }
 
-/* search-bar expand */
+/* Search-bar Expand */
 .expand-arrow-icon {    //expand arrow icon
   display: block;
   top: 50%;
@@ -1584,7 +1558,14 @@ input::-webkit-input-placeholder {
 	color: #999;
 }
 
-.directory-table--width-100 {
+/* Search-bar Expand END */
+
+/* MISC */
+.width-50 {
+  width: 50%;
+}
+
+.width-100 {
   width: 100%;
 }
 
@@ -1601,7 +1582,6 @@ input::-webkit-input-placeholder {
   right: 0%;
 }
 
-.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
-    border-bottom-left-radius: 3px !important;
-    border-top-left-radius: 3px !important;
+.input-group--margin-bt {
+  margin-bottom: 20px !important;
 }

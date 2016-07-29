@@ -91,7 +91,7 @@ var displayResults = function () {
 
   $.post( "/search", {q: query.trim(), authenticity_token: document.csrf}, function( data ) {
     if(data.directory_objects.length) {
-      $('#result').html('<table class="table directory-table--width-100"></table>');
+      $('#result').html('<table class="table width-100"></table>');
       categories.length = 0;
     } else {
       $('#result').html('<div class="search-error" align="center">No results found for your query</div>');
