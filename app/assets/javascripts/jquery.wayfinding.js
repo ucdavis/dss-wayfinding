@@ -315,7 +315,6 @@
                     cache: true,
                     success: function(dataSVG, status, xhr) {
                         $(dataSVG).appendTo(svgDiv);
-                        WayfindingDataStore.cleanupSVG(maps[i].el);
                         $(obj).append(svgDiv);
 
                         svgsLoaded = svgsLoaded + 1;
