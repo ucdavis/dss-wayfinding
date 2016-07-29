@@ -1231,21 +1231,21 @@
 
     <g id="Doors" display="inline">
 
-  			<line id="R1282_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="461.2871" y1="746.1694" x2="464.9883" y2="742.4702"/>
+  			<line id="R1282" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="461.2871" y1="746.1694" x2="464.9883" y2="742.4702"/>
 
-  			<line id="R1283_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="468.0869" y1="756.9697" x2="464.3858" y2="760.6709"/>
+  			<line id="R1283" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="468.0869" y1="756.9697" x2="464.3858" y2="760.6709"/>
 
-  			<line id="R1285_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="480.3858" y1="757.3701" x2="476.6875" y2="761.0693"/>
+  			<line id="R1285" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="480.3858" y1="757.3701" x2="476.6875" y2="761.0693"/>
 
-  			<line id="R1287_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="491.5869" y1="757.3701" x2="488.2871" y2="760.5693"/>
+  			<line id="R1287" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="491.5869" y1="757.3701" x2="488.2871" y2="760.5693"/>
 
-  			<line id="R1289_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="503.6875" y1="756.9697" x2="499.5869" y2="761.1709"/>
+  			<line id="R1289" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="503.6875" y1="756.9697" x2="499.5869" y2="761.1709"/>
 
-  			<line id="R1291_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="539.5869" y1="757.7705" x2="544.0869" y2="762.2705"/>
+  			<line id="R1291" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="539.5869" y1="757.7705" x2="544.0869" y2="762.2705"/>
 
-  			<line id="R1291_2_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="574.6874" y1="757.3701" x2="570.287" y2="761.6709"/>
+  			<line id="R1291" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="574.6874" y1="757.3701" x2="570.287" y2="761.6709"/>
 
-  			<line id="R1292_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="569.4883" y1="745.8706" x2="573.787" y2="741.5689"/>
+  			<line id="R1292" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="569.4883" y1="745.8706" x2="573.787" y2="741.5689"/>
 
   			<line id="R1290_1_" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="545.5869" y1="745.8706" x2="541.287" y2="741.5689"/>
 

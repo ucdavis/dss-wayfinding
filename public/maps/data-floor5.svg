@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 643 343" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
   <g id="data_layer" opacity="1.0">
-    <g id="Rooms" class="floor5_6">
+    <g id="Rooms">
   		<a id="R5207" xlink:href="#" >
   			<g>
   				<polygon class="floor5_23" points="328.1,120.4 330.4,119.1 327.5,114.1 313.3,122.2 318.7,131.6 330.6,124.7 				"/>
