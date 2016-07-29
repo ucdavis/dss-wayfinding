@@ -57,23 +57,24 @@
         }
       }
 
-      //sets all default styles in/under floor divs, so program is ready to activate that floor
-      //by toggling floor display value, and svg dimensions.
-      function setVisibilities(){
-        $("svg").css("pointer-events", "auto");
-        // $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
-        $("#Rooms a").find('*').css("pointer-events", "auto");
-        // $(".floor").css("display", "none");
+      // Sets all default styles in/under floor divs, so program is ready to activate that floor
+      // by toggling floor display value, and svg dimensions.
+      // TODO: This seems like it's needed anywhere the Wayfinding plugin is used.
+      //       Why is it in our kiosk code then?
+      function setVisibilities() {
+        // TODO: Can these selectors be cleaned up? They take 2s to run!
+        $("svg").css("pointer-events", "auto"); // This can be done in CSS instead of JS, right?
+        //$("#Rooms a").find('*').css("pointer-events", "auto"); // Isn't this the default?
         $(".floor").css("display", "none");
-        // $(".floor").find('#Rooms').css("display", "inline");
         $(".floor #data_layer").css("opacity", "1");
         $(".floor #data_layer").children().css("opacity", "1");
         $(".floor #data_layer").children().children().css("opacity", "0");
         $(".floor #data_layer").css("display", "inline");
-        $(".floor #Rooms").find('*').css("display", "inline");
-        $(".floor #Paths").find('*').css("display", "inline");
-        $(".startPin").css({"display":"inline","opacity":"1.0"});
+        //$(".floor #Rooms").find('*').css("display", "inline");
+        //$(".floor #Paths").find('*').css("display", "inline");
+        $(".startPin").css({"display": "inline", "opacity": "1.0"});
         $("#viewing").css("display", "block");
+
         onLoad();
       }
 
