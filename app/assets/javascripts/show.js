@@ -122,15 +122,19 @@ function begin(){
   $(".accessible").click(function(e) {
     e.preventDefault();
     setRedirectToHome();
-    $("a.accessible").toggleClass('active');
-    $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
-                              function() {
-      if($('.replay').hasClass("disabled") == false) {
-        drawing = $('#svgImage').wayfinding('routeTo', destination);
-        $('.replay').addClass('disabled');
-        $("#svgImage").wayfinding('animatePath');
-      }
-    });
+
+    if (!animating) {
+      $("a.accessible").toggleClass('active');
+      $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
+                                function() {
+        if($('.replay').hasClass("disabled") == false) {
+          drawing = $('#svgImage').wayfinding('routeTo', destination);
+          $('.replay').addClass('disabled');
+          $("#svgImage").wayfinding('animatePath');
+        }
+      });
+    }
+
   });
 
   $("a.btn-floor").click(function(event){
