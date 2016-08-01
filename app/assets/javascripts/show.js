@@ -68,7 +68,7 @@ function initialDraw(){
   $('#floor'+currentFloor).css("display", "inline");
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   $("#floor" + currentFloor).css("display","inline");
-  // setPanZoom();
+  setPanZoom();
   //if destination was included in page call, run routing function
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
