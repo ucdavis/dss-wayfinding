@@ -44,7 +44,6 @@ var svgControl;
 
 //once all data is loaded, set up internal canvases, contexts, default viewboxes.
 function onLoad(){
-  addListeners();
   initialDraw();
 }
 
@@ -61,14 +60,6 @@ function setPanZoom() {
     minScale: 1,
     maxScale: 5
   });
-}
-
-//adds touch based listeners and resizing listener
-function addListeners(){
-  document.getElementById('viewing').addEventListener('touchstart', touchStart);
-  document.getElementById('viewing').addEventListener('touchmove', touchMove);
-  document.getElementById('viewing').addEventListener('touchend', touchEnd);
-  // window.addEventListener('resize', resize);
 }
 
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
@@ -223,118 +214,6 @@ function begin(){
     }
   });
 }
-
-function touchStart(event) {
-  down = true;
-  touches = event.touches;
-  for(var i = 0; i < touches.length; i++){
-    touchesRecord[i] = {
-      identifier : touches[i].identifier,
-      pageX : parseInt(touches[i].pageX),
-      pageY : parseInt(touches[i].pageY)
-    };
-  }
-}
-
-function touchMove(event) {
-  event.preventDefault();
-  if (!animating){
-    var touches = event.touches;
-    var touch = [];
-    touch[0] = {x: parseInt(touches[0].pageX), y: parseInt(touches[0].pageY)};
-    if (event.touches.length == 1 && down == true){
-      var shiftValue = (touch[0].x - touchesRecord[0].pageX) * (can[currentFloor].width / c.width);
-      shiftX = shiftX - shiftValue / currentZoom;
-      shiftValue = (touch[0].y - touchesRecord[0].pageY) * (can[currentFloor].height / c.height);
-      shiftY = shiftY - shiftValue/currentZoom;
-      touchesRecord[0].pageX = touch[0].x;
-      touchesRecord[0].pageY = touch[0].y;
-      mouseMoved = true;
-      if (shiftX < 0) shiftX = 0;
-      else if (shiftX > shiftXMax) shiftX = shiftXMax;
-      if (shiftY < 0) shiftY = 0;
-      else if (shiftY > shiftYMax) shiftY = shiftYMax;
-      ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom,
-                    can[currentFloor].height/currentZoom,0,0,c.width,c.height);
-      updateViewBox();
-    } else if (event.touches.length > 1 && down == true) {
-      touch[1] = {x: parseInt(touches[1].pageX), y: parseInt(touches[1].pageY)};
-      var dx1 = Math.abs(touch[0].x-touch[1].x);
-      var dy1 = Math.abs(touch[0].y-touch[1].y);
-      var dx0 = Math.abs(touchesRecord[0].pageX-touchesRecord[1].pageX);
-      var dy0 = Math.abs(touchesRecord[0].pageY-touchesRecord[1].pageY);
-      var currentShiftX = shiftX;
-      var currentShiftY = shiftY;
-      var DWidth = can[currentFloor].width;
-      var DHeight = can[currentFloor].height;
-      touchesRecord[0].pageX = touch[0].x;
-      touchesRecord[1].pageX = touch[1].x;
-      touchesRecord[0].pageY = touch[0].y;
-      touchesRecord[1].pageY = touch[1].y;
-      currentShiftX = Math.floor((2*currentShiftX+DWidth/currentZoom)/2);
-      currentShiftY = Math.floor((2*currentShiftY+DHeight/currentZoom)/2);
-      if (dx1 >= dx0 && dy1 >= dy0){
-        var maxi;
-        if (dx1 - dx0 > dy1 - dy0)
-          maxi = (dx1-dx0)/200;
-        else
-          maxi = (dy1-dy0)/200;
-          currentZoom = currentZoom + maxi;
-        } else if (dx1 <= dx0 && dy1 <= dy0){
-          var maxi;
-          if (dx0 - dx1 > dy0 - dy1)
-            maxi = (dx0-dx1)/200;
-          else
-            maxi = (dy0-dy1)/200;
-          currentZoom = currentZoom - maxi;
-        }
-        if (currentZoom < 1)
-          currentZoom = 1;
-        else if (currentZoom > maxZoom)
-          currentZoom = maxZoom;
-        shiftX = currentShiftX - DWidth/currentZoom/2;
-        shiftY = currentShiftY - DHeight/currentZoom/2;
-        shiftXMax = Math.floor(can[currentFloor].width * (1 - 1/currentZoom));
-        shiftYMax = Math.floor(can[currentFloor].height * (1 - 1/currentZoom));
-        if (shiftX < 0) shiftX = 0;
-        else if (shiftX > shiftXMax) shiftX = shiftXMax;
-        if (shiftY < 0) shiftY = 0;
-        else if (shiftY > shiftYMax) shiftY = shiftYMax;
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom, can[currentFloor].height/
-                      currentZoom, 0, 0, c.width, c.height);
-        updateViewBox();
-      }
-    }
-  }
-
-  //when finger is removed, update values
-  function touchEnd(event) {
-    if (event.touches.length == 0)
-      down = false;
-    else if (event.touches.length == 1){
-      touchesRecord[0] = {
-        identifier : event.touches[0].identifier,
-        pageX : parseInt(event.touches[0].pageX),
-        pageY : parseInt(event.touches[0].pageY)
-      };
-    }
-  }
-
-  //change canvas and svg dimensions when window size changes
-  function resize(){
-    c.width = parseInt($('#myCanvas').css('width'));
-    $('#myCanvas').css('height', function(){
-      return Math.floor(c.width*floors[currentFloor].height/floors[currentFloor].width);
-    });
-    c.height = parseInt($('#myCanvas').css('height'));
-    $('svg').attr({'width':c.width,'height':c.height});
-    $('svg').css({'width':c.width,'height':c.height});
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.drawImage(can[currentFloor], shiftX, shiftY, can[currentFloor].width/currentZoom,
-                  can[currentFloor].height/currentZoom, 0,0,c.width,c.height);
-  }
 
   //add hooks to allow setting svg preserveAspectRatio and viewbox parameters
   $.attrHooks['viewbox'] = {
