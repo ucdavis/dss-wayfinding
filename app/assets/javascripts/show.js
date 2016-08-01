@@ -5,54 +5,23 @@
 //= require redirect
 //= require jquery.panzoom.js
 
-var floors = [];            //stores img files for each floor
-var c;                      //variable that points to #myCanvas
-var ctx;                    //context for c
-var touchesRecord = {};     //Stores last set of touch values
-var currentFloor = 0;       //The current active floor
-var nextFloor = 0;          //The floor to switch to when floor change occurs
-var can = [];               //set of internal canvases that can be drawn to for each floor
-var con = [];               //set of contexts for can variable
-
-var down = false;           //limits user panning on pc to when mouse button is held down over the image area
-var mouseX;                 //last recorded mouse x location during start/move events
-var mouseY;                 //last recorded mouse y location during start/move events
-var mouseMoved = false;     //whether mouse has moved since mouse button was pressed down (may no longer be used)
-var shiftX = 0;             //distance to shift left side of viewbox
-var shiftY = 0;             //distance to shift top of viewbox
-var shiftXMax = 0;          //maximum distance to shift left side of viewbox at current zoom level
-var shiftYMax = 0;          //maximum distance to shift top of viewbox at current zoom level
 var drawing;                //variable to hold route information
-var views = [];             /*holds initial viewbox information for each floor: views[floor#][x] where
-                              0 <= x < 4, in order: minimum x, minimum y, width, height of SVG*/
-var bases = [];             //holds x and y displacement values for each floor
-var currentZoom = 1;        //current magnification level
-var maxZoom = 3;            //maximum allowed magnification.
 var destination;
-var animating = false;      /*currently does not effect operation, use as a check if you want something to
+var animating = false;      /* Use as a check if you want something to
                               NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
-//line constants
-var animationSpeed = 20;    //time to wait between animation frames
-var drawLength = 3;         //number of pixels to draw per frame when drawing a line
-var lineWidth = 5;          //width of line to draw for routes
-var lineColor = "#FF00FF";  //color of line to draw for routes
 
-// svgPanZoom
-var svgControl;
-
-//once all data is loaded, set up internal canvases, contexts, default viewboxes.
+//functions to run once everything has loaded
 function onLoad(){
   initialDraw();
 }
 
 function setPanZoom() {
-  svgControl = $("#svgImage");
   $("#svgImage a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
-  svgControl.panzoom({
+  $("#svgImage").panzoom({
     $zoomIn: $(".zoom-in"),
     $zoomOut: $(".zoom-out"),
     $reset: $(".zoom-reset"),
@@ -169,27 +138,6 @@ function begin(){
     }
   });
 }
-
-  //add hooks to allow setting svg preserveAspectRatio and viewbox parameters
-  $.attrHooks['viewbox'] = {
-    get: function(elem) {
-      return elem.getAttribute("viewBox");
-    },
-    set: function(elem, value){
-      elem.setAttribute("viewBox", value);
-      return true;
-    },
-  };
-
-  $.attrHooks['preserveAspectRatio'] = {
-    get: function(elem) {
-      return elem.getAttribute("preserveAspectRatio");
-    },
-    set: function(elem, value){
-      elem.setAttribute("preserveAspectRatio", value);
-      return true;
-    },
-  };
 
   var toggleInfoPanel = function (state) {
     state = state || 'toggle';
