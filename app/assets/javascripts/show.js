@@ -66,15 +66,10 @@ function setPanZoom() {
 function initialDraw(){
   $("#mapLoading").remove();
   $('#floor'+currentFloor).css("display", "inline");
-  // $("div.floor svg").attr({"width":c.width,"height":c.height});
-  // $("div.floor svg").css({"width":c.width,"height":c.height});
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
-  // ctx.clearRect(0,0,c.height,c.width);
-  // ctx.drawImage(can[currentFloor],0,0,can[currentFloor].width,
-                // can[currentFloor].height,0,0,c.width,c.height);
   $("#floor" + currentFloor).css("display","inline");
+  // setPanZoom();
   //if destination was included in page call, run routing function
-  setPanZoom();
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
 }
@@ -98,39 +93,6 @@ function changeSVGFloor(newFloor){
 
 //attaches listeners
 function begin(){
-  $("svg").on('mousedown', function(event){
-    down = true;
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-  });
-
-  $("body").on('mouseleave', function(event){
-    down = false;
-  });
-
-  $("body, svg").on('mousemove', function(event){
-    if (down){
-      shiftX = shiftX - (event.clientX - mouseX) / currentZoom;
-      shiftY = shiftY - (event.clientY - mouseY) / currentZoom;
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-      mouseMoved = true;
-      if (shiftX < 0) shiftX = 0;
-      else if (shiftX > shiftXMax) shiftX = shiftXMax;
-      if (shiftY < 0) shiftY = 0;
-      else if (shiftY > shiftYMax) shiftY = shiftYMax;
-      ctx.clearRect(0,0,c.width,c.height);
-      ctx.drawImage(can[currentFloor],shiftX,shiftY,can[currentFloor].width/currentZoom,
-                    can[currentFloor].height/currentZoom,0,0,c.width,c.height);
-      updateViewBox();
-    }
-  });
-
-  $("body").on('mouseup', function(event){
-    down = false;
-    mouseMoved = false;
-  });
-
   $("#Rooms a").click(function(event){
     event.preventDefault();
     if (!animating){
