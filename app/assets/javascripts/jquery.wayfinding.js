@@ -1323,6 +1323,7 @@
                 case 'animatePath':
                     hidePath(obj);
                     $(".btn-access.replay").addClass("disabled")
+                    animating = true;
                     animatePath(drawing, 0);
                     break;
                 case 'startpoint':

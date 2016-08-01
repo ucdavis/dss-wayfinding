@@ -74,16 +74,6 @@ function initialDraw(){
     $(document).trigger('show:roomClick', {room_id: destination});
 }
 
-//updates the viewbox of the current svg
-function updateViewBox(){
-  $("#floor" + currentFloor + " svg").attr("viewbox", function(){
-    return ((shiftX*views[currentFloor][2]/can[currentFloor].width + views[currentFloor][0]) + " " +
-           (shiftY*views[currentFloor][3]/can[currentFloor].height + views[currentFloor][1]) + " " +
-           views[currentFloor][2]/currentZoom + " " + views[currentFloor][3]/currentZoom);
-  });
-
-}
-
 //changes the svg displayed
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
@@ -135,6 +125,7 @@ function begin(){
     e.preventDefault();
     setRedirectToHome();
     $("a.accessible").toggleClass('active');
+    console.log("HELLO");
     $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
                               function() {
       if($('.replay').hasClass("disabled") == false && !animating) {
@@ -163,9 +154,10 @@ function begin(){
 
   $(document).on('wayfinding:animationComplete', function(e, data) {
     toggleInfoPanel();
+    animating = false;
 
     // Enable Replay
-    $(".btn-access.replay").removeClass("disabled");
+    $(".replay").removeClass("disabled");
   });
 
   $('.replay').click(function(e) {
