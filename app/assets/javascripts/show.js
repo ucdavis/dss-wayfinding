@@ -68,7 +68,7 @@ function addListeners(){
   document.getElementById('viewing').addEventListener('touchstart', touchStart);
   document.getElementById('viewing').addEventListener('touchmove', touchMove);
   document.getElementById('viewing').addEventListener('touchend', touchEnd);
-  window.addEventListener('resize', resize);
+  // window.addEventListener('resize', resize);
 }
 
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
