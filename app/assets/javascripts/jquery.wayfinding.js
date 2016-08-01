@@ -277,7 +277,7 @@
         function initialize(obj, callback) {
             svgsLoaded = 0;
             loaded = false;
-            
+
             // Load SVGs off the network
             $.each(maps, function (i, map) {
                 var svgDiv = $('<svg id="' + map.id + '" class="floor"><\/div>');
@@ -288,7 +288,7 @@
                   url: map.path,
                   type: "GET",
                   dataType: "html",
-                  async: true,
+                  async: false,
                   cache: true,
                   success: function(svg, status, xhr) {
                     if (status === 'error') {
@@ -311,7 +311,7 @@
                     url: "/maps/data-floor" + i + ".svg",
                     type: "GET",
                     dataType: "html",
-                    async: true,
+                    async: false,
                     cache: true,
                     success: function(dataSVG, status, xhr) {
                         $(dataSVG).appendTo(svgDiv);
