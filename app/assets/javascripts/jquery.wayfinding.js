@@ -288,7 +288,7 @@
                   url: map.path,
                   type: "GET",
                   dataType: "html",
-                  async: false,
+                  async: true,
                   cache: true,
                   success: function(svg, status, xhr) {
                     if (status === 'error') {
@@ -311,7 +311,7 @@
                     url: "/maps/data-floor" + i + ".svg",
                     type: "GET",
                     dataType: "html",
-                    async: false,
+                    async: true,
                     cache: true,
                     success: function(dataSVG, status, xhr) {
                         $(dataSVG).appendTo(svgDiv);
