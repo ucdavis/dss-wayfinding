@@ -125,7 +125,6 @@ function begin(){
     e.preventDefault();
     setRedirectToHome();
     $("a.accessible").toggleClass('active');
-    console.log("HELLO");
     $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
                               function() {
       if($('.replay').hasClass("disabled") == false && !animating) {
