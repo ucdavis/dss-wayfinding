@@ -105,8 +105,6 @@ function begin(){
       // ... still if there's a shortest path ...
       if (drawing[0].length > 0){
         // Ensure the info panel is minimized
-        toggleInfoPanel('min');
-
         $.get({
           url: "/room/" + destination.substr(1) + ".json",
           async: false,
@@ -127,7 +125,7 @@ function begin(){
     $("a.accessible").toggleClass('active');
     $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
                               function() {
-      if($('.replay').hasClass("disabled") == false && !animating) {
+      if($('.replay').hasClass("disabled") == false) {
         drawing = $('#svgImage').wayfinding('routeTo', destination);
         $('.replay').addClass('disabled');
         $("#svgImage").wayfinding('animatePath');

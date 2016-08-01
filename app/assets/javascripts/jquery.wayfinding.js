@@ -1323,6 +1323,7 @@
                 case 'animatePath':
                     hidePath(obj);
                     $(".btn-access.replay").addClass("disabled")
+                    toggleInfoPanel('min');
                     animating = true;
                     animatePath(drawing, 0);
                     break;
@@ -1350,6 +1351,10 @@
                         options.accessibleRoute = passed;
                         if (!options.emscriptenBackend) {
                             establishDataStore(options.accessibleRoute, callback);
+                        } else {
+                          if (typeof callback == 'function') {
+                            callback();
+                          }
                         }
                     }
                     break;
