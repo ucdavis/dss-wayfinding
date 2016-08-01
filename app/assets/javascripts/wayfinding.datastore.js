@@ -748,7 +748,7 @@ WayfindingDataStore = {
   },
 
   buildDatastoreForEmscripten: function(maps) {
-      var cachedDataStore = localStorage.getItem('datastore');
+      var cachedDataStore = localStorage.getItem('wayfindingDatastore');
 
       // TODO: Ensure cache is invalided should maps be updated.
       if(cachedDataStore == null) {
@@ -770,10 +770,10 @@ WayfindingDataStore = {
 
           WayfindingDataStore.matchPortals();
 
-          localStorage.setItem('datastore', WayfindingDataStore.dataStore);
+          localStorage.setItem('wayfindingDatastore', JSON.stringify(WayfindingDataStore.dataStore));
       } else {
           console.debug("Emscripten datastore found in cache.");
-          WayfindingDataStore.dataStore = cachedDataStore;
+          WayfindingDataStore.dataStore = JSON.parse(cachedDataStore);
       }
 
       return WayfindingDataStore.dataStore;
