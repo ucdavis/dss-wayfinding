@@ -11,7 +11,6 @@ var animating = false;      /* Use as a check if you want something to
                               NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
-
 //functions to run once everything has loaded
 function onLoad(){
   initialDraw();
@@ -21,6 +20,7 @@ function setPanZoom() {
   $("#svgImage a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
+
   $("#svgImage").panzoom({
     $zoomIn: $(".zoom-in"),
     $zoomOut: $(".zoom-out"),
@@ -129,7 +129,7 @@ function begin(){
     // Enable Replay
     $(".replay").removeClass("disabled");
   });
-  
+
   $('.replay').click(function(e) {
     e.preventDefault();
     if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
