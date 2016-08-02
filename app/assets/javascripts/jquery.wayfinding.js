@@ -289,23 +289,12 @@
                   type: "GET",
                   dataType: "html",
                   async: false,
-<<<<<<< HEAD
-=======
                   cache: true,
->>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                   success: function(svg, status, xhr) {
                     if (status === 'error') {
                         $('#map').html("<div id='mapLoading'><div id='mapLoadingInner'>Map " + i + " was not found. " +
                             "<br />Please upload it in the administration section.</div></div>");
                             // + map.path +
-<<<<<<< HEAD
-                        maps[i].el = svgDiv;
-                    } // end error
-
-                    maps[i].svgHandle = svg;
-                    maps[i].el = svgDiv;
-                    $(svgDiv).append(svg);
-=======
                         maps[i].el = svgDiv;
                     } else {
                         maps[i].svgHandle = svg;
@@ -314,37 +303,11 @@
 
                         svgsLoaded = svgsLoaded + 1;
                     }
->>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                   }
                 }); // End load map
 
                 // Load data Layer
                 $.ajax({
-<<<<<<< HEAD
-                  url: "/maps/data-floor" + i + ".svg",
-                  type: "GET",
-                  dataType: "html",
-                  async: false,
-                  success: function(dataSVG, status, xhr) {
-                    $(dataSVG).appendTo(svgDiv);
-                    WayfindingDataStore.cleanupSVG(maps[i].el);
-                    $(obj).append(svgDiv);
-
-                    mapsProcessed = mapsProcessed + 1;
-                    if(mapsProcessed === maps.length && status !== 'error') {
-                        // All SVGs have finished loading
-                        establishDataStore(options.accessibleRoute, function() {
-                            // SVGs are loaded, dataStore is set, ready the DOM
-                            setStartPoint(options.startpoint, obj);
-                            setOptions(obj);
-                            endInit();
-                            if (typeof callback === 'function') {
-                                callback();
-                            }
-                        });
-                    }
-                  }
-=======
                     url: "/maps/data-floor" + i + ".svg",
                     type: "GET",
                     dataType: "html",
@@ -356,7 +319,6 @@
 
                         svgsLoaded = svgsLoaded + 1;
                     }
->>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                 });
             });
 
@@ -1361,11 +1323,8 @@
                 case 'animatePath':
                     hidePath(obj);
                     $(".btn-access.replay").addClass("disabled")
-<<<<<<< HEAD
-=======
                     toggleInfoPanel('min');
                     animating = true;
->>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                     animatePath(drawing, 0);
                     break;
                 case 'startpoint':
