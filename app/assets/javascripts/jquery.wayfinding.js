@@ -71,7 +71,8 @@
             portalSegments = [], // used to store portal pieces until the portals are assembled, then this is dumped. This got moved to datastore
             result, // used to return non jQuery results
             idToIndex = {}, // maps floor IDs to an index used by the datastore
-            drawing;
+            drawing,
+            svgsLoaded;
 
         //Takes x and y coordinates and makes a location indicating pin for those
         //coordinates. Returns the pin element, not yet attached to the DOM.)
@@ -274,7 +275,9 @@
 
         // Initialize the jQuery target object
         function initialize(obj, callback) {
-            var mapsProcessed = 0;
+            svgsLoaded = 0;
+            loaded = false;
+
             // Load SVGs off the network
             $.each(maps, function (i, map) {
                 var svgDiv = $('<svg id="' + map.id + '" class="floor"><\/div>');
@@ -286,22 +289,38 @@
                   type: "GET",
                   dataType: "html",
                   async: false,
+<<<<<<< HEAD
+=======
+                  cache: true,
+>>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                   success: function(svg, status, xhr) {
                     if (status === 'error') {
                         $('#map').html("<div id='mapLoading'><div id='mapLoadingInner'>Map " + i + " was not found. " +
                             "<br />Please upload it in the administration section.</div></div>");
                             // + map.path +
+<<<<<<< HEAD
                         maps[i].el = svgDiv;
                     } // end error
 
                     maps[i].svgHandle = svg;
                     maps[i].el = svgDiv;
                     $(svgDiv).append(svg);
+=======
+                        maps[i].el = svgDiv;
+                    } else {
+                        maps[i].svgHandle = svg;
+                        maps[i].el = svgDiv;
+                        $(svgDiv).append(svg);
+
+                        svgsLoaded = svgsLoaded + 1;
+                    }
+>>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                   }
                 }); // End load map
 
                 // Load data Layer
                 $.ajax({
+<<<<<<< HEAD
                   url: "/maps/data-floor" + i + ".svg",
                   type: "GET",
                   dataType: "html",
@@ -325,12 +344,46 @@
                         });
                     }
                   }
+=======
+                    url: "/maps/data-floor" + i + ".svg",
+                    type: "GET",
+                    dataType: "html",
+                    async: false,
+                    cache: true,
+                    success: function(dataSVG, status, xhr) {
+                        $(dataSVG).appendTo(svgDiv);
+                        $(obj).append(svgDiv);
+
+                        svgsLoaded = svgsLoaded + 1;
+                    }
+>>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                 });
             });
+
+            console.debug("Calling continueInitAfterLoading for the first time ...");
+            continueInitAfterLoading();
         } // function initialize
 
-        function endInit(){
-          loaded = true;
+        // End of initialization has to be able to call itself while waiting for
+        // $.ajax() map loading to finish.
+        function continueInitAfterLoading() {
+            if (! (svgsLoaded === (maps.length * 2) && status !== 'error')) {
+                console.debug("Waiting on map loading ...");
+                setTimeout(continueInitAfterLoading, 100);
+            } else {
+                console.debug("Done waiting on map loading. Continuing init.");
+                console.debug("svgsLoaded = " + svgsLoaded + ", maps.length * 2 = " + (maps.length * 2));
+                // All SVGs have finished loading
+                establishDataStore(options.accessibleRoute, function() {
+                    // SVGs are loaded, dataStore is set, ready the DOM
+                    setStartPoint(options.startpoint, obj);
+                    setOptions(obj);
+                    loaded = true;
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                });
+            }
         }
 
         // Ensure a dataStore exists and is set
@@ -1308,6 +1361,11 @@
                 case 'animatePath':
                     hidePath(obj);
                     $(".btn-access.replay").addClass("disabled")
+<<<<<<< HEAD
+=======
+                    toggleInfoPanel('min');
+                    animating = true;
+>>>>>>> 355d704b794dc2db2f0f25210002043f4e6ff144
                     animatePath(drawing, 0);
                     break;
                 case 'startpoint':
@@ -1334,6 +1392,10 @@
                         options.accessibleRoute = passed;
                         if (!options.emscriptenBackend) {
                             establishDataStore(options.accessibleRoute, callback);
+                        } else {
+                          if (typeof callback == 'function') {
+                            callback();
+                          }
                         }
                     }
                     break;

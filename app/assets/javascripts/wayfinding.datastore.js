@@ -26,18 +26,6 @@ WayfindingDataStore = {
   idToIndex: {},
   queue: null,
 
-  // Needs to be here in WayfindingDataStore and not in jQuery.Wayfinding as it
-  // can be used by NodeJS scripts to clean up rooms and generate routes as well.
-  cleanupSVG: function (el) {
-  	// clean up after illustrator -> svg issues
-  	$('#Rooms a, #Doors line', el).each(function () {
-  		if ($(this).prop('id') && $(this).prop('id').indexOf('_') > 0) {
-  			var oldID = $(this).prop('id');
-  			$(this).prop('id', oldID.slice(0, oldID.indexOf('_')));
-  		}
-  	});
-  }, //function cleanupSVG
-
   // Extract data from the svg maps
   buildDataStore: function (mapNum, map, el) {
   	var path,
@@ -489,13 +477,6 @@ WayfindingDataStore = {
       $('#Doors line', map.el).each(function () {
         var doorId = $(this).attr('id');
 
-        // cleanupSVG does this but it might not be called at this point.
-        // Ensure IDs do not have Illustrator '_' junk
-        if (doorId && doorId.indexOf('_') > 0) {
-          var oldID = doorId;
-          doorId = oldID.slice(0, oldID.indexOf('_'));
-        }
-
         rooms.push(doorId);
       });
     });
@@ -550,7 +531,6 @@ WayfindingDataStore = {
 
     // Build the dataStore from each map given
     $.each(maps, function(i, map) {
-      WayfindingDataStore.cleanupSVG(map.el);
       WayfindingDataStore.buildDataStore(i, map, map.el);
     });
 
@@ -768,32 +748,44 @@ WayfindingDataStore = {
   },
 
   buildDatastoreForEmscripten: function(maps) {
-      WayfindingDataStore.dataStore = {
-          'doors': [],
-          'paths': [],
-          'portals': []
-      };
+      var cachedDataStore = localStorage.getItem('wayfindingDatastore');
 
-      // Build the dataStore from each map given
-      $.each(maps, function(i, map) {
-          WayfindingDataStore.queue = new PriorityQueue({ comparator: WayfindingDataStore.comparePoints });
-          WayfindingDataStore.buildDoors(i, map.el);
-          WayfindingDataStore.buildPaths(i, map.el);
-          WayfindingDataStore.buildPortalsForEmscripten(i, map.el);
-          WayfindingDataStore.buildConnections(i);
-      });
+      // TODO: Ensure cache is invalided should maps be updated.
+      if(cachedDataStore == null) {
+          console.debug("Emscripten datastore is not cached. Re-building ...");
+          WayfindingDataStore.dataStore = {
+              'doors': [],
+              'paths': [],
+              'portals': []
+          };
 
-      WayfindingDataStore.matchPortals();
+          // Build the dataStore from each map given
+          $.each(maps, function(i, map) {
+              WayfindingDataStore.queue = new PriorityQueue({ comparator: WayfindingDataStore.comparePoints });
+              WayfindingDataStore.buildDoors(i, map.el);
+              WayfindingDataStore.buildPaths(i, map.el);
+              WayfindingDataStore.buildPortalsForEmscripten(i, map.el);
+              WayfindingDataStore.buildConnections(i);
+          });
+
+          WayfindingDataStore.matchPortals();
+
+          localStorage.setItem('wayfindingDatastore', JSON.stringify(WayfindingDataStore.dataStore));
+      } else {
+          console.debug("Emscripten datastore found in cache.");
+          WayfindingDataStore.dataStore = JSON.parse(cachedDataStore);
+      }
 
       return WayfindingDataStore.dataStore;
   }, // function buildDatastoreForEmscripten
 
   build: function (startpoint, maps, accessible, emscriptenBackend, idToIndex) {
       if (emscriptenBackend) {
+          console.debug("WayfindingDataStore.build using emscriptenBackend.");
           WayfindingDataStore.idToIndex = idToIndex;
           return WayfindingDataStore.buildDatastoreForEmscripten(maps);
-      }
-      else {
+      } else {
+          console.debug("WayfindingDataStore.build not using emscriptenBackend.");
           return WayfindingDataStore.buildDatastoreForRecursive(startpoint, maps, accessible);
       }
   }

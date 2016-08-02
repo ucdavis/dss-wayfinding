@@ -80,7 +80,7 @@
 					<polygon fill="#FFFF33" points="318.9038,132.1357 333.0684,123.9678 338.4473,133.2749 324.251,141.4619 				"/>
 				</g>
 			</a>
-			<a id="R4217_1_" xlink:href="#" >
+			<a id="R4217" xlink:href="#" >
 				<g>
 					<polygon fill="#FFFF33" points="353.7207,192.4707 367.6816,184.4023 370.208,188.7754 377.9258,184.1445 375.4707,179.9121
 						389.3613,171.8911 391.3496,175.3965 389.7598,176.3105 390.8574,178.251 392.4746,177.3203 400.2607,190.7637
@@ -159,46 +159,45 @@
 		</g> <!-- End Portals -->
 
 		<g id="Doors">
-
 				<line id="R4217" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="373.0049" y1="185.1016" x2="379.0273" y2="191.125"/>
 
-				<line id="R4216_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="360.7617" y1="154.4448" x2="363.3457" y2="148.373"/>
+				<line id="R4216" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="360.7617" y1="154.4448" x2="363.3457" y2="148.373"/>
 
-				<line id="R4214_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="353.7031" y1="137.875" x2="358.0703" y2="141.4619"/>
+				<line id="R4214" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="353.7031" y1="137.875" x2="358.0703" y2="141.4619"/>
 
-				<line id="R4215_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="344.126" y1="146.0698" x2="338.6816" y2="148.4902"/>
+				<line id="R4215" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="344.126" y1="146.0698" x2="338.6816" y2="148.4902"/>
 
-				<line id="R4213_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="338.4473" y1="136.146" x2="335.9209" y2="141.771"/>
+				<line id="R4213" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="338.4473" y1="136.146" x2="335.9209" y2="141.771"/>
 
-				<line id="R4212_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="346.498" y1="125.23" x2="346.6543" y2="120.188"/>
+				<line id="R4212" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="346.498" y1="125.23" x2="346.6543" y2="120.188"/>
 
-				<line id="R4211_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="335.9209" y1="131.895" x2="327.4707" y2="131.9492"/>
+				<line id="R4211" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="335.9209" y1="131.895" x2="327.4707" y2="131.9492"/>
 
-				<line id="R4209_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="327.3867" y1="116.8198" x2="324.998" y2="121.3091"/>
+				<line id="R4209" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="327.3867" y1="116.8198" x2="324.998" y2="121.3091"/>
 
-				<line id="R4210_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="337.3574" y1="111.563" x2="343.5566" y2="111.25"/>
+				<line id="R4210" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="337.3574" y1="111.563" x2="343.5566" y2="111.25"/>
 
-				<line id="R4208_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="335.1309" y1="106.813" x2="338.4229" y2="101.1172"/>
+				<line id="R4208" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="335.1309" y1="106.813" x2="338.4229" y2="101.1172"/>
 
-				<line id="R4207_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="324.8125" y1="112.6709" x2="317.439" y2="112.6709"/>
+				<line id="R4207" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="324.8125" y1="112.6709" x2="317.439" y2="112.6709"/>
 
-				<line id="R4206_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="326.3887" y1="91.271" x2="333.7441" y2="91.604"/>
+				<line id="R4206" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="326.3887" y1="91.271" x2="333.7441" y2="91.604"/>
 
-				<line id="R4205_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="315.7607" y1="97.3979" x2="312.71" y2="101.813"/>
+				<line id="R4205" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="315.7607" y1="97.3979" x2="312.71" y2="101.813"/>
 
-				<line id="R4204_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="324.4902" y1="87.7568" x2="328.3359" y2="81.8262"/>
+				<line id="R4204" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="324.4902" y1="87.7568" x2="328.3359" y2="81.8262"/>
 
-				<line id="R4203_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="312.9648" y1="92.979" x2="305.3691" y2="92.7139"/>
+				<line id="R4203" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="312.9648" y1="92.979" x2="305.3691" y2="92.7139"/>
 
-				<line id="R4202_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="290.1641" y1="29.8447" x2="299.939" y2="33.688"/>
+				<line id="R4202" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="290.1641" y1="29.8447" x2="299.939" y2="33.688"/>
 
-				<line id="R4202A_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300.8301" y1="46.605" x2="303.251" y2="48.438"/>
+				<line id="R4202A" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300.8301" y1="46.605" x2="303.251" y2="48.438"/>
 
-				<line id="R4101_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.6392" y1="91.1641" x2="72.7788" y2="98.3052"/>
+				<line id="R4101" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="65.6392" y1="91.1641" x2="72.7788" y2="98.3052"/>
 
-				<line id="R4101A_1_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="123.3999" y1="143.0088" x2="116.0122" y2="144.939"/>
+				<line id="R4101A" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="123.3999" y1="143.0088" x2="116.0122" y2="144.939"/>
 
-				<line id="R4101_2_" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="100.019" y1="145.251" x2="100.019" y2="133.3818"/>
+				<line id="R4101" fill="none" stroke="#000000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="100.019" y1="145.251" x2="100.019" y2="133.3818"/>
 		</g> <!-- End Doors -->
 
 		<g id="Paths" style="opacity: 1">
