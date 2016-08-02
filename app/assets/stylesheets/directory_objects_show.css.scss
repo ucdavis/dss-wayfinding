@@ -804,7 +804,7 @@ body {
 
 #map {
   &.safari-mobile-compatibility {
-    margin-top: -35px;
+    //margin-top: -35px;
     margin-bottom: 35px;
   }
 }
@@ -812,7 +812,7 @@ body {
 /* this is the map display */
 #map {
   width: 100%;
-  height: calc(90vh - 28vw);
+  //height: calc(90vh - 28vw);
   min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
   text-align: center;
 
@@ -966,6 +966,10 @@ body {
     height: calc((1.1/2) * 95vw); /* Needed to force a vertical align */
   }
 
+    #map {
+  height: calc(90vh - 28vw);
+  } 
+
   .navbar-collapse img {
     height: 11vh;
   }
@@ -995,6 +999,10 @@ body {
     width: calc((2/1.1) * 58vh);
     height: 58vh;
   }
+
+    #map {
+  height: calc(90vh - 0vw);
+  } 
 
   .navbar-collapse img {
     height: 25vh;
@@ -1312,6 +1320,10 @@ body {
   height: calc(100vh - 180px);
   overflow-y:scroll;
   }
+
+  #map {
+  height: calc(90vh - 28vw);
+  } 
 
   #viewing {
     left: 15px; //fix left distance in tablet/desktop view

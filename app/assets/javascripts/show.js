@@ -129,7 +129,7 @@ function begin(){
     // Enable Replay
     $(".replay").removeClass("disabled");
   });
-
+  
   $('.replay').click(function(e) {
     e.preventDefault();
     if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
