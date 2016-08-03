@@ -48,7 +48,7 @@
       //waits for wayfinding initialization to flag svg load complete, then calls function to
       //set default styles for each object in the floor divs.
       function wait() {
-        if($("#svgImage").wayfinding('fullyLoaded') == true) {
+        if($("#viewing").wayfinding('fullyLoaded') == true) {
           $("div.ui-loader").remove();
           begin();
           setVisibilities();
@@ -88,8 +88,7 @@
   <div class="row">
     <div id="map">
       <div id="viewing">
-        <svg id="svgImage">
-        </svg>
+        
       </div>
 
       <div id="mapLoading">
