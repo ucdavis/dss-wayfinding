@@ -300,7 +300,7 @@
                     } else {
                         maps[i].svgHandle = svg;
                         maps[i].el = svgDiv;
-                        $(svgDiv).append(svg);
+                        $(svgDiv).prepend(svg);
 
                         svgsLoaded = svgsLoaded + 1;
                     }
@@ -335,7 +335,6 @@
                     continueInitAfterLoading(mapFragment, obj);
                 }, 100);
             } else {
-                console.log(mapFragment);
                 $(obj).append(mapFragment);
                 console.debug("Done waiting on map loading. Continuing init.");
                 console.debug("svgsLoaded = " + svgsLoaded + ", maps.length * 2 = " + (maps.length * 2));
@@ -452,7 +451,7 @@
                 // map svg
                 // data svg
               // end svg id
-            svg = $('#' + maps[mapIdx].id + ' svg')[0];
+            svg = $('#' + maps[mapIdx].id + " svg")[0];
 
             drawLength = drawing[drawingSegment].routeLength;
             animationDuration = drawLength * options.path.speed;
