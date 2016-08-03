@@ -16,12 +16,12 @@ function onLoad(){
   initialDraw();
 }
 
-function setPanZoom() {
-  $("#viewing a").on('mousedown touchstart', function( e ) {
+function setPanZoom(target) {
+  $(target + " a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
 
-  $("#viewing").panzoom({
+  $(target).panzoom({
     $zoomIn: $(".zoom-in"),
     $zoomOut: $(".zoom-out"),
     $reset: $(".zoom-reset"),
@@ -31,13 +31,18 @@ function setPanZoom() {
   });
 }
 
+function destroyPanZoom(target) {
+  $(target).panzoom("reset");
+  $(target).panzoom("destroy");
+}
+
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
 function initialDraw(){
   $("#mapLoading").remove();
   $('#floor'+currentFloor).css("display", "inline");
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   $("#floor" + currentFloor).css("display","inline");
-  // setPanZoom();
+  setPanZoom('#floor'+currentFloor);
   //if destination was included in page call, run routing function
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
@@ -47,6 +52,9 @@ function initialDraw(){
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
+  
+  destroyPanZoom("#floor" + currentFloor);
+  setPanZoom('#floor'+newFloor);
   currentFloor = newFloor;
 }
 
