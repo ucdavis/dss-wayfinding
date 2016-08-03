@@ -275,6 +275,7 @@
 
         // Initialize the jQuery target object
         function initialize(obj, callback) {
+            var mapFragment = document.createDocumentFragment();
             svgsLoaded = 0;
             loaded = false;
 
@@ -288,7 +289,7 @@
                   url: map.path,
                   type: "GET",
                   dataType: "html",
-                  async: false,
+                  async: true,
                   cache: true,
                   success: function(svg, status, xhr) {
                     if (status === 'error') {
@@ -311,28 +312,31 @@
                     url: "/maps/data-floor" + i + ".svg",
                     type: "GET",
                     dataType: "html",
-                    async: false,
+                    async: true,
                     cache: true,
                     success: function(dataSVG, status, xhr) {
                         $(dataSVG).appendTo(svgDiv);
-                        $(obj).append(svgDiv);
-
+                        $(mapFragment).append(svgDiv);
                         svgsLoaded = svgsLoaded + 1;
                     }
                 });
             });
 
             console.debug("Calling continueInitAfterLoading for the first time ...");
-            continueInitAfterLoading();
+            continueInitAfterLoading(mapFragment, obj);
         } // function initialize
 
         // End of initialization has to be able to call itself while waiting for
         // $.ajax() map loading to finish.
-        function continueInitAfterLoading() {
+        function continueInitAfterLoading(mapFragment, obj) {
             if (! (svgsLoaded === (maps.length * 2) && status !== 'error')) {
                 console.debug("Waiting on map loading ...");
-                setTimeout(continueInitAfterLoading, 100);
+                setTimeout(function() {
+                    continueInitAfterLoading(mapFragment, obj);
+                }, 100);
             } else {
+                console.log(mapFragment);
+                $(obj).append(mapFragment);
                 console.debug("Done waiting on map loading. Continuing init.");
                 console.debug("svgsLoaded = " + svgsLoaded + ", maps.length * 2 = " + (maps.length * 2));
                 // All SVGs have finished loading
