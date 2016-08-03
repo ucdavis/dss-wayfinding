@@ -1,7 +1,7 @@
 module DirectoryObjectsHelper
   def wayfinding_plugin(svg_paths, origin, dest = nil)
     dest = '\'' + dest + '\'' unless dest.nil?
-    str = "$('#svgImage').wayfinding({
+    str = "$('#viewing').wayfinding({
     'maps': ["
 
     svg_paths.each_with_index do |svg, i|
