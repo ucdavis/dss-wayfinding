@@ -18,7 +18,7 @@
 
 (function ($) {
     'use strict';
-    
+
     var loaded = false;
     var defaults = {
         // Defaults to a local file called floorplan.svg
@@ -47,14 +47,6 @@
         'defaultMap': function () {
             return 'map.1';
         },
-        // should dataStoreCache should be used
-        // null is cache should not be used
-        // string representing url if it should be used
-        // object if cache is being passed
-        'dataStoreCache': null,
-        // if dataStoreCache is string, this is string
-        // of url to accessible cache
-        'accessibleDataStoreCache': null,
         // place marker for "you are here"
         'showLocation': false,
         //styling for the "you are here pin"
@@ -329,52 +321,18 @@
           loaded = true;
         }
 
-        // Ensure a dataStore exists and is set, whether from a cache
-        // or by building it.
+        // Ensure a dataStore exists and is set
         function establishDataStore(accessible, onReadyCallback) {
             if(accessible === undefined) {
                 accessible = false;
             }
 
-            if (options.dataStoreCache) {
-                if (typeof(options.dataStoreCache) === 'object') {
-                    console.debug('Using passed dataStoreCache object.');
+            WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
 
-                    WayfindingDataStore.dataStore = options.dataStoreCache;
-
-                    if(typeof(onReadyCallback) === 'function') {
-                        onReadyCallback();
-                    }
-                } else if (typeof(options.dataStoreCache) === 'string') {
-                    console.debug("Attempting to load dataStoreCache from URL ...");
-                    var cacheUrl = accessible ? options.accessibleDataStoreCache : options.dataStoreCache;
-
-                    $.getJSON(cacheUrl, function (result) {
-                        console.debug('Using dataStoreCache from remote.');
-                        WayfindingDataStore.dataStore = result;
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    }).fail(function () {
-                        console.error('Failed to load dataStore cache from URL. Falling back to client-side dataStore generation.');
-
-                        WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                        if(typeof(onReadyCallback) === 'function') {
-                            onReadyCallback();
-                        }
-                    });
-                }
-            } else {
-                console.debug("No dataStore cache set, building with startpoint '" + options.startpoint + "' ...");
-
-                WayfindingDataStore.dataStore = WayfindingDataStore.build(options.startpoint, maps, accessible, options.emscriptenBackend, idToIndex);
-
-                if(typeof(onReadyCallback) === 'function') {
-                    onReadyCallback();
-                }
+            if(typeof(onReadyCallback) === 'function') {
+                onReadyCallback();
             }
+
         }
 
         // Called when animatePath() is switching the floor and also when
