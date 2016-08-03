@@ -17,11 +17,11 @@ function onLoad(){
 }
 
 function setPanZoom() {
-  $("#svgImage a").on('mousedown touchstart', function( e ) {
+  $("#viewing a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
 
-  $("#svgImage").panzoom({
+  $("#viewing").panzoom({
     $zoomIn: $(".zoom-in"),
     $zoomOut: $(".zoom-out"),
     $reset: $(".zoom-reset"),
@@ -37,7 +37,7 @@ function initialDraw(){
   $('#floor'+currentFloor).css("display", "inline");
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   $("#floor" + currentFloor).css("display","inline");
-  setPanZoom();
+  // setPanZoom();
   //if destination was included in page call, run routing function
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
@@ -64,7 +64,7 @@ function begin(){
     console.debug("Clicked room: " + data.room_id);
 
     // Get the shortest path
-    drawing = $("#svgImage").wayfinding('routeTo', destination);
+    drawing = $("#viewing").wayfinding('routeTo', destination);
 
     // Reset the home page return timer
     setRedirectToHome();
@@ -83,7 +83,7 @@ function begin(){
           }
         });
 
-        $("#svgImage").wayfinding('animatePath');
+        $("#viewing").wayfinding('animatePath');
       }
     }
   });
@@ -94,12 +94,12 @@ function begin(){
 
     if (!animating) {
       $("a.accessible").toggleClass('active');
-      $('#svgImage').wayfinding('accessibleRoute', !$('#svgImage').wayfinding('accessibleRoute'),
+      $('#viewing').wayfinding('accessibleRoute', !$('#viewing').wayfinding('accessibleRoute'),
                                 function() {
         if($('.replay').hasClass("disabled") == false) {
-          drawing = $('#svgImage').wayfinding('routeTo', destination);
+          drawing = $('#viewing').wayfinding('routeTo', destination);
           $('.replay').addClass('disabled');
-          $("#svgImage").wayfinding('animatePath');
+          $("#viewing").wayfinding('animatePath');
         }
       });
     }
@@ -133,7 +133,7 @@ function begin(){
   $('.replay').click(function(e) {
     e.preventDefault();
     if (drawing.length > 0 && !$(this).hasClass('disabled') && !animating) {
-      $("#svgImage").wayfinding('animatePath');
+      $("#viewing").wayfinding('animatePath');
       toggleInfoPanel('min');
     }
   });
