@@ -31,6 +31,7 @@ module DirectoryObjectsHelper
     'zoomToRoute' : false,
     'showLocation' : true,
     'emscriptenBackend' : true,
+    'mapDate':'" + $MAP_DATE.to_s + "',
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "

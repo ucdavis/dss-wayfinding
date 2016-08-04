@@ -323,6 +323,7 @@
             });
 
             console.debug("Calling continueInitAfterLoading for the first time ...");
+            maps.date = options.mapDate;
             continueInitAfterLoading(mapFragment, obj);
         } // function initialize
 

@@ -296,6 +296,7 @@ class AdministrationController < ApplicationController
       end
 
       notice = "Maps were successfully uploaded."
+      $MAP_DATE = Time.now.to_i
     else
       error = "Error uploading SVG map"
     end # unless uploaded_map.blank?
