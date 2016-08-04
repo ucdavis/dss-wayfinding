@@ -47,9 +47,12 @@ $destination-floor-color: #e21603;
 
 body {
   background: white;
+  width: 100vw;
 }
 
-
+html, body  {
+  position: fixed;
+}
 
 #mapLoading {
   font-size: 7vw;
@@ -777,8 +780,12 @@ table {
 
 /* Pad to accomodate static nav-bar */
 body {
-  padding-top: 10vh;
+  // padding-top: 10vh;
   height: 100vh;
+}
+
+.container-fluid {
+  padding-top: 10vh;
 }
 
 /* Need to get around safari mobiles bottom nav, shift contents up by 70px */
@@ -797,9 +804,9 @@ body {
 }
 
 #map-zoom-nav {
-  top: 105px;
+  // top: 105px;
   position: relative;
-  left: -30px;
+  // left: -30px;
 }
 
 #map {
@@ -968,7 +975,7 @@ body {
 
     #map {
   height: calc(90vh - 28vw);
-  } 
+  }
 
   .navbar-collapse img {
     height: 11vh;
@@ -1002,7 +1009,7 @@ body {
 
     #map {
   height: calc(90vh - 0vw);
-  } 
+  }
 
   .navbar-collapse img {
     height: 25vh;
@@ -1298,7 +1305,7 @@ body {
   }
 
   /*.floor-nav ul li {
-    max-width: 9vh !important; //fix icon size on floor nav 
+    max-width: 9vh !important; //fix icon size on floor nav
   }*/
 
   #destination-view { // mobile destination view
@@ -1322,8 +1329,8 @@ body {
   }
 
   #map {
-  height: calc(90vh - 28vw);
-  } 
+  height: calc(90vh - 10vw);
+  }
 
   #viewing {
     left: 15px; //fix left distance in tablet/desktop view
@@ -1367,10 +1374,10 @@ body {
   .padding-none {
     padding: 0px;
   }
-  
+
   #accessibility-nav {
-    top: 150px;
-    left: 45px;
+    // top: 150px;
+    // left: 45px;
   }
 
   #destination-view { // tablet/desktop destination view
@@ -1378,7 +1385,7 @@ body {
   }
 
   #viewing {
-    height: 140%;
+    height: 100%;
   }
 
 }
@@ -1441,7 +1448,7 @@ body {
 }
 
 .directory-title--margin {
-  margin-top: 10px; 
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
