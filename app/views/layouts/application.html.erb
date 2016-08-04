@@ -80,7 +80,7 @@
       </div>
 
     </div>
-  
+
     <div class="floor-nav">
       <ul>
         <li>
@@ -126,7 +126,7 @@
 
   <!-- Search-->
   <form class="navbar-toggle visible-xs">
-    <span class="glyphicon glyphicon-search glyphicon-search--position nav-icon"" aria-hidden="true"></span>
+    <span class="glyphicon glyphicon-search glyphicon-search--position nav-icon" aria-hidden="true"></span>
     <input type="search" placeholder="Search">
   </form>
 
@@ -152,7 +152,7 @@
 	        </div> <!-- navbar-header -->
 
 	         <!-- Hamburger Menu --> <!-- background drop down white -->
-	        <div id="navbarCollapse" class="collapse navbar-collapse"> 
+	        <div id="navbarCollapse" class="collapse navbar-collapse">
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
 	</nav>
@@ -162,10 +162,8 @@
     <%= yield %>
   <% else %>
     <div class="main-content margin-left--130">
-      <div class="container-fluid">
         <%= yield :javascript %>
         <%= yield %>
-      </div>
     </div> <!-- main-content -->
   <% end %>
 
