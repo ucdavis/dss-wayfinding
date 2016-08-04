@@ -27,7 +27,8 @@ function setPanZoom(target) {
     $reset: $(".zoom-reset"),
     panOnlyWhenZoomed: true,
     minScale: 1,
-    maxScale: 5
+    maxScale: 5,
+    increment: 0.5
   });
 }
 
@@ -52,7 +53,7 @@ function initialDraw(){
 function changeSVGFloor(newFloor){
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
-  
+
   destroyPanZoom("#floor" + currentFloor);
   setPanZoom('#floor'+newFloor);
   currentFloor = newFloor;
