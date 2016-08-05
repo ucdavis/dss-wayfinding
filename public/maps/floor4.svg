@@ -15,7 +15,7 @@
 	.floor4_st9{fill:none;stroke:#878686;stroke-width:2;stroke-miterlimit:10;}
 	.floor4_st10{fill:none;stroke:#878686;stroke-width:2;stroke-miterlimit:2;}
 	.floor4_st11{fill:#878686;}
-	.floor4_st12{font-family:'Helvetica-Bold';}
+	.floor4_st12{font-family:'Helvetica';font-weight:bold;}
 	.floor4_st13{font-size:7.6986px;}
 	.floor4_st14{font-size:7.6985px;}
 	.floor4_st15{fill:#F9F9F9;}

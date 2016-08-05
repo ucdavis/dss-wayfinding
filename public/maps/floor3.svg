@@ -19,7 +19,7 @@
 	.floor3_st13{fill:none;stroke:#878686;stroke-width:2;stroke-miterlimit:2;}
 	.floor3_st14{fill:none;stroke:#878686;stroke-width:1.724;stroke-miterlimit:2;}
 	.floor3_st15{fill:#878686;}
-	.floor3_st16{font-family:'Helvetica-Bold';}
+	.floor3_st16{font-family:'Helvetica'; font-weight:bold;}
 	.floor3_st17{font-size:7.6982px;}
 </style>
 <path class="floor3_st0" d="M47.2,99l11.2-11.2l50.4,50.4l-11.8,11.8L47.2,99z M195.3,205l7.4-7.4l27.3,27.5l-7.4,7.4L195.3,205z"/>

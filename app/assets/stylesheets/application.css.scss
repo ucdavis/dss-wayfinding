@@ -19,10 +19,13 @@
   padding-top: 10vh;
 }
 
-.kiosk-accessbility-nav {
+  .kiosk-accessbility-nav {
   position: absolute;
-  bottom: 13%;
+  bottom: 10%;
   left: 15%;
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
 }
 
 .zoom-nav {
