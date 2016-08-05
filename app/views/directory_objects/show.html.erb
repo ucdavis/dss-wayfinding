@@ -2,6 +2,9 @@
   var counter = 0;
 
   $(document).ready(function() {
+    // Show floor-nav
+    $(".floor-nav").show();
+    
     //Only load page if origin is set.
     <% if @origin %>
       rails();
@@ -88,7 +91,7 @@
   <div class="row">
     <div id="map">
       <div id="viewing">
-        
+
       </div>
 
       <div id="mapLoading">
