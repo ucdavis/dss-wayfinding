@@ -55,7 +55,9 @@ $(document).ready(function() {
 function navigate() {
   var start_loc = $("input[name=start_loc]").val();
   var end_loc = $("input[name=end_loc]").val();
-  window.location.href = "/start/" + start_loc + "/end/" + end_loc;
+  if (start_loc != "" && end_loc != "") {
+    window.location.href = "/start/" + start_loc + "/end/" + end_loc;
+  }
 }
 
 // Searching
