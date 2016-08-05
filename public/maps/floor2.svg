@@ -27,7 +27,7 @@
 	.floor2_st21{font-size:2.3514px;}
 	.floor2_st22{font-size:2.1324px;}
 	.floor2_st23{font-size:4.377px;}
-	.floor2_st24{font-family:'Helvetica-Bold';}
+	.floor2_st24{font-family:'Helvetica'; font-weight:bold;}
 	.floor2_st25{font-size:7.6982px;}
 	.floor2_st26{font-size:5.823px;}
 </style>
