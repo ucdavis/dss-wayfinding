@@ -1,4 +1,3 @@
-<% cache directory_object do %>
 <!-- Generate Initial Anchor -->
 <% if @initial_category == false %>
     <tr class="category-header"><td class="margin-none" id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
@@ -11,6 +10,7 @@
     <tr class="category-header"><td class="margin-none" id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
 <% end %>
 
+<% cache directory_object do %>
 <!-- Generate a row for a department -->
 <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
   <h3><%= directory_object.title %></h3>
