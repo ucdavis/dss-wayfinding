@@ -4,7 +4,7 @@
   $(document).ready(function() {
     // Show floor-nav
     $(".floor-nav").show();
-    
+
     //Only load page if origin is set.
     <% if @origin %>
       rails();
@@ -105,6 +105,11 @@
     </div>
   </div>
 
+<div id="destination-view">
+  <i class="btn-min-max icon-right-arrow min-max expand-arrow-icon"></i>
+  <h1 style="margin-top: 0px; padding-top: 10px; padding-bottom: 10px;">Destination</h1>
+</div>
+
 <!-- Kiosk accessibility-nav -->
 <div class="row kiosk-accessbility-nav">
   <div id="accessibility-nav" class="floor-nav pull-left">
@@ -174,4 +179,3 @@
       </ul>
     </div>
   </div>
-
