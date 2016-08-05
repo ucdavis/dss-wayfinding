@@ -233,24 +233,33 @@
             } */
         } //function checkIds
 
+        /**
+         * Sets the destination pin
+         * @param {String} passed - room number e.g. R1100
+         * @param {domElement} el - a block where the destinationPin is / will reside
+         */
         function setEndPoint(passed, el) {
             var end, endpoint, attachPinLocation,
             x, y,
             pin;
 
             //clears locationIndicators from the maps
-            $('path.destinationPin', el).remove();
+            $('path.destinationPin').remove();
+            console.log("value of el is ");
+            console.log(el);
 
             // Set endpoint
             endpoint = passed;
             if (options.showLocation) {
                 end = $('#Doors #' + endpoint, el);
-
+                console.log("value of end is");
+                console.log(end);
             attachPinLocation = $('.floor svg').has('#Rooms a[id="' + passed + '"]');
 
                 if (end.length) {
                     x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
                     y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
+                    console.log("x: " + x + " y: " + y);
                     pin = makePin(x, y, 'destinationPin');
                     attachPinLocation.append(pin);
                 } else {
@@ -676,7 +685,7 @@
 
                 //highlight the destination room
                 $('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
-                setEndPoint(options.endpoint);
+                setEndPoint(options.endpoint,  $('.floor svg').has('#Rooms a[id="' + destination + '"]'));
                 solution = WayfindingDataStore.getShortestRoute(maps, destination, startpoint).solution;
 
                 if (reversePathStart !== -1) {
@@ -951,7 +960,7 @@
                 ny,
                 drawLength,
                 thisPath;
-
+                
             options.endpoint = destination;
 
             // remove any prior paths from the current map set
@@ -968,7 +977,7 @@
 
                 //highlight the destination room
                 $('#Rooms a[id="' + destination + '"] g', obj).attr('class', 'wayfindingRoom');
-                setEndPoint(options.endpoint);
+                setEndPoint(options.endpoint,  $('.floor svg').has('#Rooms a[id="' + destination + '"]'));
 
                 var error = false;
                 var pathResult;
