@@ -960,7 +960,7 @@
                 ny,
                 drawLength,
                 thisPath;
-
+                
             options.endpoint = destination;
 
             // remove any prior paths from the current map set
