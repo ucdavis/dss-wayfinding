@@ -267,7 +267,7 @@
         function activateSVG(obj, svgDiv) {
             // Remove loading
             $("#mapLoading").remove();
-            
+
             // Hide maps until explicitly displayed
             obj.css("display", "block");
 
@@ -992,6 +992,11 @@
                     {
                         error = true;
                         console.error(pathResult.get(0));
+                        if(solution.length === 0) {
+                            $.post( "/unroutable", { from: startpoint, to: destination } )
+                            console.warn('Attempting to route with no solution. This should never happen. SVG likely has errors. Destination is: ' + destination);
+                            return;
+                        }
                     }
                 }
                 catch (e) {
