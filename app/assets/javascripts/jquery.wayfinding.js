@@ -245,26 +245,19 @@
 
             //clears locationIndicators from the maps
             $('path.destinationPin').remove();
-            console.log("value of el is ");
-            console.log(el);
 
             // Set endpoint
             endpoint = passed;
             if (options.showLocation) {
                 end = $('#Doors #' + endpoint, el);
-                console.log("value of end is");
-                console.log(end);
-            attachPinLocation = $('.floor svg').has('#Rooms a[id="' + passed + '"]');
+                attachPinLocation = $('.floor svg').has('#Rooms a[id="' + passed + '"]');
 
                 if (end.length) {
                     x = (Number(end.attr('x1')) + Number(end.attr('x2'))) / 2;
                     y = (Number(end.attr('y1')) + Number(end.attr('y2'))) / 2;
-                    console.log("x: " + x + " y: " + y);
                     pin = makePin(x, y, 'destinationPin');
                     attachPinLocation.append(pin);
                 } else {
-
-
                     return; //endpoint does not exist
                 }
             }
@@ -960,7 +953,7 @@
                 ny,
                 drawLength,
                 thisPath;
-                
+
             options.endpoint = destination;
 
             // remove any prior paths from the current map set
