@@ -71,15 +71,12 @@ var addCategoryIfDoesNotExist = function (category) {
   if ( categories.indexOf(category) > -1 ) return;
 
   categories.push(category);
-  $('ul#slider-vertical').append("<li><a href='#category_" + category + "'>" + pluralize(category) + "</a></li>");
   $('#result table').append("<tr class='category-header' id='category_" + category + "'><td class=\"margin-none\">" + pluralize(category) + "</td></tr>");
 }
 
 var displayResults = function () {
   $('.ui-input-clear').hide();	//hide Clear text
   var query = $("#search").val();
-
-  $('ul#slider-vertical').empty();
 
   if (query.length < 3) {
     if (query.length == 0) {
