@@ -1435,20 +1435,6 @@
 
   			<line id="R1100" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="52.0869" y1="792.5693" x2="57.5869" y2="792.5693"/>
 
-  			<line id="R1100" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
-
-        <line id="R1100B" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="52.0869" y1="792.5693" x2="57.5869" y2="792.5693"/>
-
-  			<line id="R1100B" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
-
-        <line id="R1100C" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="52.0869" y1="792.5693" x2="57.5869" y2="792.5693"/>
-
-  			<line id="R1100C" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
-
-  			<line id="R1100A" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="847.3701" x2="52.3872" y2="847.3701"/>
-
-        <line id="R1100D" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="847.3701" x2="52.3872" y2="847.3701"/>
-
   			<line id="R1165" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="179.0869" y1="753.7705" x2="174.9873" y2="753.7705"/>
 
   			<line id="R1164" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="186.687" y1="745.8706" x2="186.687" y2="741.1694"/>
@@ -1593,6 +1579,8 @@
   	</g> <!-- End Doors -->
 
     <g id="Paths" display="inline">
+
+        <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
 
   			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="549.6874" y1="677.1694" x2="555.9883" y2="677.1694"/>
 
