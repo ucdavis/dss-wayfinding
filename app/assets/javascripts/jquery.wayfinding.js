@@ -265,8 +265,11 @@
 
         // Hide SVG div, hide path lines (they're data, not visuals), make rooms clickable
         function activateSVG(obj, svgDiv) {
+            // Remove loading
+            $("#mapLoading").remove();
+            
             // Hide maps until explicitly displayed
-
+            obj.css("display", "block");
 
             // jQuery.panzoom() only works after element is attached to DOM
             //if(options.pinchToZoom) initializePanZoom($(svgDiv));
@@ -351,6 +354,8 @@
                         callback();
                     }
                 });
+
+                activateSVG(obj);
             }
         }
 

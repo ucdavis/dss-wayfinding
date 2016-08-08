@@ -1046,24 +1046,32 @@ body {
   margin: auto;
 }
 
-#svgImage {
-  position: absolute;
-  display: block;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  z-index: 1;
-}
-
 #viewing {
+  display:block;
   text-align: center;
   width: 95%;
   position: relative;
   display: none;
   border: 2px solid rgb(235, 235, 235);
   top: 3%;
+
+  .floor {
+    display: none;
+
+    svg a {
+      cursor: pointer;
+    }
+
+    #data_layer {
+      display: inline;
+      opacity: 0;
+    }
+
+    .startPin {
+      display: inline;
+      opacity: 1;
+    }
+  } // end .floor
 }
 
 /* END MAP STYLING */

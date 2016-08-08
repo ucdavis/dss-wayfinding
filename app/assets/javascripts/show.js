@@ -39,7 +39,6 @@ function destroyPanZoom(target) {
 
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
 function initialDraw(){
-  $("#mapLoading").remove();
   $('#floor'+currentFloor).css("display", "inline");
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
   $("#floor" + currentFloor).css("display","inline");
