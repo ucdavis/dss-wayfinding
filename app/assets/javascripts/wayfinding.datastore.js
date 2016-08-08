@@ -750,7 +750,7 @@ WayfindingDataStore = {
   buildDatastoreForEmscripten: function(maps) {
       var cachedDataStore = localStorage.getItem('wayfindingDatastore');
       var cachedMapDate = localStorage.getItem('wayfindingMapDate');
-
+cachedMapDate = null;
       if(cachedDataStore == null || cachedMapDate == null || cachedMapDate != maps.date) {
           console.debug("Emscripten datastore is not cached. Re-building ...");
           WayfindingDataStore.dataStore = {
