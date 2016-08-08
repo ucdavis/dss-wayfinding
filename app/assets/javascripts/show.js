@@ -8,15 +8,17 @@
 var drawing;                //variable to hold route information
 var destination;
 var animating = false;      /* Use as a check if you want something to
-                              NOT operate during animation (i.e. ignore room click if true)*/
+NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
 //functions to run once everything has loaded
 function onLoad(){
+  attachListeners();
   initialDraw();
 }
 
 function setPanZoom(target) {
+  // Otherwise panzoom will remove click events
   $(target + " a").on('mousedown touchstart', function( e ) {
     e.stopImmediatePropagation();
   });
@@ -39,10 +41,9 @@ function destroyPanZoom(target) {
 
 //sets up origin floor for display, and replaces the loading gif with the canvas/svg
 function initialDraw(){
-  $('#floor'+currentFloor).css("display", "inline");
   $("#flr-btn" + currentFloor).addClass("active").addClass("start");
-  $("#floor" + currentFloor).css("display","inline");
-  setPanZoom('#floor'+currentFloor);
+  changeSVGFloor(currentFloor);
+
   //if destination was included in page call, run routing function
   if (routeTrigger == true)
     $(document).trigger('show:roomClick', {room_id: destination});
@@ -50,8 +51,10 @@ function initialDraw(){
 
 //changes the svg displayed
 function changeSVGFloor(newFloor){
+  $("#flr-btn" + currentFloor).removeClass("active");
   $("#floor" + currentFloor).css("display", "none");
   $("#floor" + newFloor).css("display", "inline");
+  $("#flr-btn" + newFloor).addClass("active");
 
   destroyPanZoom("#floor" + currentFloor);
   setPanZoom('#floor'+newFloor);
@@ -59,7 +62,7 @@ function changeSVGFloor(newFloor){
 }
 
 //attaches listeners
-function begin(){
+function attachListeners(){
   $("#Rooms a").click(function(event){
     event.preventDefault();
     if (!animating){
@@ -103,7 +106,7 @@ function begin(){
     if (!animating) {
       $("a.accessible").toggleClass('active');
       $('#viewing').wayfinding('accessibleRoute', !$('#viewing').wayfinding('accessibleRoute'),
-                                function() {
+      function() {
         if($('.replay').hasClass("disabled") == false) {
           drawing = $('#viewing').wayfinding('routeTo', destination);
           $('.replay').addClass('disabled');
@@ -145,56 +148,64 @@ function begin(){
       toggleInfoPanel('min');
     }
   });
-}
+} // function attachListeners
 
-  var toggleInfoPanel = function (state) {
-    state = state || 'toggle';
-    var width = $('#destination-view').outerWidth();
+/**
+ * Toggles information panel open or close unless specified otherwise
+ * @param {String} state - 'min' for closed
+ */
+var toggleInfoPanel = function (state) {
+  state = state || 'toggle';
+  var width = $('#destination-view').outerWidth();
 
-    if (state == 'min' || $('#destination-view').css('right') == '0px') {
-      $('#destination-view').css('right', -width + 0);
-      $('#destination-view-bg').css('right', -width + 0);
-      $('#destination-view-bg').outerWidth(width);
-      $('i.btn-min-max').removeClass('icon-right-arrow').addClass('icon-left-arrow');
-    } else {
-      $('#destination-view').css('right', 0);
-      $('#destination-view-bg').css('right', 0);
-      $('i.btn-min-max').removeClass('icon-left-arrow').addClass('icon-right-arrow');
-    }
+  if (state == 'min' || $('#destination-view').css('right') == '0px') {
+    $('#destination-view').css('right', -width + 0);
+    $('#destination-view-bg').css('right', -width + 0);
+    $('#destination-view-bg').outerWidth(width);
+    $('i.btn-min-max').removeClass('icon-right-arrow').addClass('icon-left-arrow');
+  } else {
+    $('#destination-view').css('right', 0);
+    $('#destination-view-bg').css('right', 0);
+    $('i.btn-min-max').removeClass('icon-left-arrow').addClass('icon-right-arrow');
   }
+} // function toggleInfoPanel
 
-  var showInfo = function (data) {
-    class_suffix = data.type || 'rooms'
+/**
+ * Populates information panel
+ * @param {Object} data - data to populate the panel with
+ */
+var showInfo = function (data) {
+  class_suffix = data.type || 'rooms'
 
-    $('#destination-view h2, #destination-view span').remove();
-    $('#destination-view h1').addClass('btn-' + class_suffix);
-    $('#destination-view i.btn-min-max').addClass('btn-' + class_suffix);
-    $('#destination-view').addClass('text-' + class_suffix);
+  $('#destination-view h2, #destination-view span').remove();
+  $('#destination-view h1').addClass('btn-' + class_suffix);
+  $('#destination-view i.btn-min-max').addClass('btn-' + class_suffix);
+  $('#destination-view').addClass('text-' + class_suffix);
 
-    var attrs = ['name', 'room_number', 'email', 'phone'];
+  var attrs = ['name', 'room_number', 'email', 'phone'];
 
-    if (data) {
-      for (var i = 0; i < attrs.length; i++) {
-        value = eval("data." + attrs[i]);
-        if (value) {
-          $('#destination-view').append("<h2>" + attrs[i].split('_').join(' ') + "</h2>");
-          $('#destination-view').append("<span>" + value + "</span>");
-        }
+  if (data) {
+    for (var i = 0; i < attrs.length; i++) {
+      value = eval("data." + attrs[i]);
+      if (value) {
+        $('#destination-view').append("<h2>" + attrs[i].split('_').join(' ') + "</h2>");
+        $('#destination-view').append("<span>" + value + "</span>");
       }
-
-      if (data.department) {
-        $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
-      }
-
-      $('#destination-view').css('right', -9999);
-      $('#destination-view-bg').css('right', -9999);
-      toggleInfoPanel('min');
-      $('#destination-view .min-max').on('click', toggleInfoPanel);
-
-      handleLinksWithJS();
-    } else {
-      console.warn('Object not found in directory');
-      $('#destination-view').css('right', '-1000px');
-      $('#destination-view-bg').css('right', '-1000px');
     }
+
+    if (data.department) {
+      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
+    }
+
+    $('#destination-view').css('right', -9999);
+    $('#destination-view-bg').css('right', -9999);
+    toggleInfoPanel('min');
+    $('#destination-view .min-max').on('click', toggleInfoPanel);
+
+    handleLinksWithJS();
+  } else {
+    console.warn('Object not found in directory');
+    $('#destination-view').css('right', '-1000px');
+    $('#destination-view-bg').css('right', '-1000px');
   }
+} // function showInfo
