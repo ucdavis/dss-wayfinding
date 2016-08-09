@@ -96,7 +96,10 @@ var displayResults = function () {
       $('#result').html('<div class="search-error" align="center">No results found for your query</div>');
     }
 
-    data.directory_objects.forEach( function(directory_object) {
+    console.log(data.directory_objects[0]);
+    data.directory_objects.forEach( function(directory_object, index) {
+      console.log("Index is : " + index);
+      console.log(directory_object);
       var tmpl;
       addCategoryIfDoesNotExist(directory_object.type);
       if (directory_object.type == 'Person') {
@@ -143,7 +146,7 @@ var displayResults = function () {
         }
         tmpl = tmpl + '</td></tr>';
       }
-      $('#result table tr#category_' + directory_object.type).after(tmpl);
+      $('#result table').append(tmpl);
 
       // Add click listener
       $(".clickable-row").on('click', function() {
