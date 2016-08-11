@@ -179,7 +179,6 @@ ul.vertical-nav {
   text-align: center;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
-  //padding-top: 9%;
 
   li {
     margin: 5px 1px 4vh;
@@ -965,6 +964,36 @@ body {
     with an aspect ratio 1.1:2 => 1.1Width = 2Height */
 
 @media (orientation: portrait) {
+
+  .main-content {
+    padding-top: 7vh; /*define main-content padding-top in portrait view */
+  }
+
+  ul.vertical-nav {
+    padding-left: 20px; /* reset the extra padding caused by ul */
+  }
+
+  .floor-nav {
+    margin-right: 0px;
+  }
+
+  .input-group-search { /* resize input group width in portrait view */
+    width: 34%;
+
+    #search{          /* resize input width in portrait view */
+      width: 90%;
+    }
+  }
+
+  .kiosk-accessbility-nav {
+      position: absolute;
+      bottom: 10%;
+      left: 25%;
+      display: flex;
+      justify-content: space-between;
+      width: 75%;
+  }
+
   #myCanvas {
     width: 95vw;
   }
@@ -1005,6 +1034,30 @@ body {
 
 /* Aspect ratio > 1 => landscape or monitor */
 @media (orientation: landscape) {
+
+  .main-content {
+    padding-top: 10vh;
+  }
+
+  .input-group-search { /* resize input group width in portrait view */
+    width: 50%;
+
+    #search {           /* resize input width in portrait view */
+      width: 90%;
+    }
+
+  }
+
+  .kiosk-accessbility-nav {
+    position: absolute;
+    bottom: 10%;
+    left: 15%;
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+
+
   #myCanvas {
     width: calc((2/1.1) * 58vh);
   }
@@ -1405,8 +1458,7 @@ body {
 
 }
 
-
-/*Only for kiosk */
+/*Only for kiosk landscape */
 @media (max-device-width: 1024px) {
   ul.vertical-nav {
     padding-top: 11%;
@@ -1415,12 +1467,12 @@ body {
 }
 
 /*Only for desktop version */
-@media (min-width: 1025px) { //kiosk&desktop view
+@media (min-width: 1025px) {
   ul.vertical-nav {
     padding-top: 8%;
   }
 
-	}
+}
 
 /* event style */
 .event-style td {
@@ -1610,9 +1662,6 @@ input::-webkit-input-placeholder {
 /* Search-bar Expand END */
 
 /* MISC */
-.width-50 {
-  width: 50%;
-}
 
 .width-100 {
   width: 100%;
