@@ -4,7 +4,7 @@ class AdministrationControllerTest < ActionController::TestCase
   test "public can modify start location" do
     post :start, { :location => '1100' }
 
-    assert_redirected_to root_path
+    assert_redirected_to map_path
   end
 
   test "public cannot modify departments" do
