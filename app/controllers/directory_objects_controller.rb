@@ -307,7 +307,7 @@ class DirectoryObjectsController < ApplicationController
     def directory_object_params
       case params[:type]
       when 'Person'
-        params.permit(:first, :last, :email, :phone, :department_id, :room_ids => [])
+        params.permit(:person_title, :office_hours, :first, :last, :email, :phone, :department_id, :room_ids => [])
       when 'Room'
         params.permit(:name)
       when 'Department'
