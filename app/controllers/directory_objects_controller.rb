@@ -294,6 +294,10 @@ class DirectoryObjectsController < ApplicationController
                 cookies[:origin] || cookies[:start_location]
       @dest = normalize_room(params[:end_loc])
 
+      if cookies[:origin].blank?
+        cookies[:start_location] = @origin
+      end
+
       unless @origin
         logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"
       end
