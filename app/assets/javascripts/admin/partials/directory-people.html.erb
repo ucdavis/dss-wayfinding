@@ -25,6 +25,13 @@
             </div>
 
             <div class="form-group">
+              <label for="title" class="col-sm-2 control-label">Title</label>
+              <div class="col-sm-10">
+                <input type="text" name="title" id="title" placeholder="Title" class="form-control" ng-model="person.title" />
+              </div>
+            </div>
+
+            <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
                 <input type="email" name="email" id="email" placeholder="Email" class="form-control" ng-model="person.email" />
@@ -44,6 +51,17 @@
                 <select id="department" class="form-control" ng-options="department.id as department.name for department in departments" ng-model="person.department_id">
                   <option value=""></option>
                 </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="office-hours" class="col-sm-2 control-label">Office Hours</label>
+              <div class="col-sm-10">
+                <textarea id="office-hours"
+                    class="form-control"
+                    placeholder="e.g. M: 10:00 am - 2:00 pm"
+                    ng-model="person.office_hours">
+                </textarea>
               </div>
             </div>
 
