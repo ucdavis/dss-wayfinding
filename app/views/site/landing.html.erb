@@ -1,5 +1,69 @@
 <% cache do %>
   <!-- div required for the transformY/top vertical centering technique -->
+  <!-- phone view-->
+  <!-- phone view header -->
+  <div class="container-fluid visible-xs-block top-margin--title">
+  <div class="wayfinding-logo--style wayfinding-logo--phone margin-top--title">
+    <img src=<%= asset_path "icons/wayfinding-logo.png" %> >
+    <h4>Welcome to WAYFINDING</h4>
+  </div>
+
+  <!-- kiosk/desktop header --> 
+  </div>
+  <div class="container-fluid hidden-xs">
+  <div class="row margin-top--50">
+  <div class="wayfinding-logo--style">
+    <img src=<%= asset_path "icons/wayfinding-logo.png" %> >
+    <h1>Welcome to WAYFINDING</h1>
+  </div>
+  </div>
+  </div>
+
+<!-- phone view search -->
+<!-- phone view search-destination -->
+  <div class="container-fluid visible-xs-block">
+  <div class="margin-top--search-input">
+  <div class="flex-box">
+    <div class="input-group flex-box--width--100">
+      <i class="glyphicon glyphicon glyphicon-share-alt search-icon" aria-hidden="true"></i>
+      <input type="text" class="form-control form-control--style--mobile text-indent--30" placeholder="Set Your Current Location" aria-describedby="basic-addon1" name="start_loc">
+    </div>
+    <div class="input-group flex-box--width--100">
+      <i class="glyphicon glyphicon-map-marker search-icon margin-bottom--20" aria-hidden="true"></i>
+      <input type="text" class="form-control form-control--style--mobile text-indent--30" placeholder="Enter Your Destination" aria-describedby="basic-addon1" name="end_loc">
+    </div>
+  </div>
+  </div>
+  </div>
+
+<!-- destination submit button -->
+  <div class="container-fluid visible-xs-block">
+    <div class="flex-box">
+      <div class="flex-box--width--20"></div>
+      <div class="flex-box--width--60">
+        <button type="button" class="btn btn-primary" style="width:100%" onclick="navigate()">Let's Go</button>
+      </div>
+      <div class="flex-box--width--20"></div>
+    </div>
+  </div>
+
+  <!-- search-bar -->
+
+  <!-- desktop/tablet search-bar -->
+  <div class="container-fluid hidden-xs">
+  <div class="content-flex--center margin-top--kiosk-search">
+    <div class="input-group" style="width:50%">
+      <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
+      <input id="search" type="text" class="form-control form-control--style text-indent--30" placeholder="Search by name, room, and department" aria-describedby="basic-addon1">
+      <div id="result">
+        <!-- Result of query will be in here -->
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="container-fluid hidden-xs">
+    <div class="margin-top--70">
   <div class="landing-div">
     <ul class="landing-ul">
       <li>
@@ -15,17 +79,15 @@
         <span class="text-events">Events</span>
       </li>
       <li>
-        <a href="/rooms"><img src=<%= asset_path "icons/rooms-btn.png" %> ></a>
-        <span class="text-rooms">Rooms</span>
-      </li>
-      <li>
         <a href="/map"><img src=<%= asset_path "icons/map-btn.png" %> ></a>
         <span class="text-map">Map</span>
       </li>
       <li>
         <a href="/about"><img src=<%= asset_path "icons/about-btn.png" %> ></a>
-        <span class="text-about">About the building</span>
+        <span class="text-about">About</span>
       </li>
     </ul>
   </div>
+    </div>
+    </div>
 <% end %>

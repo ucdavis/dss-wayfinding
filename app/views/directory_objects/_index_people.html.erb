@@ -1,19 +1,19 @@
+<!-- Generate Initial Anchor -->
+<% if @initial_category == false %>
+    <tr class="category-header"><td class="margin-none" id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
+    <% @initial_category = true %>
+<% end %>
+
+<!-- Generate Category Anchors -->
+<% while directory_object.last.first.upcase != @scrubber_categories[@scrubber_category_index] do %>
+    <% @scrubber_category_index += 1 %>
+    <tr class="category-header"><td class="margin-none" id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
+<% end %>
+
 <% cache directory_object do %>
-  <!-- Generate Initial Anchor -->
-  <% if @initial_category == false %>
-      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>" ><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
-      <% @initial_category = true %>
-  <% end %>
-
-  <!-- Generate Category Anchors -->
-  <% while directory_object.last.first.upcase != @scrubber_categories[@scrubber_category_index] do %>
-      <% @scrubber_category_index += 1 %>
-      <tr class="category-header"><td id="category_<%= @scrubber_category_index %>"><%= @scrubber_categories[@scrubber_category_index] %></td></tr>
-  <% end %>
-
   <!-- Generate a row for a person -->
   <tr class="clickable-row" data-url="/directory/<%= directory_object.id %>"><td>
-    <h3><%= directory_object.last + ", " + directory_object.first %></h3>
+    <h4><%= directory_object.last + ", " + directory_object.first %></h4>
 
     <!-- Room number -->
     <% if directory_object.rooms.length > 0 %>
@@ -32,4 +32,4 @@
     <span class="people-row-field"><%= directory_object.phone %></span>
     </td>
   </tr>
-<% end %>
+<!-- <% end %> -->

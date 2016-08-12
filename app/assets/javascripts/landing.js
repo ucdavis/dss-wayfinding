@@ -11,7 +11,29 @@ $(function() {
     })
   });
 
-  // Hide the buttons, then ease them in on page load
-  $('ul.landing').css('top', '200%');
-  $('ul.landing').animate({'top': '50%'}, 700)
+  // Remove static side
+  $(".vertical-nav, .navbar-header").remove();
+
+  // Event handlers for search
+  // This is duplicated from application.js because
+  // The page loads application.js first then landing.js
+  // This means the initial events for this is set on .navbar-header
+  $("#search").on("keyup", function() {
+    if ($("#search").val() != "") {
+      $("#result").show();
+    }
+  });
+
+  $("#search").on("focus", function() {
+    if ($("#search").val() != "") {
+      $("#result").show();
+    }
+  });
+
+  $(document).mouseup(function(e) {
+    var container = $("#result, #search");
+    if (!container.is(e.target) && container.has(e.target).length === 0) {
+      $("#result").hide();
+    }
+  });
 });

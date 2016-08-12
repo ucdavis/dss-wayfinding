@@ -1,4 +1,5 @@
-  <h1 id="directory-title"><%= params[:type].pluralize unless params[:type].blank? %></h1>
+
+  <h3><%= params[:type].pluralize unless params[:type].blank? %></h3>
 
   <div class="directory-list">
     <div id="scrubber-view">
@@ -13,8 +14,8 @@
         </ul>
     </div> <!-- #scrubber-view -->
 
-    <table class="table directory-table">
-      <tbody>
+    <table class="table directory-table directory-table--border directory-table--view">
+      <tbody style="width: 100%; display:table;">
         <% @initial_category = false %>
         <% @scrubber_category_index = 0 %>
 

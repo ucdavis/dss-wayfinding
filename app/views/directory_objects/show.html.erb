@@ -2,37 +2,31 @@
   var counter = 0;
 
   $(document).ready(function() {
+    // Show floor-nav
+    $(".floor-nav").show();
+
     //Only load page if origin is set.
     <% if @origin %>
-      loadImage();
+      rails();
 
-      //Convert SVG files to pngs. XML serializer, data, and floors code copied from https://gist.github.com/Caged/4649511
-      function loadImage(){
-        var imageLoading = true;
-        for (var i = 0; i < 6; i++){
-          src = "/maps/floor" + i + ".png";
-          floors[i] = new Image();
-          floors[i].onload = loader;
-          floors[i].onerror = loadFailed;
-          floors[i].src= src;
-        }
-
-        function loader() {
-          if (counter < 5 && imageLoading){
-            counter++;
-          } else if (imageLoading) {
-            rails();
-          }
-        }
-
-        function loadFailed(){
-          $("#mapLoadingInner").html('Image file not present, please contact administrator.');
-        }
-      }
       //parse object to show destination if one is set. then insert code from directory object helper to call wayfinding
       //plugin which sets all wayfinding internal options such as start point. Also loads svg files into dom.
       function rails(){
-        $("div.ui-loader").remove();
+        try {
+          directory_object = jQuery.parseJSON(_.unescape("<%= raw json_escape(html_escape(@object.to_json)) %>"));
+
+          if (directory_object) {
+            showInfo(directory_object);
+            routeTrigger = true;
+            destination = 'R' + directory_object.room_number;
+
+            if (destination.length > 0) {
+              console.debug("destination = ", destination);
+            }
+          }
+        } catch(e) {
+          console.error('Error parsing @object to JSON', e)
+        }
 
         <% if @dest %>
           routeTrigger = true;
@@ -48,9 +42,7 @@
                          "/maps/floor5.svg"]
         %>
 
-        <%= wayfinding_plugin(@svg_paths, asset_path("/dataStore/dataStore-" + @origin + ".json"),
-          asset_path("/dataStore/dataStore-accessible-" + @origin + ".json"), @origin, @dest,) %>
-
+        <%= wayfinding_plugin(@svg_paths, @origin, @dest) %>
         currentFloor = parseInt("<%= @origin %>".substr(1,1));
 
         wait();
@@ -58,33 +50,13 @@
 
       //waits for wayfinding initialization to flag svg load complete, then calls function to
       //set default styles for each object in the floor divs.
-      function wait(){
-        if ($("#svgImage").wayfinding('fullyLoaded') == true){
-          begin();
-          setVisibilities();
+      function wait() {
+        if($("#viewing").wayfinding('fullyLoaded') == true) {
+          $("div.ui-loader").remove();
+          onLoad();
         } else {
           window.setTimeout(wait, 100);
         }
-      }
-
-      //sets all default styles in/under floor divs, so program is ready to activate that floor
-      //by toggling floor display value, and svg dimensions.
-      function setVisibilities(){
-        $("svg").css("pointer-events", "auto");
-        $("svg").find('*').css({"pointer-events":"none","opacity":"0.0"});
-        $("#Rooms a").find('*').css("pointer-events", "auto");
-        $(".floor").css("display", "none");
-        $(".floor").find('*').css("display", "none");
-        $("svg").attr({"height":"350","width":"650"});
-        $(".floor svg").css("display", "inline");
-        $(".floor svg").find('#Rooms').css("display", "inline");
-        $(".floor svg #data_layer").css("display", "inline");
-        $(".floor svg #data_x5F_layer").css("display", "inline");
-        $(".floor svg #Rooms").find('*').css("display", "inline");
-        $(".floor svg #Paths").find('*').css("display", "inline");
-        $(".startPin").css({"display":"inline","opacity":"1.0"});
-        $("#viewing").css("display", "block");
-        onLoad();
       }
 
     <% else %>
@@ -95,61 +67,82 @@
 </script>
 
   <div class="row">
-    <div class="floor-nav">
-      <ul>
-        <li>
-          <a href="#" id="flr-btn0" class="btn-floor">
-            <img src=<%= asset_path "Floor0Button.png" %>>
-          </a>
-        </li>
-        <li>
-          <a href="#" id="flr-btn1" class="btn-floor">
-            <img src=<%= asset_path "Floor1Button.png" %>>
-          </a>
-        </li>
-        <li>
-          <a href="#" id="flr-btn2" class="btn-floor">
-            <img src=<%= asset_path "Floor2Button.png" %>>
-          </a>
-        </li>
-        <li>
-          <a href="#" id="flr-btn3" class="btn-floor">
-            <img src=<%= asset_path "Floor3Button.png" %>>
-          </a>
-        </li>
-        <li>
-          <a href="#" id="flr-btn4" class="btn-floor">
-            <img src=<%= asset_path "Floor4Button.png" %>>
-          </a>
-        </li>
-        <li>
-          <a href="#" id="flr-btn5" class="btn-floor">
-            <img src=<%= asset_path "Floor5Button.png" %>>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="row">
     <div id="map">
       <div id="viewing">
-        <canvas id="myCanvas">
-        </canvas>
-        <div id="svgImage"></div>
+
       </div>
 
       <div id="mapLoading">
         <div id="mapLoadingInner">
-          <%= image_tag("loader.gif", alt: "Loading") %>
+          <div class="ui-loader">
+            <%= image_tag("loader.gif", alt: "Loading") %>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
 
-  <div class="row">
-    <div class="floor-nav" id="accessibility-nav">
+<div id="destination-view">
+  <i class="btn-min-max icon-right-arrow min-max expand-arrow-icon"></i>
+  <h1 style="margin-top: 0px; padding-top: 10px; padding-bottom: 10px;">Destination</h1>
+</div>
+
+<!-- Kiosk accessibility-nav -->
+<div class="row kiosk-accessbility-nav">
+  <div id="accessibility-nav" class="floor-nav pull-left">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src="/accessButton.png" class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src="/repeatButton.png" class="img-fill">
+          </a>
+      </li>
+    </ul>
+  </div>
+  <!-- Kiosk accessibility-nav -->
+  <div id="map-zoom-nav" class="floor-nav pull-right">
+      <ul>
+        <li>
+          <button class="btn btn-default glyphicon glyphicon-zoom-in zoom-in">
+        </li>
+        <li>
+          <button class="btn btn-default glyphicon glyphicon-zoom-out zoom-out">
+        </li>
+        <li>
+          <button class="btn btn-default glyphicon glyphicon-refresh zoom-reset">
+          </button>
+        </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ALL portrait accessibility-nav -->
+<div class="row portrait-accessbility-nav">
+  <div class="floor-nav pull-left" id="accessibility-nav">
+      <ul>
+        <li>
+          <a href="#" class="btn-access accessible">
+            <img src="/accessButton.png" class="img-fill">
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-access replay disabled">
+            <img src="/repeatButton.png" class="img-fill">
+          </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ALL landscape accessibility-nav -->
+  <div class="row landscape-accessbility-nav">
+    <div class="floor-nav pull-left" id="accessibility-nav">
       <ul>
         <li>
           <a href="#" class="btn-access accessible">
@@ -164,11 +157,3 @@
       </ul>
     </div>
   </div>
-
-<div id="destination-view">
-  <i class="btn-min-max icon-right-arrow min-max"></i>
-  <h1>Destination</h1>
-</div>
-
-<style>
-</style>

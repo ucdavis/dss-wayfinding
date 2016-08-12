@@ -34,31 +34,108 @@
 </head>
 
 <body data-spy="scroll" data-target="#side-nav">
+		<!-- static side-navbar -->
+	<ul class="vertical-nav hidden-xs">
+  <li>
+    <a href="/people" class="btn-people icon-people">
+      <span class="text-people">people</span>
+    </a>
+  </li>
+  <li>
+    <a href="/departments" class="btn-departments icon-departments">
+      <span class="text-departments">departments</span>
+    </a>
+  </li>
+  <li>
+    <a href="/events" class="btn-events icon-events">
+      <span class="text-events">events</span>
+    </a>
+  </li>
+  <li>
+    <a href="/map" class="btn-map icon-map">
+      <span class="text-map">map</span>
+    </a>
+  </li>
+  <li>
+    <a href="/about" class="btn-about icon-about">
+      <span class="text-about">about</span>
+    </a>
+  </li>
+</ul>
+
 	<!-- static navbar -->
-	<nav class="navbar navbar-default navbar-fixed-top">
-	        <div class="navbar-header">
-	            <!-- Home Button -->
-				<a href="/">
-					<button type="button" class="btn-navbar-main btn btn-default">
-						<img src=<%= asset_path "icons/home-btn.png" %> >
-					</button>
-				</a>
+<nav class="navbar navbar-default navbar-fixed-top <visible-xs-block></visible-xs-block>">
+  <div class="navbar-header navbar-header--flex-start hidden-xs">
+    <div class="wayfinding-logo--style">
+      <a href="/"><img src="/assets/icons/wayfinding-logo-e5ca4ad67894f5b4179cfac8a491d00d8211d2643d6310cfb1f75f79298423d6.png"></a>
+      <h5><a href="/">WAYFINDING</a></h5>
+    </div>
+    <div class="input-group width-50">
+      <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
 
-	            <!-- Search-->
-				<a href="/search">
-					<button type="button" class="btn-navbar-main btn btn-default">
-						<img src=<%= asset_path "icons/search-btn.png" %> >
-					</button>
-				</a>
 
-	            <!-- toggle hamburger menu -->
-	            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-	                <span class="sr-only">Toggle navigation</span>
-	                <!-- 3 layer hamburger icon -->
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	            </button>
+      <input id="search" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px; width: 60%;" type="text">
+      <div id="result">
+        <!-- Search query will go here -->
+      </div>
+
+    </div>
+
+    <div class="floor-nav">
+      <ul>
+        <li>
+          <a href="#" id="flr-btn0" class="btn-floor">
+            <img src=<%= asset_path "Floor0Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn1" class="btn-floor">
+            <img src=<%= asset_path "Floor1Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn2" class="btn-floor">
+            <img src=<%= asset_path "Floor2Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn3" class="btn-floor">
+            <img src=<%= asset_path "Floor3Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn4" class="btn-floor">
+            <img src=<%= asset_path "Floor4Button.png" %>>
+          </a>
+        </li>
+        <li>
+          <a href="#" id="flr-btn5" class="btn-floor">
+            <img src=<%= asset_path "Floor5Button.png" %>>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- toggle hamburger menu -->
+  <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggle--margin-top visible-xs">
+    <span class="glyphicon glyphicon-align-justify nav-icon" aria-hidden="true"></span>
+  </button>
+
+  <!-- Search-->
+  <form class="navbar-toggle visible-xs">
+    <span class="glyphicon glyphicon-search glyphicon-search--position nav-icon" aria-hidden="true"></span>
+    <input type="search" placeholder="Search">
+  </form>
+
+  <!-- about -->
+  <a href="/about" class="pull-left">
+	  <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle visible-xs">
+      <span class="glyphicon glyphicon-info-sign nav-icon" id="about-icon" aria-hidden="true"></span>
+    </button>
+  </a>
 
 				<!-- Logout shows if in /administration -->
 				<script type="text/javascript">
@@ -74,7 +151,7 @@
 				</button>
 	        </div> <!-- navbar-header -->
 
-	         <!-- Hamburger Menu -->
+	         <!-- Hamburger Menu --> <!-- background drop down white -->
 	        <div id="navbarCollapse" class="collapse navbar-collapse">
 	            <%= render("layouts/vertical_navigation") %>
 	        </div> <!-- navbarCollapse -->
@@ -84,11 +161,9 @@
     <%= yield :javascript %>
     <%= yield %>
   <% else %>
-    <div class="main-content">
-      <div class="container-fluid">
+    <div class="main-content margin-left--130">
         <%= yield :javascript %>
         <%= yield %>
-      </div>
     </div> <!-- main-content -->
   <% end %>
 

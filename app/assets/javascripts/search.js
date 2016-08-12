@@ -1,6 +1,4 @@
-
 //= require redirect
-
 var pluralize = function (word) {
   if (word == 'Person') return 'People';
   else return word + 's';
@@ -16,7 +14,8 @@ var addCategoryIfDoesNotExist = function (category) {
 }
 
 var displayResults = function () {
-	  $('.ui-input-clear').hide();	//hide Clear text
+  $('.ui-input-clear').hide();	//hide Clear text
+  $("#result").css("display", "inline");
   var query = $("#search").val();
 
   $('ul#slider-vertical').empty();
@@ -43,7 +42,7 @@ var displayResults = function () {
       var tmpl;
       addCategoryIfDoesNotExist(directory_object.type);
       if (directory_object.type == 'Person') {
-        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'" >'
+        tmpl = '<tr class="clickable-row" data-url="/end/' + directory_object.rooms[0]room_number +'" >'
         + '<td><h3>' + directory_object.first + ' ' + directory_object.last +'</h3>';
         if (directory_object.rooms.length > 0) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.rooms[0].room_number + '</span>';
@@ -70,7 +69,7 @@ var displayResults = function () {
         }
         tmpl = tmpl + '</td></tr>';
       } else if (directory_object.type == 'Department') {
-        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.id +'">'
+        tmpl = '<tr class="clickable-row" data-url="/directory/' + directory_object.room.room_number +'">'
         + '<td><h3>' + directory_object.title +'</h3>';
         if (directory_object.room) {
           tmpl = tmpl + '<span class="dir-row-field">' + directory_object.room.room_number + '</span>';

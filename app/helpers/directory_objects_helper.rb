@@ -1,7 +1,7 @@
 module DirectoryObjectsHelper
-  def wayfinding_plugin(svg_paths, dataStoreCacheUrl, accessibleDataStoreCacheUrl, origin, dest = nil)
+  def wayfinding_plugin(svg_paths, origin, dest = nil)
     dest = '\'' + dest + '\'' unless dest.nil?
-    str = "$('#svgImage').wayfinding({
+    str = "$('#viewing').wayfinding({
     'maps': ["
 
     svg_paths.each_with_index do |svg, i|
@@ -13,8 +13,6 @@ module DirectoryObjectsHelper
     end
 
     str = str + "],
-    'dataStoreCache': '" + dataStoreCacheUrl + "',
-    'accessibleDataStoreCache': '" + accessibleDataStoreCacheUrl + "',
     'path': {
       width: 3,
       color: 'rgb(194, 110, 96)',
@@ -33,6 +31,7 @@ module DirectoryObjectsHelper
     'zoomToRoute' : false,
     'showLocation' : true,
     'emscriptenBackend' : true,
+    'mapDate':'" + $MAP_DATE.to_s + "',
     'defaultMap': 'floor" + origin[1,1] + "'
   });
   "

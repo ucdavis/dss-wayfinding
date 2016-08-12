@@ -13,3 +13,67 @@
 .col-xs-10-modified {
   width: 88%;
 }
+
+/* Temp */
+.main-content {
+  padding-top: 10vh;
+}
+
+  .kiosk-accessbility-nav {
+  position: absolute;
+  bottom: 10%;
+  left: 15%;
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+}
+
+.zoom-nav {
+  position: absolute;
+  right: 1%;
+  bottom: 13%;
+}
+/* End Temp */
+/* bootstrap-overwrite */
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-bottom: 7px;
+}
+
+.navbar-default {
+    background-color: white !important;
+    border-color: white !important;
+    z-index: 50 !important;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: white !important;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background: none;
+}
+
+.nav > li > a {
+  padding: 0px;
+}
+
+.btn-block {
+  width: inherit !important;
+}
+
+.glyphicon {
+  color: gray;
+  font-size: 13pt;
+}
+
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+    border-bottom-left-radius: 3px !important;
+    border-top-left-radius: 3px !important;
+}
+
+.floor-nav {
+  display: none;
+}

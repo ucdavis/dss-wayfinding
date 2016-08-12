@@ -1,25 +1,32 @@
+<% cache directory_object do %>
 <div>
   <a href="/directory/<%= directory_object.id %>" class="events-card">
-    <h3><%= directory_object.title %></h3>
-      <p>
-        <% if directory_object.room %>
-        <%= directory_object.room.room_number %>
-        <% end %>&nbsp;
+  <tr class="clickable-row event-style">
+    <td class="margin-none" id="category_<%= @scrubber_category_index %>">
+      <h3><%= directory_object.title %></h3>
+        <p>
+          <% if directory_object.time %>
+          <%= directory_object.time %>
+          <% end %>&nbsp;
+        </p>
+        <p>
+          <% if directory_object.room %>
+          <%= directory_object.room.room_number %>
+          <% end %>&nbsp;
+        </p>
+        <p>
+          <% if directory_object.link %>
+          <%= directory_object.link %>
+          <% end %>&nbsp;
+        </p>
+        <p>
+          <% if directory_object.department %>
+          <%= directory_object.department.title %>
+          <% end %>&nbsp;
       </p>
-      <p>
-        <% if directory_object.time %>
-        <%= directory_object.time %>
-        <% end %>&nbsp;
-      </p>
-      <p>
-        <% if directory_object.link %>
-        <%= directory_object.link %>
-        <% end %>&nbsp;
-      </p>
-      <p>
-        <% if directory_object.department %>
-        <%= directory_object.department.title %>
-        <% end %>&nbsp;
-     </p>
+      <a class="btn btn-default margin-bottom--20" href="#" role="button">Get Direction</a>
+     </td>
+     </tr>
    </a>
 </div>
+<% end %>

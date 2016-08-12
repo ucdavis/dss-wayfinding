@@ -91,6 +91,7 @@
 .navbar-fixed-bottom {
   .navbar-collapse {
     max-height: $navbar-collapse-max-height;
+    width: 100%; //it give drop-down nav 100% width
 
     @media (max-width: $screen-xs-min) and (orientation: landscape) {
       max-height: 200px;
