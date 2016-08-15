@@ -70,11 +70,12 @@ class DirectoryObjectsController < ApplicationController
       name       = person.first + ' ' + person.last
       email = person.email
       department = person.department.title
-      title      = nil
+      title      = person.person_title
+      office_hours = person.office_hours
       targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
       qrLink     = generateQRLink(targetURL)
 
-      hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+      hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink, office_hours: office_hours }
 
       @results.push( hash )
     else
