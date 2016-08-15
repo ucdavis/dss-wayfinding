@@ -557,11 +557,16 @@ input.search:focus {
   .alert {
     position: absolute;
     top: 0;
-    width: 50%;
-    left: 50%;
-    margin-left: -25%;
-    text-align: center;
+    // width: 50%;
+    right: 0%;
+    // margin-left: -25%;
+    // text-align: center;
+    z-index: 100;
   }
+}
+
+.admin_logout {
+  margin-top: 5em;
 }
 
 #Rooms {
@@ -994,8 +999,8 @@ body {
   height: 100vh;
   }
 
-.landing-ul { /*change icon list in landing page when portrait*/ 
-  li { 
+.landing-ul { /*change icon list in landing page when portrait*/
+  li {
     padding-right: 20px;
     padding-left: 20px;
     }
