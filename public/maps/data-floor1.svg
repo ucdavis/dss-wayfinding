@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg viewBox="15.9551 567.6045 612 345.332" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="-20 567.6045 660 345.332" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <g id="data_layer" opacity="1.0">
     <g id="Rooms" display="inline" opacity="0.25">
+      <a id="GYM" xlink:href="#">
+        <g>
+          <rect x="78" y="572.5" width="185" height="15" fill="#FFFF33">
+        </g>
+      </a>
   		<a id="R1161" xlink:href="#" >
   			<g>
   				<polygon fill="#FFFF33" points="178.187,773.9697 189.687,762.4697 197.187,770.0693 187.0869,780.1709 185.7871,778.8701
@@ -1230,6 +1235,8 @@
   	</g> <!-- End Portals -->
 
     <g id="Doors" display="inline">
+
+        <line id="GYM" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="204.5869" y1="588.9702" x2="204.5" y2="582.5"/>
 
   			<line id="R1282" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="461.2871" y1="746.1694" x2="464.9883" y2="742.4702"/>
 
