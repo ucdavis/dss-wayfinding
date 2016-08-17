@@ -193,8 +193,28 @@ var showInfo = function (data) {
       }
     }
 
-    if (data.department) {
-      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
+    if (data.people.length > 0) {
+      $('#destination-view').append("<h2>Name</h2>");
+      for (var i = 0; i < data.people.length; i++) {
+        var person = data.people[i];
+        $('#destination-view').append("<span>" + person.name + "</span>");
+      }
+
+      $('#destination-view').append("<h2>Email</h2>");
+      for (var i = 0; i < data.people.length; i++) {
+        var person = data.people[i];
+        $('#destination-view').append("<span>" + person.email + "</span>");
+      }
+
+      $('#destination-view').append("<h2>Phone</h2>");
+      for (var i = 0; i < data.people.length; i++) {
+        var person = data.people[i];
+        $('#destination-view').append("<span>" + person.phone + "</span>");
+      }
+
+      if (data.people[0].department) {
+        $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.people[0].department + "'><span class='label label-default btn-departments'>" + data.people[0].department + "</span></a>");
+      }
     }
 
     $('#destination-view').css('right', -9999);
