@@ -17,11 +17,17 @@ class Room < DirectoryObject
     {
       :id => id,
       :room_number => room_number,
-      :name => self.calculated_name,
-      :department => (people.size > 0) && people[0].department ? people[0].department.title : '',
-      :email => people.size > 0 ? people[0].email : '',
-      :phone => people.size > 0 ? people[0].phone : '',
-      :type => type
+      :type => type,
+      :people =>
+
+      people.map do |person|
+        {
+          :name => self.calculated_name,
+          :department => person.department ? person.department.title : '',
+          :email => person.email,
+          :phone => person.phone
+        }
+      end
     }
   end
 end
