@@ -19,9 +19,9 @@ class Room < DirectoryObject
         {
           :name => person.name ? person.name : person.first + ' ' + person.last,
           :department => person.department ? person.department.title : '',
-          :email => person.email,
-          :phone => person.phone,
-          :office_hours => person.office_hours
+          :email => person.email ? person.email : '',
+          :phone => person.phone ? person.phone : '',
+          :office_hours => person.office_hours ? person.office_hours : ''
         }
       end
     }
