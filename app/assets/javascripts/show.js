@@ -185,20 +185,22 @@ var showInfo = function (data) {
   var attrs = ['name', 'room_number', 'email', 'phone'];
 
   if (data) {
-    $('#destination-view').append("<h2>Location</h2>");
-    $('#destination-view').append("<span>" + data.room_number + "</span>");
+    var dataFragment = document.createDocumentFragment();
+    $(dataFragment).append("<h2>Location</h2>");
+    $(dataFragment).append("<span>" + data.room_number + "</span>");
 
     if (data.people.length > 0) {
-      $('#destination-view').append("<h2>Occupants</h2>");
+      $(dataFragment).append("<h2>Occupants</h2>");
       for (var i = 0; i < data.people.length; i++) {
         var person = data.people[i];
-        $('#destination-view').append("<span>" + person.name + "</span>");
-        $('#destination-view').append("<span>" + person.email + "</span>");
-        $('#destination-view').append("<span>" + person.phone + "</span>");
-        $('#destination-view').append("<span>" + person.office_hours + "</span>");
+        $(dataFragment).append("<span>" + person.name + "</span>");
+        $(dataFragment).append("<span>" + person.email + "</span>");
+        $(dataFragment).append("<span>" + person.phone + "</span>");
+        $(dataFragment).append("<span>" + person.office_hours + "</span>");
       }
     }
 
+    $("#destination-view").children().first().after(dataFragment);
     $('#destination-view').css('right', -9999);
     $('#destination-view-bg').css('right', -9999);
     toggleInfoPanel('min');
