@@ -54,6 +54,17 @@ html, body  {
   position: fixed;
 }
 
+// #accessibility-nav {
+//   pointer-events: all;
+// }
+.kiosk-accessbility-nav {
+  pointer-events: none;
+}
+
+.kiosk-accessbility-nav * {
+  pointer-events: all;
+}
+
 #mapLoading {
   font-size: 7vw;
   color: #777;
@@ -997,6 +1008,7 @@ body {
       display: flex;
       justify-content: space-between;
       width: 75%;
+      pointer-events: none;
   }
 
   #myCanvas {
@@ -1128,7 +1140,7 @@ body {
 
     #data_layer {
       display: inline;
-      opacity: 0;
+      opacity: 1;
     }
 
     .startPin {
