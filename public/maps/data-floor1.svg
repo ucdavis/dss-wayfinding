@@ -4,7 +4,7 @@
 
   <g id="data_layer" opacity="1.0">
     <g id="Rooms" display="inline" opacity="0.25">
-      <a id="RHICKEYGYM" xlink:href="#">
+      <a id="RHICKEY" xlink:href="#">
         <g>
           <rect x="78" y="572.5" width="185" height="15" fill="#FFFF33" />
         </g>
@@ -14,12 +14,12 @@
           <rect x="-12.5" y="675" width="10" height="130" fill="#FFFF33" />
         </g>
       </a>
-      <a id="RYOUNG-HALL" xlink:href="#">
+      <a id="RYOUNG" xlink:href="#">
         <g>
           <rect x="269" y="895" width="62" height="12" fill="#FFFF33" />
         </g>
       </a>
-      <a id="RA-STREET" xlink:href="#">
+      <a id="RASTREET" xlink:href="#">
         <g>
           <rect x="619" y="710" width="10" height="50" fill="#FFFF33" />
         </g>
@@ -1251,13 +1251,13 @@
 
     <g id="Doors" display="inline">
 
-        <line id="RHICKEYGYM" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="204.5869" y1="588.9702" x2="204.5" y2="582.5"/>
+        <line id="RHICKEY" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="204.5869" y1="588.9702" x2="204.5" y2="582.5"/>
 
         <line id="RMU" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="-7" y1="767.3701" x2="0" y2="767.3701"/>
 
-        <line id="RYOUNG-HALL" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300" y1="900" x2="300" y2="895"/>
+        <line id="RYOUNG" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300" y1="900" x2="300" y2="895"/>
 
-        <line id="RA-STREET" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="617" y1="725.77" x2="621" y2="725.77"/>
+        <line id="RASTREET" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="617" y1="725.77" x2="621" y2="725.77"/>
 
   			<line id="R1282" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="461.2871" y1="746.1694" x2="464.9883" y2="742.4702"/>
 
