@@ -177,14 +177,14 @@ var toggleInfoPanel = function (state) {
 var showInfo = function (data) {
   class_suffix = data.type || 'rooms'
 
+  // Remove previous information
   $('#destination-view h2, #destination-view span').remove();
   $('#destination-view h1').addClass('btn-' + class_suffix);
   $('#destination-view i.btn-min-max').addClass('btn-' + class_suffix);
   $('#destination-view').addClass('text-' + class_suffix);
 
-  var attrs = ['name', 'room_number', 'email', 'phone'];
-
   if (data) {
+    // Insert infomation in a fragment
     var dataFragment = document.createDocumentFragment();
     $(dataFragment).append("<h2>Location</h2>");
     $(dataFragment).append("<span>" + data.room_number + "</span>");
@@ -203,6 +203,7 @@ var showInfo = function (data) {
       }
     }
 
+    // Inject fragment to DOM
     $("#destination-view").children().first().after(dataFragment);
     $('#destination-view').css('right', -9999);
     $('#destination-view-bg').css('right', -9999);
