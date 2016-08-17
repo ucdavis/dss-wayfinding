@@ -196,7 +196,7 @@ var showInfo = function (data) {
         $(dataFragment).append("<span>" + person.name + "</span>");
         $(dataFragment).append("<span>" + person.email + "</span>");
         $(dataFragment).append("<span>" + person.phone + "</span>");
-        $(dataFragment).append("<span>" + person.office_hours + "</span>");
+        $(dataFragment).append("<span>" + person.office_hours.replaceAll('\n', '<br />') + "</span>");
       }
     }
 
