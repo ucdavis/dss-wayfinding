@@ -186,20 +186,24 @@ var showInfo = function (data) {
   if (data) {
     // Insert infomation in a fragment
     var dataFragment = document.createDocumentFragment();
-    $(dataFragment).append("<h2>Location</h2>");
-    $(dataFragment).append("<span>" + data.room_number + "</span>");
+    var dataHTML = "";
+    dataHTML += '<div class="destination-info-container">';
+    dataHTML += '<h2 class="destination-info-align-margin pull-left">Location:</h2>';
+    dataHTML += '<span class="title-style pull-left">' + data.room_number + "</span>";
 
     if (data.people.length > 0) {
-      $(dataFragment).append("<h2>Occupants</h2>");
+      dataHTML += '<h2 class="destination-info-align-margin">Occupants:</h2>';
       for (var i = 0; i < data.people.length; i++) {
         var person = data.people[i];
-        $(dataFragment).append("<span>" + person.name + "</span>");
-        $(dataFragment).append("<span>" + person.email + "</span>");
-        $(dataFragment).append("<span>" + person.phone + "</span>");
-        $(dataFragment).append("<span>" + person.office_hours + "</span>");
+        dataHTML += '<span class="title-style pull-left">' + person.name + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.email + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.phone + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.office_hours + "</span>";
       }
     }
 
+    dataHTML += '</div>';
+    $(dataFragment).append(dataHTML);
     // Inject fragment to DOM
     $("#destination-view").children().first().after(dataFragment);
     $('#destination-view').css('right', -9999);

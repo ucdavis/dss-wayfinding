@@ -151,7 +151,7 @@ html, body  {
   }
 
   span {
-    font-size: 3.2vmin;
+    font-size: 2.5vmin;
   }
 
   .min-max {
@@ -1699,4 +1699,34 @@ input::-webkit-input-placeholder {
 
 .input-group--margin-bt {
   margin-bottom: 20px !important;
+}
+
+
+/* extra css for information in destination panel */
+.destination-info-container {
+    background-color: white;
+    top: 0px;
+    bottom: 100px;
+    margin-bottom: 0;
+    height: 90vh;
+    border: none;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    z-index: 2008;
+    overflow-y: auto;
+}
+
+.title-style {
+  font-weight: bold;
+  margin-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 10%;
+} 
+
+.destination-info-align-margin {
+  margin-left: 10%;
+  margin-bottom: 1%;
+  color: gray;
 }
