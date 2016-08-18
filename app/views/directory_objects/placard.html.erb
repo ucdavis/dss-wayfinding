@@ -2,54 +2,10 @@
 <html>
 
 <head>
+	<%= csrf_meta_tags %>
 	<%= stylesheet_link_tag "print_placard", media: "all" %>
 </head>
 <body>
-
-	<!--===========The javascript functions to change the background images ====-->
-	<script>
-	var numberOfBackgrounds = 14; //Change when adding new images
-	var curBackground = 0;
-	var numPeople = <%= @results.count%>;
-
-	/**
-	 * Changes the background image of placard
-	 * @param {int} num - index of background image
-	 */
-	function changeBgImage(num) {
-		var backgrounds = document.getElementsByClassName("bgstyle");
-		var newBackground;
-
-		if(num == 0) { 	//Go to previous background
-			if(curBackground == 0) {
-				curBackground = numberOfBackgrounds;
-			} else {
-				curBackground -= 1;
-			}
-		}
-		else {			//Go to next background
-			if (curBackground == numberOfBackgrounds) {
-				curBackground = 0;
-			}
-			else {
-				curBackground += 1;
-			}
-		}
-
-		for(var i = 0; i < backgrounds.length; i++) {
-			// Set blank background
-			if(curBackground == numberOfBackgrounds)
-			newBackground = "";
-			else
-			newBackground = "/assets/placard/back" + curBackground + ".jpg";
-
-			backgrounds[i].setAttribute("src", newBackground);
-		}
-
-	} // function changeBgImage
-
-	</script>
-
 
 	<!-- ========= Start Placard ============-->
 
@@ -71,68 +27,68 @@
 
 				<!--Extra info-->
 				<!-- <h3>Office Hours</h3> -->
-				<div id="extraField" class="extrainfo">Office Hours<br>
-					<%= person[:office_hours] %></div>
+				<div id="extraField" class="extrainfo">Office Hours
+					<span><%= simple_format(person[:office_hours]).html_safe %></span>
 				</div>
-
 			</div>
 
-			<!-- This is the QR image-->
-			<div class="qr"> <%= image_tag(person[:qrLink], alt: "qrCode", class: "qrstyle", id: "qrImage") %></div>
-
-			<!-- This is the school logo -->
-			<div class="logo"><%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %></div>
-
-			<!-- This is the department name-->
-			<div id="depNameField" class="depname"><%= person[:department] %></div>
-
-		</div>
-		<% end %>
-		<!-- ========= End Placard ============-->
-
-		<!-- This is where the user can change the background-->
-
-		<div class= "buttonDiv">
-			<span>Change Background</span>
-			<button onclick="changeBgImage(0)" id = "0">Previous Image</button>
-			<button onclick="changeBgImage(1)" id = "1">Next Image</button>
 		</div>
 
-		<!-- Printing tips-->
-		<h2>
-			Printing Tips
-		</h2>
+		<!-- This is the QR image-->
+		<div class="qr"> <%= image_tag(person[:qrLink], alt: "qrCode", class: "qrstyle", id: "qrImage") %></div>
 
-		<p class="important">
-			*****Make sure to set printing orientation to horizontal*****
-		</p>
+		<!-- This is the school logo -->
+		<div class="logo"><%= image_tag("placard/davislogo.png", alt: "logoCode", class: "logostyle", id: "logoImage") %></div>
 
-		<p>
-			If background images are not showing up or text colors are not correct in the print:
-		</p>
+		<!-- This is the department name-->
+		<div id="depNameField" class="depname"><%= person[:department] %></div>
 
-		<p>
-			Internet Explorer <br>
-			File -> Page Setup -> Print Background Colors and Images
-		</p>
+	</div>
+	<% end %>
+	<!-- ========= End Placard ============-->
 
-		<p>
-			Firefox <br>
-			Windows: Print -> Properties -> Page Setup -> Print Background (colors & images) <br>
-			Mac: File -> Print -> Show Details -> Print background colors and Print background images
-		</p>
+	<!-- This is where the user can change the background-->
 
-		<p>
-			Google Chrome <br>
-			Print -> Background colors and images
-		</p>
+	<div class= "buttonDiv">
+		<span>Change Background</span>
+		<button onclick="changeBgImage(0)" id = "0">Previous Image</button>
+		<button onclick="changeBgImage(1)" id = "1">Next Image</button>
+	</div>
 
-		<p>
-			Safari <br>
-			File -> Print -> Safari (from drop down menu) -> Print Backgrounds
-		</p>
+	<!-- Printing tips-->
+	<h2>
+		Printing Tips
+	</h2>
 
-	</body>
+	<p class="important">
+		*****Make sure to set printing orientation to horizontal*****
+	</p>
 
+	<p>
+		If background images are not showing up or text colors are not correct in the print:
+	</p>
 
-	</html>
+	<p>
+		Internet Explorer <br>
+		File -> Page Setup -> Print Background Colors and Images
+	</p>
+
+	<p>
+		Firefox <br>
+		Windows: Print -> Properties -> Page Setup -> Print Background (colors & images) <br>
+		Mac: File -> Print -> Show Details -> Print background colors and Print background images
+	</p>
+
+	<p>
+		Google Chrome <br>
+		Print -> Background colors and images
+	</p>
+
+	<p>
+		Safari <br>
+		File -> Print -> Safari (from drop down menu) -> Print Backgrounds
+	</p>
+
+	<%= javascript_include_tag "placard" %>
+</body>
+</html>
