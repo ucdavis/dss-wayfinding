@@ -11,6 +11,26 @@ var animating = false;      /* Use as a check if you want something to
 NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
+/**
+ * Escapes a string ** required for replaceAll **
+ * // http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+} // function escapeRegExp
+
+/**
+ * This function searches the piece given and replaces it with the second piece
+ * @param {String} search - the piece we don't want
+ * @param {String} replacement - the piece we want instead
+ */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    search = escapeRegExp(search);
+    return target.replace(new RegExp(search, 'g'), replacement);
+}; // function replaceAll
+
+
 //functions to run once everything has loaded
 function onLoad(){
   attachListeners();

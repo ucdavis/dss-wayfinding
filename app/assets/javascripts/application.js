@@ -4,25 +4,6 @@
 //= require underscore
 //= redirect
 
-/**
- * Escapes a string ** required for replaceAll **
- * // http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
- */
-function escapeRegExp(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
-} // functione escapeRegExp
-
-/**
- * This function searches the piece given and replaces it with the second piece
- * @param {String} search - the piece we don't want
- * @param {String} replacement - the piece we want instead
- */
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    search = escapeRegExp(search);
-    return target.replace(new RegExp(search, 'g'), replacement);
-}; // function replaceAll
-
 var handleLinksWithJS = function () {
   // Handle left nav links using javascript (fixes guided mode issue on iPad)
   var a=$('a[href]:not([href^="\\#"])');
