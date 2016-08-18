@@ -1,8 +1,8 @@
 # config valid only for current version of Capistrano
-lock '3.4.0' #'3.3.5'
+lock '3.6.0'
 
 set :application, 'dss-wayfinding'
-set :repo_url, 'git@github.com:dssit/dss-wayfinding.git'
+set :repo_url, 'https://github.com/dssit/dss-wayfinding.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
