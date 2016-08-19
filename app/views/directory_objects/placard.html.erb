@@ -14,19 +14,12 @@
 	<div class="backgroundImg">
 		<%= image_tag("placard/back0.jpg", id: "bgImage", alt: " ", class: "bgstyle") %>
 
-		<!--WATCH FOR <DIV> NESTING-->
-
-		<!-- This is the name field -->
 		<div id="nameField" class="name"> <%= person[:name] %>
 
 			<div id="titleField" class="title"><%= person[:title] %> </div>
 
 			<div id = "extraInfoLine" class = "leftLine">
-				<!-- This is the email address-->
 				<div id="emailField" class="email"><%= person[:email] %></div>
-
-				<!--Extra info-->
-				<!-- <h3>Office Hours</h3> -->
 				<div id="extraField" class="extrainfo">Office Hours
 					<span><%= simple_format(person[:office_hours]).html_safe %></span>
 				</div>
