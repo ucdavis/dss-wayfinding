@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812220240) do
+ActiveRecord::Schema.define(version: 20160819195358) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",               default: 0, null: false
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(version: 20160812220240) do
     t.string   "type",          limit: 255
     t.integer  "room_id"
     t.integer  "department_id"
-    t.string   "person_title"
     t.string   "office_hours"
   end
 
