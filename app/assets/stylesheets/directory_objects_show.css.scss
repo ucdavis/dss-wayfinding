@@ -54,15 +54,23 @@ html, body  {
   position: fixed;
 }
 
-// #accessibility-nav {
-//   pointer-events: all;
-// }
 .kiosk-accessbility-nav {
   pointer-events: none;
 }
 
 .kiosk-accessbility-nav * {
   pointer-events: all;
+}
+
+#destination-view h1 {
+  margin-top: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+#search {
+  text-indent: 30px;
 }
 
 #mapLoading {
@@ -567,10 +575,7 @@ input.search:focus {
   .alert {
     position: absolute;
     top: 0;
-    // width: 50%;
     right: 0%;
-    // margin-left: -25%;
-    // text-align: center;
     z-index: 100;
   }
 }
@@ -800,7 +805,6 @@ table {
 
 /* Pad to accomodate static nav-bar */
 body {
-  // padding-top: 10vh;
   height: 100vh;
 }
 
@@ -1723,7 +1727,7 @@ input::-webkit-input-placeholder {
   margin-bottom: 2%;
   margin-top: 2%;
   margin-left: 10%;
-} 
+}
 
 .destination-info-align-margin {
   margin-left: 10%;

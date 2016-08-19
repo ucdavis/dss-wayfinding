@@ -13,7 +13,7 @@ var routeTrigger;           //if true, destination already exists so run the rou
 
 /**
  * Escapes a string ** required for replaceAll **
- * // http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+ * http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
  */
 function escapeRegExp(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
@@ -21,13 +21,13 @@ function escapeRegExp(str) {
 
 /**
  * This function searches the piece given and replaces it with the second piece
+ * @param {String} str - targetted string
  * @param {String} search - the piece we don't want
  * @param {String} replacement - the piece we want instead
  */
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
+function replaceAll (str, search, replacement) {
     search = escapeRegExp(search);
-    return target.replace(new RegExp(search, 'g'), replacement);
+    return str.replace(new RegExp(search, 'g'), replacement);
 }; // function replaceAll
 
 
@@ -215,10 +215,12 @@ var showInfo = function (data) {
       dataHTML += '<h2 class="destination-info-align-margin">Occupants:</h2>';
       for (var i = 0; i < data.people.length; i++) {
         var person = data.people[i];
+        person.office_hours = replaceAll(person.office_hours, '\n', '<br />');
+
         dataHTML += '<span class="title-style pull-left">' + person.name + "</span>";
         dataHTML += '<span class="destination-info-align-margin pull-left">' + person.email + "</span>";
         dataHTML += '<span class="destination-info-align-margin pull-left">' + person.phone + "</span>";
-        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.office_hours.replaceAll('\n', '<br />') + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.office_hours + "</span>";
       }
     }
 
