@@ -11,6 +11,26 @@ var animating = false;      /* Use as a check if you want something to
 NOT operate during animation (i.e. ignore room click if true)*/
 var routeTrigger;           //if true, destination already exists so run the routing function on page load
 
+/**
+ * Escapes a string ** required for replaceAll **
+ * // http://stackoverflow.com/questions/1144783/replacing-all-occurrences-of-a-string-in-javascript
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+} // function escapeRegExp
+
+/**
+ * This function searches the piece given and replaces it with the second piece
+ * @param {String} search - the piece we don't want
+ * @param {String} replacement - the piece we want instead
+ */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    search = escapeRegExp(search);
+    return target.replace(new RegExp(search, 'g'), replacement);
+}; // function replaceAll
+
+
 //functions to run once everything has loaded
 function onLoad(){
   attachListeners();
@@ -177,26 +197,35 @@ var toggleInfoPanel = function (state) {
 var showInfo = function (data) {
   class_suffix = data.type || 'rooms'
 
+  // Remove previous information
   $('#destination-view h2, #destination-view span').remove();
   $('#destination-view h1').addClass('btn-' + class_suffix);
   $('#destination-view i.btn-min-max').addClass('btn-' + class_suffix);
   $('#destination-view').addClass('text-' + class_suffix);
 
-  var attrs = ['name', 'room_number', 'email', 'phone'];
-
   if (data) {
-    for (var i = 0; i < attrs.length; i++) {
-      value = eval("data." + attrs[i]);
-      if (value) {
-        $('#destination-view').append("<h2>" + attrs[i].split('_').join(' ') + "</h2>");
-        $('#destination-view').append("<span>" + value + "</span>");
+    // Insert infomation in a fragment
+    var dataFragment = document.createDocumentFragment();
+    var dataHTML = "";
+    dataHTML += '<div class="destination-info-container">';
+    dataHTML += '<h2 class="destination-info-align-margin pull-left">Location:</h2>';
+    dataHTML += '<span class="title-style pull-left">' + data.room_number + "</span>";
+
+    if (data.people.length > 0) {
+      dataHTML += '<h2 class="destination-info-align-margin">Occupants:</h2>';
+      for (var i = 0; i < data.people.length; i++) {
+        var person = data.people[i];
+        dataHTML += '<span class="title-style pull-left">' + person.name + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.email + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.phone + "</span>";
+        dataHTML += '<span class="destination-info-align-margin pull-left">' + person.office_hours.replaceAll('\n', '<br />') + "</span>";
       }
     }
 
-    if (data.department) {
-      $('#destination-view').append("<h2>Search Similar</h2><a href='/search?q=" + data.department + "'><span class='label label-default btn-departments'>" + data.department + "</span></a>");
-    }
-
+    dataHTML += '</div>';
+    $(dataFragment).append(dataHTML);
+    // Inject fragment to DOM
+    $("#destination-view").children().first().after(dataFragment);
     $('#destination-view').css('right', -9999);
     $('#destination-view-bg').css('right', -9999);
     toggleInfoPanel('min');

@@ -4,6 +4,8 @@ class Person < DirectoryObject
   validates :email, uniqueness: true, :allow_blank => true, :allow_nil => true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   #validates :phone, uniqueness: false, presence: false, format: { with: /\A[)(\d\-x+ ]*\z/ }
   validate :phone_must_be_valid
+  validates :person_title, uniqueness: false, :allow_blank => true, :allow_nil => true
+  validates :office_hours, uniqueness: false, :allow_blank => true, :allow_nil => true
 
   has_and_belongs_to_many :rooms, join_table: 'person_room_join_requirements'
   belongs_to :department
@@ -21,7 +23,9 @@ class Person < DirectoryObject
       :type => type,
       :room_ids => rooms.present? ? rooms.map { |room| room.id } : [],
       :department_id => department ? department.id : '',
-      :room_id => rooms.first ? rooms.first.id : nil
+      :room_id => rooms.first.id,
+      :office_hours => office_hours,
+      :person_title => person_title
     }
   end
 

@@ -8,20 +8,22 @@ class Room < DirectoryObject
   has_many :events
   has_many :devices
 
-  def calculated_name
-    return self.name if self.name.present?
-    people.size > 0 ? people[0].first + ' ' + people[0].last : ''
-  end
-
   def as_json(options={})
     {
       :id => id,
       :room_number => room_number,
-      :name => self.calculated_name,
-      :department => (people.size > 0) && people[0].department ? people[0].department.title : '',
-      :email => people.size > 0 ? people[0].email : '',
-      :phone => people.size > 0 ? people[0].phone : '',
-      :type => type
+      :type => type,
+      :people =>
+
+      people.map do |person|
+        {
+          :name => person.name ? person.name : person.first + ' ' + person.last,
+          :department => person.department ? person.department.title : '',
+          :email => person.email ? person.email : '',
+          :phone => person.phone ? person.phone : '',
+          :office_hours => person.office_hours ? person.office_hours : ''
+        }
+      end
     }
   end
 end

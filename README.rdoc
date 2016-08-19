@@ -13,10 +13,8 @@ DSS Wayfinding is an indoor mapping project. It has been designed to help with p
   $ make
   $ Set emscriptenBackend option in jquery.wayfinding.js to true
 
-=== Miscellaneous
-To generate PNGs from the SVGs, you need to use:
-  
-  rsvg-convert -w 2000 [path+name].png [path+name].svg
+=== Usage
+1. <host>/start/:start_loc/end/:end_loc - generates a route from start_loc to end_loc
 
 === Contact
 See https://github.com/dssit for contact information.

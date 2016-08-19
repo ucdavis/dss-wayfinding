@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg viewBox="15.9551 567.6045 612 345.332" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="-20 567.6045 660 345.332" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
   <g id="data_layer" opacity="1.0">
     <g id="Rooms" display="inline" opacity="0.25">
+      <a id="RHICKEY" xlink:href="#">
+        <g>
+          <rect x="78" y="572.5" width="185" height="15" fill="#FFFF33" />
+        </g>
+      </a>
+      <a id="RMU" xlink:href="#">
+        <g>
+          <rect x="-12.5" y="675" width="10" height="130" fill="#FFFF33" />
+        </g>
+      </a>
+      <a id="RYOUNG" xlink:href="#">
+        <g>
+          <rect x="269" y="895" width="62" height="12" fill="#FFFF33" />
+        </g>
+      </a>
+      <a id="RASTREET" xlink:href="#">
+        <g>
+          <rect x="619" y="710" width="10" height="50" fill="#FFFF33" />
+        </g>
+      </a>
   		<a id="R1161" xlink:href="#" >
   			<g>
   				<polygon fill="#FFFF33" points="178.187,773.9697 189.687,762.4697 197.187,770.0693 187.0869,780.1709 185.7871,778.8701
@@ -1231,6 +1251,14 @@
 
     <g id="Doors" display="inline">
 
+        <line id="RHICKEY" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="204.5869" y1="588.9702" x2="204.5" y2="582.5"/>
+
+        <line id="RMU" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="-7" y1="767.3701" x2="0" y2="767.3701"/>
+
+        <line id="RYOUNG" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300" y1="900" x2="300" y2="895"/>
+
+        <line id="RASTREET" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="617" y1="725.77" x2="621" y2="725.77"/>
+
   			<line id="R1282" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="461.2871" y1="746.1694" x2="464.9883" y2="742.4702"/>
 
   			<line id="R1283" fill="none" stroke="#99FF66" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="468.0869" y1="756.9697" x2="464.3858" y2="760.6709"/>
@@ -1579,6 +1607,16 @@
   	</g> <!-- End Doors -->
 
     <g id="Paths" display="inline">
+
+      <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="617" y1="725.77" x2="582.5869" y2="725.77"/>
+
+      <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="271.687" y1="874.2705" x2="300" y2="890"/>
+
+      <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="321.8872" y1="881.8701" x2="300" y2="890"/>
+
+      <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="300" y1="895" x2="300" y2="890"/>
+
+      <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="0" y1="767.3701" x2="28.0869" y2="767.3701"/>
 
         <line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="41.8872" y1="792.5693" x2="52.0869" y2="792.5693"/>
 
@@ -2247,8 +2285,6 @@
   			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="309.2871" y1="631.27" x2="311.687" y2="635.8706"/>
 
   			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="318.5869" y1="626.1694" x2="315.5869" y2="622.3706"/>
-
-  			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="315.5869" y1="622.3706" x2="326.3872" y2="622.27"/>
 
   			<line fill="none" stroke="#FF0000" stroke-width="0.7087" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="315.5869" y1="622.3706" x2="310.5869" y2="617.5689"/>
 

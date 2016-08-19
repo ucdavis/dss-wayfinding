@@ -70,11 +70,11 @@
       <a href="/"><img src="/assets/icons/wayfinding-logo-e5ca4ad67894f5b4179cfac8a491d00d8211d2643d6310cfb1f75f79298423d6.png"></a>
       <h5><a href="/">WAYFINDING</a></h5>
     </div>
-    <div class="input-group width-50">
+    <div class="input-group input-group-search">
       <i class="glyphicon glyphicon-search search-icon" aria-hidden="true"></i>
 
 
-      <input id="search" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px; width: 60%;" type="text">
+      <input id="search" class="form-control form-control--style" placeholder="Search by name, room, and department" aria-describedby="basic-addon1" style="text-indent: 30px;" type="text">
       <div id="result">
         <!-- Search query will go here -->
       </div>
@@ -137,18 +137,6 @@
     </button>
   </a>
 
-				<!-- Logout shows if in /administration -->
-				<script type="text/javascript">
-					$(document).ready(function () {
-						if(window.location.href.indexOf("administration") < 0) {
-							$("#logout").hide();
-						}
-					});
-				</script>
-				<!-- Logout -->
-				<button type="button" class="btn-navbar-main btn btn-default btn-logout-nav" id="logout">
-					<a href="/logout" class="text-logout">Logout</a>
-				</button>
 	        </div> <!-- navbar-header -->
 
 	         <!-- Hamburger Menu --> <!-- background drop down white -->

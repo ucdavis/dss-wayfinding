@@ -70,11 +70,12 @@ class DirectoryObjectsController < ApplicationController
       name       = person.first + ' ' + person.last
       email = person.email
       department = person.department.title
-      title      = nil
+      title      = person.person_title
+      office_hours = person.office_hours
       targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
       qrLink     = generateQRLink(targetURL)
 
-      hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+      hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink, office_hours: office_hours }
 
       @results.push( hash )
     else
@@ -294,6 +295,10 @@ class DirectoryObjectsController < ApplicationController
                 cookies[:origin] || cookies[:start_location]
       @dest = normalize_room(params[:end_loc])
 
+      if cookies[:origin].blank?
+        cookies[:start_location] = @origin
+      end
+
       unless @origin
         logger.error "An instance of Wayfinding had a page loaded without an origin set. IP: #{request.remote_ip}"
       end
@@ -303,7 +308,7 @@ class DirectoryObjectsController < ApplicationController
     def directory_object_params
       case params[:type]
       when 'Person'
-        params.permit(:first, :last, :email, :phone, :department_id, :room_ids => [])
+        params.permit(:person_title, :office_hours, :first, :last, :email, :phone, :department_id, :room_ids => [])
       when 'Room'
         params.permit(:name)
       when 'Department'

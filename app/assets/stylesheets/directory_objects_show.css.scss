@@ -54,6 +54,17 @@ html, body  {
   position: fixed;
 }
 
+// #accessibility-nav {
+//   pointer-events: all;
+// }
+.kiosk-accessbility-nav {
+  pointer-events: none;
+}
+
+.kiosk-accessbility-nav * {
+  pointer-events: all;
+}
+
 #mapLoading {
   font-size: 7vw;
   color: #777;
@@ -140,7 +151,7 @@ html, body  {
   }
 
   span {
-    font-size: 3.2vmin;
+    font-size: 2.5vmin;
   }
 
   .min-max {
@@ -179,7 +190,6 @@ ul.vertical-nav {
   text-align: center;
   width: $vertical-nav-width;
   height: calc(100vh - 15px);
-  //padding-top: 9%;
 
   li {
     margin: 5px 1px 4vh;
@@ -557,11 +567,16 @@ input.search:focus {
   .alert {
     position: absolute;
     top: 0;
-    width: 50%;
-    left: 50%;
-    margin-left: -25%;
-    text-align: center;
+    // width: 50%;
+    right: 0%;
+    // margin-left: -25%;
+    // text-align: center;
+    z-index: 100;
   }
+}
+
+.admin_logout {
+  margin-top: 5em;
 }
 
 #Rooms {
@@ -965,6 +980,37 @@ body {
     with an aspect ratio 1.1:2 => 1.1Width = 2Height */
 
 @media (orientation: portrait) {
+
+  .main-content {
+    padding-top: 7vh; /*define main-content padding-top in portrait view */
+  }
+
+  ul.vertical-nav {
+    padding-left: 20px; /* reset the extra padding caused by ul */
+  }
+
+  .floor-nav {
+    margin-right: 0px;
+  }
+
+  .input-group-search { /* resize input group width in portrait view */
+    width: 34%;
+
+    #search{          /* resize input width in portrait view */
+      width: 90%;
+    }
+  }
+
+  .kiosk-accessbility-nav {
+      position: absolute;
+      bottom: 10%;
+      left: 25%;
+      display: flex;
+      justify-content: space-between;
+      width: 75%;
+      pointer-events: none;
+  }
+
   #myCanvas {
     width: 95vw;
   }
@@ -994,8 +1040,8 @@ body {
   height: 100vh;
   }
 
-.landing-ul { /*change icon list in landing page when portrait*/ 
-  li { 
+.landing-ul { /*change icon list in landing page when portrait*/
+  li {
     padding-right: 20px;
     padding-left: 20px;
     }
@@ -1005,6 +1051,30 @@ body {
 
 /* Aspect ratio > 1 => landscape or monitor */
 @media (orientation: landscape) {
+
+  .main-content {
+    padding-top: 10vh;
+  }
+
+  .input-group-search { /* resize input group width in portrait view */
+    width: 50%;
+
+    #search {           /* resize input width in portrait view */
+      width: 90%;
+    }
+
+  }
+
+  .kiosk-accessbility-nav {
+    position: absolute;
+    bottom: 10%;
+    left: 15%;
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+}
+
+
   #myCanvas {
     width: calc((2/1.1) * 58vh);
   }
@@ -1405,8 +1475,7 @@ body {
 
 }
 
-
-/*Only for kiosk */
+/*Only for kiosk landscape */
 @media (max-device-width: 1024px) {
   ul.vertical-nav {
     padding-top: 11%;
@@ -1415,12 +1484,12 @@ body {
 }
 
 /*Only for desktop version */
-@media (min-width: 1025px) { //kiosk&desktop view
+@media (min-width: 1025px) {
   ul.vertical-nav {
     padding-top: 8%;
   }
 
-	}
+}
 
 /* event style */
 .event-style td {
@@ -1610,9 +1679,6 @@ input::-webkit-input-placeholder {
 /* Search-bar Expand END */
 
 /* MISC */
-.width-50 {
-  width: 50%;
-}
 
 .width-100 {
   width: 100%;
@@ -1633,4 +1699,34 @@ input::-webkit-input-placeholder {
 
 .input-group--margin-bt {
   margin-bottom: 20px !important;
+}
+
+
+/* extra css for information in destination panel */
+.destination-info-container {
+    background-color: white;
+    top: 0px;
+    bottom: 100px;
+    margin-bottom: 0;
+    height: 90vh;
+    border: none;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    z-index: 2008;
+    overflow-y: auto;
+}
+
+.title-style {
+  font-weight: bold;
+  margin-bottom: 2%;
+  margin-top: 2%;
+  margin-left: 10%;
+} 
+
+.destination-info-align-margin {
+  margin-left: 10%;
+  margin-bottom: 1%;
+  color: gray;
 }
