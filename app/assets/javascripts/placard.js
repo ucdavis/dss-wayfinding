@@ -1,6 +1,7 @@
 //= require jquery
 //= require show
 
+// TODO: Remove hard coded number
 var numberOfBackgrounds = 14; //Change when adding new images
 var curBackground = 0;
 
@@ -30,10 +31,12 @@ function changeBgImage(num) {
 
   for(var i = 0; i < backgrounds.length; i++) {
     // Set blank background
-    if(curBackground == numberOfBackgrounds)
-    newBackground = "";
-    else
-    newBackground = "/assets/placard/back" + curBackground + ".jpg";
+    if(curBackground == numberOfBackgrounds) {
+      newBackground = "";
+    }
+    else {
+      newBackground = "/assets/placard/back" + curBackground + ".jpg";
+    }
 
     backgrounds[i].setAttribute("src", newBackground);
   }
