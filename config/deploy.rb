@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.6.0'
+lock '3.6.1'
 
 set :application, 'dss-wayfinding'
 set :repo_url, 'https://github.com/dssit/dss-wayfinding.git'
