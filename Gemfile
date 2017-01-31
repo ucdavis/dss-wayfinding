@@ -36,7 +36,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # CAS Authentication
 # Using git because the before method seems to be missing from the filter class.
 # More: https://github.com/rubycas/rubycas-client/issues/78
-gem 'rubycas-client', :git => 'git://github.com/rubycas/rubycas-client.git'
+gem 'rubycas-client', :git => 'https://github.com/rubycas/rubycas-client.git'
 
 # Provides Authorization
 gem 'declarative_authorization'
@@ -46,7 +46,7 @@ gem 'spring',        group: :development
 
 # Use Capistrano for deployment
 group :development do
-  gem 'capistrano', '~> 3.1', require: false
+  gem 'capistrano', '= 3.7.2', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-passenger', require: false
