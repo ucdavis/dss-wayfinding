@@ -12,9 +12,8 @@ class AdministrationController < ApplicationController
   end
 
   # POST
-  # Modifies the starting location. Useful for kiosks.
+  # Modifies the starting location. Used for Kiosk mode.
   def origin
-
     unless params[:origin].blank?
       params[:origin].slice!(0) if params[:origin][0].upcase == "R" # Remove proceeding R if present
       origin = params[:origin].to_s.rjust(4, '0').prepend("R") # Add zero padding and Prepend R
