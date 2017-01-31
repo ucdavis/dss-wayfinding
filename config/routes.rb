@@ -49,4 +49,7 @@ Rails.application.routes.draw do
       resources :rss_feeds
     end
   end
+
+  get 'admin', to: 'administration#index'
+  get 'administrate', to: 'administration#index'
 end
