@@ -211,7 +211,7 @@ var showInfo = function (data) {
     dataHTML += '<h2 class="destination-info-align-margin pull-left">Location:</h2>';
     dataHTML += '<span class="title-style pull-left">' + data.room_number + "</span>";
 
-    if (data.people.length > 0) {
+    if (data.people && data.people.length > 0) {
       dataHTML += '<h2 class="destination-info-align-margin">Occupants:</h2>';
       for (var i = 0; i < data.people.length; i++) {
         var person = data.people[i];
