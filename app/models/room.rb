@@ -13,6 +13,7 @@ class Room < DirectoryObject
       :id => id,
       :room_number => room_number,
       :type => type,
+      :name => name,
       :people => people.map do |person|
         {
           :name => person.name ? person.name : person.first + ' ' + person.last,
