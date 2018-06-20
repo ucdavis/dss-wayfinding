@@ -1,2 +1,2 @@
-class SearchTermLog < ActiveRecord::Base
+class SearchTermLog < ApplicationRecord
 end

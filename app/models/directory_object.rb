@@ -1,4 +1,4 @@
-class DirectoryObject < ActiveRecord::Base
+class DirectoryObject < ApplicationRecord
   scope :people, -> { where(type: 'Person') }
   scope :events, -> { where(type: 'Event') }
   scope :rooms, -> { where(type: 'Room') }

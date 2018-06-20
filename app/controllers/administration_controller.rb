@@ -1,10 +1,9 @@
 class AdministrationController < ApplicationController
-  before_filter :require_login, except: [:start, :logvisitor]
+  before_action :require_login, except: [:start, :logvisitor]
   before_action :authenticate, except: [:start, :logvisitor]
-  protect_from_forgery :except => :logvisitor
-  filter_access_to :all
+  protect_from_forgery except: :logvisitor
 
-  skip_before_action :verify_authenticity_token, :only => [:csv, :map_upload]
+  skip_before_action :verify_authenticity_token, only: [:csv, :map_upload]
 
   def index
     # Whether or not to hide the CSV upload tab

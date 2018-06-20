@@ -33,3 +33,8 @@ node_modules
 
 # Don't assume Capistrano's privacy options apply to everyone
 .capistrano
+
+.env
+.rbenv-vars
+.ruby-version
+

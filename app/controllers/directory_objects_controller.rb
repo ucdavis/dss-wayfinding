@@ -5,12 +5,10 @@ require 'fileutils'
 class DirectoryObjectsController < ApplicationController
   before_action :set_origin, except: [:index]
   before_action :set_directory_object, only: [:test, :show, :update, :destroy]
-  before_filter :require_login, except: [:index, :test, :show, :search, :unroutable]
-  before_filter :authenticate, except: [:index, :test, :show, :search, :unroutable]
+  before_action :require_login, except: [:index, :test, :show, :search, :unroutable]
+  before_action :authenticate, except: [:index, :test, :show, :search, :unroutable]
 
-  protect_from_forgery :except => :unroutable
-
-  filter_access_to :all
+  protect_from_forgery except: :unroutable
 
   # Accepts either a single room ID (Assumed to be an origin)
   #   or 2 Room IDs (assumed to be an origin destination pair)
@@ -135,7 +133,7 @@ class DirectoryObjectsController < ApplicationController
 
     respond_to do |format|
       if @object.save
-        logger.info Authorization.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + @object.type
+        logger.info Authentication.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + @object.type
 
         format.json { render json: @object }
       else
@@ -147,7 +145,7 @@ class DirectoryObjectsController < ApplicationController
   def update
     respond_to do |format|
       if @object.update(directory_object_params)
-        logger.info Authorization.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + @object.type
+        logger.info Authentication.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + @object.type
 
         format.json { render json: @object }
       else
@@ -157,8 +155,8 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def destroy
-    if @object.present? and @object.type != 'Room'
-      logger.info Authorization.current_user.loginid.to_s + " deleted directory_object id: " + @object.id.to_s + " type: " + params[:type].singularize.capitalize
+    if @object.present? && @object.type != 'Room'
+      logger.info Authentication.current_user.loginid.to_s + " deleted directory_object id: " + @object.id.to_s + " type: " + params[:type].singularize.capitalize
 
       @object.destroy
       respond_to do |format|

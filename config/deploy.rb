@@ -34,7 +34,8 @@ set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/ca
 set :keep_releases, 5
 
 # Let NPM know where to install (default: not set)
-set :npm_target_path, -> { release_path.join('nodejs') }
+#set :npm_target_path, -> { release_path.join('nodejs') }
+#set :npm_flags, '--production --silent --no-progress'
 
 # Use 1 background worker (the same value should be set in config/schedule.rb)
 set :delayed_job_args, "-n 1 -p wayfinding"

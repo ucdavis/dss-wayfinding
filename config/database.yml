@@ -10,8 +10,13 @@ default: &default
   timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: wayfinding
+  username: dssitmaster
+  password: 8gm-aP3-vtQ-ZAG
+  host: datawarehouse.c31xyqeespb9.us-west-2.rds.amazonaws.com
+  port: 3306
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

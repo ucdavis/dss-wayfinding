@@ -15,33 +15,33 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-      <% permitted_to? :origin, :administration do %>
+      <%# permitted_to? :origin, :administration do %>
       <li role="presentation" ng-class="{active: isActive('/kiosk')}">
         <a href="#kiosk" aria-controls="kiosk" role="tab" data-toggle="tab" class="tab-link">Set Kiosk Location</a>
       </li>
-      <% end %>
+      <%# end %>
 
-      <% permitted_to? :map_upload, :administration do %>
+      <%# permitted_to? :map_upload, :administration do %>
       <li role="presentation" ng-class="{active: isActive('/svg')}">
         <a href="#svg" aria-controls="svg" role="tab" data-toggle="tab" class="tab-link">Manage SVG Maps</a>
       </li>
-      <% end %>
+      <%# end %>
 
-      <% permitted_to? :csv, :administration do %>
+      <%# permitted_to? :csv, :administration do %>
         <% if @contains_data == true %>
           <li role="presentation" ng-class="{active: isActive('/csv')}">
             <a href="#csv" aria-controls="csv" role="tab" data-toggle="tab" class="tab-link">Upload New Facilities CSV</a>
           </li>
         <% end %>
-      <% end %>
+      <%# end %>
 
-      <% permitted_to? :manage, :rss_feeds do %>
+      <%# permitted_to? :manage, :rss_feeds do %>
       <li role="presentation" ng-class="{active: isActive('/rss')}">
         <a href="#rss" aria-controls="rss" role="tab" data-toggle="tab" class="tab-link">Manage RSS Fetching</a>
       </li>
-      <% end %>
+      <%# end %>
 
-      <% permitted_to? :administer, :administration do %>
+      <%# permitted_to? :administer, :administration do %>
       <li role="presentation" ng-class="{active: isActive('/unroutable')}">
         <a href="#unroutable" aria-controls="unroutable" role="tab" data-toggle="tab" class="tab-link">Unroutable Route Logs</a>
       </li>
@@ -54,9 +54,9 @@
       <li role="presentation" ng-class="{active: isActive('/analytics')}">
         <a href="#analytics" aria-controls="analytics" role="tab" data-toggle="tab" class="tab-link">Analytics</a>
       </li>
-      <% end %>
+      <%# end %>
 
-      <% permitted_to? :administer_directory, :administration do %>
+      <%# permitted_to? :administer_directory, :administration do %>
       <li role="presentation" ng-class="{active: isActive('/dir_departments')}">
         <a href="#dir_departments" aria-controls="dir_dept" role="tab" data-toggle="tab" class="tab-link">Edit Department Locations</a>
       </li>
@@ -66,7 +66,7 @@
       <li role="presentation" ng-class="{active: isActive('/dir_rooms')}">
         <a href="#dir_rooms" aria-controls="dir_rooms" role="tab" data-toggle="tab" class="tab-link rooms">Edit Rooms Directory</a>
       </li>
-      <% end %>
+      <%# end %>
       <li>
         <a href="/logout" class="admin_logout">Logout</a>
       </li>
@@ -78,11 +78,7 @@
       </div>
 
 
-      <% permitted_to? :administer_directory, :administration do %>
-<!--      <div role="tabpanel" class="tab-pane" id="dir_dept">
-         <%# render "directory_form", type: 'Department' %>
-      </div> -->
-
+      <%# permitted_to? :administer_directory, :administration do %>
       <div role="tabpanel" class="tab-pane" id="dir_people">
          <%# render "directory_form", type: 'Person' %>
       </div>
@@ -90,7 +86,7 @@
       <div role="tabpanel" class="tab-pane" id="dir_rooms">
          <%# render "directory_form", type: 'Room' %>
       </div>
-      <% end %>
+      <%# end %>
 
     </div>
 

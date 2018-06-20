@@ -40,12 +40,12 @@ class RolesManagement
 
         return JSON.parse(buffer)
       rescue StandardError => e
-        #$stderr.puts "Could not fetch RM URL #{e}"
+        Rails.logger.error "Could not fetch RM URL #{e}"
         return false
       end
     else
       # DSS_RM_SETTINGS is not defined
-      $stderr.puts "RolesManagement.fetch_json_by_loginid() called but RM integration is not configured."
+      Rails.logger.error "RolesManagement.fetch_json_by_loginid() called but RM integration is not configured."
       return false
     end
   end

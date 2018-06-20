@@ -1,2 +1,2 @@
-class UnmatchedQueryLog < ActiveRecord::Base
+class UnmatchedQueryLog < ApplicationRecord
 end

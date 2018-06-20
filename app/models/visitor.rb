@@ -1,3 +1,3 @@
-class Visitor < ActiveRecord::Base
+class Visitor < ApplicationRecord
   belongs_to :device
 end

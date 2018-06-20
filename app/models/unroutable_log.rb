@@ -1,2 +1,2 @@
-class UnroutableLog < ActiveRecord::Base
+class UnroutableLog < ApplicationRecord
 end

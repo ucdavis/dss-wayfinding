@@ -1,6 +1,4 @@
-class User < ActiveRecord::Base
-  using_access_control
-
+class User < ApplicationRecord
   validates :loginid, uniqueness: true, presence: true
 
   def role_symbols
