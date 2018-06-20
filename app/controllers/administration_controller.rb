@@ -1,7 +1,7 @@
 class AdministrationController < ApplicationController
-  before_action :require_login, except: [:start, :logvisitor]
-  before_action :authenticate, except: [:start, :logvisitor]
-  protect_from_forgery except: :logvisitor
+  before_action :require_login, except: [:start]
+  before_action :authenticate, except: [:start]
+  protect_from_forgery
 
   skip_before_action :verify_authenticity_token, only: [:csv, :map_upload]
 
@@ -51,18 +51,6 @@ class AdministrationController < ApplicationController
     redirect_to "/map"
   end
 
-  # POST /logvisitor
-  #
-  # Logs a visitor. Called from redirect.js, which redirects to home after 2
-  # minutes of inactivity. Logs a visitor after one minute of inactivity.
-  #
-  def logvisitor
-    @visitor.end = DateTime.current
-    @visitor.save
-
-    render :nothing => true
-  end
-
   def unmatched
     @unmatched_queries = UnmatchedQueryLog.all
 
@@ -81,49 +69,6 @@ class AdministrationController < ApplicationController
 
   def search_terms
     @search_terms = SearchTermLog.all.order(:count).limit(30)
-
-    respond_to do |format|
-      format.json
-    end
-  end
-
-  def analytics
-    @devices = Device.all
-
-    if params[:start] and params[:end]
-      start_date = Date.parse(params[:start]).in_time_zone
-      end_date = Date.parse(params[:end]).next_day.in_time_zone
-
-      @visits = Visitor.where("start >= :start_date AND start <= :end_date",
-        {
-          start_date: start_date,
-          end_date: end_date
-        }).order(:start)
-    else
-      @visits = Visitor.where("start is not null").order(:start)
-    end
-
-    case params[:group]
-      when "year"
-        @visits = @visits.group_by { |v| v.start.beginning_of_year }
-      when "month"
-        @visits = @visits.group_by { |v| v.start.beginning_of_month }
-      when "week"
-        @visits = @visits.group_by { |v| v.start.beginning_of_week }
-      else # defaults to grouping by day
-        @visits = @visits.group_by { |v| v.start.beginning_of_day }
-    end
-
-    # vs is for visitors. v is for visitor. No cross-database way of doing it
-    # (e.g., sqlite uses strftime and postgres uses date_trunc), so just do
-    # array/enumerable operations
-    @visits = @visits.map do |date, vs|
-      {
-        date: date,
-        devices: vs.group_by { |v| v[:device_id] }
-                   .map { |device,v| { device_id: device, visitors: v.length } }
-      }
-    end
 
     respond_to do |format|
       format.json
