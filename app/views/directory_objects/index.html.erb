@@ -1,7 +1,6 @@
+<h3><%= params[:type].pluralize unless params[:type].blank? %></h3>
 
-  <h3><%= params[:type].pluralize unless params[:type].blank? %></h3>
-
-  <div class="directory-list">
+<div class="directory-list">
     <div id="scrubber-view">
         <ul class="nav nav-list" id="slider-vertical">
             <% if @directory_objects.first  && ['Room', 'Person', 'Department'].include?(@directory_objects.first.type) && @scrubber_categories %>
@@ -15,13 +14,18 @@
     </div> <!-- #scrubber-view -->
 
     <table class="table directory-table directory-table--border directory-table--view">
-      <tbody style="width: 100%; display:table;">
+        <tbody style="width: 100%; display: table;">
         <% @initial_category = false %>
         <% @scrubber_category_index = 0 %>
 
         <% @directory_objects.each_with_index do |directory_object, index| %>
-          <%= render "index_" + directory_object.type.downcase.pluralize, directory_object: directory_object %>
+            <%= render "index_" + directory_object.type.downcase.pluralize, directory_object: directory_object %>
         <% end %>
-      </tbody>
+        <% if @directory_objects.empty? %>
+            <tr>
+                <td style="font-weight: bold; text-align: center; font-size: 115%;">No <%= params[:type].pluralize.downcase unless params[:type].blank? %> available to display</td>
+            </tr>
+        <% end %>
+        </tbody>
     </table>
-  </div> <!-- .directory-list.spy-container -->
+</div> <!-- .directory-list -->

@@ -8,7 +8,7 @@ $departments-color: #E6A65D;
 $map-color: #00573F;
 $floor-color: #ACA39A;
 $about-color: #636363;
-$vertical-nav-width: 130px;
+$vertical-nav-width: 150px;
 $right-btn-container-width: 55px;
 $right-btn-container-right-offset: 30px;
 $vertical-slider-element-height: 15px;
@@ -662,9 +662,14 @@ table {
     }
 
     tr.clickable-row > td {
+      padding: 10px;
       padding-left: 50px;
       cursor: pointer;
       width: 50%;
+
+      h3 {
+        margin-top: 3px;
+      }
     }
 
     span.dir-row-field {
@@ -834,7 +839,6 @@ body {
 
 #map {
   &.safari-mobile-compatibility {
-    //margin-top: -35px;
     margin-bottom: 35px;
   }
 }
@@ -842,7 +846,6 @@ body {
 /* this is the map display */
 #map {
   width: 100%;
-  //height: calc(90vh - 28vw);
   min-height: 60vh; /* Only occurs when device is wider than tall (iPad)*/
   text-align: center;
 
@@ -1439,9 +1442,9 @@ body {
     margin-top: 9vh;
   }
 
-  .margin-left--130 {
-    width: calc(100% - 130px);
-    margin-left: 130px;
+  .margin-left--for-vertical {
+    width: calc(100% - #{$vertical-nav-width});
+    margin-left: $vertical-nav-width;
   }
 
   .margin-none {
@@ -1487,13 +1490,12 @@ body {
 
 }
 
-/*Only for desktop version */
-@media (min-width: 1025px) {
+/* Only for desktop version */
+// @media (min-width: 1025px) {
   ul.vertical-nav {
     padding-top: 8%;
   }
-
-}
+// }
 
 /* event style */
 .event-style td {
