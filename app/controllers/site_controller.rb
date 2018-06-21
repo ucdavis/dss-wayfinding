@@ -1,6 +1,5 @@
 class SiteController < ApplicationController
-  skip_before_action :authenticate, only: :access_denied
-  #skip_before_action :require_login, only: :access_denied
+  skip_before_action :authenticate
 
   # Main landing page
   def landing
