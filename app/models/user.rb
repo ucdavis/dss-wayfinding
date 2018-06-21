@@ -2,7 +2,7 @@ class User < ApplicationRecord
   validates :loginid, uniqueness: true, presence: true
 
   def role_symbols
-    if Rails.env === "development"
+    if Rails.env.development?
       # Give full rights in development mode
       [:superadmin]
     else
