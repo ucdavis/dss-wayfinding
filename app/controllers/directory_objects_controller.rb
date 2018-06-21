@@ -10,6 +10,81 @@ class DirectoryObjectsController < ApplicationController
 
   protect_from_forgery except: :unroutable
 
+  # GET /directory_objects
+  def index
+    @type = params[:type]
+
+    if params[:type] == "Person"
+      @directory_objects = Person.includes(:rooms).includes(:department).all.order(:last)
+      @scrubber_categories = ("A".."Z").to_a
+    elsif params[:type] == "Department"
+      @directory_objects = Department.includes(:room).all.order(:title)
+      @scrubber_categories = ("A".."Z").to_a
+    elsif params[:type] == "Event"
+      @directory_objects = Event.all.order(:title)
+      @scrubber_categories = []
+    elsif params[:type] == "Room"
+      @directory_objects = Room.all.order(:room_number)
+      @scrubber_categories = ['L', 1, 2, 3, 4, 5]
+    else
+      # Unsupported behavior
+      @directory_objects = []
+      @scrubber_categories = []
+    end
+
+    @directory_objects = @directory_objects.uniq
+  end
+
+  # GET /directory_objects/1
+  # GET /room/1
+  # GET /start/R0070/end/R2169
+  # GET /start/R0070/directory/1234
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @object }
+    end
+  end
+
+  def create
+    @object = params_type_as_constant.new(directory_object_params)
+
+    respond_to do |format|
+      if @object.save
+        logger.info Authentication.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + @object.type
+
+        format.json { render json: @object }
+      else
+        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @object.update(directory_object_params)
+        logger.info Authentication.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + @object.type
+
+        format.json { render json: @object }
+      else
+        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
+      end
+    end
+  end
+
+  def destroy
+    if @object.present? && @object.type != 'Room'
+      logger.info Authentication.current_user.loginid.to_s + " deleted directory_object id: " + @object.id.to_s + " type: " + params[:type].singularize.capitalize
+
+      @object.destroy
+      respond_to do |format|
+        format.json { render json: { message: "Object deleted successfully", id: @object.id }, status: 302 }
+      end
+    else
+      render json: { message: "Error destroying " + params[:type] + "." }, status: 405
+    end
+  end
+
   # Accepts either a single room ID (Assumed to be an origin)
   #   or 2 Room IDs (assumed to be an origin destination pair)
   #   and will generate the view to display the corresponding qr code
@@ -63,15 +138,15 @@ class DirectoryObjectsController < ApplicationController
     obj = DirectoryObject.find(params[:id])
 
     if obj.type == "Person"
-      person      = Person.find(params[:id])
+      person = Person.find(params[:id])
 
-      name       = person.first + ' ' + person.last
+      name = person.first + ' ' + person.last
       email = person.email
       department = person.department.title
-      title      = person.title
+      title = person.title
       office_hours = person.office_hours
-      targetURL   = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
-      qrLink     = generateQRLink(targetURL)
+      targetURL = url_for(action: 'start', controller: 'administration', origin: person.rooms.first.room_number)
+      qrLink = generateQRLink(targetURL)
 
       hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink, office_hours: office_hours }
 
@@ -79,10 +154,10 @@ class DirectoryObjectsController < ApplicationController
     else
       # Assume it's a department
       Person.where(department: params[:id]).each do |person|
-        name       = person.first + ' ' + person.last
+        name = person.first + ' ' + person.last
         email = person.email
-	department = person.department.title
-        title      = nil
+        department = person.department.title
+        title = nil
 
         begin
           roomNumber = person.rooms.first.room_number
@@ -91,80 +166,16 @@ class DirectoryObjectsController < ApplicationController
           title = "please define a room number for this person"
         end
 
-        targetURL   = url_for(action: 'start', controller: 'administration', origin: roomNumber)
-        qrLink     = generateQRLink(targetURL)
+        targetURL = url_for(action: 'start', controller: 'administration', origin: roomNumber)
+        qrLink = generateQRLink(targetURL)
 
-        hash = { name: name, email:email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
+        hash = { name: name, email: email, department: department, title: title, targetURL: targetURL, qrLink: qrLink }
 
         @results.push(hash)
       end
     end
 
-    render :layout => false
-  end
-
-  # GET /directory_objects
-  def index
-    @type = params[:type]
-
-    if params[:type] == "Person"
-      @directory_objects = Person.all.order(:last)
-      @scrubber_categories = ("A".."Z").to_a
-    elsif params[:type] == "Department"
-      @directory_objects = Department.all.order(:title)
-      @scrubber_categories = ("A".."Z").to_a
-    elsif params[:type] == "Event"
-      @directory_objects = Event.all.order(:title)
-      @scrubber_categories = []
-    elsif params[:type] == "Room"
-      @directory_objects = Room.all.order(:room_number)
-      @scrubber_categories = ['L', 1, 2, 3, 4, 5]
-    else
-      # Unsupported behavior
-      @directory_objects = []
-      @scrubber_categories = []
-    end
-
-    @directory_objects = @directory_objects.uniq
-  end
-
-  def create
-    @object = params_type_as_constant.new(directory_object_params)
-
-    respond_to do |format|
-      if @object.save
-        logger.info Authentication.current_user.loginid.to_s + " created directory_object id: " + @object.id.to_s + " type: " + @object.type
-
-        format.json { render json: @object }
-      else
-        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @object.update(directory_object_params)
-        logger.info Authentication.current_user.loginid.to_s + " updated directory_object id: " + @object.id.to_s + " type: " + @object.type
-
-        format.json { render json: @object }
-      else
-        format.json { render json: { message: @object.errors.full_messages }, status: 405 }
-      end
-    end
-  end
-
-  def destroy
-    if @object.present? && @object.type != 'Room'
-      logger.info Authentication.current_user.loginid.to_s + " deleted directory_object id: " + @object.id.to_s + " type: " + params[:type].singularize.capitalize
-
-      @object.destroy
-      respond_to do |format|
-        format.json {render json: { message: "Object deleted successfully", id: @object.id }, status: 302 }
-      end
-    else
-      render json: { message: "Error destroying " + params[:type] + "." }, status: 405
-    end
+    render layout: false
   end
 
   # POST /directory/search
@@ -179,11 +190,11 @@ class DirectoryObjectsController < ApplicationController
       }
       query_objs.push("%#{params[:q]}%")
 
-      query = query_objs.reduce("") { |qry,obj|
+      query = query_objs.reduce("") { |qry, obj|
         if ! qry.is_a?(Arel::Nodes::Grouping)
-            new_qry = objects[:first].matches(obj)
+          new_qry = objects[:first].matches(obj)
         else
-            new_qry = qry.or(objects[:first].matches(obj))
+          new_qry = qry.or(objects[:first].matches(obj))
         end
 
         new_qry.or(objects[:last].matches(obj))
@@ -235,24 +246,13 @@ class DirectoryObjectsController < ApplicationController
     head :ok, content_type: "text/html"
   end
 
-  # GET /directory_objects/1
-  # GET /room/1
-  # GET /start/R0070/end/R2169
-  # GET /start/R0070/directory/1234
-  def show
-    respond_to do |format|
-      format.html
-      format.json { render json: @object }
-    end
-  end
-
   def test
   end
 
   private
 
     def params_type_as_constant
-      if params and params[:type] and DirectoryObject::TYPES.include?(params[:type])
+      if params and params[:type] && DirectoryObject::TYPES.include?(params[:type])
         case params[:type]
         when "Person"
           return Person

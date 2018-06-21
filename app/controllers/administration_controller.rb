@@ -28,12 +28,12 @@ class AdministrationController < ApplicationController
     end
 
     respond_to do |format|
-      format.json {
-        render :json => {
+      format.json do
+        render json: {
           origin: cookies[:origin],
           notice: notice
         }
-      }
+      end
     end
   end
 
@@ -140,11 +140,6 @@ class AdministrationController < ApplicationController
               room = results.first
             end
 
-            # Ensure custom data has not already been set
-    #        if room.name.blank?
-    #          room.name = csv_room_name
-    #          room.save
-    #        end
             # Parse Department
             # Don't bother with department/person parsing, something is wrong with this row
             unless csv_organization.include?("Identity Purged")
