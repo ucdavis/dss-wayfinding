@@ -68,3 +68,14 @@ h3, .h3 {
 .floor-nav {
   display: none;
 }
+
+.flash {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 2em;
+
+  &.error {
+    color: #f00;
+  }
+}

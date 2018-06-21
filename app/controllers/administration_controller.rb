@@ -1,6 +1,6 @@
 class AdministrationController < ApplicationController
-  before_action :require_login, except: [:start]
   before_action :authenticate, except: [:start]
+  before_action :require_role, except: [:start]
   protect_from_forgery
 
   skip_before_action :verify_authenticity_token, only: [:csv, :map_upload]

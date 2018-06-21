@@ -37,10 +37,6 @@ Admin.config(['$routeProvider', function($routeProvider) {
             templateUrl: '<%= asset_path("admin/partials/unroutable.html") %>',
             controller: "UnroutableCtrl"
         })
-        .when("/analytics", {
-            templateUrl: '<%= asset_path("admin/partials/analytics.html") %>',
-            controller: "AnalyticsCtrl"
-        })
         .when("/dir_departments", {
             templateUrl: '<%= asset_path("admin/partials/directory-departments.html") %>',
             controller: "DepartmentsCtrl"
