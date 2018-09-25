@@ -249,6 +249,7 @@ class DirectoryObjectsController < ApplicationController
   end
 
   def test
+    head :ok, content_type: "text/html"
   end
 
   private
